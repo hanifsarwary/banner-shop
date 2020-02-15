@@ -93,7 +93,7 @@ class Order(models.Model):
 )
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     customer_required_date = models.DateTimeField(null=True, blank=True)
-    details = models.CharField(max_length=512, default="")
+    details = models.TextField(max_length=512)
     order_number = models.CharField(max_length=64, unique=True)
     start_date = models.DateTimeField(null=True, blank=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=32)
