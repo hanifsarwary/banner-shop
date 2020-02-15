@@ -83,14 +83,14 @@ class Customer(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = (
-    ('Cancelled', 'Cancelled'),
-    ('At Risk', 'At Risk'),
-    ('Payment Pending', 'Payment Pending'),
-    ('Completed', 'Completed'),
-    ('Delivered', 'Delivered'),
-    ('In Progress', 'In Progress'),
-    ('Yet To Start', 'Yet To Start'),
-)
+        ('Cancelled', 'Cancelled'),
+        ('At Risk', 'At Risk'),
+        ('Payment Pending', 'Payment Pending'),
+        ('Completed', 'Completed'),
+        ('Delivered', 'Delivered'),
+        ('In Progress', 'In Progress'),
+        ('Yet To Start', 'Yet To Start'),   
+    )
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     customer_required_date = models.DateTimeField(null=True, blank=True)
     details = models.TextField(max_length=512)
