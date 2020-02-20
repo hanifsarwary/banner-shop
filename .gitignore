@@ -133,3 +133,8 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+
+# IDEs
+.idea
+.vscode
+local_settings.py
