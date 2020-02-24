@@ -16,7 +16,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.category_name
+        return self.name
 
 
 class Coupon(models.Model):
