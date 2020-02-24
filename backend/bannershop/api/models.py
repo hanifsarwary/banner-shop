@@ -71,6 +71,7 @@ class SubOption(models.Model):
     option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
 
     name = models.CharField(max_length=64)
+    price = models.FloatField(default=0)
     is_deleted = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
