@@ -9,4 +9,4 @@ from api.serializers.custom_quotes import CustomQuoteSerializer
 
 class CustomQuoteViewSet(ListAPIView):
     serializer_class = CustomQuoteSerializer
-    queryset = CustomQuote.objects
+    queryset = CustomQuote.objects.all().order_by('-id')

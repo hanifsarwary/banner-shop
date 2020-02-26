@@ -9,4 +9,4 @@ from api.serializers.customers import CustomerSerializer
 
 class CustomerListViewSet(ListAPIView):
     serializer_class = CustomerSerializer
-    queryset = Customer.objects
+    queryset = Customer.objects.all().order_by('-id')

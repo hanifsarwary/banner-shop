@@ -8,11 +8,9 @@ from django.contrib.auth.models import User
 
 class UsersListCreateViewSet(ListCreateAPIView):
     serializer_class = RetrieveUserSerializer
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('-id')
 
 
 class UsersDetailUpdateViewSet(RetrieveUpdateAPIView):
     serializer_class = RetrieveUserSerializer
-
-    def get_queryset(self):
-        return User.objects.filter(id=self.kwargs['pk'])
+    queryset = User.objects

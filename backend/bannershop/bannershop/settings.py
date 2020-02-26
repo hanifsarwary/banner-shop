@@ -13,10 +13,10 @@ SECRET_KEY = '9$owx+s56+$jfd6v39ndvj90r7cis(0q8eve$uaxz)=%m^!2%k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# TODO: Allow only production URL here, after deployment
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -92,6 +92,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
