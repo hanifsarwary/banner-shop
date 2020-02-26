@@ -17,7 +17,7 @@ class Footer extends Component {
 
     render() {
         return (
-            <section className="newproduct bgwhite p-t-45 p-b-105">
+            <section className="newproduct bgwhite p-t-45 p-b-10">
                 <div className="container">
                     <div className="sec-title p-b-60">
                         <h3 className="m-text5 t-center heading">

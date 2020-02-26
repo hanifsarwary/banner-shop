@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-const HeaderWrap = () => {
+const HeaderWrap = (props) => {
     return (
-        <a href="index.html" className="logo">
+        <Link to="/" className={props.classLogo}>
             <img className="logo-custom" src="/images/logo.png" alt="logo" />
-        </a>
+        </Link>
     )
 }
 

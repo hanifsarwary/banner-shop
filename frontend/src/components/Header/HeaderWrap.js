@@ -5,11 +5,11 @@ import Action from './Action';
 
 const HeaderWrap = () => {
     return (
-       <div className="wrap_header">
-           <Logo />
-           <Menu />
-           <Action />
-       </div>
+        <div className="wrap_header">
+            <Logo classLogo="logo" />
+            <Menu />
+            <Action />
+        </div>
     )
 }
 

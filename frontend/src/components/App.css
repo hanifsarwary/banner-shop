@@ -1,3 +1,7 @@
+section {
+    padding-bottom: 0;
+}
+
 .logo-container {
     position: absolute;
     left: 10%;
@@ -44,4 +48,22 @@
     width: 100px;
     margin: 0 auto;
     margin-top: 30px;
+}
+
+.feature-box { 
+    text-align: center; 
+    width: 90%;
+    margin-bottom: 50px;
+}
+
+.feature-box i { 
+    font-size: 60px; 
+    color: #e65540; 
+    margin-bottom: 15px; 
+}
+
+.feature-box h5{ 
+    margin-bottom: 15px; 
+    color: #e65540; 
+    font-weight: 600; 
 }
