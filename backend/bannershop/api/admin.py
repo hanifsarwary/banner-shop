@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from api.models import Product, ProductOrder, Category, Option, SubOption, Customer, Coupon, CustomQuote, ContactRequest
-# Register your models here.
+
 
 admin.site.register(Product)
 admin.site.register(ProductOrder)

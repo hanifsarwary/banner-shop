@@ -2,6 +2,7 @@
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.pyc
 *$py.class
 
 # C extensions
@@ -133,3 +134,8 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+
+# IDEs
+.idea
+.vscode
+local_settings.py
