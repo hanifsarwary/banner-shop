@@ -7,31 +7,25 @@ const MobileMenu = () => {
             <nav className="side-menu">
 				<ul className="main-menu">
 					<li className="item-menu-mobile">
-                        <a href="product.html">Home</a>
+						<Link to="/">Home</Link>
 					</li>
-
 					<li className="item-menu-mobile">
-						<a href="product.html">Shop</a>
+						<Link to="/auth/login">Banner</Link>
 					</li>
-
 					<li className="item-menu-mobile">
-						<a href="product.html">Sale</a>
+						<Link to="/">Poster</Link>
 					</li>
-
 					<li className="item-menu-mobile">
-						<a href="cart.html">Features</a>
+						<Link to="/">Stickers</Link>
 					</li>
-
 					<li className="item-menu-mobile">
-						<a href="blog.html">Blog</a>
+						<Link to="/">Signs</Link>
 					</li>
-
 					<li className="item-menu-mobile">
-						<a href="about.html">About</a>
+						<Link to="/">Photo Printing</Link>
 					</li>
-
 					<li className="item-menu-mobile">
-						<a href="contact.html">Contact</a>
+						<Link to="/">Digital Printing</Link>
 					</li>
 				</ul>
 			</nav>
