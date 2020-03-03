@@ -151,7 +151,7 @@ class CustomQuote(models.Model):
     old_job_reference = models.CharField(max_length=64)
     phone_no = models.CharField(max_length=16)
     quantity = models.PositiveIntegerField()
-    required_ship_date = models.DateTimeField()
+    required_ship_date = models.DateTimeField(null=True, blank=True)
     is_proof = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
