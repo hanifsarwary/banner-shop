@@ -77,6 +77,9 @@ class SubOption(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class ProductOption(models.Model):
     option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
