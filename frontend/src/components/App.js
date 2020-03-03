@@ -10,6 +10,10 @@ import './App.css';
 // import './vendor/jquery/jquery-3.2.1.min.js';
 
 class App extends React.Component {
+  state = {
+    isLoggedIn: false
+  };
+
   componentDidMount() {
 
     (function ($) {
@@ -53,9 +57,6 @@ class App extends React.Component {
         $('html, body').animate({ scrollTop: 0 }, 300);
       });
 
-
-      /*[ Show header dropdown ]
-      ===========================================================*/
       $('.js-show-header-dropdown').on('click', function () {
         $(this).parent().find('.header-dropdown')
       });
@@ -92,9 +93,6 @@ class App extends React.Component {
         sub_menu_is_showed = -1;
       });
 
-
-      /*[ Fixed Header ]
-     ===========================================================*/
       var posWrapHeader = $('.topbar').height();
       var header = $('.container-menu-header');
 
@@ -125,8 +123,6 @@ class App extends React.Component {
 
       });
 
-      /*[ Show menu mobile ]
-      ===========================================================*/
       $('.btn-show-menu-mobile').on('click', function () {
         $(this).toggleClass('is-active');
         $('.wrap-side-menu').slideToggle();
@@ -155,15 +151,10 @@ class App extends React.Component {
       });
 
 
-      /*[ remove top noti ]
-      ===========================================================*/
       $('.btn-romove-top-noti').on('click', function () {
         $(this).parent().remove();
       })
 
-
-      /*[ Block2 button wishlist ]
-      ===========================================================*/
       $('.block2-btn-addwishlist').on('click', function (e) {
         e.preventDefault();
         $(this).addClass('block2-btn-towishlist');
@@ -171,8 +162,6 @@ class App extends React.Component {
         $(this).off('click');
       });
 
-      /*[ +/- num product ]
-      ===========================================================*/
       $('.btn-num-product-down').on('click', function (e) {
         e.preventDefault();
         var numProduct = Number($(this).next().val());
@@ -185,9 +174,6 @@ class App extends React.Component {
         $(this).prev().val(numProduct + 1);
       });
 
-
-      /*[ Show content Product detail ]
-      ===========================================================*/
       $('.active-dropdown-content .js-toggle-dropdown-content').toggleClass('show-dropdown-content');
       $('.active-dropdown-content .dropdown-content').slideToggle('fast');
 
@@ -196,9 +182,6 @@ class App extends React.Component {
         $(this).parent().find('.dropdown-content').slideToggle('fast');
       });
 
-
-      /*[ Play video 01]
-      ===========================================================*/
       var srcOld = $('.video-mo-01').children('iframe').attr('src');
 
       $('[data-target="#modal-video-01"]').on('click', function () {
@@ -220,7 +203,7 @@ class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Header />
+        <Header isLoggedIn={this.state.isLoggedIn}/>
         <Switch>
           <Route path="/" exact>
             <FeatureProduct />
