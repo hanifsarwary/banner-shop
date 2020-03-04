@@ -9,7 +9,7 @@ const Header = (props) => {
         <header className="header1">
             <div className="container-menu-header">
                 <HeaderTopBar />
-                <HeaderWrap isLoggedIn={props.isLoggedIn}/>
+                <HeaderWrap isLoggedIn={props.isLoggedIn} />
             </div>
             <Mobile />
             <MobileMenu />
