@@ -33,7 +33,7 @@ class ProductDetail extends React.Component {
                                     Special requests:
 						        </div>
 
-                                <textarea class="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20" name="message"></textarea>
+                                <textarea classnName="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20" name="message"></textarea>
                             </div>
                             <div className="flex-m flex-w p-b-10">
                                 <div className="s-text15 w-size15 t-center">
@@ -75,15 +75,15 @@ class ProductDetail extends React.Component {
                                 </div>
                             </div>
 
-                            <div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
-                                <h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+                            <div className="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
+                                <h5 className="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
                                     Description
-						            <i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
-                                    <i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+						            <i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                                    <i className="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
                                 </h5>
 
-                                <div class="dropdown-content dis-none p-t-15 p-b-23">
-                                    <p class="s-text8">
+                                <div className="dropdown-content dis-none p-t-15 p-b-23">
+                                    <p className="s-text8">
                                         Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
 						            </p>
                                 </div>

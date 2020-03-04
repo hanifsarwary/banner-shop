@@ -25,7 +25,7 @@ const CartAction = () => {
                         <a href="cart.html" className="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">View Cart</a>
                     </div>
                     <div className="header-cart-wrapbtn">
-                        <a href="#" className="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">Check Out</a>
+                        <a href="/" className="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">Check Out</a>
                     </div>
                 </div>
             </div>

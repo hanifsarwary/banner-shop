@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import bannerShop from '../api/bannerShop';
 import jQuery from 'jquery';
 import Header from './Header';
 import Footer from './Footer';
@@ -16,7 +17,21 @@ class App extends React.Component {
     isLoggedIn: false
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+
+    bannerShop.post('/auth/token/obtain/', {
+      username: 'hanif',
+      password: 'asdf1234'
+    })
+    .then((res) => {
+      if(res.status === 200) {
+        const token = res.data.token;
+        localStorage.setItem('token', token);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
     (function ($) {
       "use strict";

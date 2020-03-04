@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import UserAction from './UserAction';
 import CartAction from './CartAction';
 import { Link } from 'react-router-dom';
