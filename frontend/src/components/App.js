@@ -6,6 +6,8 @@ import Footer from './Footer';
 import FeatureProduct from './FeatureProduct';
 import Feature from './Feature';
 import Login from './Login';
+import Category from './Category';
+import Product from './Product';
 import './App.css';
 // import './vendor/jquery/jquery-3.2.1.min.js';
 
@@ -208,6 +210,12 @@ class App extends React.Component {
           <Route path="/" exact>
             <FeatureProduct />
             <Feature />
+          </Route>
+          <Route path="/category/:id" exact>
+            <Category />
+          </Route>
+          <Route path="/product/:id" exact>
+            <Product />
           </Route>
           <Route path="/auth/login" exact>
             <Login />

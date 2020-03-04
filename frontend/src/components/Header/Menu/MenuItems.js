@@ -8,7 +8,7 @@ const MenuItems = () => {
                 <Link to="/">Home</Link>
             </li>
             <li>
-                <Link to="/auth/login">Banner</Link>
+                <Link to="/category/banner">Banner</Link>
             </li>
             <li>
                 <Link to="/">Poster</Link>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import HeaderTopBar from './HeaderTopBar';
 import HeaderWrap from './HeaderWrap';
 import Mobile from './Mobile';

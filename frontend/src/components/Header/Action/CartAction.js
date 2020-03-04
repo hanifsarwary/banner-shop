@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const CartAction = () => {
     return (
@@ -12,7 +12,9 @@ const CartAction = () => {
                             <img src="/images/item-cart-01.jpg" alt="IMG" />
                         </div>
                         <div className="header-cart-item-txt">
-                            <a href="#" className="header-cart-item-name">White Shirt With Pleat Detail Back</a>
+                            <a href="/" className="header-cart-item-name">
+                                White Shirt With Pleat Detail Back
+                            </a>
                             <span className="header-cart-item-info">1 x $19.00</span>
                         </div>
                     </li>

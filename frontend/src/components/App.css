@@ -71,3 +71,23 @@ section {
     color: #e65540; 
     font-weight: 600; 
 }
+
+.category-intro {
+    background: #ccc;
+    padding: 0;
+    padding: 40px 70px;
+}
+
+.product-feature {
+    padding: 10px 5px;
+}
+
+.product-feature li i {
+    font-size: 14px;
+    color: #e65540;
+    margin-right: 10px;
+}
+
+.product-feature li span {
+    font-size: 14px;
+}

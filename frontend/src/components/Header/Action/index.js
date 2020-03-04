@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserAction from './UserAction';
 import CartAction from './CartAction';
+import { Link } from 'react-router-dom';
 
 const Action = (props) => {
     return (
@@ -13,9 +14,9 @@ const Action = (props) => {
                 </React.Fragment>
             ) : (
                 <React.Fragment>
-                    <a href="#" className="btn-cus flex-c-m size2 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Login</a>
+                    <Link to="/auth/login" className="btn-cus flex-c-m size2 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Login</Link>
                     <span className="linedivide2"></span>
-                    <a href="#" className="btn-cus flex-c-m size2 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Signup</a>
+                    <Link to="/auth/login" className="btn-cus flex-c-m size2 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Signup</Link>
                 </React.Fragment>
             )}
         </div>
