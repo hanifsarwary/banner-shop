@@ -44,6 +44,17 @@ section {
     color: #e65540;
 }
 
+.sub_menu li, .sub_menu a {
+    padding: 10px;
+    font-family: Montserrat-Regular;
+    font-size: 13px;
+    color: white !important;
+}
+
+.sub_menu a:hover {
+    color: #e65540 !important;
+}
+
 .heading::after {
     display: block;
     height: 2px;

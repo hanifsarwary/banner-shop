@@ -11,11 +11,21 @@ const Footer = () => {
                         2501 Taraval St San Francisco, CA 94116
                         </p>
                         <div className="flex-m p-t-30">
-                            <a href="/" className="fs-18 color1 p-r-20 fa fa-facebook"></a>
-                            <a href="/" className="fs-18 color1 p-r-20 fa fa-instagram"></a>
-                            <a href="/" className="fs-18 color1 p-r-20 fa fa-pinterest-p"></a>
-                            <a href="/" className="fs-18 color1 p-r-20 fa fa-snapchat-ghost"></a>
-                            <a href="/" className="fs-18 color1 p-r-20 fa fa-youtube-play"></a>
+                            <a href="/" className="fs-18 color1 p-r-20 fa fa-facebook">
+                                
+                            </a>
+                            <a href="/" className="fs-18 color1 p-r-20 fa fa-instagram">
+                                
+                            </a>
+                            <a href="/" className="fs-18 color1 p-r-20 fa fa-pinterest-p">
+                                
+                            </a>
+                            <a href="/" className="fs-18 color1 p-r-20 fa fa-snapchat-ghost">
+                                
+                            </a>
+                            <a href="/" className="fs-18 color1 p-r-20 fa fa-youtube-play">
+                                
+                            </a>
                         </div>
                     </div>
                 </div>
