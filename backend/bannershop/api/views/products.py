@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
 from api.models import Product, Option, SubOption
@@ -45,3 +45,9 @@ class CategoryProductsViewSet(ListAPIView):
         queryset = self.get_queryset().filter(category=category_id)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class ProductDetailViewSet(RetrieveUpdateAPIView):
+    
+    serializer_class = ProductSerializer
+    queryset = Product.objects
