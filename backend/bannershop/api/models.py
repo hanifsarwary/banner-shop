@@ -11,7 +11,7 @@ class Category(models.Model):
     default_category_image = models.FileField(null=True, blank=True, upload_to='images/categories/')
 
     is_deleted = models.BooleanField(default=False)
-
+    is_sub_catgory = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
@@ -59,6 +59,7 @@ class Option(models.Model):
     price_unit = models.PositiveIntegerField(default=1)
 
     is_deleted = models.BooleanField(default=False)
+    is_suboptions = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)

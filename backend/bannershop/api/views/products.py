@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.response import Response
 
 from api.models import Product, Option, SubOption
@@ -32,5 +32,16 @@ class SubProductOptionsListViewSet(ListCreateAPIView):
 
     def list(self, request, product_id, option_id, *args, **kwargs):
         queryset = self.get_queryset().filter(option__product_id=product_id, option_id=option_id)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class CategoryProductsViewSet(ListAPIView):
+
+    serializer_class = ProductSerializer
+    queryset = Product.objects
+
+    def list(self, request, category_id, *args, **kwargs):
+        queryset = self.get_queryset().filter(category=category_id)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
