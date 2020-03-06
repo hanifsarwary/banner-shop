@@ -11,7 +11,7 @@ class Category(models.Model):
     default_category_image = models.FileField(null=True, blank=True, upload_to='images/categories/')
 
     is_deleted = models.BooleanField(default=False)
-    is_sub_catgory = models.BooleanField(default=False)
+    have_sub_categories = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
@@ -65,7 +65,7 @@ class Option(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.option_name
+        return self.option_name + '  --- ' + self.product.product_name
 
 
 class SubOption(models.Model):
