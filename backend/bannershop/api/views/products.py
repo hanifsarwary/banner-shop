@@ -2,21 +2,21 @@
 from __future__ import unicode_literals
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
 from api.models import Product, Option, SubOption
 from api.serializers.products import ProductSerializer, OptionSerializer, SubOptionSerializer
 
 
-class ProductsListViewSet(ListAPIView):
+class ProductsListViewSet(ListCreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all().order_by('-id')
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['is_featured', ]
 
 
-class ProductOptionsListViewSet(ListAPIView):
+class ProductOptionsListViewSet(ListCreateAPIView):
     serializer_class = OptionSerializer
     queryset = Option.objects
 
@@ -26,7 +26,7 @@ class ProductOptionsListViewSet(ListAPIView):
         return Response(serializer.data)
 
 
-class SubProductOptionsListViewSet(ListAPIView):
+class SubProductOptionsListViewSet(ListCreateAPIView):
     serializer_class = SubOptionSerializer
     queryset = SubOption.objects
 
@@ -34,3 +34,20 @@ class SubProductOptionsListViewSet(ListAPIView):
         queryset = self.get_queryset().filter(option__product_id=product_id, option_id=option_id)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class CategoryProductsViewSet(ListAPIView):
+
+    serializer_class = ProductSerializer
+    queryset = Product.objects
+
+    def list(self, request, category_id, *args, **kwargs):
+        queryset = self.get_queryset().filter(category=category_id)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProductDetailViewSet(RetrieveUpdateAPIView):
+    
+    serializer_class = ProductSerializer
+    queryset = Product.objects
