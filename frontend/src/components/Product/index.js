@@ -6,30 +6,26 @@ import bannerShop from '../../api/bannerShop';
 class ProductDetail extends React.Component {
     state = {
         loaded: false,
-        qty: 2,
+        qty: 1,
         width: 0,
         detail: {},
         pre: [],
-        options: []
+        options: [],
+        total: 0,
+        prices: []
     }
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        // const detail = this.props.products.filter(product => product.id === this.props.match.params.id);
-        // console.log('detail', detail);
-        // console.log('products', this.props.products);
 
-        // this.setState({
-        //     detail: detail
-        // })
         bannerShop.get(`/api/products/${id}`)
             .then((res) => {
                 if (res.status === 200) {
                     this.setState({
-                        detail: res.data
+                        detail: res.data,
+                        total: res.data.one_unit_weight
                     });
                 }
-
             })
             .catch((err) => {
                 console.log(err);
@@ -40,20 +36,6 @@ class ProductDetail extends React.Component {
                 return res;
             })
             .then((opt) => {
-                // this.setState({
-                //     pre: opt.data
-                // });
-                // console.log(this.state);
-                // id: 1
-                // one_unit_price: 3
-                // option_name: "Width"
-                // price_unit: 1
-                // is_deleted: false
-                // is_suboptions: false
-                // created_at: "2020-03-03T12:08:16.684196Z"
-                // updated_at: "2020-03-03T12:08:16.684217Z"
-                // product: 1
-                // api/ products/<int:product_id>/options/<int:option_id>/sub-options/
                 const new_options = [];
 
                 opt.data.forEach((option, index, array) => {
@@ -67,7 +49,7 @@ class ProductDetail extends React.Component {
                                         subOptions: res.data
                                     }
                                 })
-                                if (index === array.length - 1){ 
+                                if (index === array.length - 1) {
                                     this.setState({
                                         loaded: true
                                     })
@@ -81,26 +63,17 @@ class ProductDetail extends React.Component {
                                 subOptions: []
                             }
                         })
-                        this.setState({
-                            loaded: true
-                        })
+                        if (index === array.length - 1) {
+                            this.setState({
+                                loaded: true
+                            })
+                        }
                     }
                 })
 
                 this.setState({
                     options: new_options,
                 });
-
-                // var abilityWithItems = abilities.map(ability => {
-                //     var abilityItems = abilitiesItems.filter(el => {
-                //       if (el.ability_id == ability.ability_id) {
-                //         return el;
-                //       }
-                //     });
-
-                //     ability.items = abilityItems;
-                //     return ability;
-                //   });
             })
             .catch((err) => {
                 console.log(err);
@@ -113,23 +86,64 @@ class ProductDetail extends React.Component {
         });
     }
 
+    subOptionPricer = (e) => {
+        let id = 1;
+        let value = 0;
+        let newTotal = 0;
+        if (e.target.getAttribute('data-option')) {
+            id = parseInt(e.target.getAttribute('data-option'));
+            value = parseFloat(e.target.getAttribute('data-value'));
+            newTotal = this.state.total + parseFloat(value);
+
+            this.setState({
+                total: newTotal
+            })
+        } else {
+            id = parseInt(e.target[e.target.selectedIndex].getAttribute('data-option'));
+            value = parseFloat(e.target.value);
+
+            let newPrices = [];
+            const finded = this.state.prices.find(p => p.id === id);
+
+            if (finded) {
+                newTotal = (this.state.total - finded.value) + value;
+                newPrices.push({
+                    id: id,
+                    value: value
+                })
+            } else {
+                newTotal = this.state.total + parseFloat(e.target.value);
+
+                newPrices.push({
+                    id: id,
+                    value: value
+                })
+            }
+
+            this.setState({
+                prices: newPrices,
+                total: newTotal
+            })
+        }
+    }
+
     render() {
         if (this.state.loaded) {
-            console.log(this.state.options);
+            console.log(this.state);
             return (
                 <div className="container bgwhite p-t-35 p-b-80">
                     <div className="flex-w flex-sb">
                         <div className="w-size13 p-t-30 respon5">
                             <div className="wrap-slick3 flex-sb flex-w">
-                                <img src="/images/R001-1.jpg" alt="IMG-PRODUCT" />
+                                <img src={this.state.detail.default_product_image} alt="IMG-PRODUCT" style={{ width: '100%', height: 'auto' }} />
                             </div>
                         </div>
                         <div className="w-size14 p-t-30 respon5">
                             <h4 className="product-detail-name m-text16 p-b-13">
-                                Boxy T-Shirt with Roll Sleeve Detail
+                                {this.state.detail.product_name}
                             </h4>
                             <span className="m-text17">
-                                $22
+                                ${this.state.total * this.state.qty}
                             </span>
                             <div className="p-b-15" style={{ marginTop: '10px' }}>
                                 <span className="s-text8 m-r-35">Item No: R002</span><br />
@@ -145,7 +159,8 @@ class ProductDetail extends React.Component {
                                     </div>
                                     <div className="bo4 of-hidden size15 m-b-20">
                                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                                            defaultValue="0"
+                                            value={this.state.qty}
+                                            onChange={this.onQtychange}
                                         />
                                     </div>
                                 </div>
@@ -157,15 +172,23 @@ class ProductDetail extends React.Component {
                                             </div>
                                             <div className="bo4 of-hidden size15 m-b-20">
                                                 {option.is_suboptions ? (
-                                                    <select className="selection-2" name="size" style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}>
-                                                        {option.sub.subOptions.map(subOption => { 
-                                                            return <option value="20" key={subOption.id}>{subOption.name}</option>
+                                                    <select className="selection-2" name="size"
+                                                        style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
+                                                        onChange={this.subOptionPricer}
+                                                    >
+                                                        {/* onChange={() => this.subOptionPricer(subOption.price, subOption.id)} */}
+                                                        {option.sub.subOptions.map(subOption => {
+                                                            return (
+                                                                <option value={subOption.price} key={subOption.id} data-option={option.id}
+                                                                >
+                                                                    {subOption.name}
+                                                                </option>)
                                                         })}
                                                     </select>
 
                                                 ) : (
-                                                        <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                                                            defaultValue="0"
+                                                        <input className="sizefull s-text7 p-l-22 p-r-22" type="number" onChange={this.subOptionPricer}
+                                                            defaultValue="1" data-option={option.id} data-value={option.one_unit_price}
                                                         />
                                                     )}
                                             </div>
@@ -179,43 +202,12 @@ class ProductDetail extends React.Component {
 
                                     <textarea className="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20" name="message"></textarea>
                                 </div>
-                                <div className="flex-m flex-w p-b-10">
-                                    <div className="s-text15 w-size15 t-center">
-                                        Pick UP Date:
-                                    </div>
-
-                                    <div className="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
-                                        <select className="selection-2" name="size" style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}>
-                                            <option>Choose an option</option>
-                                            <option value="20">24 hr.</option>
-                                            <option value="10">48 hr.</option>
-                                            <option value="3">3 days</option>
-                                            <option value="4">4 days</option>
-                                            <option value="5">5 days</option>
-                                            <option value="6">1 week</option>
-                                        </select>
-                                    </div>
-                                </div>
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
-                                    <div className="w-size16 flex-m flex-w">
-                                        <div className="flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10">
-                                            <button className="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
-                                                <i className="fs-12 fa fa-minus" aria-hidden="true"></i>
+                                    <div className="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
+                                        <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                            Add to Cart
                                             </button>
-
-                                            <input className="size8 m-text18 t-center num-product" type="number" name="num-product" />
-
-                                            <button className="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
-                                                <i className="fs-12 fa fa-plus" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-
-                                        <div className="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
-                                            <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
-                                                Add to Cart
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
 

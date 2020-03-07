@@ -9,7 +9,7 @@ class Footer extends React.Component {
     }
 
     componentDidMount() {
-        bannerShop.get('/api/products/')
+        bannerShop.get('/api/products/?is_featured=True')
             .then((res) => {
                 if (res.status === 200) {
                     this.setState({
