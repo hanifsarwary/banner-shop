@@ -1,16 +1,18 @@
 from django.urls import path
 
-from api.views.categories import CategoryListViewSet, SubCategoryListViewSet
+from api.views.categories import CategoryListViewSet, SubCategoryListViewSet, CategoryDetailViewSet
 from api.views.custom_quotes import CustomQuoteViewSet
 from api.views.customers import CustomerListViewSet
 from api.views.products import ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet, ProductDetailViewSet
 from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet
-from api.views.contact_requests import ContactRequestViewSet
+from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
 from api.views.orders import OrderViewSet, ProductOrderViewSet
 urlpatterns = [
     path('categories/', CategoryListViewSet.as_view()),
+    path('categories/<int:pk>/', CategoryDetailViewSet.as_view()),
     path('categories/<int:category_id>/sub-categories/', SubCategoryListViewSet.as_view()),
     path('contact-requests/', ContactRequestViewSet.as_view()),
+    path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
     path('orders/', OrderViewSet.as_view()),

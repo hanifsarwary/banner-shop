@@ -50,4 +50,4 @@ class CategoryProductsViewSet(ListAPIView):
 class ProductDetailViewSet(RetrieveUpdateAPIView):
     
     serializer_class = ProductSerializer
-    queryset = Product.objects
+    queryset = Product.objects.all().order_by('id')
