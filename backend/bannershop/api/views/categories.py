@@ -10,7 +10,7 @@ from api.serializers.categories import CategorySerializer
 
 class CategoryListViewSet(ListAPIView):
     serializer_class = CategorySerializer
-    queryset = Category.objects.filter(parent_category__isnull=True).order_by('-id')
+    queryset = Category.objects.filter(parent_category__isnull=True).order_by('id')
 
 
 class SubCategoryListViewSet(ListAPIView):
