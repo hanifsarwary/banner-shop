@@ -137,6 +137,14 @@ class ProductOrder(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
 
+class ProductOrderOption(models.Model):
+
+    product_order = models.ForeignKey(ProductOrder, on_delete=models.DO_NOTHING)
+    option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
+    sub_option = models.ForeignKey(SubOption, on_delete=models.DO_NOTHING, null=True, blank=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    Price = models.FloatField(null=True, blank=True)
+
 class CustomQuote(models.Model):
     additional_requirements = models.CharField(max_length=512)
     company_name = models.CharField(max_length=64)
