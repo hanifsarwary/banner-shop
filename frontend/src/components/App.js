@@ -9,16 +9,19 @@ import Feature from './Feature';
 import Login from './Login';
 import Category from './Category';
 import Product from './Product';
+import Cart from './Cart';
 import './App.css';
 // import './vendor/jquery/jquery-3.2.1.min.js';
 
 class App extends React.Component {
   state = {
     isLoggedIn: true,
-    products: []
+    products: [],
+    cartItems: [],
+    cartSubTotal: 0
   };
 
-  async componentDidMount() {
+  componentDidMount() {
 
     bannerShop.post('/auth/token/obtain/', {
       username: 'hanif',
@@ -31,23 +34,24 @@ class App extends React.Component {
         });
         const token = res.data.token;
         localStorage.setItem('token', token);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-    bannerShop.get('/api/products/')
-    .then((res) => {
-      if(res.status === 200) {
-        this.setState({
-          products: res.data.results
+        
+        bannerShop.get('/api/products/')
+        .then((res) => {
+          if(res.status === 200) {
+            this.setState({
+              products: res.data.results
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
       }
     })
     .catch((err) => {
       console.log(err);
     });
+
 
     (function ($) {      
       /*[ Load page ]
@@ -113,7 +117,7 @@ class App extends React.Component {
         });
       }
 
-      $(".js-show-header-dropdown, .header-dropdown").click(function (event) {
+      $(".js-show-header-dropdown").click(function (event) {
         event.stopPropagation();
       });
 
@@ -231,14 +235,39 @@ class App extends React.Component {
     })(jQuery);
   }
 
+  itemDelhand = (id) => {
+    const newItems = this.state.cartItems.filter((i) => i.id !== id);
+    this.setState({
+      cartItems: newItems
+    });
+  }
+
+  itemAddhand = (item) => {
+    const newItems = [...this.state.cartItems];
+    newItems.push(item);
+    this.setState({
+      cartItems: newItems
+    });
+  }
+
   render() {
+    console.log(this.state.cartItems);
     return (
       <React.Fragment>
-        <Header isLoggedIn={this.state.isLoggedIn} />
+        <Header 
+          isLoggedIn={this.state.isLoggedIn} 
+          cartItems={this.state.cartItems} 
+          cartSubTotal={this.state.cartSubTotal}
+          itemDelhand={this.itemDelhand}
+          itemAddhand={this.itemAddhand}
+        />
         <Switch>
           <Route path="/" exact>
             <FeatureProduct />
             <Feature />
+          </Route>
+          <Route path="/shop/cart" exact>
+            <Cart />
           </Route>
           <Route path="/category/:id" exact>
             <Category />

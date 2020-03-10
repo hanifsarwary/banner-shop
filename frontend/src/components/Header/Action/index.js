@@ -4,13 +4,20 @@ import CartAction from './CartAction';
 import { Link } from 'react-router-dom';
 
 const Action = (props) => {
+    console.log(props);
     return (
         <div className="header-icons">
             {props.isLoggedIn ? (
                 <React.Fragment>
                     <UserAction />
                     <span className="linedivide1"></span>
-                    <CartAction />
+                    <CartAction
+                        cartItems={props.cartItems}
+                        cartSubTotal={props.cartSubTotal}
+                        itemDelhand={props.itemDelhand}
+                        itemAddhand={props.itemAddhand}
+                        my="he"
+                    />
                 </React.Fragment>
             ) : (
                 <React.Fragment>

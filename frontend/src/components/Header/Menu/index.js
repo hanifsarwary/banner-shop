@@ -60,7 +60,7 @@ class Menu extends React.Component {
                             <Link to="/">Poster</Link>
                         </li>
                         <li>
-                            <Link to="/">Stickers</Link>
+                            <Link to="/shop/cart">Stickers</Link>
                         </li>
                         <li>
                             <Link to="/">Signs</Link>
