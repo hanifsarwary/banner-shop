@@ -8,7 +8,13 @@ const HeaderWrap = (props) => {
         <div className="wrap_header">
             <Logo classLogo="logo" />
             <Menu />
-            <Action isLoggedIn={props.isLoggedIn}/>
+            <Action
+                isLoggedIn={props.isLoggedIn}
+                cartItems={props.cartItems}
+                cartSubTotal={props.cartSubTotal}
+                itemDelhand={props.itemDelhand}
+                itemAddhand={props.itemAddhand}
+            />
         </div>
     )
 }

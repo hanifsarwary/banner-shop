@@ -37,6 +37,8 @@ class ProductDetail extends React.Component {
             })
             .then((opt) => {
                 const new_options = [];
+                let newPrices = [];
+                let newTotal = 0;
 
                 opt.data.forEach((option, index, array) => {
                     if (option.is_suboptions) {
@@ -49,8 +51,16 @@ class ProductDetail extends React.Component {
                                         subOptions: res.data
                                     }
                                 })
+                                // console.log(res.data[0].price);
+                                newTotal = newTotal + res.data[0].price;
+                                newPrices.push({
+                                    id: option.id,
+                                    value: res.data[0].price
+                                });
                                 if (index === array.length - 1) {
                                     this.setState({
+                                        prices: newPrices,
+                                        total: newTotal,
                                         loaded: true
                                     })
                                 }
@@ -100,9 +110,9 @@ class ProductDetail extends React.Component {
             })
         } else {
             id = parseInt(e.target[e.target.selectedIndex].getAttribute('data-option'));
-            value = parseFloat(e.target.value);
+            value = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-value'));
 
-            let newPrices = [];
+            let newPrices = [...this.state.prices];
             const finded = this.state.prices.find(p => p.id === id);
 
             if (finded) {
@@ -112,7 +122,7 @@ class ProductDetail extends React.Component {
                     value: value
                 })
             } else {
-                newTotal = this.state.total + parseFloat(e.target.value);
+                newTotal = this.state.total + value;
 
                 newPrices.push({
                     id: id,
@@ -127,9 +137,33 @@ class ProductDetail extends React.Component {
         }
     }
 
+    cartAddhandler = () => {
+        let cart;
+
+        const item = {
+            id: this.state.detail.id,
+            name: this.state.detail.product_name,
+            imgURL: this.state.detail.default_product_image,
+            price: this.state.total
+        }
+
+        if (localStorage.getItem('cart') === null) {
+            cart = {};
+            cart.cartItems = [];
+            cart.total = 0;
+        } else {
+            cart = JSON.parse(localStorage.getItem('cart'));
+        }
+
+        cart.cartItems.push(item);
+        cart.total = cart.total + this.state.total;
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
     render() {
+        console.log(this.state);
         if (this.state.loaded) {
-            console.log(this.state);
             return (
                 <div className="container bgwhite p-t-35 p-b-80">
                     <div className="flex-w flex-sb">
@@ -176,10 +210,9 @@ class ProductDetail extends React.Component {
                                                         style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
                                                         onChange={this.subOptionPricer}
                                                     >
-                                                        {/* onChange={() => this.subOptionPricer(subOption.price, subOption.id)} */}
                                                         {option.sub.subOptions.map(subOption => {
                                                             return (
-                                                                <option value={subOption.price} key={subOption.id} data-option={option.id}
+                                                                <option value={option.id} key={subOption.id} data-option={option.id} data-value={subOption.price}
                                                                 >
                                                                     {subOption.name}
                                                                 </option>)
@@ -205,9 +238,12 @@ class ProductDetail extends React.Component {
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
                                     <div className="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
-                                        <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                        <button
+                                            className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
+                                            onClick={this.cartAddhandler}
+                                        >
                                             Add to Cart
-                                            </button>
+                                        </button>
                                     </div>
                                 </div>
 
