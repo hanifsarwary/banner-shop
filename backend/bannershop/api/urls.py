@@ -7,7 +7,9 @@ from api.views.products import ProductsListViewSet, ProductOptionsListViewSet, S
 from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet
 from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
 from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOptionViewSet, ProductOrderOptionListViewSet
+
 urlpatterns = [
+    
     path('categories/', CategoryListViewSet.as_view()),
     path('categories/<int:pk>/', CategoryDetailViewSet.as_view()),
     path('categories/<int:category_id>/sub-categories/', SubCategoryListViewSet.as_view()),
