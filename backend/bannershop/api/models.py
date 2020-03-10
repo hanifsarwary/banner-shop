@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
-
+import uuid
 
 class Category(models.Model):
     parent_category = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True, blank=True)
@@ -115,7 +115,7 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     customer_required_date = models.DateTimeField(null=True, blank=True)
     details = models.TextField(max_length=512)
-    order_number = models.CharField(max_length=64, unique=True)
+    order_number = models.UUIDField(default=uuid.uuid4, editable=False)
     start_date = models.DateTimeField(null=True, blank=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=32)
 
