@@ -20,4 +20,4 @@ class ProductOrderOptionSerializer(ModelSerializer):
 
     class Meta:
         model = ProductOrderOption
-        fields = '__aLL__'
+        fields = '__all__'
