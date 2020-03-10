@@ -4,7 +4,6 @@ import Menu from './Menu';
 import Action from './Action';
 
 const HeaderWrap = (props) => {
-    console.log(props);
     return (
         <div className="wrap_header">
             <Logo classLogo="logo" />

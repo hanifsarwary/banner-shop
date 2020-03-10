@@ -57,19 +57,10 @@ class Menu extends React.Component {
                             </ul>
                         </li>
                         <li>
-                            <Link to="/">Poster</Link>
+                            <Link to="/">About Us</Link>
                         </li>
                         <li>
-                            <Link to="/shop/cart">Stickers</Link>
-                        </li>
-                        <li>
-                            <Link to="/">Signs</Link>
-                        </li>
-                        <li>
-                            <Link to="/">Photo Printing</Link>
-                        </li>
-                        <li>
-                            <Link to="/">Digital Printing</Link>
+                            <Link to="/">Contact Us</Link>
                         </li>
                     </ul>
                 </nav>
