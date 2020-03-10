@@ -18,14 +18,6 @@ const CategoryProducts = (props) => {
                                 <div className="block2">
                                     <div className="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" style={{ height: '300px' }}>
                                         <img src={item.default_product_image} alt="IMG-PRODUCT" />
-
-                                        <div className="block2-overlay trans-0-4">
-                                            <div className="block2-btn-addcart w-size1 trans-0-4">
-                                                <button className="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                                    Add to Cart
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div className="block2-txt p-t-20">
                                         <Link to={`/product/${item.id}`} className="block2-name dis-block s-text3 p-b-5" style={{ textTransform: 'capitalize' }}>
