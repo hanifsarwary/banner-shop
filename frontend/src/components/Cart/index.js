@@ -38,7 +38,7 @@ class Cart extends React.Component {
                                             <tr className="table-head">
                                                 <th className="column-1"></th>
                                                 <th className="column-2">Product</th>
-                                                <th className="column-3">Price</th>
+                                                <th className="column-3">Quantity</th>
                                                 <th className="column-4">Total</th>
                                             </tr>
                                         </thead>
@@ -52,7 +52,7 @@ class Cart extends React.Component {
                                                             </div>
                                                         </td>
                                                         <td className="column-2">{item.name}</td>
-                                                        <td className="column-3">${item.price}</td>
+                                                        <td className="column-3">{item.qty}</td>
                                                         <td className="column-4">${item.price}</td>
                                                     </tr>
                                                 )
