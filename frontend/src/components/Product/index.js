@@ -67,6 +67,7 @@ class ProductDetail extends React.Component {
                                 }
                             })
                     } else {
+                        newTotal = newTotal + option.one_unit_price;
                         new_options.push({
                             ...option,
                             sub: {
@@ -76,6 +77,7 @@ class ProductDetail extends React.Component {
                         })
                         if (index === array.length - 1) {
                             this.setState({
+                                total: newTotal,
                                 loaded: true
                             })
                         }
@@ -92,7 +94,7 @@ class ProductDetail extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.state.loaded) {
+        if (this.state.loaded && this.state.cartAdd) {
             window.setTimeout(() => {
                 this.setState({
                     cartAdd: false

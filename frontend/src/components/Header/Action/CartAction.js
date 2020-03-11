@@ -23,7 +23,12 @@ class CartAction extends React.Component {
 
     componentDidUpdate() {
         document.body.addEventListener('click', (e) => {
-            if (e.target.className !== 'header-icon1 js-show-header-dropdown') {
+            if (e.target.className !== 'header-icon1 js-show-header-dropdown' && 
+                e.target.className !== 'header-cart' &&
+                e.target.className !== 'header-cart-item-img' &&
+                e.target.className !== 'header-cart-item' &&
+                e.target.className !== 'header-cart-wrapitem'
+            ) {
                 if (this.state.dropdown === 'scale(1)') {
                     this.setState({
                         dropdown: 'scale(0)',
@@ -34,11 +39,6 @@ class CartAction extends React.Component {
         });
     }
 
-    // handleClickOutside(event) {
-    //     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-    //         alert('You clicked outside of me!');
-    //     }
-    // }
 
     loadCart = () => {
         if (localStorage.getItem('cart') !== null) {
@@ -73,12 +73,17 @@ class CartAction extends React.Component {
 
     deleteCarthand = (e) => {
         let cart = {};
+        let newTotal = 0;
         cart.cartItems = [];
         cart.total = 0;
         const id = parseInt(e.target.getAttribute('data-id'));
         const cartItems = this.state.cartItems.filter((item) => item.id !== id);
+        const finded = this.state.cartItems.filter((item) => item.id === id);
+        newTotal = this.state.total - finded[0].price;
+        cart.total = newTotal;
         this.setState({
-            cartItems: cartItems
+            cartItems: cartItems,
+            total: newTotal
         });
         cart.cartItems = cartItems;
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -96,7 +101,7 @@ class CartAction extends React.Component {
                                 return (
                                     <li className="header-cart-item" key={item.id}>
                                         <div className="header-cart-item-img" data-id={item.id} onClick={this.deleteCarthand}>
-                                            <img src={item.imgURL} alt="IMG" />
+                                            <img src={item.imgURL} className="cart-del" alt="IMG" />
                                         </div>
                                         <div className="header-cart-item-txt">
                                             <a href="/" className="header-cart-item-name">
