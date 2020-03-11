@@ -113,10 +113,10 @@ class Order(models.Model):
     )
 
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    customer_required_date = models.DateTimeField(null=True, blank=True)
+    customer_required_date = models.DateField(null=True, blank=True)
     details = models.TextField(max_length=512)
     order_number = models.UUIDField(default=uuid.uuid4, editable=False)
-    start_date = models.DateTimeField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=32)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
