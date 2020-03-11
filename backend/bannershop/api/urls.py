@@ -7,6 +7,7 @@ from api.views.products import ProductsListViewSet, ProductOptionsListViewSet, S
 from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet
 from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
 from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOptionViewSet, ProductOrderOptionListViewSet
+from api.views.emails import SendOrderEmail
 
 urlpatterns = [
     
@@ -17,6 +18,7 @@ urlpatterns = [
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
+    path('send-order-email/<int:order_id>/', SendOrderEmail.as_view()),
     path('orders/', OrderViewSet.as_view()),
     path('product-orders/', ProductOrderViewSet.as_view()),
     path('product-orders/<int:product_order>/options/', ProductOrderOptionListViewSet.as_view()),
