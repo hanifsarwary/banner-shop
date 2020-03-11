@@ -12,7 +12,8 @@ class ProductDetail extends React.Component {
         pre: [],
         options: [],
         total: 0,
-        prices: []
+        prices: [],
+        cartAdd: false
     }
 
     componentDidMount() {
@@ -90,6 +91,16 @@ class ProductDetail extends React.Component {
             })
     }
 
+    componentDidUpdate() {
+        if (this.state.loaded) {
+            window.setTimeout(() => {
+                this.setState({
+                    cartAdd: false
+                });
+            }, 3000);
+        }
+    }
+
     onQtychange = (event) => {
         this.setState({
             qty: event.target.value
@@ -144,7 +155,8 @@ class ProductDetail extends React.Component {
             id: this.state.detail.id,
             name: this.state.detail.product_name,
             imgURL: this.state.detail.default_product_image,
-            price: this.state.total
+            price: this.state.total,
+            qty: this.state.qty
         }
 
         if (localStorage.getItem('cart') === null) {
@@ -159,6 +171,9 @@ class ProductDetail extends React.Component {
         cart.total = cart.total + this.state.total;
 
         localStorage.setItem('cart', JSON.stringify(cart));
+        this.setState({
+            cartAdd: true
+        });
     }
 
     render() {
@@ -237,6 +252,11 @@ class ProductDetail extends React.Component {
                                 </div>
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
+                                    {this.state.cartAdd ? (
+                                        <span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>Product added to cart</span>
+                                    ) : (
+                                            ""
+                                        )}
                                     <div className="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
                                         <button
                                             className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"

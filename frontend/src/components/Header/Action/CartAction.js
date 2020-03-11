@@ -21,6 +21,25 @@ class CartAction extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        document.body.addEventListener('click', (e) => {
+            if (e.target.className !== 'header-icon1 js-show-header-dropdown') {
+                if (this.state.dropdown === 'scale(1)') {
+                    this.setState({
+                        dropdown: 'scale(0)',
+                        loaded: true
+                    });
+                }
+            }
+        });
+    }
+
+    // handleClickOutside(event) {
+    //     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+    //         alert('You clicked outside of me!');
+    //     }
+    // }
+
     loadCart = () => {
         if (localStorage.getItem('cart') !== null) {
             const cart = JSON.parse(localStorage.getItem('cart'));
@@ -83,7 +102,9 @@ class CartAction extends React.Component {
                                             <a href="/" className="header-cart-item-name">
                                                 {item.name}
                                             </a>
-                                        <span className="header-cart-item-info">${item.price}</span>
+                                            <span className="header-cart-item-info">
+                                                {item.qty} x ${item.price}
+                                            </span>
                                         </div>
                                     </li>
                                 );
