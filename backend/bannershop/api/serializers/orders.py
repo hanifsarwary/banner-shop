@@ -11,7 +11,7 @@ class ProductOrderOptionSerializer(ModelSerializer):
 
 
 class ProductOrderSerializer(ModelSerializer):
-    product_order_option = ProductOrderOptionSerializer(many=True)
+    product_order_options = ProductOrderOptionSerializer(many=True)
 
     class Meta:
         model = ProductOrder
