@@ -40,4 +40,4 @@ class OrderSerializer(ModelSerializer):
         order = Order.objects.create(**validated_data)
         for p_data in product_orders_data:
             ProductOrder.objects.create(order=order, **p_data)
-        return product_order
+        return order
