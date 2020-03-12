@@ -124,8 +124,8 @@ class Order(models.Model):
 
 
 class ProductOrder(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
-    order = models.ForeignKey(Order, on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, related_name='product_productorders', on_delete=models.DO_NOTHING)
+    order = models.ForeignKey(Order, related_name='order_productorders' ,on_delete=models.DO_NOTHING)
 
     custom_image = models.FileField(null=True, blank=True, upload_to='images/order_custom/')
     special_note = models.CharField(max_length=128)
@@ -143,7 +143,7 @@ class ProductOrderOption(models.Model):
     option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
     sub_option = models.ForeignKey(SubOption, on_delete=models.DO_NOTHING, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
-    Price = models.FloatField(null=True, blank=True)
+    price = models.FloatField(null=True, blank=True)
 
 class CustomQuote(models.Model):
     additional_requirements = models.CharField(max_length=512)
