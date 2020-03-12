@@ -139,7 +139,7 @@ class ProductOrder(models.Model):
 
 class ProductOrderOption(models.Model):
 
-    product_order = models.ForeignKey(ProductOrder, on_delete=models.DO_NOTHING)
+    product_order = models.ForeignKey(ProductOrder,related_name='product_order_option', on_delete=models.DO_NOTHING)
     option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
     sub_option = models.ForeignKey(SubOption, on_delete=models.DO_NOTHING, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)

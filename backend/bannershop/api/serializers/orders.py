@@ -10,7 +10,6 @@ class ProductOrderOptionSerializer(ModelSerializer):
         fields = ('option', 'sub_option', 'quantity', 'price')
 
 
-
 class ProductOrderSerializer(ModelSerializer):
     product_order_option = ProductOrderOptionSerializer(many=True)
 
