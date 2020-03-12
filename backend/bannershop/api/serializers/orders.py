@@ -18,12 +18,6 @@ class ProductOrderSerializer(ModelSerializer):
         fields = ('product', 'custom_image', 'special_note', 'total_price', 'total_weight', 'product_units',
                   'created_at', 'updated_at', 'product_order_options')
 
-    def create(self, validated_data):
-        product_order_option_data = validated_data.pop('product_order_options')
-        product_order = ProductOrder.objects.create(**validated_data)
-        product_order.product_order_options.set(product_order_option_data)
-        return product_order
-
 
 class OrderSerializer(ModelSerializer):
     order_productorders = ProductOrderSerializer(many=True)
@@ -38,5 +32,9 @@ class OrderSerializer(ModelSerializer):
         product_orders_data = validated_data.pop('order_productorders')
         order = Order.objects.create(**validated_data)
         for p_data in product_orders_data:
-            ProductOrder.objects.create(order=order, **p_data)
+            product_order_options_data = p_data.pop('product_order_options')
+            product_order = ProductOrder.objects.create(order=order, **p_data)
+            for po_data in product_order_options_data:
+                ProductOrderOption.objects.create(product_order=product_order, **po_data)
+
         return order
