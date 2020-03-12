@@ -21,8 +21,7 @@ class ProductOrderSerializer(ModelSerializer):
     def create(self, validated_data):
         product_order_option_data = validated_data.pop('product_order_options')
         product_order = ProductOrder.objects.create(**validated_data)
-        # for p_data in product_order_option_data:
-        #     ProductOrderOption.objects.create(product_order=product_order, **p_data)
+        product_order.product_order_options.set(product_order_option_data)
         return product_order
 
 
