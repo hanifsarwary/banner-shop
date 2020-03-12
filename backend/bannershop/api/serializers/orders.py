@@ -11,19 +11,19 @@ class ProductOrderOptionSerializer(ModelSerializer):
 
 
 class ProductOrderSerializer(ModelSerializer):
-    # product_order_options = ProductOrderOptionSerializer(many=True)
+    product_order_options = ProductOrderOptionSerializer(many=True)
 
     class Meta:
         model = ProductOrder
         fields = ('product', 'custom_image', 'special_note', 'total_price', 'total_weight', 'product_units',
-                  'created_at', 'updated_at', )
-    # 'product_order_options'
-    # def create(self, validated_data):
-    #     product_order_option_data = validated_data.pop('product_order_options')
-    #     product_order = ProductOrder.objects.create(**validated_data)
-    #     for p_data in product_order_option_data:
-    #         ProductOrderOption.objects.create(product_order=product_order, **p_data)
-    #     return product_order
+                  'created_at', 'updated_at', 'product_order_options')
+
+    def create(self, validated_data):
+        product_order_option_data = validated_data.pop('product_order_options')
+        product_order = ProductOrder.objects.create(**validated_data)
+        # for p_data in product_order_option_data:
+        #     ProductOrderOption.objects.create(product_order=product_order, **p_data)
+        return product_order
 
 
 class OrderSerializer(ModelSerializer):
