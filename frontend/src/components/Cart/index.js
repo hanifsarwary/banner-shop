@@ -11,6 +11,7 @@ class Cart extends React.Component {
         orderLoad: false,
         completed: false,
         orderNum: '',
+        order: {}
     };
 
     componentDidMount() {
@@ -35,28 +36,28 @@ class Cart extends React.Component {
         let cart = {};
         let newTotal = 0;
         let newGrand = 0;
+
         cart.cartItems = [];
         cart.total = 0;
+
         const id = parseInt(e.target.getAttribute('data-id'));
         const cartItems = this.state.cartItems.filter((item) => item.id !== id);
         const finded = this.state.cartItems.filter((item) => item.id === id);
-        console.log('total', this.state.total);
-        console.log('sub', this.state.subTotal);
-        console.log(finded); // []
-        newTotal = this.state.subTotal - finded[0].price; // 55 = 91 - 36
-        console.log(newTotal); // 55
+
+        newTotal = this.state.subTotal - finded[0].price; 
         cart.total = newTotal;
         if (newTotal == 0) {
             newGrand = 0;
         } else {
-            newGrand = this.state.total - finded[0].price; // 91 - 36
+            newGrand = this.state.total - finded[0].price; 
         }
-        console.log(newGrand); // 36
+
         this.setState({
             cartItems: cartItems,
             total: newGrand,
             subTotal: newTotal
         });
+
         cart.cartItems = cartItems;
         localStorage.setItem('cart', JSON.stringify(cart));
     }
@@ -72,19 +73,50 @@ class Cart extends React.Component {
             # In Progress
             # Yet To Start
         */
+
+        let orderBody = {
+            customer: 1,
+            customer_required_date: '2020-05-06',
+            details: 'None',
+            start_date: '2020-05-06',
+            status: 'Yet To Start',
+            order_productorders: []
+        };
+
+        this.state.cartItems.forEach(item => {
+            const product = {
+                product: item.id,
+                custom_image: null,
+                special_note: item.special_note,
+                total_price: item.price,
+                total_weight: 5,
+                product_units: 3,
+                product_order_options: []
+            }
+
+            item.productOrderOptions.forEach(opt => {
+                product.product_order_options.push({
+                    option: opt.id,
+                    sub_option: opt.sub,
+                    quantity: opt.qty,
+                    price: opt.price
+                });
+            });
+
+            orderBody.order_productorders.push(product);
+        });
+
         this.setState({
             orderLoad: true
         });
-        bannerShop.post('/api/orders/', {
-            customer_required_date: '2020-05-25',
-            details: 'Nothing much',
-            start_date: '2020-05-25',
-            status: 'Yet To Start',
-            customer: 1
-        })
+
+        bannerShop.post('/api/orders/', orderBody)
             .then(res => {
                 console.log(res);
-                const orderNum = res.data.order_number;
+                return res;
+            }).then(data => {
+                console.log(data);
+                const orderNum = data.data.order_number;
                 localStorage.removeItem('cart');
                 this.setState({
                     orderLoad: false,
