@@ -40,13 +40,18 @@ class Cart extends React.Component {
         const id = parseInt(e.target.getAttribute('data-id'));
         const cartItems = this.state.cartItems.filter((item) => item.id !== id);
         const finded = this.state.cartItems.filter((item) => item.id === id);
-        newTotal = this.state.subTotal - finded[0].price;
+        console.log('total', this.state.total);
+        console.log('sub', this.state.subTotal);
+        console.log(finded); // []
+        newTotal = this.state.subTotal - finded[0].price; // 55 = 91 - 36
+        console.log(newTotal); // 55
         cart.total = newTotal;
         if (newTotal == 0) {
             newGrand = 0;
         } else {
-            newGrand = this.state.total - newTotal;
+            newGrand = this.state.total - finded[0].price; // 91 - 36
         }
+        console.log(newGrand); // 36
         this.setState({
             cartItems: cartItems,
             total: newGrand,
