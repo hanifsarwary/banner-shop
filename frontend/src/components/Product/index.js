@@ -14,8 +14,10 @@ class ProductDetail extends React.Component {
         total: 0,
         prices: [],
         cartAdd: false,
+        valid: true,
+        required: false,
         addDesc: '',
-        optDet: [] 
+        optDet: []
     }
 
     componentDidMount() {
@@ -133,6 +135,7 @@ class ProductDetail extends React.Component {
         let newTotal = 0;
         let sub = 0;
         let qty = 0;
+
         if (e.target.getAttribute('data-option')) {
             id = parseInt(e.target.getAttribute('data-option'));
             value = parseFloat(e.target.getAttribute('data-value'));
@@ -140,8 +143,8 @@ class ProductDetail extends React.Component {
 
             let newOptDet = [];
             const OptDetfinded = this.state.optDet.find(p => p.id === id);
-            
-            if(OptDetfinded) {
+
+            if (OptDetfinded) {
                 newOptDet = this.state.optDet.filter(p => p.id !== id);
                 newOptDet.push({
                     id: id,
@@ -168,7 +171,7 @@ class ProductDetail extends React.Component {
             const finded = this.state.prices.find(p => p.id === id);
 
             if (finded) {
-                newTotal = this.state.total -  value;
+                newTotal = this.state.total - value;
                 newPrices.push({
                     id: id,
                     value: value,
@@ -195,7 +198,7 @@ class ProductDetail extends React.Component {
             let newOptDet = [];
             const OptDetfinded = this.state.optDet.find(p => p.id === id);
 
-            if(OptDetfinded) {
+            if (OptDetfinded) {
                 newOptDet = this.state.optDet.filter(p => p.id !== id);
                 newOptDet.push({
                     id: id,
@@ -246,39 +249,50 @@ class ProductDetail extends React.Component {
 
     addDescHand = (e) => {
         this.setState({
-            addDesc: e.target.value
+            addDesc: e.target.value,
+            required: false,
+            valid: true
         });
     }
 
     cartAddhandler = () => {
-        let cart;
-
-        const item = {
-            id: this.state.detail.id,
-            name: this.state.detail.product_name,
-            imgURL: this.state.detail.default_product_image,
-            price: this.state.total,
-            qty: this.state.qty,
-            special_note: this.state.addDesc,
-        }
-
-        item.productOrderOptions = this.state.optDet;
-
-        if (localStorage.getItem('cart') === null) {
-            cart = {};
-            cart.cartItems = [];
-            cart.total = 0;
+        if (this.state.addDesc === '') {
+            this.setState({
+                required: true,
+                valid: false
+            });
         } else {
-            cart = JSON.parse(localStorage.getItem('cart'));
+
+
+            let cart;
+
+            const item = {
+                id: this.state.detail.id,
+                name: this.state.detail.product_name,
+                imgURL: this.state.detail.default_product_image,
+                price: this.state.total,
+                qty: this.state.qty,
+                special_note: this.state.addDesc,
+            }
+
+            item.productOrderOptions = this.state.optDet;
+
+            if (localStorage.getItem('cart') === null) {
+                cart = {};
+                cart.cartItems = [];
+                cart.total = 0;
+            } else {
+                cart = JSON.parse(localStorage.getItem('cart'));
+            }
+
+            cart.cartItems.push(item);
+            cart.total = cart.total + this.state.total;
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            this.setState({
+                cartAdd: true
+            });
         }
-
-        cart.cartItems.push(item);
-        cart.total = cart.total + this.state.total;
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        this.setState({
-            cartAdd: true
-        });
     }
 
     render() {
@@ -332,9 +346,9 @@ class ProductDetail extends React.Component {
                                                     >
                                                         {option.sub.subOptions.map(subOption => {
                                                             return (
-                                                                <option value={option.id} key={subOption.id} 
-                                                                data-option={option.id} data-value={subOption.price}
-                                                                id={subOption.id}
+                                                                <option value={option.id} key={subOption.id}
+                                                                    data-option={option.id} data-value={subOption.price}
+                                                                    id={subOption.id}
                                                                 >
                                                                     {subOption.name}
                                                                 </option>)
@@ -354,19 +368,26 @@ class ProductDetail extends React.Component {
                                     <div className="s-text15 mb-2">
                                         Additional Instructions:
                                     </div>
-
-                                    <textarea 
+                                    {this.state.required ? (
+                                        <span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+                                    ) : ('')}
+                                    <textarea
                                         className="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20"
                                         name="message"
                                         value={this.state.addDesc}
                                         onChange={this.addDescHand}
-                                        required={true}
                                     ></textarea>
                                 </div>
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
                                     {this.state.cartAdd ? (
                                         <span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>Product added to cart</span>
+                                    ) : (
+                                            ""
+                                        )}
+
+                                    {!this.state.valid ? (
+                                        <span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>* These fields are required</span>
                                     ) : (
                                             ""
                                         )}
