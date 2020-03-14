@@ -46,7 +46,7 @@ class Cart extends React.Component {
 
         newTotal = this.state.subTotal - finded[0].price; 
         cart.total = newTotal;
-        if (newTotal == 0) {
+        if (newTotal === 0) {
             newGrand = 0;
         } else {
             newGrand = this.state.total - finded[0].price; 
@@ -58,6 +58,9 @@ class Cart extends React.Component {
             subTotal: newTotal
         });
 
+        if(cartItems.length === 0) {
+            cart.total = 0;
+        }
         cart.cartItems = cartItems;
         localStorage.setItem('cart', JSON.stringify(cart));
     }

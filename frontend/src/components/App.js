@@ -32,7 +32,7 @@ class App extends React.Component {
         });
         const token = res.data.token;
         localStorage.setItem('token', token);
-        
+
         bannerShop.get('/api/products/')
         .then((res) => {
           if(res.status === 200) {
