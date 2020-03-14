@@ -85,6 +85,12 @@ class CartAction extends React.Component {
             cartItems: cartItems,
             total: newTotal
         });
+        if(cartItems.length === 0) {
+            cart.total = 0;
+            this.setState({
+                total: 0
+            });
+        }
         cart.cartItems = cartItems;
         localStorage.setItem('cart', JSON.stringify(cart));
     }
