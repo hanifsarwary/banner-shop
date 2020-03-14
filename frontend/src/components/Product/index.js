@@ -13,7 +13,9 @@ class ProductDetail extends React.Component {
         options: [],
         total: 0,
         prices: [],
-        cartAdd: false
+        cartAdd: false,
+        addDesc: '',
+        optDet: [] 
     }
 
     componentDidMount() {
@@ -41,6 +43,8 @@ class ProductDetail extends React.Component {
                 let newPrices = [];
                 let newTotal = 0;
 
+                let newOptDet = [];
+
                 opt.data.forEach((option, index, array) => {
                     if (option.is_suboptions) {
                         bannerShop.get(`/api/products/${id}/options/${option.id}/sub-options/`)
@@ -58,11 +62,18 @@ class ProductDetail extends React.Component {
                                     id: option.id,
                                     value: res.data[0].price
                                 });
+                                newOptDet.push({
+                                    id: option.id,
+                                    sub: res.data[0].id,
+                                    qty: 1,
+                                    price: res.data[0].price
+                                });
                                 if (index === array.length - 1) {
                                     this.setState({
                                         prices: newPrices,
                                         total: newTotal,
-                                        loaded: true
+                                        loaded: true,
+                                        optDet: newOptDet
                                     })
                                 }
                             })
@@ -75,10 +86,17 @@ class ProductDetail extends React.Component {
                                 subOptions: []
                             }
                         })
+                        newOptDet.push({
+                            id: option.id,
+                            sub: null,
+                            qty: 1,
+                            price: option.one_unit_price
+                        });
                         if (index === array.length - 1) {
                             this.setState({
                                 total: newTotal,
-                                loaded: true
+                                loaded: true,
+                                optDet: newOptDet
                             })
                         }
                     }
@@ -113,17 +131,92 @@ class ProductDetail extends React.Component {
         let id = 1;
         let value = 0;
         let newTotal = 0;
+        let sub = 0;
+        let qty = 0;
         if (e.target.getAttribute('data-option')) {
             id = parseInt(e.target.getAttribute('data-option'));
             value = parseFloat(e.target.getAttribute('data-value'));
-            newTotal = this.state.total + parseFloat(value);
+            qty = parseFloat(e.target.value);
+
+            let newOptDet = [];
+            const OptDetfinded = this.state.optDet.find(p => p.id === id);
+            
+            if(OptDetfinded) {
+                newOptDet = this.state.optDet.filter(p => p.id !== id);
+                newOptDet.push({
+                    id: id,
+                    sub: null,
+                    qty: qty,
+                    price: value
+                });
+                this.setState({
+                    optDet: newOptDet,
+                });
+            } else {
+                newOptDet.push({
+                    id: id,
+                    sub: null,
+                    qty: qty,
+                    price: value
+                });
+                this.setState({
+                    optDet: newOptDet,
+                });
+            }
+
+            let newPrices = [...this.state.prices];
+            const finded = this.state.prices.find(p => p.id === id);
+
+            if (finded) {
+                newTotal = this.state.total -  value;
+                newPrices.push({
+                    id: id,
+                    value: value,
+                    sub: sub
+                })
+            } else {
+                newTotal = this.state.total + value;
+
+                newPrices.push({
+                    id: id,
+                    value: value
+                })
+            }
 
             this.setState({
+                prices: newPrices,
                 total: newTotal
             })
         } else {
             id = parseInt(e.target[e.target.selectedIndex].getAttribute('data-option'));
             value = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-value'));
+            sub = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-id'));
+
+            let newOptDet = [];
+            const OptDetfinded = this.state.optDet.find(p => p.id === id);
+
+            if(OptDetfinded) {
+                newOptDet = this.state.optDet.filter(p => p.id !== id);
+                newOptDet.push({
+                    id: id,
+                    sub: sub,
+                    qty: 1,
+                    price: value
+                });
+                this.setState({
+                    optDet: newOptDet,
+                });
+            } else {
+                newOptDet.push({
+                    id: id,
+                    sub: null,
+                    qty: qty,
+                    price: value
+                });
+                this.setState({
+                    optDet: newOptDet,
+                });
+            }
 
             let newPrices = [...this.state.prices];
             const finded = this.state.prices.find(p => p.id === id);
@@ -132,7 +225,8 @@ class ProductDetail extends React.Component {
                 newTotal = (this.state.total - finded.value) + value;
                 newPrices.push({
                     id: id,
-                    value: value
+                    value: value,
+                    sub: sub
                 })
             } else {
                 newTotal = this.state.total + value;
@@ -150,6 +244,12 @@ class ProductDetail extends React.Component {
         }
     }
 
+    addDescHand = (e) => {
+        this.setState({
+            addDesc: e.target.value
+        });
+    }
+
     cartAddhandler = () => {
         let cart;
 
@@ -158,8 +258,11 @@ class ProductDetail extends React.Component {
             name: this.state.detail.product_name,
             imgURL: this.state.detail.default_product_image,
             price: this.state.total,
-            qty: this.state.qty
+            qty: this.state.qty,
+            special_note: this.state.addDesc,
         }
+
+        item.productOrderOptions = this.state.optDet;
 
         if (localStorage.getItem('cart') === null) {
             cart = {};
@@ -229,7 +332,9 @@ class ProductDetail extends React.Component {
                                                     >
                                                         {option.sub.subOptions.map(subOption => {
                                                             return (
-                                                                <option value={option.id} key={subOption.id} data-option={option.id} data-value={subOption.price}
+                                                                <option value={option.id} key={subOption.id} 
+                                                                data-option={option.id} data-value={subOption.price}
+                                                                id={subOption.id}
                                                                 >
                                                                     {subOption.name}
                                                                 </option>)
@@ -250,7 +355,13 @@ class ProductDetail extends React.Component {
                                         Additional Instructions:
                                     </div>
 
-                                    <textarea className="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20" name="message"></textarea>
+                                    <textarea 
+                                        className="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20"
+                                        name="message"
+                                        value={this.state.addDesc}
+                                        onChange={this.addDescHand}
+                                        required={true}
+                                    ></textarea>
                                 </div>
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
