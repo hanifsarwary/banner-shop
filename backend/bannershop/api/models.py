@@ -100,6 +100,9 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
+    def __str__(self):
+        return self.user.first_name
+
 
 class Order(models.Model):
     STATUS_CHOICES = (
@@ -122,6 +125,10 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
+    def __str__(self):
+        return self.order_number
+
+
 
 class ProductOrder(models.Model):
     product = models.ForeignKey(Product, related_name='product_productorders', on_delete=models.DO_NOTHING)
@@ -136,6 +143,8 @@ class ProductOrder(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
+    def __str__(self):
+        return self.product.__str__() + ' ------- ' + self.order.__str__()
 
 class ProductOrderOption(models.Model):
 
@@ -144,6 +153,8 @@ class ProductOrderOption(models.Model):
     sub_option = models.ForeignKey(SubOption, on_delete=models.DO_NOTHING, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     price = models.FloatField(null=True, blank=True)
+
+    
 
 class CustomQuote(models.Model):
     additional_requirements = models.CharField(max_length=512)
