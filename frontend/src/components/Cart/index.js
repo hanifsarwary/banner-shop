@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
+import { withRouter } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop'
 
 class Cart extends React.Component {
@@ -44,12 +45,12 @@ class Cart extends React.Component {
         const cartItems = this.state.cartItems.filter((item) => item.id !== id);
         const finded = this.state.cartItems.filter((item) => item.id === id);
 
-        newTotal = this.state.subTotal - finded[0].price; 
+        newTotal = this.state.subTotal - finded[0].price;
         cart.total = newTotal;
         if (newTotal === 0) {
             newGrand = 0;
         } else {
-            newGrand = this.state.total - finded[0].price; 
+            newGrand = this.state.total - finded[0].price;
         }
 
         this.setState({
@@ -58,7 +59,7 @@ class Cart extends React.Component {
             subTotal: newTotal
         });
 
-        if(cartItems.length === 0) {
+        if (cartItems.length === 0) {
             cart.total = 0;
         }
         cart.cartItems = cartItems;
@@ -76,62 +77,65 @@ class Cart extends React.Component {
             # In Progress
             # Yet To Start
         */
+        if (this.props.isLoggedIn) {
+            let orderBody = {
+                customer: 1,
+                customer_required_date: '2020-05-06',
+                details: 'None',
+                start_date: '2020-05-06',
+                status: 'Yet To Start',
+                order_productorders: []
+            };
 
-        let orderBody = {
-            customer: 1,
-            customer_required_date: '2020-05-06',
-            details: 'None',
-            start_date: '2020-05-06',
-            status: 'Yet To Start',
-            order_productorders: []
-        };
+            this.state.cartItems.forEach(item => {
+                const product = {
+                    product: item.id,
+                    custom_image: null,
+                    special_note: item.special_note,
+                    total_price: item.price,
+                    total_weight: 5,
+                    product_units: 3,
+                    product_order_options: []
+                }
 
-        this.state.cartItems.forEach(item => {
-            const product = {
-                product: item.id,
-                custom_image: null,
-                special_note: item.special_note,
-                total_price: item.price,
-                total_weight: 5,
-                product_units: 3,
-                product_order_options: []
-            }
-
-            item.productOrderOptions.forEach(opt => {
-                product.product_order_options.push({
-                    option: opt.id,
-                    sub_option: opt.sub,
-                    quantity: opt.qty,
-                    price: opt.price
+                item.productOrderOptions.forEach(opt => {
+                    product.product_order_options.push({
+                        option: opt.id,
+                        sub_option: opt.sub,
+                        quantity: opt.qty,
+                        price: opt.price
+                    });
                 });
+
+                orderBody.order_productorders.push(product);
             });
 
-            orderBody.order_productorders.push(product);
-        });
+            this.setState({
+                orderLoad: true
+            });
 
-        this.setState({
-            orderLoad: true
-        });
+            console.log(orderBody);
 
-        console.log(orderBody);
-
-        bannerShop.post('/api/orders/', orderBody)
-            .then(res => {
-                console.log('res',res);
-                return res;
-            }).then(data => {
-                console.log('data',data);
-                const orderNum = data.data.order_number;
-                localStorage.removeItem('cart');
-                this.setState({
-                    orderLoad: false,
-                    completed: true,
-                    orderNum: orderNum
-                });
-            })
-            .catch(err => {
-                console.log(err);
-            })
+            bannerShop.post('/api/orders/', orderBody)
+                .then(res => {
+                    console.log('res', res);
+                    return res;
+                }).then(data => {
+                    console.log('data', data);
+                    const orderNum = data.data.order_number;
+                    localStorage.removeItem('cart');
+                    this.setState({
+                        orderLoad: false,
+                        completed: true,
+                        orderNum: orderNum
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        } else {
+            this.props.history.push('/auth/login')
+        }
     }
 
     render() {
@@ -181,7 +185,7 @@ class Cart extends React.Component {
                                                         )
                                                     })}
                                                 </tbody>
-    
+
                                             </table>
                                         </div>
                                     </div>
@@ -197,10 +201,10 @@ class Cart extends React.Component {
                                     </div>
                                     <div className="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
                                         <h5 className="m-text20 p-b-24">Cart Totals</h5>
-    
+
                                         <div className="flex-w flex-sb-m p-b-12">
                                             <span className="s-text18 w-size19 w-full-sm">Subtotal:</span>
-    
+
                                             <span className="m-text21 w-size20 w-full-sm">${this.state.subTotal}</span>
                                         </div>
                                         {/* 
@@ -238,12 +242,12 @@ class Cart extends React.Component {
                                             </div>
                                         </div>
                                     </div> */}
-    
+
                                         <div className="flex-w flex-sb-m p-t-26 p-b-30">
                                             <span className="m-text22 w-size19 w-full-sm">Total:</span>
                                             <span className="m-text21 w-size20 w-full-sm">${this.state.total}</span>
                                         </div>
-    
+
                                         <div className="size15 trans-0-4">
                                             <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
                                                 onClick={this.contOrder}
@@ -261,7 +265,7 @@ class Cart extends React.Component {
                                     </div>
                                 </div>
                             </section>
-    
+
                         ) : (
                                 <section className="cart bgwhite p-t-70 p-b-100">
                                     <div className="container">
@@ -282,4 +286,4 @@ class Cart extends React.Component {
     }
 }
 
-export default Cart;
+export default withRouter(Cart);
