@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import bannerShop from '../api/bannerShop';
+import jwtDecode from 'jwt-decode';
+import history from 'history';
 import jQuery from 'jquery';
 import Header from './Header';
 import Footer from './Footer';
@@ -15,39 +17,39 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    isLoggedIn: true,
+    isLoggedIn: false,
+    user: {},
     products: []
   };
 
   componentDidMount() {
+    try {
+      const token = localStorage.getItem('token');
+      const user = jwtDecode(token);
+      if(user) {
+        this.setState({
+          user: user,
+          isLoggedIn: true
+        });
+      }
+    } catch(err) {}
 
-    bannerShop.post('/auth/token/obtain/', {
-      username: 'hanif',
-      password: 'asdf1234'
-    })
+    bannerShop.get('/api/products/')
     .then((res) => {
       if(res.status === 200) {
         this.setState({
-          isLoggedIn: true
-        });
-        const token = res.data.token;
-        localStorage.setItem('token', token);
-
-        bannerShop.get('/api/products/')
-        .then((res) => {
-          if(res.status === 200) {
-            this.setState({
-              products: res.data.results
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
+          products: res.data.results
         });
       }
     })
     .catch((err) => {
       console.log(err);
+    });
+  }
+
+  onLogin = ()=> {
+    this.setState({
+      isLoggedIn: true
     });
   }
 
@@ -63,7 +65,7 @@ class App extends React.Component {
             <Feature />
           </Route>
           <Route path="/shop/cart" exact>
-            <Cart />
+            <Cart isLoggedIn={this.state.isLoggedIn} />
           </Route>
           <Route path="/category/:id" exact>
             <Category />
@@ -72,7 +74,9 @@ class App extends React.Component {
             <Product products={this.state.products}/>
           </Route>
           <Route path="/auth/login" exact>
-            <Login />
+            <Login 
+              isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin}
+            />
           </Route>
           <Redirect to="/" />
         </Switch>
