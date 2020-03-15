@@ -7,6 +7,8 @@ class OrderViewSet(ListCreateAPIView):
 
     serializer_class = OrderSerializer
     queryset = Order.objects.all().order_by('-id')
+    filter_backends = [DjangoFilterBackend, ]
+    filterset_fields = ['order_number', 'status', 'start_date', 'customer_required_date']
 
 
 

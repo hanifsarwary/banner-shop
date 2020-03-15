@@ -21,7 +21,7 @@ class ProductOrderSerializer(ModelSerializer):
 
 class OrderSerializer(ModelSerializer):
     order_productorders = ProductOrderSerializer(many=True)
-    customer = CustomerSerializer()
+    customer = CustomerSerializer(read_only=True)
     class Meta:
         model = Order
         fields = ('customer', 'customer_required_date', 'details', 'order_number', 'start_date', 'status', 
