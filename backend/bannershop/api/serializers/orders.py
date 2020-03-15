@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from api.models import Order, ProductOrder, ProductOrderOption
-
+from api.serializers.customers import CustomerSerializer
 
 
 class ProductOrderOptionSerializer(ModelSerializer):
@@ -21,7 +21,6 @@ class ProductOrderSerializer(ModelSerializer):
 
 class OrderSerializer(ModelSerializer):
     order_productorders = ProductOrderSerializer(many=True)
-
     class Meta:
         model = Order
         fields = ('customer', 'customer_required_date', 'details', 'order_number', 'start_date', 'status', 
