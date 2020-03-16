@@ -118,10 +118,8 @@ class Cart extends React.Component {
 
             bannerShop.post('/api/orders/', orderBody)
                 .then(res => {
-                    console.log('res', res);
                     return res;
                 }).then(data => {
-                    console.log('data', data);
                     const orderNum = data.data.order_number;
                     localStorage.removeItem('cart');
                     this.setState({

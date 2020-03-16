@@ -10,10 +10,7 @@ const HeaderWrap = (props) => {
             <Menu />
             <Action
                 isLoggedIn={props.isLoggedIn}
-                cartItems={props.cartItems}
-                cartSubTotal={props.cartSubTotal}
-                itemDelhand={props.itemDelhand}
-                itemAddhand={props.itemAddhand}
+                onLogout={props.onLogout}
             />
         </div>
     )

@@ -11,6 +11,7 @@ const Header = (props) => {
                 <HeaderTopBar />
                 <HeaderWrap
                     isLoggedIn={props.isLoggedIn}
+                    onLogout={props.onLogout}
                 />
             </div>
             <Mobile />

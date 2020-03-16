@@ -9,6 +9,7 @@ import Footer from './Footer';
 import FeatureProduct from './FeatureProduct';
 import Feature from './Feature';
 import Login from './Login';
+import SignUp from './SignUp';
 import Category from './Category';
 import Product from './Product';
 import Cart from './Cart';
@@ -53,11 +54,18 @@ class App extends React.Component {
     });
   }
 
+  onLogout = ()=> {
+    this.setState({
+      isLoggedIn: false
+    });
+  }
+
   render() {
     return (
       <React.Fragment>
         <Header 
           isLoggedIn={this.state.isLoggedIn}
+          onLogout={this.onLogout}
         />
         <Switch>
           <Route path="/" exact>
@@ -77,6 +85,9 @@ class App extends React.Component {
             <Login 
               isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin}
             />
+          </Route>
+          <Route path="/auth/signup" exact>
+            <SignUp />
           </Route>
           <Redirect to="/" />
         </Switch>

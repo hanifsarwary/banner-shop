@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop';
 import Loader from 'react-loader-spinner';
 
@@ -69,6 +70,11 @@ class Login extends React.Component {
 									<input className="sizefull s-text7 p-l-22 p-r-22" type="password" name="password" placeholder="Enter your password"
 										onChange={this.onPasswordChange}
 									/>
+								</div>
+
+								<div className="size10 m-b-5" style={{ width: '100%' }}>
+									<span className="m-r-5">Not Yet Register:</span>
+									<Link to="/auth/signup" className="s-text7">Click Here</Link>
 								</div>
 
 								<div className="w-size25">
