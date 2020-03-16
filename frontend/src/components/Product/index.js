@@ -262,8 +262,6 @@ class ProductDetail extends React.Component {
                 valid: false
             });
         } else {
-
-
             let cart;
 
             const item = {

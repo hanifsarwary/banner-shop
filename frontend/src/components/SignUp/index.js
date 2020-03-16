@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop';
 import Loader from 'react-loader-spinner';
 
@@ -13,22 +12,13 @@ class SignUp extends React.Component {
         loader: false,
 		register: false,
     }
-    
-    // {
-    //     "username": "",
-    //     "first_name": "",
-    //     "last_name": "",
-    //     "email": "",
-    //     "password": "",
-    //     "is_staff": false
-    // }
 
-    signUpHandle = () => {
+    signUpHandle = async() => {
         this.setState({
             loader: true
         });
 
-        bannerShop.post('/api/users', {
+        bannerShop.post('/api/users/', {
             username: this.state.email,
             first_name: this.state.first_name,
             last_name: this.state.last_name,
@@ -37,13 +27,18 @@ class SignUp extends React.Component {
             is_staff: false
 		})
 			.then((res) => {
-				if (res.status === 200) {
-					console.log(res);
+				console.log(res);
+				if (res.status === 201) {
 					this.setState({
-						loader: false
+						username: '',
+						first_name: '',
+						last_name: '',
+						email: '',
+						password: '',
+						loader: false,
+						register: true
 					});
                 }
-                // return res; 
 			})
 			.catch((err) => {
                 console.log(err);
@@ -58,7 +53,7 @@ class SignUp extends React.Component {
 						<div className="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
 							<form className="leave-comment" onSubmit={(e) => e.preventDefault()}>
 								<h4 className="m-text26 p-b-36 p-t-15">
-									Signup to keep shoping
+									Signup to keep shopping
 								</h4>
 
                                 <div className="bo4 of-hidden size15 m-b-20">
@@ -106,6 +101,11 @@ class SignUp extends React.Component {
 										Sign UP
 									</button>
 								</div>
+								{this.state.register ? (
+									<div className="size15 m-t-20">
+										<span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>SignUp Successfully</span>
+									</div>
+								) : ("")}
 							</form>
 						</div>
 					</div>
