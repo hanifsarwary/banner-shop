@@ -21,7 +21,7 @@ class ProductOptionsListViewSet(ListCreateAPIView):
     queryset = Option.objects
 
     def list(self, request, product_id, *args, **kwargs):
-        queryset = self.get_queryset().filter(product_id=product_id)
+        queryset = self.get_queryset().filter(product_id=product_id, is_deleted=False)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
