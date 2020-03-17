@@ -15,7 +15,7 @@ class CalculatePriceViewSet(APIView):
                     pass
                 else:
                     total_price += request.data.get('options').get(oq.option_name)[1]
-            total_price += request.data.get('options').get('height') * request.data.get('options').get('width') * 225
+            total_price += request.data.get('options').get('height') * request.data.get('options').get('width') * 2.25
             total_price += (total_price * request.data.get('options').get('TurnAround')[1])
             total_price += 35
         return Response({'price': total_price})
