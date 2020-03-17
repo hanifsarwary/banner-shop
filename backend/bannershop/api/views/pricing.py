@@ -19,7 +19,9 @@ class CalculatePriceViewSet(APIView):
                         total_price += option_data[1]
             total_price += request.data.get('options').get('height') * request.data.get('options').get('width') * 2.25
             total_price += (total_price * request.data.get('options').get('TurnAround')[1])
+            total_price *= request.data.get('options').get('quantity', 1)
             total_price += 35
+
         return Response({'price': total_price})
 
 
