@@ -31,9 +31,6 @@ class Menu extends React.Component {
                             <Link to="/">Home</Link>
                         </li>
                         <li>
-                            <Link to="/category/banner">Banner</Link>
-                        </li>
-                        <li>
                             <a href="/" onClick={(e) => {
                                 e.preventDefault();
                             }}>

@@ -18,7 +18,6 @@ class Cart extends React.Component {
     componentDidMount() {
         if (localStorage.getItem('cart') !== null) {
             const cart = JSON.parse(localStorage.getItem('cart'));
-
             this.setState({
                 cartItems: cart.cartItems,
                 total: cart.total,
@@ -118,10 +117,8 @@ class Cart extends React.Component {
 
             bannerShop.post('/api/orders/', orderBody)
                 .then(res => {
-                    console.log('res', res);
                     return res;
                 }).then(data => {
-                    console.log('data', data);
                     const orderNum = data.data.order_number;
                     localStorage.removeItem('cart');
                     this.setState({
@@ -134,11 +131,13 @@ class Cart extends React.Component {
                     console.log(err);
                 })
         } else {
-            this.props.history.push('/auth/login')
+            this.props.previousPathHand(this.props.location.pathname);
+            this.props.history.push('/auth/login');
         }
     }
 
     render() {
+        console.log(this.state);
         if (this.state.completed) {
             return (
                 <section className="cart bgwhite p-t-70 p-b-100">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop';
 import Loader from 'react-loader-spinner';
 
@@ -29,6 +30,11 @@ class Login extends React.Component {
 					this.setState({
 						logged: false
 					});
+					if(this.props.previousPath === '/shop/cart') {
+						this.props.history.push('/shop/cart');
+					} else {
+						this.props.history.push('/');
+					}
 				}
 			})
 			.catch((err) => {
@@ -71,6 +77,11 @@ class Login extends React.Component {
 									/>
 								</div>
 
+								<div className="size10 m-b-5" style={{ width: '100%' }}>
+									<span className="m-r-5">Not Yet Register:</span>
+									<Link to="/auth/signup" className="s-text7">Click Here</Link>
+								</div>
+
 								<div className="w-size25">
 									<button
 										className="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"
@@ -95,7 +106,7 @@ class Login extends React.Component {
 	}
 }
 
-export default Login;
+export default withRouter(Login);
 
 
 

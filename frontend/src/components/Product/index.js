@@ -17,6 +17,7 @@ class ProductDetail extends React.Component {
         valid: true,
         required: false,
         addDesc: '',
+        file: {},
         optDet: []
     }
 
@@ -255,6 +256,12 @@ class ProductDetail extends React.Component {
         });
     }
 
+    fileHand = (e) => {
+        this.setState({
+           file: e.target.files[0]
+        });
+    }
+
     cartAddhandler = () => {
         if (this.state.addDesc === '') {
             this.setState({
@@ -262,8 +269,6 @@ class ProductDetail extends React.Component {
                 valid: false
             });
         } else {
-
-
             let cart;
 
             const item = {
@@ -273,6 +278,7 @@ class ProductDetail extends React.Component {
                 price: this.state.total,
                 qty: this.state.qty,
                 special_note: this.state.addDesc,
+                file: this.state.file
             }
 
             item.productOrderOptions = this.state.optDet;
@@ -287,7 +293,6 @@ class ProductDetail extends React.Component {
 
             cart.cartItems.push(item);
             cart.total = cart.total + this.state.total;
-
             localStorage.setItem('cart', JSON.stringify(cart));
             this.setState({
                 cartAdd: true
@@ -379,6 +384,21 @@ class ProductDetail extends React.Component {
                                     ></textarea>
                                 </div>
 
+                                <div className="flex-m flex-w p-b-10 mt-3">
+                                    <div className="s-text15 mb-2">
+                                        File:
+                                    </div>
+                                    {this.state.required ? (
+                                        <span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+                                    ) : ('')}
+                                    <div className="bo4 of-hidden size15 m-b-20">
+                                        <input className="sizefull s-text7" type="file"
+                                            style={{ padding: '10px' }}
+                                            onChange={this.fileHand}
+                                        />
+                                    </div>
+                                </div>
+
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
                                     {this.state.cartAdd ? (
                                         <span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>Product added to cart</span>
@@ -401,7 +421,7 @@ class ProductDetail extends React.Component {
                                     </div>
                                 </div>
 
-                                <div className="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
+                                {/* <div className="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
                                     <h5 className="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
                                         Description
                                         <i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
@@ -413,7 +433,7 @@ class ProductDetail extends React.Component {
                                             Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
                                         </p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

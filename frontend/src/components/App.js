@@ -9,6 +9,7 @@ import Footer from './Footer';
 import FeatureProduct from './FeatureProduct';
 import Feature from './Feature';
 import Login from './Login';
+import SignUp from './SignUp';
 import Category from './Category';
 import Product from './Product';
 import Cart from './Cart';
@@ -19,7 +20,8 @@ class App extends React.Component {
   state = {
     isLoggedIn: false,
     user: {},
-    products: []
+    products: [],
+    previousPath: '/'
   };
 
   componentDidMount() {
@@ -53,11 +55,24 @@ class App extends React.Component {
     });
   }
 
+  onLogout = ()=> {
+    this.setState({
+      isLoggedIn: false
+    });
+  }
+
+  previousPathHand = (path) => {
+    this.setState({
+      previousPath: path
+    });
+  }
+
   render() {
     return (
       <React.Fragment>
         <Header 
           isLoggedIn={this.state.isLoggedIn}
+          onLogout={this.onLogout}
         />
         <Switch>
           <Route path="/" exact>
@@ -65,7 +80,7 @@ class App extends React.Component {
             <Feature />
           </Route>
           <Route path="/shop/cart" exact>
-            <Cart isLoggedIn={this.state.isLoggedIn} />
+            <Cart isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand}/>
           </Route>
           <Route path="/category/:id" exact>
             <Category />
@@ -75,8 +90,11 @@ class App extends React.Component {
           </Route>
           <Route path="/auth/login" exact>
             <Login 
-              isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin}
+              isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin} previousPath={this.state.previousPath}
             />
+          </Route>
+          <Route path="/auth/signup" exact>
+            <SignUp />
           </Route>
           <Redirect to="/" />
         </Switch>
