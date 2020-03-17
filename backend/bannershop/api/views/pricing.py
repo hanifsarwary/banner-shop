@@ -17,7 +17,7 @@ class CalculatePriceViewSet(APIView):
                     option_data = request.data.get('options').get(oq.option_name)
                     if option_data:
                         total_price += option_data[1]
-            total_price += request.data.get('options').get('height') * request.data.get('options').get('width') * 2.25
+            total_price += request.data.get('options').get('Height') * request.data.get('options').get('Width') * 2.25
             total_price += (total_price * request.data.get('options').get('TurnAround')[1])
             total_price *= request.data.get('options').get('quantity', 1)
             total_price += 35
@@ -30,7 +30,7 @@ class CalculatePriceViewSet(APIView):
                     option_data = request.data.get('options').get(oq.option_name)
                     if option_data:
                         total_price += option_data[1]
-            total_price += request.data.get('options').get('height') * request.data.get('options').get('width') * 2
+            total_price += request.data.get('options').get('Height') * request.data.get('options').get('Width') * 2
             total_price += (total_price * request.data.get('options').get('TurnAround')[1])
             total_price *= request.data.get('options').get('quantity', 1)
             total_price += 35
