@@ -30,6 +30,11 @@ class Login extends React.Component {
 					this.setState({
 						logged: false
 					});
+					if(this.props.previousPath === '/shop/cart') {
+						this.props.history.push('/shop/cart');
+					} else {
+						this.props.history.push('/');
+					}
 				}
 			})
 			.catch((err) => {
@@ -101,7 +106,7 @@ class Login extends React.Component {
 	}
 }
 
-export default Login;
+export default withRouter(Login);
 
 
 

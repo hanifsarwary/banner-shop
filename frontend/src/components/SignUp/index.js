@@ -1,5 +1,6 @@
 import React from 'react';
 import bannerShop from '../../api/bannerShop';
+import { withRouter } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 
 class SignUp extends React.Component {
@@ -38,6 +39,7 @@ class SignUp extends React.Component {
 						loader: false,
 						register: true
 					});
+					this.props.history.push('/');
                 }
 			})
 			.catch((err) => {
@@ -115,4 +117,4 @@ class SignUp extends React.Component {
 	}
 }
 
-export default SignUp;
+export default withRouter(SignUp);
