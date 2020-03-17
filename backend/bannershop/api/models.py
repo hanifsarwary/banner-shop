@@ -82,17 +82,6 @@ class SubOption(models.Model):
         return self.name + ' ---- ' + self.option.__str__()
 
 
-class ProductOption(models.Model):
-    option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
-    Product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
-
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    def __str__(self):
-        return "{} - {}".format(self.id, self.option_id)
-
-
 class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
