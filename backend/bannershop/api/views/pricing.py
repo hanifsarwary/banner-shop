@@ -19,7 +19,7 @@ class CalculatePriceViewSet(APIView):
                         total_price += option_data[1]
             total_price += request.data.get('options').get('Height') * request.data.get('options').get('Width') * 2.25
             total_price += (total_price * request.data.get('options').get('TurnAround')[1])
-            total_price *= request.data.get('options').get('quantity', 1)
+            total_price *= request.data.get('quantity', 1)
             total_price += 35
 
         elif str.lower(product_name) == 'outdoor banners':
@@ -32,11 +32,11 @@ class CalculatePriceViewSet(APIView):
                         total_price += option_data[1]
             total_price += request.data.get('options').get('Height') * request.data.get('options').get('Width') * 2
             total_price += (total_price * request.data.get('options').get('TurnAround')[1])
-            total_price *= request.data.get('options').get('quantity', 1)
+            total_price *= request.data.get('quantity', 1)
             total_price += 35
 
         elif str.lower(product_name) == 'open house sign':
-            quantity = request.data.get('options').get('quantity', 1)
+            quantity = request.data.get('quantity', 1)
             if quantity == 1:
                 total_price +=75
             elif quantity <= 3:
