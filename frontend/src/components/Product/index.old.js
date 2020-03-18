@@ -7,28 +7,26 @@ class ProductDetail extends React.Component {
     state = {
         loaded: false,
         qty: 1,
+        width: 0,
         detail: {},
+        pre: [],
         options: [],
         total: 0,
+        prices: [],
         cartAdd: false,
         valid: true,
         required: false,
         addDesc: '',
         file: {},
-        priceCalc: {},
-        optionState: {}
+        optDet: []
     }
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        const priceCalcObj = {};
-        priceCalcObj.product_id = parseInt(id);
-        priceCalcObj.quantity = 1;
 
         bannerShop.get(`/api/products/${id}`)
             .then((res) => {
                 if (res.status === 200) {
-                    priceCalcObj.product_name = res.data.product_name;
                     this.setState({
                         detail: res.data,
                         total: res.data.one_unit_weight
@@ -45,20 +43,15 @@ class ProductDetail extends React.Component {
             })
             .then((opt) => {
                 const new_options = [];
+                let newPrices = [];
                 let newTotal = 0;
-                priceCalcObj.options = {};
-                const optionState = {};
-                optionState["quantity"] = 1;
+
+                let newOptDet = [];
 
                 opt.data.forEach((option, index, array) => {
                     if (option.is_suboptions) {
                         bannerShop.get(`/api/products/${id}/options/${option.id}/sub-options/`)
                             .then((res) => {
-                                priceCalcObj.options[option.option_name] = [res.data[0].name, res.data[0].price];
-                                optionState[option.option_name] = {};
-                                optionState[option.option_name].id = res.data[0].id;
-                                optionState[option.option_name].name = res.data[0].name;
-
                                 new_options.push({
                                     ...option,
                                     sub: {
@@ -66,30 +59,29 @@ class ProductDetail extends React.Component {
                                         subOptions: res.data
                                     }
                                 })
-
+                                // console.log(res.data[0].price);
+                                newTotal = newTotal + res.data[0].price;
+                                newPrices.push({
+                                    id: option.id,
+                                    value: res.data[0].price
+                                });
+                                newOptDet.push({
+                                    id: option.id,
+                                    sub: res.data[0].id,
+                                    qty: 1,
+                                    price: res.data[0].price
+                                });
                                 if (index === array.length - 1) {
-                                    bannerShop.post('/api/prices/', priceCalcObj)
-                                        .then(data => {
-                                            return data;
-                                        })
-                                        .then(res => {
-                                            newTotal = res.data.price;
-
-                                            this.setState({
-                                                total: newTotal,
-                                                priceCalc: priceCalcObj,
-                                                optionState: optionState,
-                                                loaded: true
-                                            })
-                                        }).catch(err => {
-                                            console.log(err);
-                                        })
+                                    this.setState({
+                                        prices: newPrices,
+                                        total: newTotal,
+                                        loaded: true,
+                                        optDet: newOptDet
+                                    })
                                 }
                             })
                     } else {
-                        priceCalcObj.options[option.option_name] = 1;
-                        optionState[option.option_name] = 1;
-
+                        newTotal = newTotal + option.one_unit_price;
                         new_options.push({
                             ...option,
                             sub: {
@@ -97,24 +89,18 @@ class ProductDetail extends React.Component {
                                 subOptions: []
                             }
                         })
-
+                        newOptDet.push({
+                            id: option.id,
+                            sub: null,
+                            qty: 1,
+                            price: option.one_unit_price
+                        });
                         if (index === array.length - 1) {
-                            bannerShop.post('/api/prices/', priceCalcObj)
-                                .then(data => {
-                                    return data;
-                                })
-                                .then(res => {
-                                    newTotal = res.data.price;
-
-                                    this.setState({
-                                        total: newTotal,
-                                        priceCalc: priceCalcObj,
-                                        optionState: optionState,
-                                        loaded: true
-                                    })
-                                }).catch(err => {
-                                    console.log(err);
-                                })
+                            this.setState({
+                                total: newTotal,
+                                loaded: true,
+                                optDet: newOptDet
+                            })
                         }
                     }
                 })
@@ -138,158 +124,128 @@ class ProductDetail extends React.Component {
         }
     }
 
-
-    subOptionPricer = (e) => {
-        const name = e.target[e.target.selectedIndex].getAttribute('data-name');
-        const sub = e.target[e.target.selectedIndex].getAttribute('data-sub');
-        const price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price'));
-        console.log(name, sub, price);
-        // let id = 1;
-        // let value = 0;
-        // let newTotal = 0;
-        // let sub = 0;
-        // let qty = 0;
-
-        // if (e.target.getAttribute('data-option')) {
-        //     id = parseInt(e.target.getAttribute('data-option'));
-        //     value = parseFloat(e.target.getAttribute('data-value'));
-        //     qty = parseFloat(e.target.value);
-
-        //     let newOptDet = [];
-        //     const OptDetfinded = this.state.optDet.find(p => p.id === id);
-
-        //     if (OptDetfinded) {
-        //         newOptDet = this.state.optDet.filter(p => p.id !== id);
-        //         newOptDet.push({
-        //             id: id,
-        //             sub: null,
-        //             qty: qty,
-        //             price: value
-        //         });
-        //         this.setState({
-        //             optDet: newOptDet,
-        //         });
-        //     } else {
-        //         newOptDet.push({
-        //             id: id,
-        //             sub: null,
-        //             qty: qty,
-        //             price: value
-        //         });
-        //         this.setState({
-        //             optDet: newOptDet,
-        //         });
-        //     }
-
-        //     let newPrices = [...this.state.prices];
-        //     const finded = this.state.prices.find(p => p.id === id);
-
-        //     if (finded) {
-        //         newTotal = this.state.total - value;
-        //         newPrices.push({
-        //             id: id,
-        //             value: value,
-        //             sub: sub
-        //         })
-        //     } else {
-        //         newTotal = this.state.total + value;
-
-        //         newPrices.push({
-        //             id: id,
-        //             value: value
-        //         })
-        //     }
-
-        //     this.setState({
-        //         prices: newPrices,
-        //         total: newTotal
-        //     })
-        // } else {
-        //     id = parseInt(e.target[e.target.selectedIndex].getAttribute('data-option'));
-        //     value = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-value'));
-        //     sub = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-id'));
-
-        //     let newOptDet = [];
-        //     const OptDetfinded = this.state.optDet.find(p => p.id === id);
-
-        //     if (OptDetfinded) {
-        //         newOptDet = this.state.optDet.filter(p => p.id !== id);
-        //         newOptDet.push({
-        //             id: id,
-        //             sub: sub,
-        //             qty: 1,
-        //             price: value
-        //         });
-        //         this.setState({
-        //             optDet: newOptDet,
-        //         });
-        //     } else {
-        //         newOptDet.push({
-        //             id: id,
-        //             sub: null,
-        //             qty: qty,
-        //             price: value
-        //         });
-        //         this.setState({
-        //             optDet: newOptDet,
-        //         });
-        //     }
-
-        //     let newPrices = [...this.state.prices];
-        //     const finded = this.state.prices.find(p => p.id === id);
-
-        //     if (finded) {
-        //         newTotal = (this.state.total - finded.value) + value;
-        //         newPrices.push({
-        //             id: id,
-        //             value: value,
-        //             sub: sub
-        //         })
-        //     } else {
-        //         newTotal = this.state.total + value;
-
-        //         newPrices.push({
-        //             id: id,
-        //             value: value
-        //         })
-        //     }
-
-        //     this.setState({
-        //         prices: newPrices,
-        //         total: newTotal
-        //     })
-        // }
+    onQtychange = (event) => {
+        this.setState({
+            qty: event.target.value
+        });
     }
 
-    optionChangeCalc = (e) => {
-        this.setState({
-            loaded: false,
-            total: 0
-        })
+    subOptionPricer = (e) => {
+        let id = 1;
+        let value = 0;
+        let newTotal = 0;
+        let sub = 0;
+        let qty = 0;
 
-        const name = e.target.getAttribute('data-name');
-        const value = parseInt(e.target.value);
+        if (e.target.getAttribute('data-option')) {
+            id = parseInt(e.target.getAttribute('data-option'));
+            value = parseFloat(e.target.getAttribute('data-value'));
+            qty = parseFloat(e.target.value);
 
-        const priceCalcObj = {...this.state.priceCalc};
-        const optionState = {...this.state.optionState};
-        priceCalcObj[name] = value;
-        optionState[name] = value;
+            let newOptDet = [];
+            const OptDetfinded = this.state.optDet.find(p => p.id === id);
 
-        bannerShop.post('/api/prices/', priceCalcObj)
-            .then(data => {
-                return data;
-            })
-            .then(res => {
-                const newTotal = res.data.price
+            if (OptDetfinded) {
+                newOptDet = this.state.optDet.filter(p => p.id !== id);
+                newOptDet.push({
+                    id: id,
+                    sub: null,
+                    qty: qty,
+                    price: value
+                });
                 this.setState({
-                    total: newTotal,
-                    priceCalc: priceCalcObj,
-                    optionState: optionState,
-                    loaded: true,
+                    optDet: newOptDet,
+                });
+            } else {
+                newOptDet.push({
+                    id: id,
+                    sub: null,
+                    qty: qty,
+                    price: value
+                });
+                this.setState({
+                    optDet: newOptDet,
+                });
+            }
+
+            let newPrices = [...this.state.prices];
+            const finded = this.state.prices.find(p => p.id === id);
+
+            if (finded) {
+                newTotal = this.state.total - value;
+                newPrices.push({
+                    id: id,
+                    value: value,
+                    sub: sub
                 })
-            }).catch(err => {
-                console.log(err);
+            } else {
+                newTotal = this.state.total + value;
+
+                newPrices.push({
+                    id: id,
+                    value: value
+                })
+            }
+
+            this.setState({
+                prices: newPrices,
+                total: newTotal
             })
+        } else {
+            id = parseInt(e.target[e.target.selectedIndex].getAttribute('data-option'));
+            value = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-value'));
+            sub = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-id'));
+
+            let newOptDet = [];
+            const OptDetfinded = this.state.optDet.find(p => p.id === id);
+
+            if (OptDetfinded) {
+                newOptDet = this.state.optDet.filter(p => p.id !== id);
+                newOptDet.push({
+                    id: id,
+                    sub: sub,
+                    qty: 1,
+                    price: value
+                });
+                this.setState({
+                    optDet: newOptDet,
+                });
+            } else {
+                newOptDet.push({
+                    id: id,
+                    sub: null,
+                    qty: qty,
+                    price: value
+                });
+                this.setState({
+                    optDet: newOptDet,
+                });
+            }
+
+            let newPrices = [...this.state.prices];
+            const finded = this.state.prices.find(p => p.id === id);
+
+            if (finded) {
+                newTotal = (this.state.total - finded.value) + value;
+                newPrices.push({
+                    id: id,
+                    value: value,
+                    sub: sub
+                })
+            } else {
+                newTotal = this.state.total + value;
+
+                newPrices.push({
+                    id: id,
+                    value: value
+                })
+            }
+
+            this.setState({
+                prices: newPrices,
+                total: newTotal
+            })
+        }
     }
 
     addDescHand = (e) => {
@@ -302,7 +258,7 @@ class ProductDetail extends React.Component {
 
     fileHand = (e) => {
         this.setState({
-            file: e.target.files[0]
+           file: e.target.files[0]
         });
     }
 
@@ -360,7 +316,7 @@ class ProductDetail extends React.Component {
                                 {this.state.detail.product_name}
                             </h4>
                             <span className="m-text17">
-                                ${this.state.total}
+                                ${this.state.total * this.state.qty}
                             </span>
                             <div className="p-b-15" style={{ marginTop: '10px' }}>
                                 <span className="s-text8 m-r-35">Item No: R002</span><br />
@@ -376,8 +332,8 @@ class ProductDetail extends React.Component {
                                     </div>
                                     <div className="bo4 of-hidden size15 m-b-20">
                                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                                            defaultValue={this.state.optionState["quantity"]} data-name="quantity"
-                                            onBlur={this.optionChangeCalc}
+                                            value={this.state.qty}
+                                            onChange={this.onQtychange}
                                         />
                                     </div>
                                 </div>
@@ -393,10 +349,11 @@ class ProductDetail extends React.Component {
                                                         style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
                                                         onChange={this.subOptionPricer}
                                                     >
-                                                        {option.sub.subOptions.map((subOption, index) => {
+                                                        {option.sub.subOptions.map(subOption => {
                                                             return (
-                                                                <option value={this.state.optionState[option.option_name].id} key={subOption.id}
-                                                                    data-name={option.option_name} data-price={subOption.price} data-sub={subOption.name}
+                                                                <option value={option.id} key={subOption.id}
+                                                                    data-option={option.id} data-value={subOption.price}
+                                                                    id={subOption.id}
                                                                 >
                                                                     {subOption.name}
                                                                 </option>)
@@ -405,8 +362,7 @@ class ProductDetail extends React.Component {
 
                                                 ) : (
                                                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number" onChange={this.subOptionPricer}
-                                                            defaultValue={this.state.optionState[option.option_name]} data-name={option.option_name}
-                                                            onBlur={this.optionChangeCalc}
+                                                            defaultValue="1" data-option={option.id} data-value={option.one_unit_price}
                                                         />
                                                     )}
                                             </div>
