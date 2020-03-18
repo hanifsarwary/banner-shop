@@ -367,7 +367,20 @@ class ProductDetail extends React.Component {
                                     ></textarea>
                                 </div>
 
-                                
+                                {/* <div className="flex-m flex-w p-b-10 mt-3">
+                                    <div className="s-text15 mb-2">
+                                        File:
+                                    </div>
+                                    {this.state.required ? (
+                                        <span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+                                    ) : ('')}
+                                    <div className="bo4 of-hidden size15 m-b-20">
+                                        <input className="sizefull s-text7" type="file"
+                                            style={{ padding: '10px' }}
+                                            onChange={this.fileHand}
+                                        />
+                                    </div>
+                                </div> */}
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
                                     {this.state.cartAdd ? (
