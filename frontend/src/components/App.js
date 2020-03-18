@@ -10,6 +10,8 @@ import SignUp from './SignUp';
 import Category from './Category';
 import Product from './Product';
 import Cart from './Cart';
+import About from './About';
+import Contact from './Contact';
 import './App.css';
 
 class App extends React.Component {
@@ -71,6 +73,12 @@ class App extends React.Component {
           </Route>
           <Route path="/product/:id" exact>
             <Product />
+          </Route>
+          <Route path="/about" exact>
+            <About />
+          </Route>
+          <Route path="/contact" exact>
+            <Contact />
           </Route>
           <Route path="/auth/login" exact>
             <Login 
