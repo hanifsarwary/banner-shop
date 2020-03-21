@@ -24,15 +24,15 @@ class CalculatePriceViewSet(APIView):
                         percentage_temp_arr.append(request.data.get('options').get(oq.option_name))
                 elif oq.option_type == OPTION_FLAT_RATE:
                     if oq.is_suboptions:
-                        total_price = request.data.get('options').get(oq.option_name)[1]
+                        total_price = total_price + request.data.get('options').get(oq.option_name)[1]
                     else:
-                        total_price = request.data.get('options').get(oq.option_name, 0)
+                        total_price = total_price + request.data.get('options').get(oq.option_name, 0)
                 
                 else:
                     if oq.is_suboptions:
-                        total_price = quantity * request.data.get('options').get(oq.option_name)[1]
+                        total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
                     else:
-                        total_price = quantity * request.data.get('options').get(oq.option_name, 0)
+                        total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
             
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)     
