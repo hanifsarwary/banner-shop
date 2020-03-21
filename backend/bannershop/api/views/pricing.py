@@ -30,7 +30,10 @@ class CalculatePriceViewSet(APIView):
                 
                 else:
                     if oq.is_suboptions:
-                        total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
+                        if request.data.get('options').get(oq.option_name):
+                            total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
+                        else:
+                            print(oq.option_name)
                     else:
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
             
