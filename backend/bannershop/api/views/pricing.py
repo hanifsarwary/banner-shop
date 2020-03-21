@@ -10,12 +10,12 @@ class CalculatePriceViewSet(APIView):
         product_name = request.data.get('product_name')
         product = Product.objects.filter(pk=product_id).first()
         option_queryset = Option.objects.filter(product=product)
-        print(request.data)
         quantity = request.data.get('quantity', 1)
         total_price = 0
         if product.price_type == PRODUCT_PER_SQFT:
             total_price = product.price_details['price'] * quantity * request.data.get('options').get('Width', 1)* request.data.get('options').get('Height')
             total_price = product.price_details.get('setup_cost', 0)
+            print("first---", total_price)
             percentage_temp_arr = []
             for oq in option_queryset:
                 if oq.option_type == OPTION_PERCENTAGE:
@@ -28,6 +28,7 @@ class CalculatePriceViewSet(APIView):
                     if oq.is_suboptions:
                         if request.data.get('options').get(oq.option_name):
                             total_price = total_price + request.data.get('options').get(oq.option_name)[1]
+                            print("second---", total_price)
                     else:
                         total_price = total_price + request.data.get('options').get(oq.option_name, 0)
                 
@@ -35,11 +36,11 @@ class CalculatePriceViewSet(APIView):
                     if oq.is_suboptions:
                         if request.data.get('options').get(oq.option_name):
                             total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
-                        else:
-                            print(oq.option_name)
+                            print("third---", total_price)
                     else:
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
             
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)     
+            print("final---", total_price)
         return Response({"price": total_price})
