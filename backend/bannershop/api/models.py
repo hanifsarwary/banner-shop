@@ -92,7 +92,7 @@ class SubOption(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.name + ' ---- ' + self.option.__str__()
+        return self.sub_option_name + ' ---- ' + self.option.__str__()
 
 
 class Customer(models.Model):
