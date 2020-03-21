@@ -33,5 +33,7 @@ class CalculatePriceViewSet(APIView):
                         total_price = quantity * request.data.get('options').get(oq.option_name)[1]
                     else:
                         total_price = quantity * request.data.get('options').get(oq.option_name, 0)
-                    
+            
+            for i in percentage_temp_arr:
+                total_price = total_price + total_price * (i / 100)     
         return Response({"price": total_price})
