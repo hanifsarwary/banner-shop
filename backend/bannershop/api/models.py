@@ -84,7 +84,7 @@ class Option(models.Model):
 class SubOption(models.Model):
     option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
 
-    sub_option_name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64)
     price = models.FloatField(default=0)
     is_deleted = models.BooleanField(default=False)
 
@@ -92,7 +92,7 @@ class SubOption(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.sub_option_name + ' ---- ' + self.option.__str__()
+        return self.name + ' ---- ' + self.option.__str__()
 
 
 class Customer(models.Model):
