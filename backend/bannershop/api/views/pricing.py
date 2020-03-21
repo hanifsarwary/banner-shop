@@ -21,6 +21,7 @@ class CalculatePriceViewSet(APIView):
                 if oq.option_type == OPTION_PERCENTAGE:
                     if oq.is_suboptions:
                         if request.data.get('options').get(oq.option_name):
+                            print(oq.option_name, '-----', request.data.get('options').get(oq.option_name))
                             percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 1)[1])
                     else:
                         percentage_temp_arr.append(request.data.get('options').get(oq.option_name))
