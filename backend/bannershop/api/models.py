@@ -69,6 +69,7 @@ class Option(models.Model):
 
     option_name = models.CharField(max_length=64)
     price_unit = models.PositiveIntegerField(default=1)
+    option_type = models.IntegerField(choices=OPTION_TYPES, default=OPTION_QUANTITY_BASED)
 
     is_deleted = models.BooleanField(default=False)
     is_suboptions = models.BooleanField(default=False)
