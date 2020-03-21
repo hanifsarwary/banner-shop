@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop';
 import CategorySideBar from './CategorySideBar'
 import CategoryProducts from './CategoryProducts'
@@ -11,7 +12,9 @@ class Category extends React.Component {
     }
 
     componentDidMount() {
-        bannerShop.get('/api/products/')
+        const id = this.props.match.params.id;
+
+        bannerShop.get(`/api/products/`)
             .then((res) => {
                 if (res.status === 200) {
                     this.setState({
@@ -50,4 +53,4 @@ class Category extends React.Component {
 
 }
 
-export default Category;
+export default withRouter(Category);

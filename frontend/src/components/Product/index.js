@@ -16,7 +16,8 @@ class ProductDetail extends React.Component {
         addDesc: '',
         file: {},
         priceCalc: {},
-        optionState: {}
+        optionState: {},
+        change: {}
     }
 
     componentDidMount() {
@@ -138,6 +139,22 @@ class ProductDetail extends React.Component {
         }
     }
 
+    changeHand = (e) => {
+        const value = parseInt(e.target.value);
+        const name = e.target.getAttribute('data-name');
+        const optionState = {...this.state.optionState};
+
+        if(value <= 0) {
+            this.setState({
+                optionState: optionState,
+            })
+        } else {
+            optionState[name] = value;
+            this.setState({
+                optionState: optionState,
+            })
+        }
+    }
 
     subOptionPricer = (e) => {
         this.setState({
@@ -295,8 +312,8 @@ class ProductDetail extends React.Component {
                                     </div>
                                     <div className="bo4 of-hidden size15 m-b-20">
                                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                                            defaultValue={this.state.optionState["quantity"]} data-name="quantity"
-                                            onBlur={this.optionChangeCalc}
+                                            value={this.state.optionState["quantity"]} data-name="quantity"
+                                            onBlur={this.optionChangeCalc} onChange={this.changeHand}
                                         />
                                     </div>
                                 </div>
@@ -327,8 +344,8 @@ class ProductDetail extends React.Component {
 
                                                 ) : (
                                                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                                                            defaultValue={this.state.optionState[option.option_name]} data-name={option.option_name}
-                                                            onBlur={this.optionChangeCalc}
+                                                            value={this.state.optionState[option.option_name]} data-name={option.option_name}
+                                                            onBlur={this.optionChangeCalc} onChange={this.changeHand}
                                                         />
                                                     )}
                                             </div>
@@ -350,7 +367,7 @@ class ProductDetail extends React.Component {
                                     ></textarea>
                                 </div>
 
-                                <div className="flex-m flex-w p-b-10 mt-3">
+                                {/* <div className="flex-m flex-w p-b-10 mt-3">
                                     <div className="s-text15 mb-2">
                                         File:
                                     </div>
@@ -363,7 +380,7 @@ class ProductDetail extends React.Component {
                                             onChange={this.fileHand}
                                         />
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
                                     {this.state.cartAdd ? (
