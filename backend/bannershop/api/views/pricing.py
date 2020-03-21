@@ -39,7 +39,7 @@ class CalculatePriceViewSet(APIView):
                             print("third---", total_price)
                     else:
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
-            
+            print(percentage_temp_arr)
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)     
             print("final---", total_price)
