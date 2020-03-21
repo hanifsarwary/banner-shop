@@ -10,6 +10,7 @@ class CalculatePriceViewSet(APIView):
         product_name = request.data.get('product_name')
         product = Product.objects.filter(pk=product_id).first()
         option_queryset = Option.objects.filter(product=product)
+        print(request.data)
         quantity = request.data.get('quantity', 1)
         total_price = 0
         if product.price_type == PRODUCT_PER_SQFT:
