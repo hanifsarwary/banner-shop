@@ -18,19 +18,20 @@ class CalculatePriceViewSet(APIView):
             print("first---", total_price)
         if product.price_type == PRODUCT_VARIABLE_PER_QUANTITY:
             for k in product.price_details:
-                if quantity in range(k[0], k[1]):
+                
+                if quantity in range(int(k.split('-')[0]), int(k.split('-')[1])):
                     total_price = quantity * product.price_details.get(k)    
 
         percentage_temp_arr = []
         for oq in option_queryset:
-            if oq.option_type == OPTION_PERCENTAGE:
+            if oq.option_type == OPTION_PERCENTAGE and not oq.is_deleted:
                 if oq.is_suboptions:
                     if request.data.get('options').get(oq.option_name):
                         print(oq.option_name, '-----', request.data.get('options').get(oq.option_name))
                         percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 1)[1])
                 else:
                     percentage_temp_arr.append(request.data.get('options').get(oq.option_name))
-            elif oq.option_type == OPTION_FLAT_RATE:
+            elif oq.option_type == OPTION_FLAT_RATE and not oq.is_deleted:
                 if oq.is_suboptions:
                     if request.data.get('options').get(oq.option_name):
                         total_price = total_price + request.data.get('options').get(oq.option_name)[1]
