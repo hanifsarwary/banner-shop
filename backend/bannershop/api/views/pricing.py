@@ -10,10 +10,10 @@ class CalculatePriceViewSet(APIView):
         product_name = request.data.get('product_name')
         product = Product.objects.filter(pk=product_id).first()
         option_queryset = Option.objects.filter(product=product)
-        quantity = request.data.get('quantity', 1)
+        quantity = request.data['options'].pop('Quantity')
         total_price = 0
         if product.price_type == PRODUCT_PER_SQFT:
-            total_price = product.price_details['price'] * quantity * request.data.get('options').get('Width', 1)* request.data.get('options').get('Height')
+            total_price = product.price_details['price'] * quantity * request.data.get('options').get('Width', 1) * request.data.get('options').get('Height')
             total_price = product.price_details.get('setup_cost', 0)
             print("first---", total_price)
         if product.price_type == PRODUCT_VARIABLE_PER_QUANTITY:
