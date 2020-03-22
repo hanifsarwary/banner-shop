@@ -19,7 +19,7 @@ class CalculatePriceViewSet(APIView):
         if product.price_type == PRODUCT_VARIABLE_PER_QUANTITY:
             print(product.price_details)
             for k in product.price_details:
-                if quantity >= int(k.split('-')[0] and quantity <= int(k.split('-')[1])):
+                if quantity >= int(k.split('-')[0]) and quantity <= int(k.split('-')[1]):
                     total_price = quantity * product.price_details.get(k)
                     break
 
