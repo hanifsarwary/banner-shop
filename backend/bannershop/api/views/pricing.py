@@ -21,7 +21,7 @@ class CalculatePriceViewSet(APIView):
             for k in product.price_details:
                 if quantity >= int(k.split('-')[0] and quantity <= int(k.split('-')[1])):
                     total_price = quantity * product.price_details.get(k)
-                    print(k, quantity)    
+                    break
 
         percentage_temp_arr = []
         for oq in option_queryset:
