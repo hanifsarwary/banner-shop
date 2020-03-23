@@ -17,116 +17,120 @@ class ProductDetail extends React.Component {
         file: {},
         priceCalc: {},
         optionState: {},
-        change: {}
+        change: {},
+        quantity: {}
     }
 
-    componentDidMount() {
-        const id = this.props.match.params.id;
-        const priceCalcObj = {};
-        priceCalcObj.product_id = parseInt(id);
-        priceCalcObj.quantity = 1;
+    async componentDidMount() {
+        try {
+            const id = this.props.match.params.id;
+            const priceCalcObj = {};
+            priceCalcObj.product_id = parseInt(id);
 
-        bannerShop.get(`/api/products/${id}`)
-            .then((res) => {
-                if (res.status === 200) {
-                    priceCalcObj.product_name = res.data.product_name;
-                    this.setState({
-                        detail: res.data,
-                        total: res.data.one_unit_weight
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            const productsRes = await bannerShop.get(`/api/products/${id}`);
 
-        bannerShop.get(`/api/products/${id}/options`)
-            .then((res) => {
-                return res;
-            })
-            .then((opt) => {
-                const new_options = [];
-                let newTotal = 0;
-                priceCalcObj.options = {};
-                const optionState = {};
-                optionState["quantity"] = 1;
+            if (productsRes.status === 200) {
+                priceCalcObj.product_name = productsRes.data.product_name;
 
-                opt.data.forEach((option, index, array) => {
+                this.setState({
+                    detail: productsRes.data,
+                    total: productsRes.data.one_unit_weight
+                });
+            }
+
+            const optRes = await bannerShop.get(`/api/products/${id}/options`);
+            const optData = await optRes;
+            const options = optData.data;
+
+            const new_options = [];
+            let newTotal = 0;
+            priceCalcObj.options = {};
+            const optionState = {};
+            let quantity = {};
+
+            for (let index = 0; index < options.length; index++) {
+                await new Promise(async (next) => {
+                    const option = options[index];
                     if (option.is_suboptions) {
-                        bannerShop.get(`/api/products/${id}/options/${option.id}/sub-options/`)
-                            .then((res) => {
-                                priceCalcObj.options[option.option_name] = [res.data[0].name, res.data[0].price];
-                                optionState[option.option_name] = {};
-                                optionState[option.option_name].id = res.data[0].id;
-                                optionState[option.option_name].name = res.data[0].name;
+                        const res = await bannerShop.get(`/api/products/${id}/options/${option.id}/sub-options/`)
 
-                                new_options.push({
-                                    ...option,
-                                    sub: {
-                                        optionId: option.id,
-                                        subOptions: res.data
-                                    }
-                                })
+                        priceCalcObj.options[option.option_name] = [res.data[0].name, res.data[0].price];
+                        optionState[option.option_name] = {};
+                        optionState[option.option_name].id = res.data[0].id;
+                        optionState[option.option_name].name = res.data[0].name;
 
-                                if (index === array.length - 1) {
-                                    bannerShop.post('/api/prices/', priceCalcObj)
-                                        .then(data => {
-                                            return data;
-                                        })
-                                        .then(res => {
-                                            newTotal = res.data.price;
-
-                                            this.setState({
-                                                total: newTotal,
-                                                priceCalc: priceCalcObj,
-                                                optionState: optionState,
-                                                loaded: true
-                                            })
-                                        }).catch(err => {
-                                            console.log(err);
-                                        })
+                        if (option.option_name === 'Quantity') {
+                            quantity = {
+                                ...option,
+                                sub: {
+                                    optionId: option.id,
+                                    subOptions: res.data
+                                }
+                            };
+                        } else {
+                            new_options.push({
+                                ...option,
+                                sub: {
+                                    optionId: option.id,
+                                    subOptions: res.data
                                 }
                             })
+                        }
+
+                        if (index === options.length - 1) {
+                            const price = await bannerShop.post('/api/prices/', priceCalcObj);
+                            const priceData = await price;
+
+                            newTotal = priceData.data.price;
+
+                            this.setState({
+                                total: newTotal,
+                                priceCalc: priceCalcObj,
+                                optionState: optionState,
+                                quantity: quantity,
+                                loaded: true
+                            })
+                        }
                     } else {
                         priceCalcObj.options[option.option_name] = 1;
                         optionState[option.option_name] = 1;
 
-                        new_options.push({
-                            ...option,
-                            sub: {
-                                optionId: option.id,
-                                subOptions: []
-                            }
-                        })
+                        if (option.option_name === 'Quantity') {
+                            quantity = { ...option };
+                        } else {
+                            new_options.push({
+                                ...option,
+                                sub: {
+                                    optionId: option.id,
+                                    subOptions: []
+                                }
+                            })
+                        }
 
-                        if (index === array.length - 1) {
-                            bannerShop.post('/api/prices/', priceCalcObj)
-                                .then(data => {
-                                    return data;
-                                })
-                                .then(res => {
-                                    newTotal = res.data.price;
+                        if (index === options.length - 1) {
+                            const price = await bannerShop.post('/api/prices/', priceCalcObj);
+                            const priceData = await price;
+                            newTotal = priceData.data.price;
 
-                                    this.setState({
-                                        total: newTotal,
-                                        priceCalc: priceCalcObj,
-                                        optionState: optionState,
-                                        loaded: true
-                                    })
-                                }).catch(err => {
-                                    console.log(err);
-                                })
+                            this.setState({
+                                total: newTotal,
+                                priceCalc: priceCalcObj,
+                                optionState: optionState,
+                                quantity: quantity,
+                                loaded: true
+                            })
                         }
                     }
-                })
-
-                this.setState({
-                    options: new_options,
+                    next();
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+            }
+
+            this.setState({
+                options: new_options,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     componentDidUpdate() {
@@ -142,9 +146,9 @@ class ProductDetail extends React.Component {
     changeHand = (e) => {
         const value = parseInt(e.target.value);
         const name = e.target.getAttribute('data-name');
-        const optionState = {...this.state.optionState};
+        const optionState = { ...this.state.optionState };
 
-        if(value <= 0) {
+        if (value <= 0) {
             this.setState({
                 optionState: optionState,
             })
@@ -167,8 +171,8 @@ class ProductDetail extends React.Component {
         const price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price'));
         const id = parseInt(e.target[e.target.selectedIndex].getAttribute('data-id'));
 
-        const priceCalcObj = {...this.state.priceCalc};
-        const optionState = {...this.state.optionState};
+        const priceCalcObj = { ...this.state.priceCalc };
+        const optionState = { ...this.state.optionState };
         priceCalcObj.options[name] = [sub, price];
         optionState[name].id = id;
         optionState[name].name = sub;
@@ -199,10 +203,10 @@ class ProductDetail extends React.Component {
         const name = e.target.getAttribute('data-name');
         const value = parseInt(e.target.value);
 
-        const priceCalcObj = {...this.state.priceCalc};
-        const optionState = {...this.state.optionState};
+        const priceCalcObj = { ...this.state.priceCalc };
+        const optionState = { ...this.state.optionState };
 
-        if(name === "quantity") {
+        if (name === "quantity") {
             priceCalcObj[name] = value;
         } else {
             priceCalcObj.options[name] = value;
@@ -256,8 +260,7 @@ class ProductDetail extends React.Component {
                 imgURL: this.state.detail.default_product_image,
                 price: this.state.total,
                 qty: this.state.qty,
-                special_note: this.state.addDesc,
-                file: this.state.file
+                special_note: this.state.addDesc
             }
 
             item.productOrderOptions = this.state.optDet;
@@ -270,18 +273,37 @@ class ProductDetail extends React.Component {
                 cart = JSON.parse(localStorage.getItem('cart'));
             }
 
-            cart.cartItems.push(item);
-            cart.total = cart.total + this.state.total;
-            localStorage.setItem('cart', JSON.stringify(cart));
-            this.setState({
-                cartAdd: true
-            });
+            this.getBase64(this.state.file)
+                .then(base64 => {
+                    item.file = base64;
+
+                    cart.cartItems.push(item);
+                    cart.total = cart.total + this.state.total;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+
+                    this.setState({
+                        cartAdd: true
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
         }
+    }
+
+    getBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
     }
 
     render() {
         console.log(this.state);
-        
+
         if (this.state.loaded) {
             return (
                 <div className="container bgwhite p-t-35 p-b-80">
@@ -310,12 +332,30 @@ class ProductDetail extends React.Component {
                                     <div className="s-text15 mb-2">
                                         Quantity:
                                     </div>
-                                    <div className="bo4 of-hidden size15 m-b-20">
-                                        <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                                            value={this.state.optionState["quantity"]} data-name="quantity"
-                                            onBlur={this.optionChangeCalc} onChange={this.changeHand}
-                                        />
-                                    </div>
+                                    {this.state.quantity.is_suboptions ? (
+                                        <select className="selection-2" name="size"
+                                            style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
+                                            onChange={this.subOptionPricer} value={this.state.optionState[this.state.quantity.option_name].id}
+                                        >
+                                            {this.state.quantity.sub.subOptions.map(subOption => {
+                                                return (
+                                                    <option key={subOption.id} value={subOption.id}
+                                                        data-name={this.state.quantity.option_name} data-price={subOption.price} data-sub={subOption.name}
+                                                        data-id={subOption.id}
+                                                    >
+                                                        {subOption.name}
+                                                    </option>
+                                                )
+                                            })}
+                                        </select>
+                                    ) : (
+                                            <div className="bo4 of-hidden size15 m-b-20">
+                                                <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
+                                                    value={this.state.optionState["Quantity"]} data-name="Quantity"
+                                                    onBlur={this.optionChangeCalc} onChange={this.changeHand}
+                                                />
+                                            </div>
+                                        )}
                                 </div>
                                 {this.state.options.map((option) => {
                                     let value = this.state.optionState[option.option_name].id;
@@ -334,7 +374,7 @@ class ProductDetail extends React.Component {
                                                             return (
                                                                 <option key={subOption.id} value={subOption.id}
                                                                     data-name={option.option_name} data-price={subOption.price} data-sub={subOption.name}
-                                                                    data-id={subOption.id} 
+                                                                    data-id={subOption.id}
                                                                 >
                                                                     {subOption.name}
                                                                 </option>
@@ -367,7 +407,7 @@ class ProductDetail extends React.Component {
                                     ></textarea>
                                 </div>
 
-                                {/* <div className="flex-m flex-w p-b-10 mt-3">
+                                <div className="flex-m flex-w p-b-10 mt-3">
                                     <div className="s-text15 mb-2">
                                         File:
                                     </div>
@@ -380,7 +420,7 @@ class ProductDetail extends React.Component {
                                             onChange={this.fileHand}
                                         />
                                     </div>
-                                </div> */}
+                                </div>
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">
                                     {this.state.cartAdd ? (
