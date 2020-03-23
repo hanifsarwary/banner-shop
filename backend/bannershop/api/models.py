@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
+from api.constants import *
 import uuid
 
 class Category(models.Model):
@@ -33,12 +35,20 @@ class Coupon(models.Model):
 
 
 class Product(models.Model):
+    PRICE_TYPES = (
+        ( PRODUCT_PER_SQFT, 'Charge per square foor'),
+        (PRODUCT_VARIABLE_PER_QUANTITY, 'Charge with quantity range'),
+        (PRODUCT_FIXED_PER_QUANTITY, 'Fixed charge for fixed quantity')
+    )
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True)
 
     default_product_image = models.FileField(null=True, blank=True, upload_to='images/products/')
     one_unit_weight = models.FloatField(default=0)
     weight_unit = models.PositiveIntegerField(default=1)
+    price_type = models.IntegerField(choices=PRICE_TYPES, default=PRODUCT_PER_SQFT)
+    price_details = JSONField(null=True)
     product_name = models.CharField(max_length=128)
+
 
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
@@ -52,11 +62,14 @@ class Product(models.Model):
 
 
 class Option(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    OPTION_TYPES = ((OPTION_FLAT_RATE, 'Flat Rate'),
+                    (OPTION_PERCENTAGE, 'Percentage'),
+                    (OPTION_QUANTITY_BASED, 'quantity Based'))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
-    one_unit_price = models.FloatField(null=True, blank=True)
     option_name = models.CharField(max_length=64)
     price_unit = models.PositiveIntegerField(default=1)
+    option_type = models.IntegerField(choices=OPTION_TYPES, default=OPTION_QUANTITY_BASED)
 
     is_deleted = models.BooleanField(default=False)
     is_suboptions = models.BooleanField(default=False)
@@ -69,7 +82,7 @@ class Option(models.Model):
 
 
 class SubOption(models.Model):
-    option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=64)
     price = models.FloatField(default=0)
@@ -137,9 +150,9 @@ class ProductOrder(models.Model):
 
 class ProductOrderOption(models.Model):
 
-    product_order = models.ForeignKey(ProductOrder,related_name='product_order_options', on_delete=models.DO_NOTHING)
-    option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
-    sub_option = models.ForeignKey(SubOption, on_delete=models.DO_NOTHING, null=True, blank=True)
+    product_order = models.ForeignKey(ProductOrder,related_name='product_order_options', on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     price = models.FloatField(null=True, blank=True)
 
