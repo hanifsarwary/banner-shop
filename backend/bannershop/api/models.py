@@ -150,9 +150,9 @@ class ProductOrder(models.Model):
 
 class ProductOrderOption(models.Model):
 
-    product_order = models.ForeignKey(ProductOrder,related_name='product_order_options', on_delete=models.DO_NOTHING)
-    option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
-    sub_option = models.ForeignKey(SubOption, on_delete=models.DO_NOTHING, null=True, blank=True)
+    product_order = models.ForeignKey(ProductOrder,related_name='product_order_options', on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     price = models.FloatField(null=True, blank=True)
 
