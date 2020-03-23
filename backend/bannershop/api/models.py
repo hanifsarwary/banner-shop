@@ -65,7 +65,7 @@ class Option(models.Model):
     OPTION_TYPES = ((OPTION_FLAT_RATE, 'Flat Rate'),
                     (OPTION_PERCENTAGE, 'Percentage'),
                     (OPTION_QUANTITY_BASED, 'quantity Based'))
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     option_name = models.CharField(max_length=64)
     price_unit = models.PositiveIntegerField(default=1)
@@ -82,7 +82,7 @@ class Option(models.Model):
 
 
 class SubOption(models.Model):
-    option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=64)
     price = models.FloatField(default=0)
