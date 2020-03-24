@@ -7,22 +7,30 @@ class Login extends React.Component {
 	state = {
 		email: '',
 		password: '',
-		logged: false,
+		valid: true,
+		logged: false
 	}
 
 	onLogin = () => {
 		this.props.onLogin();
 	}
 
-	loginHandler = () => {
-		this.setState({
-			logged: true
-		});
-		bannerShop.post('/auth/token/obtain/', {
-			username: this.state.email,
-			password: this.state.password
-		})
-			.then((res) => {
+	loginHandler = async () => {
+		try {
+			if (this.state.email === '' || this.state.password === '') {
+				this.setState({
+					valid: false
+				});
+			} else {
+				this.setState({
+					logged: true
+				});
+
+				const res = await bannerShop.post('/auth/token/obtain/', {
+					username: this.state.email,
+					password: this.state.password
+				})
+
 				if (res.status === 200) {
 					const token = res.data.token;
 					localStorage.setItem('token', token);
@@ -30,16 +38,17 @@ class Login extends React.Component {
 					this.setState({
 						logged: false
 					});
-					if(this.props.previousPath === '/shop/cart') {
+
+					if (this.props.previousPath === '/shop/cart') {
 						this.props.history.push('/shop/cart');
 					} else {
 						this.props.history.push('/');
 					}
 				}
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	onEmailChange = (e) => {
@@ -65,21 +74,39 @@ class Login extends React.Component {
 									Login to continue
 								</h4>
 
+								{this.state.required ? (
+									<span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+								) : ('')}
 								<div className="bo4 of-hidden size15 m-b-20">
 									<input className="sizefull s-text7 p-l-22 p-r-22" type="input" name="email" placeholder="Enter your email"
+										value={this.state.email}
 										onChange={this.onEmailChange}
 									/>
 								</div>
 
+								{this.state.required ? (
+									<span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+								) : ('')}
 								<div className="bo4 of-hidden size15 m-b-20">
 									<input className="sizefull s-text7 p-l-22 p-r-22" type="password" name="password" placeholder="Enter your password"
+										value={this.state.password}
 										onChange={this.onPasswordChange}
 									/>
 								</div>
 
-								<div className="size10 m-b-5" style={{ width: '100%' }}>
-									<span className="m-r-5">Not Yet Register:</span>
-									<Link to="/auth/signup" className="s-text7">Click Here</Link>
+								<div className="m-b-5" style={{ width: '100%' }}>
+									<span className="m-r-5">New User? : </span>
+									<Link to="/auth/signup" className="s-text7">
+										<span style={{ fontSize: '14px' }}>Click here to create an account</span>
+									</Link>
+								</div>
+
+								<div className="m-b-5" style={{ width: '100%' }}>
+									{!this.state.valid ? (
+										<span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>Email and Password is required</span>
+									) : (
+											""
+										)}
 								</div>
 
 								<div className="w-size25">

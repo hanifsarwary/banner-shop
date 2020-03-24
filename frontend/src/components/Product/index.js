@@ -408,7 +408,7 @@ class ProductDetail extends React.Component {
                                 </div>
 
                                 <div className="flex-m flex-w p-b-10 mt-3">
-                                    <div className="s-text15 mb-2">
+                                    {/* <div className="s-text15 mb-2">
                                         File:
                                     </div>
                                     {this.state.required ? (
@@ -419,7 +419,7 @@ class ProductDetail extends React.Component {
                                             style={{ padding: '10px' }}
                                             onChange={this.fileHand}
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 <div className="flex-r-m flex-w p-t-10 p-b-40">

@@ -16,12 +16,12 @@ const HeaderTopBar = () => {
             </div>
 
             <span className="topbar-child1">
-                Hotline: (415)682-7777, (650)993-6191
+                
             </span>
 
             <div className="topbar-child2">
                 <span className="topbar-email">
-                    sales@bannershopusa.com
+                    
 				</span>
             </div>
         </div>
