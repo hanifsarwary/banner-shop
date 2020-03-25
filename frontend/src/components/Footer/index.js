@@ -8,7 +8,7 @@ const Footer = () => {
                     <h4 className="s-text12 p-b-30">location</h4>
                     <div>
                         <p className="s-text7 w-size27">
-                        2501 Taraval St San Francisco, CA 94116
+                        
                         </p>
                         <div className="flex-m p-t-30">
                             <a href="/" className="fs-18 color1 p-r-20 fa fa-facebook">
@@ -120,8 +120,8 @@ const Footer = () => {
                         PHONE
 				    </h4>
                     <p className="s-text7 w-size27">
-                    Tel: (415)682-7777 <br />
-                    Fax: (415)682-5577
+                    {/* Tel: (415)682-7777 <br />
+                    Fax: (415)682-5577 */}
                     </p>
                     
                 </div>
@@ -129,7 +129,7 @@ const Footer = () => {
 
             <div className="t-center p-l-15 p-r-15">
                 <div className="t-center s-text8 p-t-20">
-                    Copyright © 2020 All rights reserved by Bannershopusa
+                    Copyright © 2020 All rights reserved by 4colorclub
                 </div>
             </div>
         </footer>
