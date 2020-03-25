@@ -3,13 +3,6 @@ from rest_framework.serializers import ModelSerializer
 from api.models import Product, Option, SubOption
 
 
-class ProductSerializer(ModelSerializer):
-    class Meta:
-        model = Product
-        fields = '__all__'
-        depth = 2
-
-
 class OptionSerializer(ModelSerializer):
     class Meta:
         model = Option
@@ -19,4 +12,12 @@ class OptionSerializer(ModelSerializer):
 class SubOptionSerializer(ModelSerializer):
     class Meta:
         model = SubOption
+        fields = '__all__'
+
+
+class ProductSerializer(ModelSerializer):
+    option_set = OptionSerializer(many=True)
+    
+    class Meta:
+        model = Product
         fields = '__all__'
