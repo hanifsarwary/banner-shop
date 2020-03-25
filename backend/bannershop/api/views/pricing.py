@@ -12,6 +12,7 @@ class CalculatePriceViewSet(APIView):
         option_queryset = Option.objects.filter(product=product)
         quantity = 0
         total_price = 0
+        basic_price = 0
         if product.price_type == PRODUCT_PER_SQFT:
             quantity = request.data['options'].pop('Quantity')
             total_price = product.price_details['price'] * quantity * request.data.get('options').pop('Width', 1) * request.data.get('options').pop('Height')
@@ -24,8 +25,9 @@ class CalculatePriceViewSet(APIView):
                     break
 
         percentage_temp_arr = []
+        basic_percentage_temp_arr = []
         for oq in option_queryset:
-            if oq.option_type == OPTION_PERCENTAGE and not oq.is_deleted:
+            if oq.option_type == OPTION_ACCUMULATIVE_PERCENTAGE and not oq.is_deleted:
                 if oq.is_suboptions:
                     if request.data.get('options').get(oq.option_name):
                         percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 1)[1])
@@ -37,13 +39,23 @@ class CalculatePriceViewSet(APIView):
                         total_price = total_price + request.data.get('options').get(oq.option_name)[1]
                 else:
                     total_price = total_price + request.data.get('options').get(oq.option_name, 0)
-        
+
+            elif oq.option_type == OPTION_BASIC_PERCENTAGE and not oq.is_deleted:
+                if oq.is_suboptions:
+                    if request.data.get('options').get(oq.option_name):
+                        basic_percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 1)[1])
+                else:
+                    basic_percentage_temp_arr.append(request.data.get('options').get(oq.option_name))
+
             else:
                 if oq.is_suboptions:
                     if request.data.get('options').get(oq.option_name):
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
                 else:
                     total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
+        total_price = basic_price
+        for i in basic_percentage_temp_arr:
+            total_price = total_price + basic_price * (i / 100)    
         for i in percentage_temp_arr:
             total_price = total_price + total_price * (i / 100)     
         return Response({"price": total_price})
