@@ -24,7 +24,7 @@ class CalculatePriceViewSet(APIView):
                     basic_price = quantity * product.price_details.get(k)
                     break
             total_price = basic_price
-            
+        print(total_price)
         percentage_temp_arr = []
         basic_percentage_temp_arr = []
         for oq in option_queryset:
@@ -54,9 +54,10 @@ class CalculatePriceViewSet(APIView):
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
                 else:
                     total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
-        
+        print(total_price)
         for i in basic_percentage_temp_arr:
             total_price = total_price + basic_price * (i / 100)    
         for i in percentage_temp_arr:
-            total_price = total_price + total_price * (i / 100)     
+            total_price = total_price + total_price * (i / 100)  
+        print(total_price)   
         return Response({"price": total_price})
