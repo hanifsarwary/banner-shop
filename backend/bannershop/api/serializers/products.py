@@ -23,7 +23,7 @@ class SubOptionSerializer(ModelSerializer):
 
 
 class OptionDetailSerializer(ModelSerializer):
-    sub_option_set = SubOptionSerializer(many=True)
+    suboption_set = SubOptionSerializer(many=True)
     class Meta:
         model = Option
         fields = '__all__'
