@@ -6,7 +6,7 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpda
 from rest_framework.response import Response
 
 from api.models import Product, Option, SubOption
-from api.serializers.products import ProductSerializer, OptionSerializer, SubOptionSerializer
+from api.serializers.products import ProductSerializer, OptionSerializer, SubOptionSerializer, ProductDetailSerializer
 
 
 class ProductsListViewSet(ListCreateAPIView):
@@ -49,5 +49,5 @@ class CategoryProductsViewSet(ListAPIView):
 
 class ProductDetailViewSet(RetrieveUpdateAPIView):
     
-    serializer_class = ProductSerializer
+    serializer_class = ProductDetailSerializer
     queryset = Product.objects.all().order_by('id')
