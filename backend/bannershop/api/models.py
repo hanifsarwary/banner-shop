@@ -46,7 +46,7 @@ class Product(models.Model):
     one_unit_weight = models.FloatField(default=0)
     weight_unit = models.PositiveIntegerField(default=1)
     price_type = models.IntegerField(choices=PRICE_TYPES, default=PRODUCT_PER_SQFT)
-    price_details = JSONField(null=True)
+    price_details = JSONField(null=True, blank=True)
     product_name = models.CharField(max_length=128)
 
 
