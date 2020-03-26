@@ -36,7 +36,7 @@ class Coupon(models.Model):
 
 class Product(models.Model):
     PRICE_TYPES = (
-        ( PRODUCT_PER_SQFT, 'Charge per square foor'),
+        ( PRODUCT_PER_SQFT, 'Charge per square foot'),
         (PRODUCT_VARIABLE_PER_QUANTITY, 'Charge with quantity range'),
         (PRODUCT_FIXED_PER_QUANTITY, 'Fixed charge for fixed quantity')
     )
