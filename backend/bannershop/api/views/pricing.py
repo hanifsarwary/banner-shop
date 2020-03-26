@@ -66,4 +66,4 @@ class CalculatePriceViewSet(APIView):
         for i in percentage_temp_arr:
             total_price = total_price + total_price * (i / 100)  
         print(total_price)   
-        return Response({"price": total_price})
+        return Response({"price": round(total_price, 2)})
