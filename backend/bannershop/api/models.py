@@ -134,8 +134,8 @@ class Order(models.Model):
 
 
 class ProductOrder(models.Model):
-    product = models.ForeignKey(Product, related_name='product_productorders', on_delete=models.DO_NOTHING)
-    order = models.ForeignKey(Order, related_name='order_productorders' ,on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, related_name='product_productorders', on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='order_productorders' ,on_delete=models.CASCADE)
 
     custom_image = models.FileField(null=True, blank=True, upload_to='images/order_custom/')
     special_note = models.CharField(max_length=128)

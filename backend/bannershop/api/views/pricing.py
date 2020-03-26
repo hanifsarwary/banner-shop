@@ -6,14 +6,14 @@ from api.constants import *
 class CalculatePriceViewSet(APIView):
 
     def post(self, request, *args, **kwargs):
-    
+        
         product_id = request.data.get('product_id')
         product = Product.objects.filter(pk=product_id).first()
         option_queryset = Option.objects.filter(product=product)
         quantity = 0
         total_price = 0
         basic_price = 0
-        print("In the pricing")
+        
         if product.price_type == PRODUCT_PER_SQFT:
             quantity = request.data['options'].pop('Quantity')
             basic_price = product.price_details['price'] * quantity * request.data.get('options').pop('Width', 1) * request.data.get('options').pop('Height')
