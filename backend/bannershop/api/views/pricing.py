@@ -26,10 +26,9 @@ class CalculatePriceViewSet(APIView):
                         basic_price = quantity * product.price_details.get(k)
                         break
         elif product.price_type == PRODUCT_FIXED_PER_QUANTITY:
-            
             basic_price = request.data['options'].pop('Quantity')[1]
 
-            total_price = basic_price
+        total_price = basic_price
         print(total_price)
         percentage_temp_arr = []
         basic_percentage_temp_arr = []
