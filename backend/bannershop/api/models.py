@@ -63,7 +63,8 @@ class Product(models.Model):
 
 class Option(models.Model):
     OPTION_TYPES = ((OPTION_FLAT_RATE, 'Flat Rate'),
-                    (OPTION_PERCENTAGE, 'Percentage'),
+                    (OPTION_BASIC_PERCENTAGE, 'Basic Percentage'),
+                    (OPTION_ACCUMULATIVE_PERCENTAGE, 'ACCUMULATIVE Percentage'),
                     (OPTION_QUANTITY_BASED, 'quantity Based'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
