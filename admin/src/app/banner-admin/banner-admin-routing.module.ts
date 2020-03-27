@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BannerAdminComponent } from './banner-admin.component';
+import { DashboardComponent } from './admin-components/dashboard/dashboard.component';
 import { CategoriesComponent } from './admin-components/categories/categories.component';
 import { OptionGroupsComponent } from './admin-components/option-groups/option-groups.component';
 import { ProductsComponent } from './admin-components/products/products.component';
@@ -17,7 +18,7 @@ const routes: Routes = [
         component: BannerAdminComponent,
         children: [
           { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
-          { path: 'dashboard', component: CategoriesComponent },
+          { path: 'dashboard', component: DashboardComponent },
           { path: 'categories', component: CategoriesComponent },
           { path: 'option-groups', component: OptionGroupsComponent },
           { path: 'products', component: ProductsComponent },

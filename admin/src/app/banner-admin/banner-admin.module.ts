@@ -16,7 +16,11 @@ import { OrderStatusComponent } from './admin-components/order-status/order-stat
 import { PostCommentsComponent } from './admin-components/post-comments/post-comments.component';
 import { ProfileComponent } from './admin-components/profile/profile.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { DashboardComponent } from './admin-components/dashboard/dashboard.component';
+import { DatatableComponent } from './admin-components/datatable/datatable.component';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatTableDataSource } from '@angular/material';
+import { ModalAddCategoryComponent } from './admin-components/sub-components/modal-add-category/modal-add-category.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,13 +35,21 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     CustomOrdersComponent,
     OrderStatusComponent,
     PostCommentsComponent,
-    ProfileComponent
+    ProfileComponent,
+    DashboardComponent,
+    DatatableComponent,
+    ModalAddCategoryComponent
   ],
   imports: [
     CommonModule,
     BannerAdminRoutingModule,
     TranslateModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class BannerAdminModule { }

@@ -1,0 +1,48 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+        <button type="button" class="close" (click)="activeModal.close('Close click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        
+        <form [formGroup]="categoryForm" class="form-horizontal">
+            <div>
+                <div style="margin-bottom: 25px" class="input-group">
+                    <input
+                        id="name" 
+                        type="text" 
+                        class="form-control" 
+                        formControlName="name"
+                        placeholder="Name"
+                        >    
+                    <!-- <span *ngIf="project.get('name').errors">
+                        <span class="has-error" *ngIf="project.get('name').hasError('maxlength')">
+                            Name required max 25 characters
+                        </span>
+                    </span>-->
+                </div>     
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" (change)="isChild = !isChild"> Is child category
+                    </label>
+                </div>
+    
+                <div class="form-group mt-3" *ngIf="isChild">
+                    <label for="parentCategor">Select parent category</label>
+                    <select class="form-control" id="parentCategor" formControlName="parent_category">
+                        <option  *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+                    </select>
+                </div>
+            </div>                        
+              
+        </form> 
+        
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="submitForm()" [disabled]="categoryForm.invalid">Add</button>
+    </div>
+</div>
