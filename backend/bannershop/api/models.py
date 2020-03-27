@@ -48,7 +48,7 @@ class Product(models.Model):
     price_type = models.IntegerField(choices=PRICE_TYPES, default=PRODUCT_PER_SQFT)
     price_details = JSONField(null=True, blank=True)
     product_name = models.CharField(max_length=128)
-
+    product_description = models.CharField(max_length=512, null=True, blank=True)
 
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
