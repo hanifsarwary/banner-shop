@@ -17,7 +17,6 @@ class CalculatePriceViewSet(APIView):
         if product.price_type == PRODUCT_PER_SQFT:
             quantity = request.data['options'].pop('Quantity')
             basic_price = product.price_details['price'] * quantity * request.data.get('options').pop('Width', 1) * request.data.get('options').pop('Height')
-            total_price = basic_price + product.price_details.get('setup_cost', 0)
         elif product.price_type == PRODUCT_VARIABLE_PER_QUANTITY:
             quantity = request.data['options'].pop('Quantity')
             if product.price_details:
@@ -25,11 +24,11 @@ class CalculatePriceViewSet(APIView):
                     if quantity >= int(k.split('-')[0]) and quantity <= int(k.split('-')[1]):
                         basic_price = quantity * product.price_details.get(k)
                         break
-            total_price = basic_price
         elif product.price_type == PRODUCT_FIXED_PER_QUANTITY:
             basic_price = request.data['options'].pop('Quantity')[1]
 
-            total_price = basic_price
+        
+        total_price = basic_price + product.price_details.get('setup_cost', 0)
         print(total_price)
         percentage_temp_arr = []
         basic_percentage_temp_arr = []
