@@ -1,0 +1,32 @@
+<div class="mat-elevation-z8">
+    <div class="datatable-container">
+        <mat-table [dataSource]="sourceData" matSort class="data-table">
+            <ng-container matColumnDef="no">
+                <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
+                <mat-cell *matCellDef="let element; let i = index"> {{sourceData.filteredData.indexOf(element)+1}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="cat_image">
+                <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <div>
+                        <img src="{{element.default_category_image}}" class="category-img" alt="">
+                    </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions" class="text-right">
+                <mat-header-cell *matHeaderCellDef>Actions </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button class="btn btn-sm btn-danger" (click)="categoryEvent('delete', element.id)">delete</button>
+                </mat-cell>
+              </ng-container>
+
+            <mat-header-row *matHeaderRowDef="datatableColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: datatableColumns;"></mat-row>
+        </mat-table>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

@@ -1,0 +1,28 @@
+
+@media only screen and (max-width: 600px) {
+    .datatable-container {
+        overflow-x: scroll;
+        .data-table {
+            min-width: 900px;
+        }
+    }
+}
+
+.mat-header-cell {
+    color: rgba(0,0,0,.54);
+    font-size: 14px;
+    font-weight: 600;
+}
+.mat-column-no {
+    max-width: 100px;
+}
+
+.category-img {
+    width: 60px;
+    padding: 5px 0;
+}
+
+.mat-column-actions {
+    max-width: 150px;
+    padding-left: 10px;
+}
