@@ -32,4 +32,4 @@ class CategoryDetailViewSet(RetrieveUpdateAPIView):
 class CategorySubCategoryProductViewSet(ListAPIView):
 
     serializer_class = CategorySubCategoryProductSerializer
-    queryset = Category.objects
+    queryset = Category.objects.all()
