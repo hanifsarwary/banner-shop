@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop';
 import Loader from 'react-loader-spinner';
 
@@ -41,9 +42,9 @@ class Footer extends React.Component {
                                             <img src={product.default_product_image} alt="IMG-BENNER" style={{ opacity: '0.8' }} />
 
                                             <div className="block1-wrapbtn" style={{ width: '80%' }}>
-                                                <a href={`/product/${product.id}`} className="flex-c-m m-text2 bg3 hov1 trans-0-4" style={{ padding: '8px' }}>
+                                                <Link to={`/product/${product.id}`} className="flex-c-m m-text2 bg3 hov1 trans-0-4" style={{ padding: '8px' }}>
                                                     {product.product_name}
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
