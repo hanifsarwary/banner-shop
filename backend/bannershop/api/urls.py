@@ -14,7 +14,7 @@ urlpatterns = [
     path('categories/', CategoryListViewSet.as_view()),
     path('categories/<int:pk>/', CategoryDetailViewSet.as_view()),
     path('categories/<int:category_id>/sub-categories/', SubCategoryListViewSet.as_view()),
-    path('category-subcategory-products/', CategorySubCategoryProductViewSet),
+    path('category-subcategory-products/', CategorySubCategoryProductViewSet.as_view()),
     path('contact-requests/', ContactRequestViewSet.as_view()),
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
