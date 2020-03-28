@@ -12,7 +12,7 @@ class CategorySerializer(ModelSerializer):
 
 class CategorySubCategoryProductSerializer(ModelSerializer):
 
-    category_set = ListField(child=RecursiveField())
+    category_set = CategorySerializer(many=True)
     product_set = ProductSerializer(many=True)
     class Meta:
         model = Category
