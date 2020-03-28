@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/bootstrap";
+@import "spinner";
+@import "utils";
+@import "rtl";
+@import "responsive";
+
+@media print {
+    .breadcrumb {
+        display: none !important;
+    }
+}
+
+
+/*--------------------------------------------------------------
+# Modal-Settings
+--------------------------------------------------------------*/
+.modal-content {
+    border-radius: 0 !important;
+}
+.register-modal {
+    top: -125px !important;
+}
+.login-modal {
+    top: -100px !important;
+}
+
+/* modal animation */
+.modal-content{
+    animation-name: simple;
+    animation-duration: 0.3s;
+}
+
+@keyframes simple {
+    0%   { transform: scale(0.5) }
+    100% { transform: scale(1) }
+}
