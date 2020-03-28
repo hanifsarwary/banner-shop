@@ -36,7 +36,7 @@ class Coupon(models.Model):
 
 class Product(models.Model):
     PRICE_TYPES = (
-        ( PRODUCT_PER_SQFT, 'Charge per square foor'),
+        ( PRODUCT_PER_SQFT, 'Charge per square foot'),
         (PRODUCT_VARIABLE_PER_QUANTITY, 'Charge with quantity range'),
         (PRODUCT_FIXED_PER_QUANTITY, 'Fixed charge for fixed quantity')
     )
@@ -46,9 +46,9 @@ class Product(models.Model):
     one_unit_weight = models.FloatField(default=0)
     weight_unit = models.PositiveIntegerField(default=1)
     price_type = models.IntegerField(choices=PRICE_TYPES, default=PRODUCT_PER_SQFT)
-    price_details = JSONField(null=True)
+    price_details = JSONField(null=True, blank=True)
     product_name = models.CharField(max_length=128)
-
+    product_description = models.CharField(max_length=512, null=True, blank=True)
 
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
@@ -134,8 +134,8 @@ class Order(models.Model):
 
 
 class ProductOrder(models.Model):
-    product = models.ForeignKey(Product, related_name='product_productorders', on_delete=models.DO_NOTHING)
-    order = models.ForeignKey(Order, related_name='order_productorders' ,on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, related_name='product_productorders', on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='order_productorders' ,on_delete=models.CASCADE)
 
     custom_image = models.FileField(null=True, blank=True, upload_to='images/order_custom/')
     special_note = models.CharField(max_length=128)
