@@ -1,6 +1,6 @@
 from django.urls import path
 
-from api.views.categories import CategoryListViewSet, SubCategoryListViewSet, CategoryDetailViewSet
+from api.views.categories import CategoryListViewSet, SubCategoryListViewSet, CategoryDetailViewSet, CategorySubCategoryProductViewSet
 from api.views.custom_quotes import CustomQuoteViewSet
 from api.views.customers import CustomerListViewSet
 from api.views.products import ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet, ProductDetailViewSet
@@ -14,6 +14,7 @@ urlpatterns = [
     path('categories/', CategoryListViewSet.as_view()),
     path('categories/<int:pk>/', CategoryDetailViewSet.as_view()),
     path('categories/<int:category_id>/sub-categories/', SubCategoryListViewSet.as_view()),
+    path('category-subcategory-products/', CategorySubCategoryProductViewSet),
     path('contact-requests/', ContactRequestViewSet.as_view()),
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),

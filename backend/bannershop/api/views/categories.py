@@ -5,7 +5,7 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpda
 from rest_framework.response import Response
 
 from api.models import Category
-from api.serializers.categories import CategorySerializer
+from api.serializers.categories import CategorySerializer, CategorySubCategoryProductSerializer
 
 
 class CategoryListViewSet(ListCreateAPIView):
@@ -26,4 +26,10 @@ class SubCategoryListViewSet(ListAPIView):
 class CategoryDetailViewSet(RetrieveUpdateAPIView):
 
     serializer_class = CategorySerializer
+    queryset = Category.objects
+
+
+class CategorySubCategoryProductViewSet(ListAPIView):
+
+    serializer_class = CategorySubCategoryProductSerializer
     queryset = Category.objects
