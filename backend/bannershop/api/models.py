@@ -48,7 +48,7 @@ class Product(models.Model):
     price_type = models.IntegerField(choices=PRICE_TYPES, default=PRODUCT_PER_SQFT)
     price_details = JSONField(null=True, blank=True)
     product_name = models.CharField(max_length=128)
-    product_description = models.CharField(max_length=512, null=True, blank=True)
+    product_description = models.TextField(null=True, blank=True)
 
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
@@ -72,6 +72,7 @@ class Option(models.Model):
     price_unit = models.PositiveIntegerField(default=1)
     option_type = models.IntegerField(choices=OPTION_TYPES, default=OPTION_QUANTITY_BASED)
 
+    option_description = models.TextField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     is_suboptions = models.BooleanField(default=False)
 
