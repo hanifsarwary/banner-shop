@@ -125,7 +125,7 @@ class Order(models.Model):
         ('Yet To Start', 'Yet To Start'),
     )
 
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     customer_required_date = models.DateField(null=True, blank=True)
     details = models.TextField(max_length=512)
     order_number = models.UUIDField(default=uuid.uuid4, editable=False)
