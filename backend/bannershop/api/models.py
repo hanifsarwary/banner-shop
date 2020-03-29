@@ -87,7 +87,7 @@ class Option(models.Model):
 
 
 class SubOption(models.Model):
-    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE, null=True)
 
     name = models.CharField(max_length=64)
     price = models.FloatField(default=0)
