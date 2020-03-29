@@ -107,6 +107,9 @@ class Menu extends React.Component {
                         <li>
                             <Link to="/contact">Contact Us</Link>
                         </li>
+                        <li>
+                            <Link to="/custom-quote">Custom Quote</Link>
+                        </li>
                     </ul>
                 </nav>
             </div>

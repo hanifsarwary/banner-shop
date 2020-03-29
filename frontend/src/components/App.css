@@ -103,6 +103,19 @@ section {
     font-size: 14px;
 }
 
+.floating-price {
+    /* position: absolute; */
+    position: fixed;
+    /* top: 50%; */
+    /* width: 100px;
+    height: 100px; */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    background-color: #e65540;
+    color: #fff !important;
+    border-radius: 5px;
+}
+
 /* .dropdown-list {
 
 } */

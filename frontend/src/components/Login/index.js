@@ -39,10 +39,10 @@ class Login extends React.Component {
 						logged: false
 					});
 
-					if (this.props.previousPath === '/shop/cart') {
-						this.props.history.push('/shop/cart');
-					} else {
+					if (this.props.previousPath === '') {
 						this.props.history.push('/');
+					} else {
+						this.props.history.push(this.props.previousPath);
 					}
 				}
 			}

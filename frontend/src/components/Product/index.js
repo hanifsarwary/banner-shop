@@ -301,6 +301,10 @@ class ProductDetail extends React.Component {
     if (this.state.loaded) {
       return (
         <div className="container bgwhite p-t-35 p-b-80">
+          <span className="floating-price m-text17">
+            Price: 
+            ${this.state.total}
+          </span>
           <div className="flex-w flex-sb">
             <div className="w-size13 p-t-30 respon5">
               <div className="wrap-slick3 flex-sb flex-w">
@@ -314,11 +318,9 @@ class ProductDetail extends React.Component {
               <span className="m-text17">
                 ${this.state.total}
               </span>
+
               <div className="p-b-15" style={{ marginTop: '10px' }}>
-                <span className="s-text8 m-r-35">Item No: R002</span><br />
-                <span className="s-text8">Material: Aluminum</span><br />
-                <span className="s-text8">Included Carrying Bags</span><br />
-                <span className="s-text8">Normal Graphic Size: 23.5" X 72"</span>
+
               </div>
 
               <div className="">
