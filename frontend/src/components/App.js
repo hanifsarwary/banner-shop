@@ -12,6 +12,7 @@ import Product from './Product';
 import Cart from './Cart';
 import About from './About';
 import Contact from './Contact';
+import CustomQuote from './CustomQuote';
 import './App.css';
 
 class App extends React.Component {
@@ -78,7 +79,10 @@ class App extends React.Component {
             <About />
           </Route>
           <Route path="/contact" exact>
-            <Contact />
+            <Contact isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand}/>
+          </Route>
+          <Route>
+            <CustomQuote path="/custom-quote" exact/>
           </Route>
           <Route path="/auth/login" exact>
             <Login 
