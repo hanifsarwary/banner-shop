@@ -66,7 +66,7 @@ class Option(models.Model):
                     (OPTION_BASIC_PERCENTAGE, 'Basic Percentage'),
                     (OPTION_ACCUMULATIVE_PERCENTAGE, 'ACCUMULATIVE Percentage'),
                     (OPTION_QUANTITY_BASED, 'quantity Based'))
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
 
     option_name = models.CharField(max_length=64)
     price_unit = models.PositiveIntegerField(default=1)
