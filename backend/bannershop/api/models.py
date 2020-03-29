@@ -81,6 +81,9 @@ class Option(models.Model):
 
     def __str__(self):
         return self.option_name + '  --- ' + self.product.product_name
+    
+    class Meta:
+        ordering = ('is_suboptions', 'option_name')
 
 
 class SubOption(models.Model):
