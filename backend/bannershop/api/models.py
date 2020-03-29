@@ -98,6 +98,9 @@ class SubOption(models.Model):
 
     def __str__(self):
         return self.name + ' ---- ' + self.option.__str__()
+    
+    class Meta:
+        ordering = ('price', 'name')
 
 
 class Customer(models.Model):
