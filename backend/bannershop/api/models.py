@@ -66,7 +66,7 @@ class Option(models.Model):
                     (OPTION_BASIC_PERCENTAGE, 'Basic Percentage'),
                     (OPTION_ACCUMULATIVE_PERCENTAGE, 'ACCUMULATIVE Percentage'),
                     (OPTION_QUANTITY_BASED, 'quantity Based'))
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
 
     option_name = models.CharField(max_length=64)
     price_unit = models.PositiveIntegerField(default=1)
@@ -81,10 +81,13 @@ class Option(models.Model):
 
     def __str__(self):
         return self.option_name + '  --- ' + self.product.product_name
+    
+    class Meta:
+        ordering = ('is_suboptions', 'option_name')
 
 
 class SubOption(models.Model):
-    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, on_delete=models.CASCADE, null=True)
 
     name = models.CharField(max_length=64)
     price = models.FloatField(default=0)
@@ -95,6 +98,9 @@ class SubOption(models.Model):
 
     def __str__(self):
         return self.name + ' ---- ' + self.option.__str__()
+    
+    class Meta:
+        ordering = ('price', 'name')
 
 
 class Customer(models.Model):

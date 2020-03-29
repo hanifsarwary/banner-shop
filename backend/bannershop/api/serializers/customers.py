@@ -5,8 +5,6 @@ from api.models import Customer
 
 class CustomerSerializer(ModelSerializer):
 
-    user = CreateUserSerializer()
-
     class Meta:
         model = Customer
         fields = '__all__'

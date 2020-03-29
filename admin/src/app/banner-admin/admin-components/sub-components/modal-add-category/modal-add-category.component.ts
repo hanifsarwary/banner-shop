@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ModalAddCategoryComponent implements OnInit {
   @Input() categories;
   public categoryForm: FormGroup;
+  isChild = false;
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
