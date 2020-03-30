@@ -15,10 +15,10 @@ class CalculatePriceViewSet(APIView):
             basic_price = 0
         
             if product.price_type == PRODUCT_PER_SQFT:
-                quantity = request.data['options'].pop('Quantity')
+                quantity = request.data['options'].pop('Quantity', 1)
                 basic_price = product.price_details['price'] * quantity * request.data.get('options').pop('Width', 1) * request.data.get('options').pop('Height')
             elif product.price_type == PRODUCT_VARIABLE_PER_QUANTITY:
-                quantity = request.data['options'].pop('Quantity')
+                quantity = request.data['options'].pop('Quantity', 1)
                 if product.price_details:
                     for k in product.price_details:
                         if quantity >= int(k.split('-')[0]) and quantity <= int(k.split('-')[1]):
