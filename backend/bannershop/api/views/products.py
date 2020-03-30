@@ -11,7 +11,7 @@ from api.serializers.products import ProductSerializer, OptionSerializer, SubOpt
 
 class ProductsListViewSet(ListCreateAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all().order_by('id')
+    queryset = Product.objects.all().order_by('category')
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['is_featured', ]
 
