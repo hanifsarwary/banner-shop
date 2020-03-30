@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { GlobalService } from './global.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Globals } from 'src/app/globals';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor(private httpClient: HttpClient, private global: GlobalService) { }
+  constructor(private httpClient: HttpClient, private global: Globals) { }
 
   getCategories(param?: string): Observable<any> {
     param = param ? param : '';
@@ -19,10 +19,25 @@ export class ApiService {
     return this.httpClient.post<any>(this.global.categories, dataObj);
   }
 
+  addProduct(dataObj): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+
+    return this.httpClient.post<any>(this.global.products, dataObj, { headers: headers });
+  }
+
   deleteCategory(categoryId): Observable<any> {
     return this.httpClient.delete<any>(`${this.global.categories}${categoryId}`);
   }
 
+  getProducts(param?: string): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.get<any>(`${this.global.products}${param}`);
+  }
+
+  deleteProduct(productId): Observable<any> {
+    return this.httpClient.delete<any>(`${this.global.products}${productId}`);
+  }
 
 
 }

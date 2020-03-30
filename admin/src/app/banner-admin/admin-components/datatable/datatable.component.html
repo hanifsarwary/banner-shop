@@ -17,13 +17,24 @@
                     </div>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="product_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.product_name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="product_image">
+                <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <div>
+                        <img src="{{element.default_product_image}}" class="category-img" alt="">
+                    </div>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="actions" class="text-right">
                 <mat-header-cell *matHeaderCellDef>Actions </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <button class="btn btn-sm btn-danger" (click)="categoryEvent('delete', element.id)">delete</button>
                 </mat-cell>
               </ng-container>
-
             <mat-header-row *matHeaderRowDef="datatableColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: datatableColumns;"></mat-row>
         </mat-table>

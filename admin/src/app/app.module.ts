@@ -12,6 +12,7 @@ import { Globals } from './globals';
 import { LoginService } from './banner-admin/services/login.service';
 import { SignupService } from './banner-admin/services/signup.service';
 import { AuthGuard } from './shared';
+import { ProductModelComponent } from './banner-admin/admin-components/products/product-model/product-model.component';
 
 @NgModule({
     imports: [
@@ -29,7 +30,7 @@ import { AuthGuard } from './shared';
             preventDuplicates: false,
         }),
     ],
-    declarations: [AppComponent],
+    declarations: [AppComponent, ProductModelComponent],
     providers: [AuthGuard, Globals, LoginService, SignupService],
     bootstrap: [AppComponent]
 })
