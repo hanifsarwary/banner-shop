@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from api.models import Product, SubOption, Option
 from api.constants import *
-
+import traceback
 class CalculatePriceViewSet(APIView):
 
     def post(self, request, *args, **kwargs):
@@ -69,4 +69,4 @@ class CalculatePriceViewSet(APIView):
             print(total_price)   
             return Response({"price": round(total_price, 2)})
         except Exception as e:
-            return Response({"price": 0, "error message": str(e)})
+            return Response({"price": 0, "error message": str(e), "trackback": traceback.format_exc()})
