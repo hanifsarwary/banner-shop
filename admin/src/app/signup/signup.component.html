@@ -2,25 +2,49 @@
     <div class="row justify-content-md-center">
         <div class="col-md-4">
             <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-            <h1>SB Admin BS4 Angular8</h1>
-            <form role="form">
+            <h1>Admin Sign Up Panel</h1>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Full Name' | translate }}">
+                        <input type="text" formControlName="username" id="username" class="form-control input-underline input-lg" placeholder="{{ 'username ' | translate }}"
+                        [ngClass]="{ 'is-invalid': submitted && formValidator.username.errors }">
+                        <div *ngIf="submitted && formValidator.username.errors" class="invalid-feedback">
+                            <div *ngIf="formValidator.username.errors.required">username is required</div>
+                        </div>
+                        <div *ngIf="userExist" class="invalid-feedback">
+                            A user with that username already exists.
+                        </div>
                     </div>
-
                     <div class="form-group">
-                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="{{ 'Email' | translate }}">
+                        <input type="text" formControlName="first_name" id="first_name" class="form-control input-underline input-lg" placeholder="{{ 'First Name' | translate }}"
+                        [ngClass]="{ 'is-invalid': submitted && formValidator.first_name.errors }">
+                        <div *ngIf="submitted && formValidator.first_name.errors" class="invalid-feedback">
+                            <div *ngIf="formValidator.first_name.errors.required">First Name is required</div>
+                        </div>
                     </div>
-
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Password' | translate }}">
+                        <input type="text" formControlName="last_name" id="last_name" class="form-control input-underline input-lg" placeholder="{{ 'Last Name' | translate }}"
+                        [ngClass]="{ 'is-invalid': submitted && formValidator.last_name.errors }">
+                        <div *ngIf="submitted && formValidator.last_name.errors" class="invalid-feedback">
+                            <div *ngIf="formValidator.last_name.errors.required">Last Name is required</div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="{{ 'Repeat Password' | translate }}">
+                        <input type="text" formControlName="email" id="email" class="form-control input-underline input-lg" placeholder="{{ 'Email' | translate }}"
+                        [ngClass]="{ 'is-invalid': submitted && formValidator.email.errors }">
+                        <div *ngIf="submitted && formValidator.email.errors" class="invalid-feedback">
+                            <div *ngIf="formValidator.email.errors.required">Email is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" formControlName="password" id="password" class="form-control input-underline input-lg" placeholder="{{ 'Password' | translate }}"
+                        [ngClass]="{ 'is-invalid': submitted && formValidator.password.errors }">
+                        <div *ngIf="submitted && formValidator.password.errors" class="invalid-feedback">
+                            <div *ngIf="formValidator.password.errors.required">Password is required</div>
+                        </div>
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp;
+                <button class="btn rounded-btn" type="submit">{{ 'Register' | translate }}</button>
                 <a class="btn rounded-btn" [routerLink]="['/login']">{{ 'Log in' | translate }}</a>
             </form>
         </div>
