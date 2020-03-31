@@ -45,7 +45,7 @@ class ProductDetail extends React.Component {
       for (let index = 0; index < options.length; index++) {
         await new Promise(async (next) => {
           const option = options[index];
-          if (option.is_suboptions) {
+          if (option.is_suboptions && option.suboption_set.length > 0) {
             const subOption = option.suboption_set[0];
 
             priceCalcObj.options[option.option_name] = [subOption.name, subOption.price];
@@ -104,7 +104,6 @@ class ProductDetail extends React.Component {
             if (index === options.length - 1) {
               const price = await bannerShop.post('/api/prices/', priceCalcObj);
               const priceData = await price;
-              newTotal = priceData.data.price;
 
               this.setState({
                 total: newTotal,
@@ -327,8 +326,9 @@ class ProductDetail extends React.Component {
                 <div className="flex-m flex-w">
                   <div className="s-text15 mb-2">
                     Quantity:
-                            </div>
-                  {this.state.quantity.is_suboptions ? (
+                  </div>
+                  {(this.state.quantity.is_suboptions && this.state.quantity.suboption_set.length > 0) ? (
+                    <div className="bo4 of-hidden size15 m-b-20">
                     <select className="selection-2" name="size"
                       style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
                       onChange={this.subOptionPricer} value={this.state.optionState[this.state.quantity.option_name].id}
@@ -344,6 +344,7 @@ class ProductDetail extends React.Component {
                         )
                       })}
                     </select>
+                    </div>
                   ) : (
                       <div className="bo4 of-hidden size15 m-b-20">
                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
@@ -359,9 +360,9 @@ class ProductDetail extends React.Component {
                     <div className="flex-m flex-w" key={option.id}>
                       <div className="s-text15 mb-2">
                         {option.option_name}:
-                                    </div>
+                      </div>
                       <div className="bo4 of-hidden size15 m-b-20">
-                        {option.is_suboptions ? (
+                        {(option.is_suboptions && option.suboption_set.length > 0) ? (
                           <select className="selection-2" name="size"
                             style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
                             onChange={this.subOptionPricer} value={value}
@@ -436,7 +437,7 @@ class ProductDetail extends React.Component {
                       onClick={this.cartAddhandler}
                     >
                       Add to Cart
-                                </button>
+                    </button>
                   </div>
                 </div>
 
