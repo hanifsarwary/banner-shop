@@ -44,6 +44,7 @@ $topnav-background-color: #222;
         font-size: 18px;
         line-height: 40px;
         padding: 0 25px;
+        margin: 15px;
     }
     .rounded-btn:hover,
     .rounded-btn:focus,
@@ -86,10 +87,16 @@ $topnav-background-color: #222;
     }
     .form-content {
         padding: 40px 0;
+        .msg-error {
+            color: red;
+        }
     }
     .user-avatar {
         -webkit-border-radius: 50%;
         border-radius: 50%;
         border: 2px solid #fff;
     }
+}
+.invalid-feedback {
+    color: red !important;
 }

@@ -6,6 +6,25 @@ section {
     width: 100px;
 }
 
+.check-cus {
+    width: 100%;
+}
+
+.check-cus label {
+    position: relative;
+    margin-left: 5px;
+}
+
+/* .check-cus label::before {
+    position: absolute;
+    top: 20%;
+    left: -20px;
+    content: '';
+    width: 16px;
+    height: 15px;
+    background-color: black;
+} */
+
 .logo-container {
     position: absolute;
     left: 10%;

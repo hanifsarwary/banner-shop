@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
+import { LoginService } from '../banner-admin/services/login.service';
+import { AuthService } from '../banner-admin/services/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -9,13 +11,23 @@ import { routerTransition } from '../router.animations';
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
+    wrongInfo = false;
     constructor(
-      public router: Router
-    ) {}
+      public router: Router, private loginService: LoginService, private auth: AuthService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (this.auth.isAuthenticated) {
+            this.router.navigate(['']);
+        }
+    }
 
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
+    onSubmit(loginCredentials) {
+        console.log(loginCredentials);
+        this.loginService.userLogin(loginCredentials).subscribe( res => {
+            this.auth.storeToken(res.token);
+            this.router.navigate(['']);
+        }, err => {
+            this.wrongInfo = true;
+        });
     }
 }

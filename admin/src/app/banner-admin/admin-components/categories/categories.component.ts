@@ -10,46 +10,6 @@ import { ModalAddCategoryComponent } from '../sub-components/modal-add-category/
 export class CategoriesComponent implements OnInit {
   tableColumns = ['no', 'name', 'cat_image', 'actions' ];
   categoriesData = [];
-  categoriesDatas = [
-    {
-      year: 2020,
-      market: 'Lahore',
-      share: '30%',
-    },
-    {
-      year: 2021,
-      market: 'Faisalabad',
-      share: '30%',
-    },
-    {
-      year: 2022,
-      market: 'Karchi',
-      share: '30%',
-    },
-    {
-      year: 2023,
-      market: 'Gujranwala',
-      share: '30%',
-    }
-    ,
-    {
-      year: 2023,
-      market: 'Gujranwala',
-      share: '30%',
-    }
-    ,
-    {
-      year: 2023,
-      market: 'Gujranwala',
-      share: '30%',
-    }
-    ,
-    {
-      year: 2023,
-      market: 'Gujranwala',
-      share: '30%',
-    }
-  ];
   constructor(
     private apiService: ApiService,
     private modalService: NgbModal
@@ -78,7 +38,6 @@ export class CategoriesComponent implements OnInit {
   categoryEventClicked(data) {
     if ( data.type === 'delete') {
       this.apiService.deleteCategory(data.record).subscribe(res => {
-        console.log('delete successfulllllllll');
       });
     }
   }
