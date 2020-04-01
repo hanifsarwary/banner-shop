@@ -35,6 +35,12 @@
                     <button class="btn btn-sm btn-danger" (click)="categoryEvent('delete', element.id)">delete</button>
                 </mat-cell>
               </ng-container>
+              <ng-container matColumnDef="product_detail" class="text-right">
+                <mat-header-cell *matHeaderCellDef>Product Detail </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <a href="javascript:;" (click)="openProductDetail(element.id)">Product Detail</a>
+                </mat-cell>
+              </ng-container>
             <mat-header-row *matHeaderRowDef="datatableColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: datatableColumns;"></mat-row>
         </mat-table>

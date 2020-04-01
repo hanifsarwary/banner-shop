@@ -9,7 +9,7 @@ import { ProductModelComponent } from './product-model/product-model.component';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  tableColumns = ['no', 'product_name', 'product_image', 'actions' ];
+  tableColumns = ['no', 'product_name', 'product_image', 'product_detail' ];
   productsData = [];
   categoriesData = [];
 

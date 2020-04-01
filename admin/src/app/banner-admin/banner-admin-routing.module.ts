@@ -11,6 +11,7 @@ import { CustomOrdersComponent } from './admin-components/custom-orders/custom-o
 import { OrderStatusComponent } from './admin-components/order-status/order-status.component';
 import { PostCommentsComponent } from './admin-components/post-comments/post-comments.component';
 import { ProfileComponent } from './admin-components/profile/profile.component';
+import { ProductDetailsComponent } from './admin-components/products/product-details/product-details.component';
 
 const routes: Routes = [
     {
@@ -22,6 +23,7 @@ const routes: Routes = [
           { path: 'categories', component: CategoriesComponent },
           { path: 'option-groups', component: OptionGroupsComponent },
           { path: 'products', component: ProductsComponent },
+          { path: 'product/:id', component: ProductDetailsComponent },
           { path: 'user-accounts', component: UserAccountsComponent },
           { path: 'cms', component: CmsComponent },
           { path: 'custom-orders', component: CustomOrdersComponent },
