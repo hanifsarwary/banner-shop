@@ -32,7 +32,7 @@ class Menu extends React.Component {
                                 let products = [];
 
                                 if (subProdRes) {
-                                    products = catProdRes.data;
+                                    products = subProdRes.data;
                                 }
 
                                 subCategories.push({
