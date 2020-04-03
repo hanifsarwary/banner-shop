@@ -9,6 +9,8 @@ from api.views.contact_requests import ContactRequestViewSet, ContactRequestDeta
 from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOptionViewSet, ProductOrderOptionListViewSet
 from api.views.emails import SendOrderEmail
 from api.views.pricing import CalculatePriceViewSet
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+
 urlpatterns = [
     
     path('categories/', CategoryListViewSet.as_view()),
@@ -31,5 +33,8 @@ urlpatterns = [
     path('products/<int:product_id>/options/', ProductOptionsListViewSet.as_view()),
     path('products/<int:product_id>/options/<int:option_id>/sub-options/', SubProductOptionsListViewSet.as_view()),
     path('users/', UsersListCreateViewSet.as_view()),
-    path('users/<int:pk>/', UsersDetailUpdateViewSet.as_view())
+    path('users/<int:pk>/', UsersDetailUpdateViewSet.as_view()),
+    path('auth/token/obtain/', obtain_jwt_token),
+    path('auth/token/refresh/', refresh_jwt_token),
+    path('auth/token/verify/', verify_jwt_token),
 ]
