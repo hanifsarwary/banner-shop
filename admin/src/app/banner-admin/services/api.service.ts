@@ -30,7 +30,7 @@ export class ApiService {
     return this.httpClient.delete<any>(`${this.global.categories}${categoryId}`);
   }
 
-  getProducts(param?: string): Observable<any> {
+  getProducts(param?): Observable<any> {
     param = param ? param : '';
     return this.httpClient.get<any>(`${this.global.products}${param}`);
   }

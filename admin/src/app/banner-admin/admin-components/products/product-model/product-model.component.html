@@ -6,32 +6,72 @@
         </button>
     </div>
     <div class="modal-body">
-        
-        <form [formGroup]="productForm" class="form-horizontal">
-            <div>
-                <div style="margin-bottom: 25px" class="input-group">
-                    <input id="name" type="text" class="form-control" formControlName="product_name" placeholder="Name">
-                </div>     
-                <div class="input-group">
-                    <label>
-                        <input type="checkbox" (change)="isChild = !isChild"> Is child product
-                    </label>
+        <form [formGroup]="productForm">
+            <div class="model-styling">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="productName">Product Name:</label>
+                    <input type="text" class="form-control col-sm-8" formControlName="product_name" placeholder="Product name">
                 </div>
-                <div class="form-group mt-3" *ngIf="isChild">
-                    <label for="productCategor">Select Category</label>
-                    <select class="form-control" id="productCategor" formControlName="category">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="productCategor">Select Category:</label>
+                    <select class="form-control col-sm-8" id="productCategor" formControlName="category">
                         <option  *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
                     </select>
-                </div>            
+                </div>  
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">One Unit Weight:</label>
+                    <input type="number" value="0" class="form-control col-sm-8" formControlName="one_unit_weight">
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Weight unit:</label>
+                    <input type="number" min="1" value="1" class="form-control col-sm-8" formControlName="weight_unit">
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="productType">Price Type:</label>
+                    <select class="form-control col-sm-8" id="productType" (change)="openPriceModel($event)" formControlName="price_type">
+                        <option  value="1">Change per square foot</option>
+                        <option  value="2">Change with quantity range</option>
+                        <option  value="3">Fixed charge for fixed quantity</option>
+                    </select>
+                </div>
+                <div *ngIf="priceType === '1'">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Price:</label>
+                        <input type="number" min="1" class="form-control col-sm-8" formControlName="price">
+                    </div> 
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Setup Cost:</label>
+                        <input type="number" min="1" class="form-control col-sm-8" formControlName="setup_cost">
+                    </div>
+                </div>
+                <div *ngIf="priceType === '2'">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Max Value:</label>
+                        <input type="number" min="1" class="form-control col-sm-8" formControlName="max_value">
+                    </div> 
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Min Value:</label>
+                        <input type="number" min="1" class="form-control col-sm-8" formControlName="min_value">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="notes">Product Description:</label>
+                    <textarea class="form-control col-sm-8" formControlName="product_description" rows="3" 
+                        placeholder="Add Product Description..."></textarea>
+                </div>
+                <div class="checkbox row">
+                    <label class="col-sm-8 col-form-label">Is Coupon<input type="checkbox" formControlName="is_coupon_allowed"></label>
+                </div>
+                <div class="checkbox row">
+                    <label class="col-sm-8 col-form-label">Is Feature&nbsp;<input type="checkbox" formControlName="is_featured"></label>
+                </div>    
                 <div class="form-group">
                     <br>
                     <label for="forUploadImg"> Choose File </label> <br>
                     <input type="file" (change)="fileProgress($event)"/>
                 </div>
-            </div>                        
-              
-        </form> 
-
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancel</button>

@@ -13,6 +13,7 @@ import { LoginService } from './banner-admin/services/login.service';
 import { SignupService } from './banner-admin/services/signup.service';
 import { AuthGuard } from './shared';
 import { ProductModelComponent } from './banner-admin/admin-components/products/product-model/product-model.component';
+import { ProductDetailsComponent } from './banner-admin/admin-components/products/product-details/product-details.component';
 
 @NgModule({
     imports: [
@@ -30,7 +31,7 @@ import { ProductModelComponent } from './banner-admin/admin-components/products/
             preventDuplicates: false,
         }),
     ],
-    declarations: [AppComponent, ProductModelComponent],
+    declarations: [AppComponent, ProductModelComponent, ProductDetailsComponent],
     providers: [AuthGuard, Globals, LoginService, SignupService],
     bootstrap: [AppComponent]
 })

@@ -9,11 +9,17 @@ from api.serializers.categories import CategorySerializer, CategorySubCategoryPr
 
 
 class CategoryListViewSet(ListCreateAPIView):
+    """
+    A view to get first level categories only
+    """
     serializer_class = CategorySerializer
     queryset = Category.objects.filter(parent_category__isnull=True).order_by('id')
 
 
 class SubCategoryListViewSet(ListAPIView):
+    """
+    A view to get sub categories of a category
+    """
     serializer_class = CategorySerializer
     queryset = Category.objects.filter(parent_category__isnull=False)
 
@@ -25,6 +31,9 @@ class SubCategoryListViewSet(ListAPIView):
 
 class CategoryDetailViewSet(RetrieveUpdateAPIView):
 
+    """
+    A view to get details of a category
+    """
     serializer_class = CategorySerializer
     queryset = Category.objects
 

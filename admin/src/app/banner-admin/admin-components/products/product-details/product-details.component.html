@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="card">
+        <div class="row">
+          <div class="col-5">
+            <img src="{{productDetail?.default_product_image}}" class="card-img" alt="...">
+          </div>
+          <div class="col-7">
+            <div class="card-body">
+              <h5 class="card-title">{{productDetail?.product_name}}</h5>
+              <div class="row card-text">
+                <div class="col-4"> Weight Unit : </div>
+                <div class="col-8"> {{productDetail?.weight_unit}}</div>
+             </div>
+              <div class="row card-text">
+                  <div class="col-4"> One Unit Weight : </div>
+                  <div class="col-8"> {{productDetail?.one_unit_weight}}</div>
+              </div>
+             <div class="row card-text">
+                <div class="col-4"> Product Description : </div>
+                <div class="col-8 product-description"> {{productDetail?.product_description}}</div>
+             </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

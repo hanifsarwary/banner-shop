@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit(loginCredentials) {
-        console.log(loginCredentials);
         this.loginService.userLogin(loginCredentials).subscribe( res => {
             this.auth.storeToken(res.token);
             this.router.navigate(['']);
