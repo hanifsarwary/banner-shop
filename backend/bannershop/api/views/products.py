@@ -51,3 +51,9 @@ class ProductDetailViewSet(RetrieveUpdateAPIView):
     
     serializer_class = ProductDetailSerializer
     queryset = Product.objects.all().order_by('id')
+
+
+class AllOptionListView(ListAPIView):
+
+    serializer_class = OptionSerializer
+    queryset = Option.objects.all().order_by('product')
