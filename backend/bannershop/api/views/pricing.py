@@ -90,8 +90,9 @@ class CalculatePriceViewSet(APIView):
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
             print(total_price)
             print(percentage_temp_arr)
-            for i in basic_percentage_temp_arr:
-                total_price = total_price + basic_price * (i / 100)    
+            if not basic_percentage_temp_arr[0]:
+                for i in basic_percentage_temp_arr:
+                    total_price = total_price + basic_price * (i / 100)    
             total_price = total_price + product.setup_cost
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)  
