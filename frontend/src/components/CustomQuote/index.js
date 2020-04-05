@@ -55,7 +55,14 @@ class CustomQuote extends React.Component {
                 formData.append(key, form[key]);
             }
             console.log(this.state);
-            await bannerShop.post('/api/custom-quotes/', formData);
+            // await bannerShop.post('/api/custom-quotes/', formData);
+            const res = await bannerShop({
+                method: 'post',
+                url: 'myurl',
+                data: formData,
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            console.log(res);
             this.setState({
                 submited: false
             });
