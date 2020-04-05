@@ -36,9 +36,11 @@ class Coupon(models.Model):
 
 class Product(models.Model):
     PRICE_TYPES = (
-        ( PRODUCT_PER_SQFT, 'Charge per square foot'),
-        (PRODUCT_VARIABLE_PER_QUANTITY, 'Charge with quantity range'),
-        (PRODUCT_FIXED_PER_QUANTITY, 'Fixed charge for fixed quantity')
+        (PRODUCT_PER_SQFT, 'Basic Price calculated per square foot'),
+        (PRODUCT_VARIABLE_PER_QUANTITY, 'Basic price calculated with quantity range'),
+        (PRODUCT_FIXED_PER_QUANTITY, 'Fixed charge for fixed quantity'),
+        (PRODUCT_TWO_OPTION, 'Basic price based upon two options'),
+        (PRODUCT_THREE_OPTION, 'Basic price based upon Three options'),
     )
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True)
 
@@ -49,6 +51,7 @@ class Product(models.Model):
     price_details = JSONField(null=True, blank=True)
     product_name = models.CharField(max_length=128)
     product_description = models.TextField(null=True, blank=True)
+    setup_cost = models.FloatField(default=0)
 
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
@@ -65,7 +68,8 @@ class Option(models.Model):
     OPTION_TYPES = ((OPTION_FLAT_RATE, 'Flat Rate'),
                     (OPTION_BASIC_PERCENTAGE, 'Basic Percentage'),
                     (OPTION_ACCUMULATIVE_PERCENTAGE, 'ACCUMULATIVE Percentage'),
-                    (OPTION_QUANTITY_BASED, 'quantity Based'))
+                    (OPTION_QUANTITY_BASED, 'quantity Based'),
+                    (OPTION_MULTIPLY_BASIC, 'multiply value with basic price'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
 
     option_name = models.CharField(max_length=64)
@@ -103,6 +107,27 @@ class SubOption(models.Model):
         ordering = ('price', 'name')
 
 
+class TwoDependentSubOption(models.Model):
+
+    first_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='two_first_option_set')
+    second_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='two_second_option_set')
+    price = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.first_sub_option.name + ' ---- ' + self.second_sub_option.name
+
+
+class ThreeDependentSubOption(models.Model):
+
+    first_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='three_first_option_set')
+    second_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='three_second_option_set')
+    third_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='three_third_option_set')
+    price = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.first_sub_option.name + ' ---- ' + self.second_sub_option.name
+
+
 class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
@@ -125,7 +150,7 @@ class Order(models.Model):
         ('Yet To Start', 'Yet To Start'),
     )
 
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     customer_required_date = models.DateField(null=True, blank=True)
     details = models.TextField(max_length=512)
     order_number = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -175,14 +200,14 @@ class CustomQuote(models.Model):
     fax_no = models.CharField(max_length=16, null=True, blank=True)
     finish_size = models.CharField(max_length=64)
     ink_desc = models.CharField(max_length=64)
-    job_type = models.CharField(max_length=32)
-    job_desc = models.CharField(max_length=512)
+    job_type = models.TextField()
+    job_desc = models.TextField()
     media_desc = models.CharField(max_length=128)
     old_job_reference = models.CharField(max_length=64)
     phone_no = models.CharField(max_length=16)
     quantity = models.PositiveIntegerField()
     required_ship_date = models.DateTimeField(null=True, blank=True)
-    is_proof = models.BooleanField(default=True)
+    proof_type = models.CharField(max_length=32, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)

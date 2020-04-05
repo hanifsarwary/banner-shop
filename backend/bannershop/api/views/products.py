@@ -4,14 +4,14 @@ from __future__ import unicode_literals
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
-
+from rest_framework.views import APIView
 from api.models import Product, Option, SubOption
 from api.serializers.products import ProductSerializer, OptionSerializer, SubOptionSerializer, ProductDetailSerializer
 
 
 class ProductsListViewSet(ListCreateAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all().order_by('id')
+    queryset = Product.objects.all().order_by('category')
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['is_featured', ]
 
@@ -51,3 +51,16 @@ class ProductDetailViewSet(RetrieveUpdateAPIView):
     
     serializer_class = ProductDetailSerializer
     queryset = Product.objects.all().order_by('id')
+
+
+class AllOptionListView(ListAPIView):
+
+    serializer_class = OptionSerializer
+    queryset = Option.objects.all().order_by('product')
+
+
+
+class GetProductPriceTypes(APIView):
+
+    def get(self, request):
+        return Response({ "types": Product.PRICE_TYPES})

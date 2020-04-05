@@ -11,6 +11,8 @@ class RetrieveUserSerializer(ModelSerializer):
 
 
 class CreateUserSerializer(ModelSerializer):
+
+    password = CharField(write_only=True)
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'is_staff')

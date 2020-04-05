@@ -29,4 +29,7 @@ export class DatatableComponent implements OnInit {
     };
     this.categoryItemEvent.emit(data);
   }
+  openProductDetail(id) {
+    window.open('/product/' + id, '_blank');
+  }
 }
