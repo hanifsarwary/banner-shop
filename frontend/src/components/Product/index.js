@@ -19,10 +19,8 @@ class ProductDetail extends React.Component {
     options: []
   }
 
-  async componentDidMount() {
+  loadDataOfPrice = async (id) => {
     try {
-      const id = parseInt(this.props.match.params.id);
-
       const productsResponse = await bannerShop.get(`/api/products/${id}`);
       const productsData = productsResponse.data;
       const options = productsData.option_set;
@@ -122,6 +120,15 @@ class ProductDetail extends React.Component {
       this.setState({
         options: new_options,
       });
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  async componentDidMount() {
+    try {
+      const id = parseInt(this.props.match.params.id);
+      await this.loadDataOfPrice(id);
     } catch (error) {
       console.log(error);
     }
@@ -134,6 +141,13 @@ class ProductDetail extends React.Component {
           cartAdd: false
         });
       }, 3000);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      const id = nextProps.match.params.id
+      this.loadDataOfPrice(id);
     }
   }
 
