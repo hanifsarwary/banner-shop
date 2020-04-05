@@ -36,9 +36,11 @@ class Coupon(models.Model):
 
 class Product(models.Model):
     PRICE_TYPES = (
-        ( PRODUCT_PER_SQFT, 'Charge per square foot'),
-        (PRODUCT_VARIABLE_PER_QUANTITY, 'Charge with quantity range'),
-        (PRODUCT_FIXED_PER_QUANTITY, 'Fixed charge for fixed quantity')
+        (PRODUCT_PER_SQFT, 'Basic Price calculated per square foot'),
+        (PRODUCT_VARIABLE_PER_QUANTITY, 'Basic price calculated with quantity range'),
+        (PRODUCT_FIXED_PER_QUANTITY, 'Fixed charge for fixed quantity'),
+        (PRODUCT_TWO_OPTION, 'Basic price based upon two options'),
+        (PRODUCT_THREE_OPTION, 'Basic price based upon Three options'),
     )
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True)
 
@@ -66,7 +68,8 @@ class Option(models.Model):
     OPTION_TYPES = ((OPTION_FLAT_RATE, 'Flat Rate'),
                     (OPTION_BASIC_PERCENTAGE, 'Basic Percentage'),
                     (OPTION_ACCUMULATIVE_PERCENTAGE, 'ACCUMULATIVE Percentage'),
-                    (OPTION_QUANTITY_BASED, 'quantity Based'))
+                    (OPTION_QUANTITY_BASED, 'quantity Based'),
+                    (OPTION_MULTIPLY_BASIC, 'multiply value with basic price'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
 
     option_name = models.CharField(max_length=64)
@@ -102,6 +105,27 @@ class SubOption(models.Model):
     
     class Meta:
         ordering = ('price', 'name')
+
+
+class TwoDependentSubOption(models.Model):
+
+    first_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='two_first_option_set')
+    second_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='two_second_option_set')
+    price = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.first_sub_option.name + ' ---- ' + self.second_sub_option.name
+
+
+class ThreeDependentSubOption(models.Model):
+
+    first_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='three_first_option_set')
+    second_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='three_second_option_set')
+    third_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='three_third_option_set')
+    price = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.first_sub_option.name + ' ---- ' + self.second_sub_option.name
 
 
 class Customer(models.Model):

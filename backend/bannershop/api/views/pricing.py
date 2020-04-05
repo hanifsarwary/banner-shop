@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.models import Product, SubOption, Option
+from api.models import Product, SubOption, Option, TwoDependentSubOption, ThreeDependentSubOption
 from api.constants import *
 import traceback
 
@@ -11,6 +11,7 @@ class CalculatePriceViewSet(APIView):
             product_id = request.data.get('product_id')
             product = Product.objects.filter(pk=product_id).first()
             option_queryset = Option.objects.filter(product=product)
+            
             quantity = 0
             total_price = 0
             basic_price = 0
@@ -27,10 +28,28 @@ class CalculatePriceViewSet(APIView):
                             break
             elif product.price_type == PRODUCT_FIXED_PER_QUANTITY:
                 if type(request.data['options'].get('Quantity')) == list:
-                    basic_price = request.data['options'].pop('Quantity')[1]
+                    basic_price = request.data['options'].get('Quantity')[1]
+                    quantity = int(request.data['options'].pop('Quantity')[0]) 
 
-            if product.price_details:
-                total_price = basic_price + product.price_details.get('setup_cost', 0)
+            elif product.price_type == PRODUCT_TWO_OPTION:
+                option_names = product.price_details.get('sequence')
+
+                basic_price = TwoDependentSubOption.objects.filter(first_sub_option__option__option_name=option_names[0]).filter(
+                    second_sub_option__option__option_name=option_names[1]).filter(
+                        first_sub_option__name=request.data.pop(option_names[0])[0]).filter(
+                            second_sub_option__name=request.data.pop(option_names[1])[0]
+                        ).first().price
+            elif product.price_type == PRODUCT_THREE_OPTION:
+
+                option_names = product.price_details.get('sequence')
+
+                basic_price = ThreeDependentSubOption.objects.filter(first_sub_option__option__option_name=option_names[0]).filter(
+                    second_sub_option__option__option_name=option_names[1]).filter(
+                    third_sub_option__option__option_name=option_names[2]).filter(
+                        first_sub_option__name=request.data.pop(option_names[0])[0]).filter(
+                            second_sub_option__name=request.data.pop(option_names[1])[0]
+                        ).first().price
+
             else:
                 total_price = basic_price
             print(total_price)
@@ -56,7 +75,11 @@ class CalculatePriceViewSet(APIView):
                             basic_percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 1)[1])
                     else:
                         basic_percentage_temp_arr.append(request.data.get('options').get(oq.option_name))
-
+                elif oq.option_type == OPTION_MULTIPLY_BASIC:
+                    
+                    if request.data.get('options').get(oq.option_name):
+                            
+                        total_price = basic_price * request.data.get('options').get(oq.option_name, 1)
                 else:
                     if oq.is_suboptions:
                         if request.data.get('options').get(oq.option_name):
@@ -66,6 +89,7 @@ class CalculatePriceViewSet(APIView):
             print(total_price)
             for i in basic_percentage_temp_arr:
                 total_price = total_price + basic_price * (i / 100)    
+            total_price = total_price + product.setup_cost
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)  
             print(total_price)   
