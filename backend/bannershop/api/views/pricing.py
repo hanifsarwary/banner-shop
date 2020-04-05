@@ -61,9 +61,9 @@ class CalculatePriceViewSet(APIView):
                 if oq.option_type == OPTION_ACCUMULATIVE_PERCENTAGE and not oq.is_deleted:
                     if oq.is_suboptions:
                         if request.data.get('options').get(oq.option_name):
-                            percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 1)[1])
+                            percentage_temp_arr.append(request.data.get('options').get(oq.option_name, [0, 0])[1])
                     else:
-                        percentage_temp_arr.append(request.data.get('options').get(oq.option_name))
+                        percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 0))
                 elif oq.option_type == OPTION_FLAT_RATE and not oq.is_deleted:
                     if oq.is_suboptions:
                         if request.data.get('options').get(oq.option_name):
@@ -73,7 +73,6 @@ class CalculatePriceViewSet(APIView):
 
                 elif oq.option_type == OPTION_BASIC_PERCENTAGE and not oq.is_deleted:
                     if oq.is_suboptions:
-                        print(oq.option_name)
                         if request.data.get('options').get(oq.option_name):
                             basic_percentage_temp_arr.append(request.data.get('options').get(oq.option_name, 1)[1])
                     else:
@@ -90,7 +89,7 @@ class CalculatePriceViewSet(APIView):
                     else:
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
             print(total_price)
-            print(basic_percentage_temp_arr)
+            print(percentage_temp_arr)
             for i in basic_percentage_temp_arr:
                 total_price = total_price + basic_price * (i / 100)    
             total_price = total_price + product.setup_cost
