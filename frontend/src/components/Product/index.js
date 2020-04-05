@@ -143,10 +143,16 @@ class ProductDetail extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.setState({
+        loaded: false
+      });
       const id = nextProps.match.params.id
-      this.loadDataOfPrice(id);
+      await this.loadDataOfPrice(id);
+      this.setState({
+        loaded: true
+      });
     }
   }
 
