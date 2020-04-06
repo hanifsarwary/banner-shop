@@ -8,9 +8,8 @@ export class Globals {
   constructor() {}
 
   domanin_name = '/api';
-  login_domain = '/auth';
   userSignup = `${this.domanin_name}/users/`;
-  userLogin = `${this.login_domain}/token/obtain/`;
+  userLogin = `${this.domanin_name}/auth/token/obtain/`;
   categories = `${this.domanin_name}/categories/`;
   products = `${this.domanin_name}/products/`;
 }
