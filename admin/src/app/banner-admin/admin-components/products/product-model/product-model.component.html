@@ -38,21 +38,28 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Price:</label>
                         <input type="number" min="1" class="form-control col-sm-8" formControlName="price">
-                    </div> 
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Setup Cost:</label>
-                        <input type="number" min="1" class="form-control col-sm-8" formControlName="setup_cost">
                     </div>
                 </div>
                 <div *ngIf="priceType === '2'">
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Max Value:</label>
-                        <input type="number" min="1" class="form-control col-sm-8" formControlName="max_value">
-                    </div> 
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Min Value:</label>
-                        <input type="number" min="1" class="form-control col-sm-8" formControlName="min_value">
+                        <label class="col-sm-4 col-form-label">Select Range:</label>
+                        <div class="col-sm-8">
+                            <div class="row price-type-2">
+                                <label for="col-sm-4 col-form-label">Min :</label>
+                                <input type="number" min="1" max="{{productForm.get('max_value').value}}" (change)="calculatePrice($event)" class="form-control col-sm-4" formControlName="min_value">
+                                <label for="col-sm-4 col-form-label">Max :</label>
+                                <input type="number" min="1" (change)="calculatePrice($event)" class="form-control col-sm-4" formControlName="max_value">
+                            </div>
+                        </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Calculated Price:</label>
+                        <input type="text" class="form-control col-sm-8" readonly [(ngModel)]="calculatedPrice" formControlName="cal_price">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Setup Cost:</label>
+                    <input type="number" min="1" class="form-control col-sm-8" formControlName="setup_cost">
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label" for="notes">Product Description:</label>

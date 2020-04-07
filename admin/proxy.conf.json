@@ -3,11 +3,6 @@
       "target": "http://34.68.49.20:8001",
       "secure": false,
       "changeOrigin": true
-    },
-    "/auth/*": {
-      "target": "http://34.68.49.20:8001",
-      "secure": false,
-      "changeOrigin": true
     }
   }
   
