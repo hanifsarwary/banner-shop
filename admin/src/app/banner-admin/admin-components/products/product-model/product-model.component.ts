@@ -13,6 +13,7 @@ export class ProductModelComponent implements OnInit {
 
   @Input() categories;
   public productForm: FormGroup;
+  calculatedPrice = 75;
   isChild = false;
   priceType: string;
 
@@ -37,6 +38,7 @@ export class ProductModelComponent implements OnInit {
       setup_cost: [''],
       max_value: [1, ''],
       min_value: [1, ''],
+      cal_price: [75, ''],
       file: ['', Validators.required],
     });
   }
@@ -65,12 +67,28 @@ export class ProductModelComponent implements OnInit {
         'price': this.productForm.get('price').value,
         'setup_cost': this.productForm.get('setup_cost').value
        };
+    } else if (this.productForm.get('price_type').value === '2') {
+      const price_key = this.productForm.get('min_value').value + '-' + this.productForm.get('max_value').value;
+       price_details = {};
+       price_details[price_key] = this.productForm.get('cal_price').value;
+       price_details['setup_cost'] = this.productForm.get('setup_cost').value;
     } else {
       price_details = {};
     }
     return price_details;
   }
 
+  calculatePrice(event) {
+    if (this.productForm.get('max_value').value === 1 ) {
+      this.calculatedPrice = 75;
+    } else if (this.productForm.get('max_value').value <= 3) {
+      this.calculatedPrice = 70;
+    } else if (this.productForm.get('max_value').value >= 4 && this.productForm.get('max_value').value <= 11 ) {
+      this.calculatedPrice = 65;
+    }  else if (this.productForm.get('max_value').value >= 12 ) {
+      this.calculatedPrice = 55;
+    }
+  }
   getFormDataObj() {
     const formData = new FormData();
     formData.append('product_name', this.productForm.get('product_name').value);

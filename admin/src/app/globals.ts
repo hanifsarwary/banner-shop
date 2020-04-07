@@ -12,4 +12,6 @@ export class Globals {
   userLogin = `${this.domanin_name}/auth/token/obtain/`;
   categories = `${this.domanin_name}/categories/`;
   products = `${this.domanin_name}/products/`;
+  options = `${this.domanin_name}/options/`;
+  productsByCategory = `${this.domanin_name}/products/category/`;
 }

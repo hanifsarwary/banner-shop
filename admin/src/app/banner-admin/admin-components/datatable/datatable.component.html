@@ -5,6 +5,22 @@
                 <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
                 <mat-cell *matCellDef="let element; let i = index"> {{sourceData.filteredData.indexOf(element)+1}} </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="option_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.option_name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="price_unit">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Price Unit </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.price_unit}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="option_description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.option_description}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="option_type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.option_type}} </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>

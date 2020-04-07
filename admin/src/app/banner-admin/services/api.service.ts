@@ -35,6 +35,16 @@ export class ApiService {
     return this.httpClient.get<any>(`${this.global.products}${param}`);
   }
 
+  getProductsByCategory(param?): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.get<any>(`${this.global.productsByCategory}${param}/`);
+  }
+
+  getOptions(param?): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.get<any>(`${this.global.options}${param}`);
+  }
+
   deleteProduct(productId): Observable<any> {
     return this.httpClient.delete<any>(`${this.global.products}${productId}`);
   }

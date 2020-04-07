@@ -14,6 +14,7 @@ import { SignupService } from './banner-admin/services/signup.service';
 import { AuthGuard } from './shared';
 import { ProductModelComponent } from './banner-admin/admin-components/products/product-model/product-model.component';
 import { ProductDetailsComponent } from './banner-admin/admin-components/products/product-details/product-details.component';
+import { OptionModelComponent } from './banner-admin/admin-components/option-groups/option-model/option-model.component';
 
 @NgModule({
     imports: [
@@ -31,7 +32,7 @@ import { ProductDetailsComponent } from './banner-admin/admin-components/product
             preventDuplicates: false,
         }),
     ],
-    declarations: [AppComponent, ProductModelComponent, ProductDetailsComponent],
+    declarations: [AppComponent, ProductModelComponent, ProductDetailsComponent, OptionModelComponent],
     providers: [AuthGuard, Globals, LoginService, SignupService],
     bootstrap: [AppComponent]
 })

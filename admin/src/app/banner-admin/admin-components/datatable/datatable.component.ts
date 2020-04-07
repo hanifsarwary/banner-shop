@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, OnChanges } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
@@ -6,7 +6,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
   templateUrl: './datatable.component.html',
   styleUrls: ['./datatable.component.scss']
 })
-export class DatatableComponent implements OnInit {
+export class DatatableComponent implements OnChanges {
   @Output() categoryItemEvent = new EventEmitter();
   @Input() datatableColumns: [];
   @Input() dataSource: [];
@@ -16,7 +16,7 @@ export class DatatableComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.sourceData = new MatTableDataSource(this.dataSource);
     this.sourceData.sort = this.sort;
     this.sourceData.paginator = this.paginator;
