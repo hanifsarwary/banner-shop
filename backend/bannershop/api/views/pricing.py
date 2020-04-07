@@ -35,21 +35,22 @@ class CalculatePriceViewSet(APIView):
 
             elif product.price_type == PRODUCT_TWO_OPTION:
                 option_names = product.price_details.get('sequence')
-
+                quantity = int(request.data['options'].pop('Quantity'))
                 basic_price = TwoDependentSubOption.objects.filter(first_sub_option__option__option_name=option_names[0]).filter(
                     second_sub_option__option__option_name=option_names[1]).filter(
-                        first_sub_option__name=request.data.pop(option_names[0])[0]).filter(
-                            second_sub_option__name=request.data.pop(option_names[1])[0]
+                        first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
+                            second_sub_option__name=request.data['options'].pop(option_names[1])[0]
                         ).first().price
+                
             elif product.price_type == PRODUCT_THREE_OPTION:
 
                 option_names = product.price_details.get('sequence')
-
+                quantity = int(request.data['options'].pop('Quantity'))
                 basic_price = ThreeDependentSubOption.objects.filter(first_sub_option__option__option_name=option_names[0]).filter(
                     second_sub_option__option__option_name=option_names[1]).filter(
                     third_sub_option__option__option_name=option_names[2]).filter(
-                        first_sub_option__name=request.data.pop(option_names[0])[0]).filter(
-                            second_sub_option__name=request.data.pop(option_names[1])[0]
+                        first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
+                            second_sub_option__name=request.data['options'].pop(option_names[1])[0]
                         ).first().price
 
             
@@ -90,7 +91,7 @@ class CalculatePriceViewSet(APIView):
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
             print(total_price)
             print(percentage_temp_arr)
-            if basic_percentage_temp_arr[0]:
+            if basic_percentage_temp_arr and basic_percentage_temp_arr[0]:
                 for i in basic_percentage_temp_arr:
                     total_price = total_price + basic_price * (i / 100)    
             total_price = total_price + product.setup_cost

@@ -87,7 +87,7 @@ class Option(models.Model):
         return self.option_name + '  --- ' + self.product.product_name
     
     class Meta:
-        ordering = ('is_suboptions', 'option_name')
+        ordering = ('product', 'is_suboptions', 'option_name')
 
 
 class SubOption(models.Model):
@@ -104,7 +104,7 @@ class SubOption(models.Model):
         return self.name + ' ---- ' + self.option.__str__()
     
     class Meta:
-        ordering = ('price', 'name')
+        ordering = ('-option', 'price')
 
 
 class TwoDependentSubOption(models.Model):
