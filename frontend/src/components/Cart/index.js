@@ -145,7 +145,8 @@ class Cart extends React.Component {
             this.state.cartItems.forEach(item => {
                 const product = {
                     product: item.id,
-                    custom_image: this.dataURLtoFile(item.file, 'custom_image'),
+                    // custom_image: this.dataURLtoFile(item.file, 'custom_image'),
+                    custom_image: null,
                     special_note: item.special_note,
                     total_price: item.price,
                     total_weight: 5,
@@ -170,9 +171,9 @@ class Cart extends React.Component {
             });
 
             console.log(orderBody);
-            const formData = this.jsonToFormData(orderBody);
+            // const formData = this.jsonToFormData(orderBody);
 
-            bannerShop.post('/api/orders/', formData)
+            bannerShop.post('/api/orders/', orderBody)
                 .then(res => {
                     return res;
                 }).then(data => {

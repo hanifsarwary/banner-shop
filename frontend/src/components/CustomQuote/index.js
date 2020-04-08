@@ -56,14 +56,32 @@ class CustomQuote extends React.Component {
             }
             console.log(this.state);
             // await bannerShop.post('/api/custom-quotes/', formData);
-            const res = await bannerShop({
-                method: 'post',
-                url: 'myurl',
-                data: formData,
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
-            console.log(res);
+            // const res = await bannerShop({
+            //     method: 'post',
+            //     url: '/api/custom-quotes',
+            //     data: formData,
+            //     headers: { 'Content-Type': 'multipart/form-data' }
+            // });
+            // console.log(res);
             this.setState({
+                form: {
+                    additional_requirements: '',
+                    company_name: '',
+                    contact_name: '',
+                    custom_image: null,
+                    email: '',
+                    fax_no: '',
+                    finish_size: '',
+                    ink_desc: '',
+                    job_type: '',
+                    job_desc: '',
+                    media_desc: '',
+                    old_job_reference: '',
+                    phone_no: '',
+                    quantity: null,
+                    required_ship_date: null,
+                    is_proof: false,
+                },
                 submited: false
             });
         } catch (error) {
