@@ -14,7 +14,7 @@ from api.views.pricing import CalculatePriceViewSet
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 urlpatterns = [
-    path('all_categories/', AllCategoryListViewSet.as_view()),
+    path('all-categories/', AllCategoryListViewSet.as_view()),
     path('categories/', CategoryListViewSet.as_view()),
     path('categories/<int:pk>/', CategoryDetailViewSet.as_view()),
     path('categories/<int:category_id>/sub-categories/', SubCategoryListViewSet.as_view()),
