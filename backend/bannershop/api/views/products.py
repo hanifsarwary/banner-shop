@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from api.models import Product, Option, SubOption
 from api.serializers.products import ProductSerializer, OptionSerializer, SubOptionSerializer, ProductDetailSerializer
-
+from django.db.models import Q
 
 class ProductsListViewSet(ListCreateAPIView):
     serializer_class = ProductSerializer
@@ -42,7 +42,7 @@ class CategoryProductsViewSet(ListAPIView):
     queryset = Product.objects
 
     def list(self, request, category_id, *args, **kwargs):
-        queryset = self.get_queryset().filter(category=category_id)
+        queryset = self.get_queryset().filter(Q(category=category_id) | Q(category__parent_category=category_id))
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 

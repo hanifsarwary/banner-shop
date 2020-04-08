@@ -16,6 +16,11 @@ class CategoryListViewSet(ListCreateAPIView):
     queryset = Category.objects.filter(parent_category__isnull=True).order_by('id')
 
 
+class AllCategoryListViewSet(ListAPIView):
+    
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
 class SubCategoryListViewSet(ListAPIView):
     """
     A view to get sub categories of a category

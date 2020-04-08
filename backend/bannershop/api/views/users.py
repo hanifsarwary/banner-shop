@@ -16,7 +16,6 @@ class UsersDetailUpdateViewSet(RetrieveUpdateAPIView):
     queryset = User.objects
     
 
-
 class UserDetailsWithUserName(RetrieveUpdateAPIView):
     serializer_class = RetrieveUserSerializer
     queryset = User.objects
