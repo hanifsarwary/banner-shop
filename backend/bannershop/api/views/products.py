@@ -74,7 +74,7 @@ class GetProductPriceTypes(APIView):
     def get(self, request):
         return_dict = dict()
         for a, b in Product.PRICE_TYPES: 
-            return_dict.setdefault(a, []).append(b) 
+            return_dict.setdefault(a, b) 
         
         return Response({ "types": return_dict})
 
