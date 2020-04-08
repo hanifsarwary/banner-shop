@@ -40,6 +40,8 @@ class CategoryProductsViewSet(ListAPIView):
 
     serializer_class = ProductSerializer
     queryset = Product.objects
+    filter_backends = [DjangoFilterBackend, ]
+    filterset_fields = ['is_featured', 'is_deleted', 'is_coupon_allowed', 'price_type']
 
     def list(self, request, category_id, *args, **kwargs):
         queryset = self.get_queryset().filter(Q(category=category_id) | Q(category__parent_category=category_id))
