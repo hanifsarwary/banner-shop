@@ -55,10 +55,11 @@ class ProductDetailViewSet(RetrieveUpdateAPIView):
 
 class OptionDetailViewSet(RetrieveUpdateAPIView):
     serializer_class = OptionSerializer
-    
+    queryset = Option.objects
 
 class SubOptionDetailViewSet(RetrieveUpdateAPIView):
     serializer_class = SubOptionSerializer
+    queryset = SubOption.objects
 
 
 class AllOptionListView(ListAPIView):
