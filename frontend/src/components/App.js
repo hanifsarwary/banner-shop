@@ -81,9 +81,6 @@ class App extends React.Component {
           <Route path="/contact" exact>
             <Contact isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand}/>
           </Route>
-          <Route>
-            <CustomQuote path="/custom-quote" exact/>
-          </Route>
           <Route path="/auth/login" exact>
             <Login 
               isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin} previousPath={this.state.previousPath}
@@ -91,6 +88,9 @@ class App extends React.Component {
           </Route>
           <Route path="/auth/signup" exact>
             <SignUp />
+          </Route>
+          <Route>
+            <CustomQuote path="/customquote" exact/>
           </Route>
           <Redirect to="/" />
         </Switch>
