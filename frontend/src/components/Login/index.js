@@ -26,7 +26,7 @@ class Login extends React.Component {
 					logged: true
 				});
 
-				const res = await bannerShop.post('/auth/token/obtain/', {
+				const res = await bannerShop.post('/api/auth/token/obtain/', {
 					username: this.state.email,
 					password: this.state.password
 				})

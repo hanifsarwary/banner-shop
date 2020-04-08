@@ -16,6 +16,7 @@ class ProductDetail extends React.Component {
     priceCalc: {},
     optionState: {},
     quantity: {},
+    optDet: [],
     options: []
   }
 
@@ -39,6 +40,7 @@ class ProductDetail extends React.Component {
       let newTotal = 0;
       const optionState = {};
       let quantity = {};
+      const optDet = [];
 
       for (let index = 0; index < options.length; index++) {
         await new Promise(async (next) => {
@@ -50,6 +52,13 @@ class ProductDetail extends React.Component {
             optionState[option.option_name] = {};
             optionState[option.option_name].id = subOption.id;
             optionState[option.option_name].name = subOption.name;
+
+            optDet.push({
+              id: option.id,
+              sub: subOption.id,
+              qty: 1,
+              price: subOption.price
+            });
 
             if (option.option_name === 'Quantity') {
               quantity = {
@@ -80,12 +89,25 @@ class ProductDetail extends React.Component {
                 priceCalc: priceCalcObj,
                 optionState: optionState,
                 quantity: quantity,
+                optDet: optDet,
                 loaded: true
               })
             }
           } else {
             priceCalcObj.options[option.option_name] = 1;
             optionState[option.option_name] = 1;
+            // {
+            //   option: opt.id,
+            //   sub_option: opt.sub,
+            //   quantity: opt.qty,
+            //   price: opt.price
+            // }
+            optDet.push({
+              id: option.id,
+              sub: null,
+              qty: 1,
+              price: option.price_unit
+            });
 
             if (option.option_name === 'Quantity') {
               quantity = { ...option };
@@ -103,11 +125,14 @@ class ProductDetail extends React.Component {
               const price = await bannerShop.post('/api/prices/', priceCalcObj);
               const priceData = await price;
 
+              newTotal = priceData.data.price;
+
               this.setState({
                 total: newTotal,
                 priceCalc: priceCalcObj,
                 optionState: optionState,
                 quantity: quantity,
+                optDet: optDet,
                 loaded: true
               })
             }
@@ -119,7 +144,7 @@ class ProductDetail extends React.Component {
       this.setState({
         options: new_options,
       });
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -177,12 +202,22 @@ class ProductDetail extends React.Component {
     this.setState({
       loaded: false,
       total: 0
-    })
+    });
 
+    let optDet = [];
     const name = e.target[e.target.selectedIndex].getAttribute('data-name');
     const sub = e.target[e.target.selectedIndex].getAttribute('data-sub');
     const price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price'));
     const id = parseInt(e.target[e.target.selectedIndex].getAttribute('data-id'));
+    const optId = parseInt(e.target[e.target.selectedIndex].getAttribute('data-opt-id'));
+
+    const optDetObj = this.state.optDet.find(opt => opt.id === optId);
+    optDet = this.state.optDet.filter(opt => opt.id !== optId);
+    console.log(optId);
+    console.log(optDetObj);
+
+    optDetObj.sub = id;
+    optDet.push(optDetObj);
 
     const priceCalcObj = { ...this.state.priceCalc };
     const optionState = { ...this.state.optionState };
@@ -200,6 +235,7 @@ class ProductDetail extends React.Component {
           total: newTotal,
           priceCalc: priceCalcObj,
           optionState: optionState,
+          optDet: optDet,
           loaded: true,
         })
       }).catch(err => {
@@ -211,10 +247,18 @@ class ProductDetail extends React.Component {
     this.setState({
       loaded: false,
       total: 0
-    })
+    });
 
+    let optDet = [];
     const name = e.target.getAttribute('data-name');
+    const id = parseInt(e.target.getAttribute('data-id'));
     const value = parseInt(e.target.value);
+
+    const optDetObj = this.state.optDet.find(opt => opt.id === id);
+    optDet = this.state.optDet.filter(opt => opt.id !== id);
+
+    optDetObj.qty = value;
+    optDet.push(optDetObj);
 
     const priceCalcObj = { ...this.state.priceCalc };
     const optionState = { ...this.state.optionState };
@@ -237,6 +281,7 @@ class ProductDetail extends React.Component {
           total: newTotal,
           priceCalc: priceCalcObj,
           optionState: optionState,
+          optDet: optDet,
           loaded: true,
         })
       }).catch(err => {
@@ -321,7 +366,7 @@ class ProductDetail extends React.Component {
       return (
         <div className="container bgwhite p-t-35 p-b-80">
           <span className="floating-price m-text17">
-            Price: 
+            Price:
             ${this.state.total}
           </span>
           <div className="flex-w flex-sb">
@@ -349,26 +394,26 @@ class ProductDetail extends React.Component {
                   </div>
                   {(this.state.quantity.is_suboptions && this.state.quantity.suboption_set.length > 0) ? (
                     <div className="bo4 of-hidden size15 m-b-20">
-                    <select className="selection-2" name="size"
-                      style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
-                      onChange={this.subOptionPricer} value={this.state.optionState[this.state.quantity.option_name].id}
-                    >
-                      {this.state.quantity.sub.subOptions.map(subOption => {
-                        return (
-                          <option key={subOption.id} value={subOption.id}
-                            data-name={this.state.quantity.option_name} data-price={subOption.price} data-sub={subOption.name}
-                            data-id={subOption.id}
-                          >
-                            {subOption.name}
-                          </option>
-                        )
-                      })}
-                    </select>
+                      <select className="selection-2" name="size"
+                        style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
+                        onChange={this.subOptionPricer} value={this.state.optionState[this.state.quantity.option_name].id}
+                      >
+                        {this.state.quantity.sub.subOptions.map(subOption => {
+                          return (
+                            <option key={subOption.id} value={subOption.id}
+                              data-name={this.state.quantity.option_name} data-price={subOption.price} data-sub={subOption.name}
+                              data-id={subOption.id}
+                            >
+                              {subOption.name}
+                            </option>
+                          )
+                        })}
+                      </select>
                     </div>
                   ) : (
                       <div className="bo4 of-hidden size15 m-b-20">
                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                          value={this.state.optionState["Quantity"]} data-name="Quantity"
+                          value={this.state.optionState["Quantity"]} data-name="Quantity" data-id={this.state.quantity.id}
                           onBlur={this.optionChangeCalc} onChange={this.changeHand}
                         />
                       </div>
@@ -391,7 +436,7 @@ class ProductDetail extends React.Component {
                               return (
                                 <option key={subOption.id} value={subOption.id}
                                   data-name={option.option_name} data-price={subOption.price} data-sub={subOption.name}
-                                  data-id={subOption.id}
+                                  data-id={subOption.id} data-opt-id={option.id}
                                 >
                                   {subOption.name}
                                 </option>
@@ -401,7 +446,7 @@ class ProductDetail extends React.Component {
 
                         ) : (
                             <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
-                              value={this.state.optionState[option.option_name]} data-name={option.option_name}
+                              value={this.state.optionState[option.option_name]} data-name={option.option_name} data-id={option.id}
                               onBlur={this.optionChangeCalc} onChange={this.changeHand}
                             />
                           )}
@@ -425,18 +470,18 @@ class ProductDetail extends React.Component {
                 </div>
 
                 <div className="flex-m flex-w p-b-10 mt-3">
-                  {/* <div className="s-text15 mb-2">
-                                File:
+                  <div className="s-text15 mb-2">
+                    File:
                             </div>
-                            {this.state.required ? (
-                                <span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
-                            ) : ('')}
-                            <div className="bo4 of-hidden size15 m-b-20">
-                                <input className="sizefull s-text7" type="file"
-                                    style={{ padding: '10px' }}
-                                    onChange={this.fileHand}
-                                />
-                            </div> */}
+                  {this.state.required ? (
+                    <span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+                  ) : ('')}
+                  <div className="bo4 of-hidden size15 m-b-20">
+                    <input className="sizefull s-text7" type="file"
+                      style={{ padding: '10px' }}
+                      onChange={this.fileHand}
+                    />
+                  </div>
                 </div>
 
                 <div className="flex-r-m flex-w p-t-10 p-b-40">
