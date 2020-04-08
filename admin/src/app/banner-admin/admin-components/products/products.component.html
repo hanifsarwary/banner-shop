@@ -10,12 +10,27 @@
                                 Create Product
                             </button>
                         </div>
+                        <div class="filter">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="productCategor">Category :</label>
+                                <select  (change)="showByCategoryId($event.target.value)" class="form-control col-sm-4" id="productCategor">
+                                    <option value="all">All</option>
+                                    <option  *ngFor="let category of categoriesData" [value]="category.id">{{category.name}}</option>
+                                </select>
+                                <label class="col-sm-2 col-form-label" for="productOption">Options :</label>
+                                <select  (change)="showByOptionId($event.target.value)" class="form-control col-sm-4" id="productOption">
+                                    <option value="all">All</option>
+                                    <option  *ngFor="let option of optionsData" [value]="option.id">{{option.option_name}}</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-2 mt-4">
                         <div *ngIf="productsData.length">
                             <app-datatable [datatableColumns]="tableColumns" [dataSource]="productsData" (categoryItemEvent)="deleteProduct($event)">
                             </app-datatable>
                         </div>
+                        <div class="noRecord" *ngIf="!productsData.length">No Record Match</div>
                     </div>
                 </div>
             </section>

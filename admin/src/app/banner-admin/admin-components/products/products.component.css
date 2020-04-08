@@ -1,0 +1,14 @@
+.filter {
+    width: 40rem;
+    float: right;
+    margin-right: 1rem;
+}
+.noRecord {
+    font-size: 22px;
+    text-align: center;
+    margin-top: 15rem;
+}
+.filter > .form-group > label {
+    text-align: end;
+    font-weight: bold;
+}

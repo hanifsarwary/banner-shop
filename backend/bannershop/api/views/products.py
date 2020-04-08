@@ -7,13 +7,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from api.models import Product, Option, SubOption
 from api.serializers.products import ProductSerializer, OptionSerializer, SubOptionSerializer, ProductDetailSerializer
-
+from django.db.models import Q
 
 class ProductsListViewSet(ListCreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all().order_by('category')
     filter_backends = [DjangoFilterBackend, ]
-    filterset_fields = ['is_featured', ]
+    filterset_fields = ['is_featured', 'is_deleted', 'is_coupon_allowed', 'price_type']
 
 
 class ProductOptionsListViewSet(ListCreateAPIView):
@@ -42,7 +42,7 @@ class CategoryProductsViewSet(ListAPIView):
     queryset = Product.objects
 
     def list(self, request, category_id, *args, **kwargs):
-        queryset = self.get_queryset().filter(category=category_id)
+        queryset = self.get_queryset().filter(Q(category=category_id) | Q(category__parent_category=category_id))
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
@@ -51,6 +51,15 @@ class ProductDetailViewSet(RetrieveUpdateAPIView):
     
     serializer_class = ProductDetailSerializer
     queryset = Product.objects.all().order_by('id')
+
+
+class OptionDetailViewSet(RetrieveUpdateAPIView):
+    serializer_class = OptionSerializer
+    queryset = Option.objects
+
+class SubOptionDetailViewSet(RetrieveUpdateAPIView):
+    serializer_class = SubOptionSerializer
+    queryset = SubOption.objects
 
 
 class AllOptionListView(ListAPIView):
@@ -63,4 +72,19 @@ class AllOptionListView(ListAPIView):
 class GetProductPriceTypes(APIView):
 
     def get(self, request):
-        return Response({ "types": Product.PRICE_TYPES})
+        return_dict = dict()
+        for a, b in Product.PRICE_TYPES: 
+            return_dict.setdefault(a, b) 
+        
+        return Response({ "types": return_dict})
+
+
+class GetOptionTypes(APIView):
+
+    def get(self, request):
+        return_dict = dict()
+        for a, b in Option.OPTION_TYPES: 
+            return_dict.setdefault(a, b) 
+        
+
+        return Response({'types': return_dict})

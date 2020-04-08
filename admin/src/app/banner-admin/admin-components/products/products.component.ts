@@ -12,6 +12,9 @@ export class ProductsComponent implements OnInit {
   tableColumns = ['no', 'product_name', 'product_image', 'product_detail' ];
   productsData = [];
   categoriesData = [];
+  optionsData = [];
+  showFilter = false;
+  notRecordFound = false;
 
   constructor(private apiService: ApiService,
     private modalService: NgbModal) { }
@@ -19,11 +22,20 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
     this.getCategories();
+    this.getOptions();
   }
 
   getProducts() {
+    this.productsData = [];
     this.apiService.getProducts().subscribe(res => {
       this.productsData = res.results;
+    });
+  }
+
+  getProductsByCategory(param?) {
+    this.productsData = [];
+    this.apiService.getProductsByCategory(param).subscribe(res => {
+        this.productsData = res;
     });
   }
 
@@ -42,6 +54,34 @@ export class ProductsComponent implements OnInit {
       this.apiService.deleteProduct(data.record).subscribe(res => {
       });
     }
+  }
+  showFilters() {
+    this.showFilter = true;
+  }
+
+  showByCategoryId(id) {
+    if (id === 'all') {
+      this.getProducts();
+    } else {
+      this.getProductsByCategory(id);
+    }
+  }
+  showByOptionId(id) {
+    if (id === 'all') {
+      this.getProducts();
+    } else {
+      this.getProductsByOption(id);
+    }
+  }
+
+  getProductsByOption(param?) {
+
+  }
+
+  getOptions() {
+    this.apiService.getOptions().subscribe(res => {
+      this.optionsData = res.results;
+    });
   }
 
   getCategories() {
