@@ -72,10 +72,19 @@ class AllOptionListView(ListAPIView):
 class GetProductPriceTypes(APIView):
 
     def get(self, request):
-        return Response({ "types": Product.PRICE_TYPES})
+        return_dict = dict()
+        for a, b in Product.PRICE_TYPES: 
+            return_dict.setdefault(a, []).append(b) 
+        
+        return Response({ "types": return_dict})
 
 
 class GetOptionTypes(APIView):
 
     def get(self, request):
-        return Response({'types': Option.OPTION_TYPES})
+        return_dict = dict()
+        for a, b in Option.OPTION_TYPES: 
+            return_dict.setdefault(a, []).append(b) 
+        
+
+        return Response({'types': return_dict})
