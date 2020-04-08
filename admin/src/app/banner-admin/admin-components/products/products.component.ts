@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModelComponent } from './product-model/product-model.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-products',
@@ -9,33 +10,51 @@ import { ProductModelComponent } from './product-model/product-model.component';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  tableColumns = ['no', 'product_name', 'product_image', 'product_detail' ];
+  tableColumns = ['no', 'product_name', 'product_image', 'product_price_type', 'product_detail' ];
   productsData = [];
   categoriesData = [];
+  pricesData = [];
   optionsData = [];
   showFilter = false;
   notRecordFound = false;
+  loading = true;
 
   constructor(private apiService: ApiService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal, private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.getPriceTypes();
     this.getProducts();
     this.getCategories();
     this.getOptions();
   }
 
-  getProducts() {
+  getPriceTypes() {
+    this.apiService.getPriceTypes().subscribe(res => {
+      localStorage.setItem('priceObj', JSON.stringify(res.types));
+      this.pricesData = res.types;
+    });
+  }
+
+  getProducts(param?) {
+    this.loading = true;
+    this.SpinnerService.show();
     this.productsData = [];
-    this.apiService.getProducts().subscribe(res => {
+    this.apiService.getProducts(param).subscribe(res => {
       this.productsData = res.results;
+      this.SpinnerService.hide();
+      this.loading = false;
     });
   }
 
   getProductsByCategory(param?) {
+    this.loading = true;
+    this.SpinnerService.show();
     this.productsData = [];
     this.apiService.getProductsByCategory(param).subscribe(res => {
         this.productsData = res;
+        this.SpinnerService.hide();
+        this.loading = false;
     });
   }
 
@@ -66,16 +85,21 @@ export class ProductsComponent implements OnInit {
       this.getProductsByCategory(id);
     }
   }
-  showByOptionId(id) {
+  showByPriceType(id) {
+    const param = `?price_type=${id}`;
     if (id === 'all') {
       this.getProducts();
     } else {
-      this.getProductsByOption(id);
+      this.getProducts(param);
     }
   }
-
-  getProductsByOption(param?) {
-
+  showByFeatured(value) {
+    const param = `?${value}=${true}`;
+    if (value === 'all') {
+      this.getProducts();
+    } else {
+      this.getProducts(param);
+    }
   }
 
   getOptions() {

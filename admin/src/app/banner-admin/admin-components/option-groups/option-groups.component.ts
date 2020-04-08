@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OptionModelComponent } from './option-model/option-model.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-option-groups',
@@ -9,10 +10,13 @@ import { OptionModelComponent } from './option-model/option-model.component';
   styleUrls: ['./option-groups.component.css']
 })
 export class OptionGroupsComponent implements OnInit {
-  tableColumns = ['no', 'option_name', 'price_unit', 'option_description', 'option_type' ];
+  tableColumns = ['no', 'option_name', 'option_type' ];
   optionsData = [];
   productData = [];
-  constructor(private apiService: ApiService, private modalService: NgbModal) { }
+  loading = true;
+  constructor(private apiService: ApiService,
+    private SpinnerService: NgxSpinnerService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getOptions();
@@ -31,9 +35,33 @@ export class OptionGroupsComponent implements OnInit {
   }
 
   getOptions() {
+    this.loading = true;
+    this.SpinnerService.show();
+    this.optionsData = [];
     this.apiService.getOptions().subscribe(res => {
       console.log(res);
       this.optionsData = res.results;
+      this.SpinnerService.hide();
+    });
+  }
+
+  showByProducrId(id) {
+    const param = `${id}/options/`;
+    if (id === 'all') {
+      this.getOptions();
+    } else {
+      this.getOptionByProdcuct(param);
+    }
+  }
+
+  getOptionByProdcuct(param?) {
+    this.optionsData = [];
+    this.loading = true;
+    this.SpinnerService.show();
+    this.apiService.getOptionsByProduct(param).subscribe(res => {
+      this.optionsData = res;
+      this.SpinnerService.hide();
+      this.loading = false;
     });
   }
 

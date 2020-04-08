@@ -21,6 +21,8 @@ import { DatatableComponent } from './admin-components/datatable/datatable.compo
 import { MatTableModule, MatPaginatorModule, MatSortModule, MatTableDataSource } from '@angular/material';
 import { ModalAddCategoryComponent } from './admin-components/sub-components/modal-add-category/modal-add-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { PriceTypePipe } from '../custom-pipe/price-type.pipe';
 
 @NgModule({
   declarations: [
@@ -38,10 +40,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProfileComponent,
     DashboardComponent,
     DatatableComponent,
-    ModalAddCategoryComponent
+    ModalAddCategoryComponent,
+    PriceTypePipe
   ],
   imports: [
     CommonModule,
+    NgxSpinnerModule,
     BannerAdminRoutingModule,
     TranslateModule,
     NgbDropdownModule,
