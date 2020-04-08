@@ -3,8 +3,10 @@ from django.urls import path
 from api.views.categories import CategoryListViewSet, SubCategoryListViewSet, CategoryDetailViewSet, CategorySubCategoryProductViewSet
 from api.views.custom_quotes import CustomQuoteViewSet
 from api.views.customers import CustomerListViewSet
-from api.views.products import ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet, ProductDetailViewSet, AllOptionListView, GetProductPriceTypes
-from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet
+from api.views.products import (
+    ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet, ProductDetailViewSet, AllOptionListView, 
+    GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, SubOptionDetailViewSet)
+from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet, UserDetailsWithUserName
 from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
 from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOptionViewSet, ProductOrderOptionListViewSet
 from api.views.emails import SendOrderEmail
@@ -24,7 +26,10 @@ urlpatterns = [
     path('send-order-email/<int:order_id>/', SendOrderEmail.as_view()),
     path('orders/', OrderViewSet.as_view()),
     path('options/', AllOptionListView.as_view()),
+    path('options/<int:pk>/', OptionDetailViewSet.as_view()),
+    path('sub-options/<int:pk>/', SubOptionDetailViewSet.as_view()),
     path('price-types/', GetProductPriceTypes.as_view()),
+    path('option-types/', GetOptionTypes.as_view()),
     path('prices/', CalculatePriceViewSet.as_view()),
     path('product-orders/', ProductOrderViewSet.as_view()),
     path('product-orders/<int:product_order>/options/', ProductOrderOptionListViewSet.as_view()),
@@ -36,6 +41,7 @@ urlpatterns = [
     path('products/<int:product_id>/options/<int:option_id>/sub-options/', SubProductOptionsListViewSet.as_view()),
     path('users/', UsersListCreateViewSet.as_view()),
     path('users/<int:pk>/', UsersDetailUpdateViewSet.as_view()),
+    path('users/<str:username>/', UserDetailsWithUserName.as_view()),
     path('auth/token/obtain/', obtain_jwt_token),
     path('auth/token/refresh/', refresh_jwt_token),
     path('auth/token/verify/', verify_jwt_token),

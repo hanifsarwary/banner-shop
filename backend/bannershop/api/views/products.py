@@ -13,7 +13,7 @@ class ProductsListViewSet(ListCreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all().order_by('category')
     filter_backends = [DjangoFilterBackend, ]
-    filterset_fields = ['is_featured', ]
+    filterset_fields = ['is_featured', 'is_deleted', 'is_coupon_allowed', 'price_type']
 
 
 class ProductOptionsListViewSet(ListCreateAPIView):
@@ -53,6 +53,14 @@ class ProductDetailViewSet(RetrieveUpdateAPIView):
     queryset = Product.objects.all().order_by('id')
 
 
+class OptionDetailViewSet(RetrieveUpdateAPIView):
+    serializer_class = OptionSerializer
+    
+
+class SubOptionDetailViewSet(RetrieveUpdateAPIView):
+    serializer_class = SubOptionSerializer
+
+
 class AllOptionListView(ListAPIView):
 
     serializer_class = OptionSerializer
@@ -64,3 +72,9 @@ class GetProductPriceTypes(APIView):
 
     def get(self, request):
         return Response({ "types": Product.PRICE_TYPES})
+
+
+class GetOptionTypes(APIView):
+
+    def get(self, request):
+        return Response({'types': Option.OPTION_TYPES})

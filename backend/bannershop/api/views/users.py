@@ -14,3 +14,10 @@ class UsersListCreateViewSet(ListCreateAPIView):
 class UsersDetailUpdateViewSet(RetrieveUpdateAPIView):
     serializer_class = RetrieveUserSerializer
     queryset = User.objects
+    
+
+
+class UserDetailsWithUserName(RetrieveUpdateAPIView):
+    serializer_class = RetrieveUserSerializer
+    queryset = User.objects
+    lookup_field = 'username'
