@@ -35,6 +35,10 @@ export class ApiService {
     return this.httpClient.get<any>(`${this.global.products}${param}`);
   }
 
+  getPriceTypes() {
+    return this.httpClient.get<any>(`${this.global.pricetType}`);
+  }
+
   getProductsByCategory(param?): Observable<any> {
     param = param ? param : '';
     return this.httpClient.get<any>(`${this.global.productsByCategory}${param}/`);
@@ -43,6 +47,11 @@ export class ApiService {
   getOptions(param?): Observable<any> {
     param = param ? param : '';
     return this.httpClient.get<any>(`${this.global.options}${param}`);
+  }
+
+  getOptionsByProduct(param?): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.get<any>(`${this.global.products}${param}`);
   }
 
   deleteProduct(productId): Observable<any> {

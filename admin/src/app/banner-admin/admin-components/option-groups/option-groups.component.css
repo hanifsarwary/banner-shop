@@ -1,0 +1,38 @@
+.container {
+    top: 0;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+}
+.container-header{
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 3rem 1rem 0;
+    justify-content: space-between;
+}
+.noRecord {
+    font-size: 22px;
+    text-align: center;
+    margin-top: 15rem;
+}
+.product-heading {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 2rem;
+    margin-left: 0.3rem;
+    font-size: 1.5rem;
+}
+.filter > .form-group > label {
+    text-align: end;
+    font-weight: bold;
+    margin-right: 0.5rem;
+    margin-left: 1.5rem;
+}
+.filter > .form-group > select {
+    width: 12rem;
+}
+.small-loader {
+    text-align: center;
+    top: 50%;
+    left: 70%;
+    z-index: 5;
+  }
