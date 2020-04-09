@@ -17,7 +17,8 @@ class ProductDetail extends React.Component {
     optionState: {},
     quantity: {},
     optDet: [],
-    options: []
+    options: [],
+    priceLoad: false
   }
 
   loadDataOfPrice = async (id) => {
@@ -200,7 +201,7 @@ class ProductDetail extends React.Component {
 
   subOptionPricer = (e) => {
     this.setState({
-      loaded: false,
+      priceLoad: true,
       total: 0
     });
 
@@ -213,8 +214,6 @@ class ProductDetail extends React.Component {
 
     const optDetObj = this.state.optDet.find(opt => opt.id === optId);
     optDet = this.state.optDet.filter(opt => opt.id !== optId);
-    console.log(optId);
-    console.log(optDetObj);
 
     optDetObj.sub = id;
     optDet.push(optDetObj);
@@ -236,7 +235,7 @@ class ProductDetail extends React.Component {
           priceCalc: priceCalcObj,
           optionState: optionState,
           optDet: optDet,
-          loaded: true,
+          priceLoad: false,
         })
       }).catch(err => {
         console.log(err);
@@ -245,7 +244,7 @@ class ProductDetail extends React.Component {
 
   optionChangeCalc = (e) => {
     this.setState({
-      loaded: false,
+      priceLoad: true,
       total: 0
     });
 
@@ -282,7 +281,7 @@ class ProductDetail extends React.Component {
           priceCalc: priceCalcObj,
           optionState: optionState,
           optDet: optDet,
-          loaded: true,
+          priceLoad: false,
         })
       }).catch(err => {
         console.log(err);
@@ -371,7 +370,14 @@ class ProductDetail extends React.Component {
     if (this.state.loaded) {
       return (
         <div className="container bgwhite p-t-35 p-b-80">
-          <span className="floating-price m-text17">
+          <span className="floating-price m-text17" style={{ display: 'flex' }}>
+            {this.state.priceLoad ? (
+              <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
+                <Loader type="TailSpin" color="#fff" height={20} width={20} />
+              </div>
+            ) : (
+                ""
+              )}
             Price:
             ${this.state.total}
           </span>
@@ -385,7 +391,14 @@ class ProductDetail extends React.Component {
               <h4 className="product-detail-name m-text16 p-b-13">
                 {this.state.detail.product_name}
               </h4>
-              <span className="m-text17">
+              <span className="m-text17" style={{ display: 'flex' }}>
+                {this.state.priceLoad ? (
+                  <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
+                    <Loader type="TailSpin" color="#000" height={20} width={20} />
+                  </div>
+                ) : (
+                    ""
+                  )}
                 ${this.state.total}
               </span>
 
