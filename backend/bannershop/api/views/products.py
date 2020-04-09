@@ -11,7 +11,7 @@ from django.db.models import Q
 
 class ProductsListViewSet(ListCreateAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all().order_by('category')
+    queryset = Product.objects.all()
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['is_featured', 'is_deleted', 'is_coupon_allowed', 'price_type']
 

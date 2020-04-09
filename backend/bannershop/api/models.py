@@ -62,6 +62,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+    
+
+    class Meta:
+        ordering = ('category', 'product_name')
 
 
 class Option(models.Model):
