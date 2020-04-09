@@ -289,6 +289,12 @@ class ProductDetail extends React.Component {
       })
   }
 
+  onEnterChange = (e) => {
+    if (e.keyCode === 13) {
+      this.optionChangeCalc(e);
+    }
+  }
+
   addDescHand = (e) => {
     this.setState({
       addDesc: e.target.value,
@@ -402,7 +408,7 @@ class ProductDetail extends React.Component {
                           return (
                             <option key={subOption.id} value={subOption.id}
                               data-name={this.state.quantity.option_name} data-price={subOption.price} data-sub={subOption.name}
-                              data-id={subOption.id}
+                              data-id={subOption.id} data-opt-id={this.state.quantity.id}
                             >
                               {subOption.name}
                             </option>
@@ -414,7 +420,7 @@ class ProductDetail extends React.Component {
                       <div className="bo4 of-hidden size15 m-b-20">
                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
                           value={this.state.optionState["Quantity"]} data-name="Quantity" data-id={this.state.quantity.id}
-                          onBlur={this.optionChangeCalc} onChange={this.changeHand}
+                          onBlur={this.optionChangeCalc} onChange={this.changeHand} onKeyDown={this.onEnterChange}
                         />
                       </div>
                     )}
@@ -447,7 +453,7 @@ class ProductDetail extends React.Component {
                         ) : (
                             <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
                               value={this.state.optionState[option.option_name]} data-name={option.option_name} data-id={option.id}
-                              onBlur={this.optionChangeCalc} onChange={this.changeHand}
+                              onBlur={this.optionChangeCalc} onChange={this.changeHand} onKeyDown={this.onEnterChange}
                             />
                           )}
                       </div>
