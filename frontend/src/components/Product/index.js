@@ -29,7 +29,18 @@ class ProductDetail extends React.Component {
 
       this.setState({
         detail: productsData,
-        total: productsData.one_unit_weight
+        total: productsData.one_unit_weight,
+        cartAdd: false,
+        valid: true,
+        required: false,
+        addDesc: '',
+        file: {},
+        priceCalc: {},
+        optionState: {},
+        quantity: {},
+        optDet: [],
+        options: [],
+        priceLoad: false
       });
 
       const priceCalcObj = {
@@ -159,7 +170,7 @@ class ProductDetail extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  async componentDidUpdate() {
     if (this.state.loaded && this.state.cartAdd) {
       window.setTimeout(() => {
         this.setState({
@@ -167,18 +178,24 @@ class ProductDetail extends React.Component {
         });
       }, 3000);
     }
+
   }
 
   async componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.id !== this.props.match.params.id) {
-      this.setState({
-        loaded: false
-      });
-      const id = nextProps.match.params.id
-      await this.loadDataOfPrice(id);
-      this.setState({
-        loaded: true
-      });
+    try {
+      if (nextProps.match.params.id !== this.props.match.params.id) {
+        this.setState({
+          loaded: false
+        });
+        const id = nextProps.match.params.id;
+
+        await this.loadDataOfPrice(id);
+        // this.setState({
+        //   loaded: true
+        // });
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -439,6 +456,9 @@ class ProductDetail extends React.Component {
                     )}
                 </div>
                 {this.state.options.map((option) => {
+                  console.log('option', option);
+                  console.log('option.option_name', option.option_name);
+                  console.log('obj', this.state.optionState[option.option_name]);
                   let value = this.state.optionState[option.option_name].id;
                   return (
                     <div className="flex-m flex-w" key={option.id}>
