@@ -35,7 +35,10 @@ class CalculatePriceViewSet(APIView):
 
             elif product.price_type == PRODUCT_TWO_OPTION:
                 option_names = product.price_details.get('sequence')
-                quantity = int(request.data['options'].pop('Quantity'))
+                if type(request.data['options'].get('Quantity')) == list:
+                    quantity = int(request.data['options'].get('Quantity')[0])
+                else:
+                    quantity = int(request.data['options'].get('Quantity'))
                 basic_price = TwoDependentSubOption.objects.filter(first_sub_option__option__option_name=option_names[0]).filter(
                     second_sub_option__option__option_name=option_names[1]).filter(
                         first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
@@ -45,7 +48,10 @@ class CalculatePriceViewSet(APIView):
             elif product.price_type == PRODUCT_THREE_OPTION:
 
                 option_names = product.price_details.get('sequence')
-                quantity = int(request.data['options'].pop('Quantity'))
+                if type(request.data['options'].get('Quantity')) == list:
+                    quantity = int(request.data['options'].get('Quantity')[0])
+                else:
+                    quantity = int(request.data['options'].get('Quantity'))
                 basic_price = ThreeDependentSubOption.objects.filter(first_sub_option__option__option_name=option_names[0]).filter(
                     second_sub_option__option__option_name=option_names[1]).filter(
                     third_sub_option__option__option_name=option_names[2]).filter(
