@@ -17,7 +17,8 @@ class ProductDetail extends React.Component {
     optionState: {},
     quantity: {},
     optDet: [],
-    options: []
+    options: [],
+    priceLoad: false
   }
 
   loadDataOfPrice = async (id) => {
@@ -28,7 +29,18 @@ class ProductDetail extends React.Component {
 
       this.setState({
         detail: productsData,
-        total: productsData.one_unit_weight
+        total: productsData.one_unit_weight,
+        cartAdd: false,
+        valid: true,
+        required: false,
+        addDesc: '',
+        file: {},
+        priceCalc: {},
+        optionState: {},
+        quantity: {},
+        optDet: [],
+        options: [],
+        priceLoad: false
       });
 
       const priceCalcObj = {
@@ -158,7 +170,7 @@ class ProductDetail extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  async componentDidUpdate() {
     if (this.state.loaded && this.state.cartAdd) {
       window.setTimeout(() => {
         this.setState({
@@ -166,18 +178,24 @@ class ProductDetail extends React.Component {
         });
       }, 3000);
     }
+
   }
 
   async componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.id !== this.props.match.params.id) {
-      this.setState({
-        loaded: false
-      });
-      const id = nextProps.match.params.id
-      await this.loadDataOfPrice(id);
-      this.setState({
-        loaded: true
-      });
+    try {
+      if (nextProps.match.params.id !== this.props.match.params.id) {
+        this.setState({
+          loaded: false
+        });
+        const id = nextProps.match.params.id;
+
+        await this.loadDataOfPrice(id);
+        // this.setState({
+        //   loaded: true
+        // });
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -200,7 +218,7 @@ class ProductDetail extends React.Component {
 
   subOptionPricer = (e) => {
     this.setState({
-      loaded: false,
+      priceLoad: true,
       total: 0
     });
 
@@ -213,8 +231,6 @@ class ProductDetail extends React.Component {
 
     const optDetObj = this.state.optDet.find(opt => opt.id === optId);
     optDet = this.state.optDet.filter(opt => opt.id !== optId);
-    console.log(optId);
-    console.log(optDetObj);
 
     optDetObj.sub = id;
     optDet.push(optDetObj);
@@ -236,7 +252,7 @@ class ProductDetail extends React.Component {
           priceCalc: priceCalcObj,
           optionState: optionState,
           optDet: optDet,
-          loaded: true,
+          priceLoad: false,
         })
       }).catch(err => {
         console.log(err);
@@ -245,7 +261,7 @@ class ProductDetail extends React.Component {
 
   optionChangeCalc = (e) => {
     this.setState({
-      loaded: false,
+      priceLoad: true,
       total: 0
     });
 
@@ -282,11 +298,17 @@ class ProductDetail extends React.Component {
           priceCalc: priceCalcObj,
           optionState: optionState,
           optDet: optDet,
-          loaded: true,
+          priceLoad: false,
         })
       }).catch(err => {
         console.log(err);
       })
+  }
+
+  onEnterChange = (e) => {
+    if (e.keyCode === 13) {
+      this.optionChangeCalc(e);
+    }
   }
 
   addDescHand = (e) => {
@@ -365,7 +387,14 @@ class ProductDetail extends React.Component {
     if (this.state.loaded) {
       return (
         <div className="container bgwhite p-t-35 p-b-80">
-          <span className="floating-price m-text17">
+          <span className="floating-price m-text17" style={{ display: 'flex' }}>
+            {this.state.priceLoad ? (
+              <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
+                <Loader type="TailSpin" color="#fff" height={20} width={20} />
+              </div>
+            ) : (
+                ""
+              )}
             Price:
             ${this.state.total}
           </span>
@@ -379,7 +408,14 @@ class ProductDetail extends React.Component {
               <h4 className="product-detail-name m-text16 p-b-13">
                 {this.state.detail.product_name}
               </h4>
-              <span className="m-text17">
+              <span className="m-text17" style={{ display: 'flex' }}>
+                {this.state.priceLoad ? (
+                  <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
+                    <Loader type="TailSpin" color="#000" height={20} width={20} />
+                  </div>
+                ) : (
+                    ""
+                  )}
                 ${this.state.total}
               </span>
 
@@ -402,7 +438,7 @@ class ProductDetail extends React.Component {
                           return (
                             <option key={subOption.id} value={subOption.id}
                               data-name={this.state.quantity.option_name} data-price={subOption.price} data-sub={subOption.name}
-                              data-id={subOption.id}
+                              data-id={subOption.id} data-opt-id={this.state.quantity.id}
                             >
                               {subOption.name}
                             </option>
@@ -414,12 +450,15 @@ class ProductDetail extends React.Component {
                       <div className="bo4 of-hidden size15 m-b-20">
                         <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
                           value={this.state.optionState["Quantity"]} data-name="Quantity" data-id={this.state.quantity.id}
-                          onBlur={this.optionChangeCalc} onChange={this.changeHand}
+                          onBlur={this.optionChangeCalc} onChange={this.changeHand} onKeyDown={this.onEnterChange}
                         />
                       </div>
                     )}
                 </div>
                 {this.state.options.map((option) => {
+                  console.log('option', option);
+                  console.log('option.option_name', option.option_name);
+                  console.log('obj', this.state.optionState[option.option_name]);
                   let value = this.state.optionState[option.option_name].id;
                   return (
                     <div className="flex-m flex-w" key={option.id}>
@@ -447,7 +486,7 @@ class ProductDetail extends React.Component {
                         ) : (
                             <input className="sizefull s-text7 p-l-22 p-r-22" type="number"
                               value={this.state.optionState[option.option_name]} data-name={option.option_name} data-id={option.id}
-                              onBlur={this.optionChangeCalc} onChange={this.changeHand}
+                              onBlur={this.optionChangeCalc} onChange={this.changeHand} onKeyDown={this.onEnterChange}
                             />
                           )}
                       </div>
