@@ -13,6 +13,8 @@ export class Globals {
   categories = `${this.domanin_name}/categories/`;
   products = `${this.domanin_name}/products/`;
   options = `${this.domanin_name}/options/`;
+  subOptions = `${this.domanin_name}/sub-options/`;
+  optionsPriceTypes = `${this.domanin_name}/option-types/`;
   pricetType = `${this.domanin_name}/price-types/`;
   productsByCategory = `${this.domanin_name}/products/category/`;
 }

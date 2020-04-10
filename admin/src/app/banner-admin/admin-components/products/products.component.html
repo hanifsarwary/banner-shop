@@ -31,7 +31,7 @@
     <div class="container-body">
         <div class="product-heading">All Products</div>
         <div *ngIf="productsData.length">
-            <app-datatable [datatableColumns]="tableColumns" [dataSource]="productsData" (categoryItemEvent)="deleteProduct($event)">
+            <app-datatable [datatableColumns]="tableColumns" [productExpand]="true" [dataSource]="productsData">
             </app-datatable>
         </div>
     </div>

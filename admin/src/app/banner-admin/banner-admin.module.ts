@@ -18,11 +18,13 @@ import { ProfileComponent } from './admin-components/profile/profile.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardComponent } from './admin-components/dashboard/dashboard.component';
 import { DatatableComponent } from './admin-components/datatable/datatable.component';
-import { MatTableModule, MatPaginatorModule, MatSortModule, MatTableDataSource } from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { ModalAddCategoryComponent } from './admin-components/sub-components/modal-add-category/modal-add-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { PriceTypePipe } from '../custom-pipe/price-type.pipe';
+import { OptionTypesPipe } from '../custom-pipe/option-types.pipe';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -41,10 +43,12 @@ import { PriceTypePipe } from '../custom-pipe/price-type.pipe';
     DashboardComponent,
     DatatableComponent,
     ModalAddCategoryComponent,
-    PriceTypePipe
+    PriceTypePipe,
+    OptionTypesPipe
   ],
   imports: [
     CommonModule,
+    CdkTableModule,
     NgxSpinnerModule,
     BannerAdminRoutingModule,
     TranslateModule,
@@ -53,7 +57,7 @@ import { PriceTypePipe } from '../custom-pipe/price-type.pipe';
     MatPaginatorModule,
     MatSortModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class BannerAdminModule { }

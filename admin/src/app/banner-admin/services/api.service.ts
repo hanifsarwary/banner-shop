@@ -44,9 +44,23 @@ export class ApiService {
     return this.httpClient.get<any>(`${this.global.productsByCategory}${param}/`);
   }
 
+  getOptionsTypes(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.optionsPriceTypes}`);
+  }
+
   getOptions(param?): Observable<any> {
     param = param ? param : '';
     return this.httpClient.get<any>(`${this.global.options}${param}`);
+  }
+
+  getSubCategory(param?): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.get<any>(`${this.global.categories}${param}/sub-categories/`);
+  }
+
+  getSubOption(param?): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.get<any>(`${this.global.subOptions}${param}/`);
   }
 
   getOptionsByProduct(param?): Observable<any> {
