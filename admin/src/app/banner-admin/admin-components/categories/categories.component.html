@@ -13,7 +13,7 @@
                     </div>
                     <div class="mb-2 mt-4">
                         <div *ngIf="categoriesData.length">
-                            <app-datatable [datatableColumns]="tableColumns" [dataSource]="categoriesData" (categoryItemEvent)="categoryEventClicked($event)">
+                            <app-datatable [datatableColumns]="tableColumns" [categoryExpand]="true" [dataSource]="categoriesData" (categoryItemEvent)="categoryEventClicked($event)">
                             </app-datatable>
                         </div>
                     </div>

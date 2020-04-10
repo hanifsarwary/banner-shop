@@ -10,9 +10,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./option-groups.component.css']
 })
 export class OptionGroupsComponent implements OnInit {
-  tableColumns = ['no', 'option_name', 'option_type' ];
+  tableColumns = ['no', 'option_name', 'option_type'];
   optionsData = [];
   productData = [];
+  pricesData = [];
   loading = true;
   constructor(private apiService: ApiService,
     private SpinnerService: NgxSpinnerService,
@@ -20,6 +21,7 @@ export class OptionGroupsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOptions();
+    this.getOptionsType();
     this.getProducts();
   }
 
@@ -34,12 +36,18 @@ export class OptionGroupsComponent implements OnInit {
     modalRef.componentInstance.products = this.productData;
   }
 
+  getOptionsType() {
+    this.apiService.getOptionsTypes().subscribe(res => {
+      localStorage.setItem('OptionPriceObj', JSON.stringify(res.types));
+      this.pricesData = res.types;
+    });
+  }
+
   getOptions() {
     this.loading = true;
     this.SpinnerService.show();
     this.optionsData = [];
     this.apiService.getOptions().subscribe(res => {
-      console.log(res);
       this.optionsData = res.results;
       this.SpinnerService.hide();
     });
