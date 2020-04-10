@@ -59,7 +59,7 @@ class CalculatePriceViewSet(APIView):
                     third_sub_option__option__option_name=option_names[2]).filter(
                         first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
                             second_sub_option__name=request.data['options'].pop(option_names[1])[0]
-                        ).first().price
+                        ).filter(third_sub_option__name=request.data['options'].pop(option_names[2])[0]).first().price
                 if 'Quantity' not in option_names:
                     request.data['options'].pop('Quantity')
             
