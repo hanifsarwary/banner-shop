@@ -59,8 +59,7 @@ class CalculatePriceViewSet(APIView):
                             second_sub_option__name=request.data['options'].pop(option_names[1])[0]
                         ).first().price
 
-
-            request.data['options'].pop('Quantity')
+            
             total_price = basic_price
             print(total_price)
             percentage_temp_arr = []
