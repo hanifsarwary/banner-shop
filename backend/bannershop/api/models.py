@@ -129,7 +129,7 @@ class ThreeDependentSubOption(models.Model):
     price = models.FloatField(default=0)
 
     def __str__(self):
-        return self.first_sub_option.name + ' ---- ' + self.second_sub_option.name
+        return self.first_sub_option.name + ' ---- ' + self.second_sub_option.name + ' ---- ' + self.third_sub_option.name
 
 
 class Customer(models.Model):
