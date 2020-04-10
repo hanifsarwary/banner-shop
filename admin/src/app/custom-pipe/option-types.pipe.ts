@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'priceType'
+  name: 'optionTypes'
 })
-export class PriceTypePipe implements PipeTransform {
+export class OptionTypesPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     let returnValue = '';
-    let priceObj = localStorage.getItem('priceObj');
+    let priceObj = localStorage.getItem('OptionPriceObj');
     priceObj = JSON.parse(priceObj);
     if (priceObj.hasOwnProperty(value)) {
       returnValue = priceObj[value];

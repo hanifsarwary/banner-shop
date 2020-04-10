@@ -16,6 +16,8 @@ import { ProductModelComponent } from './banner-admin/admin-components/products/
 import { ProductDetailsComponent } from './banner-admin/admin-components/products/product-details/product-details.component';
 import { OptionModelComponent } from './banner-admin/admin-components/option-groups/option-model/option-model.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatTableModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
 @NgModule({
     imports: [
         CommonModule,
@@ -27,6 +29,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         FormsModule,
         ReactiveFormsModule,
         NgxSpinnerModule,
+        MatTableModule,
+        CdkTableModule,
         ToastrModule.forRoot({
             timeOut: 3000,
             positionClass: 'toast-top-right',

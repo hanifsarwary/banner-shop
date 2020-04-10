@@ -1,69 +1,170 @@
 <div class="mat-elevation-z8">
     <div class="datatable-container">
-        <mat-table [dataSource]="sourceData" matSort class="data-table">
+        <table mat-table [dataSource]="sourceData" multiTemplateDataRows matSort class="data-table">
+
             <ng-container matColumnDef="no">
-                <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
-                <mat-cell *matCellDef="let element; let i = index"> {{sourceData.filteredData.indexOf(element)+1}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef> No </th>
+                <td mat-cell *matCellDef="let element; let i = index"> {{sourceData.filteredData.indexOf(element)+1}} </td>
             </ng-container>
+
             <ng-container matColumnDef="option_name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.option_name}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.option_name}} </td>
             </ng-container>
+
             <ng-container matColumnDef="price_unit">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Price Unit </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.price_unit}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Unit </th>
+                <td mat-cell *matCellDef="let element"> {{element.price_unit}} </td>
             </ng-container>
+
             <ng-container matColumnDef="option_description">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.option_description}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.option_description}} </td>
             </ng-container>
+
             <ng-container matColumnDef="option_type">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.option_type}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.option_type | optionTypes}} </td>
             </ng-container>
+
             <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
+
             <ng-container matColumnDef="cat_image">
-                <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <th mat-header-cell *matHeaderCellDef> Image </th>
+                <td mat-cell *matCellDef="let element">
                     <div>
                         <img src="{{element.default_category_image}}" class="category-img" alt="">
                     </div>
-                </mat-cell>
+                </td>
             </ng-container>
+
             <ng-container matColumnDef="product_name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.product_name}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.product_name}} </td>
             </ng-container>
+
             <ng-container matColumnDef="product_price_type">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Price Type </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.price_type | priceType}} </mat-cell>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.price_type | priceType}} </td>
             </ng-container>
+
             <ng-container matColumnDef="product_image">
-                <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <th mat-header-cell *matHeaderCellDef> Image </th>
+                <td mat-cell *matCellDef="let element">
                     <div>
                         <img src="{{element.default_product_image}}" class="category-img" alt="">
                     </div>
-                </mat-cell>
+                </td>
             </ng-container>
+
             <ng-container matColumnDef="actions" class="text-right">
-                <mat-header-cell *matHeaderCellDef>Actions </mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <th mat-header-cell *matHeaderCellDef>Actions </th>
+                <td mat-cell *matCellDef="let element">
                     <button class="btn btn-sm btn-danger" (click)="categoryEvent('delete', element.id)">delete</button>
-                </mat-cell>
+                </td>
               </ng-container>
+
               <ng-container matColumnDef="product_detail" class="text-right">
-                <mat-header-cell *matHeaderCellDef>Product Detail </mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <th mat-header-cell *matHeaderCellDef>Product Detail </th>
+                <td mat-cell *matCellDef="let element">
                     <a href="javascript:;" (click)="openProductDetail(element.id)">Product Detail</a>
-                </mat-cell>
+                </td>
               </ng-container>
-            <mat-header-row *matHeaderRowDef="datatableColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: datatableColumns;"></mat-row>
-        </mat-table>
+
+              <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="datatableColumns.length">
+                  <div *ngIf="optionExpand" class="example-element-detail" 
+                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <div class="option-detail">
+                        <h5>Sub Option</h5>
+                        <div class="options table-fixed mat-elevation-z8" *ngIf="optionLoading">
+                            <span>Name : </span> 
+                            <span>{{subOptionDetail?.name}}</span>
+                            <span>Price : </span> 
+                            <span>{{subOptionDetail?.price}}</span>
+                        </div>
+                        <div class="small-loader" *ngIf="!optionLoading">
+                            <div class="loading"  [class.d-block]="optionLoading"></div>
+                        </div>
+                        <div *ngIf="noOption" class="d-flex justify-content-center">
+                            No Sub Option
+                        </div>
+                    </div>
+                  </div>
+                  <div *ngIf="productExpand" class="example-element-detail" 
+                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <div class="option-detail">
+                        <div *ngIf="optionLoading">
+                            <h5>Product Options</h5>
+                            <table class="table table-fixed mat-elevation-z8" align="center">
+                                <thead>
+                                    <tr>
+                                        <th class="col-6">Option Name</th>
+                                        <th class="col-6">Option Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of subOptionDetail">
+                                        <td class="col-6">{{item?.option_name}}</td>
+                                        <td class="col-6">{{item?.option_type | optionTypes}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="small-loader" *ngIf="!optionLoading">
+                            <div class="loading"  [class.d-block]="optionLoading"></div>
+                        </div>
+                        <div *ngIf="noOption" class="d-flex justify-content-center">
+                            No Option
+                        </div>
+                    </div>
+                  </div>
+                  <div *ngIf="categoryExpand" class="example-element-detail" 
+                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <div class="option-detail">
+                        <div *ngIf="subOptionDetail.length">
+                            <h5>Sub Category</h5>
+                            <table class="table table-fixed mat-elevation-z8" align="center">
+                                <thead>
+                                    <tr>
+                                        <th class="col-6">Name</th>
+                                        <th class="col-6">Imgage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of subOptionDetail">
+                                        <td class="col-6">{{item?.name}}</td>
+                                        <td class="col-6">
+                                            <div>
+                                                <img src="{{item.default_category_image}}" class="category-img" alt="">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="small-loader" *ngIf="!optionLoading">
+                            <div class="loading"  [class.d-block]="optionLoading"></div>
+                        </div>
+                        <div *ngIf="!subOptionDetail.length" class="d-flex justify-content-center">
+                            No Sub Category
+                        </div>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="datatableColumns"></tr>
+              <tr mat-row *matRowDef="let element; columns: datatableColumns;" (click)="expandDetail(element.id)"
+                  class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+                  (click)="expandedElement = expandedElement === element ? null : element">
+              </tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+        </table>
     </div>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>

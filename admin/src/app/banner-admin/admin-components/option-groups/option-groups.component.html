@@ -19,7 +19,7 @@
     <div class="container-body">
         <div class="product-heading">All Options</div>
         <div *ngIf="optionsData.length">
-            <app-datatable [datatableColumns]="tableColumns" [dataSource]="optionsData">
+            <app-datatable [optionExpand]="true" [datatableColumns]="tableColumns" [dataSource]="optionsData">
             </app-datatable>
         </div>
     </div>
