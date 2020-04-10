@@ -44,7 +44,8 @@ class CalculatePriceViewSet(APIView):
                         first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
                             second_sub_option__name=request.data['options'].pop(option_names[1])[0]
                         ).first().price
-                
+                for p_name in product.price_details['sequence']:
+                    request.data['options'].pop(p_name)
             elif product.price_type == PRODUCT_THREE_OPTION:
 
                 option_names = product.price_details.get('sequence')
@@ -58,7 +59,8 @@ class CalculatePriceViewSet(APIView):
                         first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
                             second_sub_option__name=request.data['options'].pop(option_names[1])[0]
                         ).first().price
-
+                for p_name in product.price_details['sequence']:
+                    request.data['options'].pop(p_name)
             
             total_price = basic_price
             print(total_price)
