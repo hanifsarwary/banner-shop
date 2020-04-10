@@ -103,7 +103,8 @@ class CalculatePriceViewSet(APIView):
             total_price = total_price + product.setup_cost
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)  
-            print(total_price)   
-            return Response({"price": round(total_price, 2)})
+            print(total_price)
+               
+            return Response({"price": format(round(total_price, 2), '.2f')})
         except Exception as e:
             return Response({"price": 0, "error message": str(e), "trackback": traceback.format_exc()})
