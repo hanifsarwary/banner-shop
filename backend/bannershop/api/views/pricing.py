@@ -15,7 +15,9 @@ class CalculatePriceViewSet(APIView):
             quantity = 0
             total_price = 0
             basic_price = 0
-            one_time_charge = request.data['options'].pop('Proof')[1]
+            one_time_charge = 0
+            if request.data['options'].get('Proof'):
+                one_time_charge = request.data['options'].pop('Proof')[1]
         
             if product.price_type == PRODUCT_PER_SQFT:
                 quantity = request.data['options'].pop('Quantity', 1)
