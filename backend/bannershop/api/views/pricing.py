@@ -104,12 +104,14 @@ class CalculatePriceViewSet(APIView):
                 print(oq.option_type)
                 print(total_price)
 
-
-            for i in multi_basic_arr:
-                total_price = total_price * i
+            print(multi_basic_arr)
+            
             if basic_percentage_temp_arr and basic_percentage_temp_arr[0]:
                 for i in basic_percentage_temp_arr:
                     total_price = total_price + basic_price * (i / 100)    
+            for i in multi_basic_arr:
+                total_price = total_price * i
+            
             total_price = total_price + product.setup_cost
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)  
