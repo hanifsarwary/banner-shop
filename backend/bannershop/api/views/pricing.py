@@ -44,8 +44,9 @@ class CalculatePriceViewSet(APIView):
                         first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
                             second_sub_option__name=request.data['options'].pop(option_names[1])[0]
                         ).first().price
-                # if 'Quantity' not in option_names:
-                #     request.data['options'].pop('Quantity')
+                if 'Quantity' not in option_names:
+                    basic_price = basic_price * quantity
+                    request.data['options'].pop('Quantity')
                 
             elif product.price_type == PRODUCT_THREE_OPTION:
 
@@ -60,13 +61,14 @@ class CalculatePriceViewSet(APIView):
                         first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
                             second_sub_option__name=request.data['options'].pop(option_names[1])[0]
                         ).filter(third_sub_option__name=request.data['options'].pop(option_names[2])[0]).first().price
-                # if 'Quantity' not in option_names:
-                #     request.data['options'].pop('Quantity')
+                if 'Quantity' not in option_names:
+                    basic_price = basic_price * quantity
+                    request.data['options'].pop('Quantity')
             
             total_price = basic_price
-            print(total_price)
             percentage_temp_arr = []
             basic_percentage_temp_arr = []
+            multi_basic_arr = []
             for oq in option_queryset:
                 if oq.option_type == OPTION_ACCUMULATIVE_PERCENTAGE and not oq.is_deleted:
                     if oq.is_suboptions:
@@ -90,21 +92,17 @@ class CalculatePriceViewSet(APIView):
                 elif oq.option_type == OPTION_MULTIPLY_BASIC:
                     
                     if request.data.get('options').get(oq.option_name):
-                            
-                        total_price = basic_price * request.data.get('options').get(oq.option_name)
+                        multi_basic_arr.append(request.data.get('options').get(oq.option_name))
                 else:
                     if oq.is_suboptions:
                         if request.data.get('options').get(oq.option_name):
                             total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
                     else:
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
-                print(oq.option_name)
-                print(oq.option_type)
-                print(percentage_temp_arr)
-                print(total_price)
 
 
-            print(percentage_temp_arr)
+            for i in multi_basic_arr:
+                total_price = total_price * i
             if basic_percentage_temp_arr and basic_percentage_temp_arr[0]:
                 for i in basic_percentage_temp_arr:
                     total_price = total_price + basic_price * (i / 100)    
