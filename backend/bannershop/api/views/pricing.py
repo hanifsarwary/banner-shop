@@ -100,8 +100,10 @@ class CalculatePriceViewSet(APIView):
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
                 print(oq.option_name)
                 print(oq.option_type)
+                print(percentage_temp_arr)
                 print(total_price)
-            print(total_price)
+
+
             print(percentage_temp_arr)
             if basic_percentage_temp_arr and basic_percentage_temp_arr[0]:
                 for i in basic_percentage_temp_arr:
