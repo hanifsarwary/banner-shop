@@ -15,6 +15,7 @@ class CalculatePriceViewSet(APIView):
             quantity = 0
             total_price = 0
             basic_price = 0
+            one_time_charge = request.data['options'].pop('Proof')[1]
         
             if product.price_type == PRODUCT_PER_SQFT:
                 quantity = request.data['options'].pop('Quantity', 1)
@@ -112,7 +113,7 @@ class CalculatePriceViewSet(APIView):
             for i in multi_basic_arr:
                 total_price = total_price * i
             
-            total_price = total_price + product.setup_cost
+            total_price = total_price + product.setup_cost + one_time_charge
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)  
             print(total_price)
