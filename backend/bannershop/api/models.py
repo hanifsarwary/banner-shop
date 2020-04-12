@@ -91,7 +91,7 @@ class Option(models.Model):
         return self.option_name + '  --- ' + self.product.product_name
     
     class Meta:
-        ordering = ('product', 'is_suboptions', 'option_name')
+        ordering = ('product', 'is_suboptions', 'created_at')
 
 
 class SubOption(models.Model):
