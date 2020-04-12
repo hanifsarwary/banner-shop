@@ -108,7 +108,7 @@ class SubOption(models.Model):
         return self.name + ' ---- ' + self.option.__str__()
     
     class Meta:
-        ordering = ('-option', 'price', 'created_at')
+        ordering = ('price', 'created_at')
 
 
 class TwoDependentSubOption(models.Model):
