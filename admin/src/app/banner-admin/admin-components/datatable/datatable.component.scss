@@ -11,13 +11,27 @@
   font-family: sans-serif;
   table {
     width: 100%;
-    th {
+    th.mat-header-cell {
       color: rgba(0,0,0,.54);
       font-size: 14px;
       font-weight: 600;
     }
+    tr.mat-row {
+      border-top: 1px solid rgba(0,0,0,.12) !important;
+    }
+    td.mat-cell {
+      border: none !important;
+    }
+    td.mat-cell {
+      i {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 18px;
+      }
+    }
     tr.example-detail-row {
       height: 0;
+      border: none;
     }
     tr.example-element-row:not(.example-expanded-row):hover {
       background: whitesmoke;
@@ -86,11 +100,13 @@
       width: 100%;
       }
     thead,tbody,tr,td,th{
+      border: none !important;
       display:block;
     }
     tbody{
       td{
         float:left;
+        border-bottom: 1px solid rgba(0,0,0,.12) !important;
         height: 3rem;
       }
     }
@@ -98,6 +114,7 @@
       tr{
         th{
           float:left;
+          border-bottom: 2px solid rgba(0,0,0,.12) !important;
         }
       }
     }

@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./option-groups.component.css']
 })
 export class OptionGroupsComponent implements OnInit {
-  tableColumns = ['no', 'option_name', 'option_type'];
+  tableColumns = ['no', 'option_name', 'option_type', 'down_arrow'];
   optionsData = [];
   productData = [];
   pricesData = [];

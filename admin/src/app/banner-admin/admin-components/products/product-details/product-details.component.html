@@ -1,26 +1,132 @@
+<div class="heading">Product Detail</div>
+<hr>
 <div class="container">
-    <div class="card">
-        <div class="row">
-          <div class="col-5">
+    <div class="card" *ngIf="!loading">
+        <div class="row product-section">
+          <div class="col-5 pl-0">
             <img src="{{productDetail?.default_product_image}}" class="card-img" alt="...">
           </div>
           <div class="col-7">
             <div class="card-body">
-              <h5 class="card-title">{{productDetail?.product_name}}</h5>
+              <h5 class="card-title"> 
+                <input class="product-name" [class.applyBorder]="!editProductId" [disabled]="!editProductId" type="text" [(ngModel)]="productDetail.product_name">
+              </h5>
               <div class="row card-text">
                 <div class="col-4"> Weight Unit : </div>
-                <div class="col-8"> {{productDetail?.weight_unit}}</div>
-             </div>
+                <div class="col-8 product-description">
+                  <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.weight_unit">
+                </div>
+              </div>
               <div class="row card-text">
                   <div class="col-4"> One Unit Weight : </div>
-                  <div class="col-8"> {{productDetail?.one_unit_weight}}</div>
+                  <div class="col-8 product-description">
+                    <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.one_unit_weight">
+                  </div>
               </div>
-             <div class="row card-text">
+              <div class="row card-text">
+                <div class="col-4"> Price  Type: </div>
+                <div class="col-8 product-description">
+                  <select [class.applyBorder]="!editProductId" [disabled]="!editProductId"  (change)="showByPriceType($event.target.value)" [(ngModel)]="productDetail.price_type" class="form-control" id="producPriceType">
+                    <option  *ngFor="let item of pricesData | keyvalue" [value]="item.key">{{item.value}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row card-text">
+                <div class="col-4"> Setup  Cost: </div>
+                <div class="col-8 product-description" >
+                  <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.setup_cost">
+                </div>
+              </div>
+              <div class="row card-text">
                 <div class="col-4"> Product Description : </div>
-                <div class="col-8 product-description"> {{productDetail?.product_description}}</div>
-             </div>
+                <div class="col-8 product-description">
+                  <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.product_description">
+                </div>
+              </div>
+              <div class="row pull-right product-edit">
+                <a href="javascript:;" *ngIf="!editProductId" (click)="editProduct()">Edit</a>
+                <a href="javascript:;" *ngIf="editProductId" (click)="saveProduct(productDetail)">Save</a>
+              </div>
             </div>
+          </div>
+        </div>
+        <div class="row option-table">
+          <div class="card-body">
+            <h5>Product Options</h5>
+            <table class="table mat-elevation-z8 table-fixed" align="center">
+              <thead>
+                  <tr>
+                      <th class="col-2">Option Name</th>
+                      <th class="col-2">Price Unit</th>
+                      <th class="col-3">Option Type</th>
+                      <th class="col-3">Option Description</th>
+                      <th class="col-1"></th>
+                      <th class="col-1"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of productSubOption">
+                      <td class="col-2"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_name"></td>
+                      <td class="col-2"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.price_unit"></td>
+                      <td class="col-3">
+                        
+                        <select [disabled]="recordId!==item.id" [(ngModel)]="item.option_type" class="form-control" id="optionType">
+                          <option  *ngFor="let item of optionTypes | keyvalue" [value]="item.key">{{item.value}}</option>
+                        </select>
+
+                        <!-- <input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_type"> -->
+                      
+                      </td>
+                      <td class="col-3"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_description"></td>
+                      <td class="col-1">
+                        <a *ngIf="recordId !== item.id" (click)="editOption(item.id)" href="javascript:;"> Edit</a>
+                        <a *ngIf="recordId === item.id" (click)="saveOptions(item)" href="javascript:;"> Save</a>
+                      </td>
+                      <td class="col-1"> <a (click)="openModal(subOptionModal, item.suboption_set)" href="javascript:;" >sub option</a></td>
+                  </tr>
+              </tbody>
+            </table>
           </div>
         </div>
     </div>
 </div>
+
+<div class="d-flex justify-content-center" [class.d-block]="loading">
+  <ngx-spinner size="medium" color="#fff" type="ball-scale-multiple">
+  </ngx-spinner>
+</div>
+
+<ng-template #subOptionModal let-modal>
+  <div class="modal-header">
+   <h5 class="modal-title" id="editProfileLabel">Edit Sub Option</h5>
+   <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+   </button>
+  </div>
+  <div class="modal-body">
+    <div class="sub-option" *ngIf="subOption.length">
+      <table class="table mat-elevation-z8 table-fixed" align="center">
+        <thead>
+            <tr>
+                <th class="col-5">Name</th>
+                <th class="col-5">Price</th>
+                <th class="col-2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of subOption">
+                <td class="col-5"><input class="form-control form-control-sm" [disabled]="subOptionId!==item.id" type="text" [(ngModel)]="item.name"></td>
+                <td class="col-5"><input class="form-control form-control-sm" [disabled]="subOptionId!==item.id" type="text" [(ngModel)]="item.price"></td>
+                <td class="col-2">
+                  <a *ngIf="subOptionId !== item.id" (click)="editSubOption(item.id)" href="javascript:;"> Edit</a>
+                  <a *ngIf="subOptionId === item.id" (click)="saveSubOption(item)" href="javascript:;"> Save</a>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-center" *ngIf="!subOption.length">
+      No sub option
+    </div>
+  </div>
+ </ng-template>

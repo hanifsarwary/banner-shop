@@ -1,17 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/banner-admin/services/api.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
 
   productId: number;
+  recordId: number;
+  subOptionId: number;
+  editProductId = false;
   productDetail: any;
-  constructor(private route: ActivatedRoute, private apiService: ApiService) {
+  productSubOption: any;
+  pricesData = [];
+  optionTypes = [];
+  subOption = [];
+  loading = true;
+  constructor(private route: ActivatedRoute, private apiService: ApiService,
+    private modalService: NgbModal,
+    private SpinnerService: NgxSpinnerService, private toast: ToastrService) {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.productId = params['id'];
@@ -20,11 +33,75 @@ export class ProductDetailsComponent implements OnInit {
     });
    }
 
-  ngOnInit() {}
+  openModal(targetModal, subOptions) {
+    this.subOption = subOptions;
+    this.modalService.open(targetModal, { size: 'lg', centered: true });
+  }
+  ngOnInit() {
+    this.getPriceTypes();
+    this.getOptionTypes();
+  }
+
+  getPriceTypes() {
+    this.apiService.getPriceTypes().subscribe(res => {
+      this.pricesData = res.types;
+    });
+  }
+
+  getOptionTypes() {
+    this.apiService.getOptionsTypes().subscribe(res => {
+      this.optionTypes = res.types;
+    });
+  }
+
+  editProduct() {
+    this.editProductId = true;
+  }
+
+  saveProduct(obj) {
+    const productObj = {};
+    productObj['product_name'] = obj['product_name'];
+    productObj['one_unit_weight'] = obj['one_unit_weight'];
+    productObj['weight_unit'] = obj['weight_unit'];
+    productObj['price_type'] = obj['price_type'];
+    productObj['product_description'] = obj['product_description'];
+    productObj['setup_cost'] = obj['setup_cost'];
+    this.apiService.updateProduct(obj['id'], productObj).subscribe(res => {
+      this.editProductId = false;
+      this.toast.success('Product updated successfully!', '');
+    });
+  }
+
+  editOption(id) {
+    this.recordId = id;
+  }
+
+  editSubOption(id) {
+    this.subOptionId = id;
+  }
+
+  saveSubOption(obj) {
+    this.apiService.updateSubOption(obj['id'], obj).subscribe(res => {
+      this.subOptionId = null;
+      this.toast.success('Sub option updated successfully!', '');
+    });
+  }
+
+  saveOptions(obj) {
+    this.apiService.updateOptions(obj['id'], obj).subscribe(res => {
+      this.recordId = null;
+      this.toast.success('Option updated successfully!', '');
+    });
+  }
 
   getProductDetail(productId) {
+    this.loading = true;
+    this.SpinnerService.show();
     this.apiService.getProducts(productId).subscribe( res => {
       this.productDetail = res;
+      this.productSubOption = res.option_set;
+      this.SpinnerService.hide();
+      this.loading = false;
     });
   }
 
