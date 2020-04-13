@@ -42,7 +42,7 @@ class CalculatePriceViewSet(APIView):
                     quantity = int(request.data['options'].get('Quantity')[0])
                 else:
                     quantity = int(request.data['options'].get('Quantity'))
-                basic_price = TwoDependentSubOption.objects.filter(first_sub_option__option__option_name=option_names[0]).filter(
+                basic_price = TwoDependentSubOption.objects.filter(product=product).filter(first_sub_option__option__option_name=option_names[0]).filter(
                     second_sub_option__option__option_name=option_names[1]).filter(
                         first_sub_option__name=request.data['options'].pop(option_names[0])[0]).filter(
                             second_sub_option__name=request.data['options'].pop(option_names[1])[0]
