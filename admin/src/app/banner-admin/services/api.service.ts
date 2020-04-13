@@ -32,6 +32,12 @@ export class ApiService {
     return this.httpClient.put<any>(`${this.global.products}${id}/`, dataObj, { headers: headers });
   }
 
+  updateCategory(id, dataObj): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.httpClient.put<any>(`${this.global.categories}${id}/`, dataObj, { headers: headers });
+  }
+
   deleteCategory(categoryId): Observable<any> {
     return this.httpClient.delete<any>(`${this.global.categories}${categoryId}`);
   }
@@ -71,7 +77,7 @@ export class ApiService {
 
   getSubOption(param?): Observable<any> {
     param = param ? param : '';
-    return this.httpClient.get<any>(`${this.global.subOptions}${param}/`);
+    return this.httpClient.get<any>(`${this.global.options}${param}/sub-options/`);
   }
 
   updateSubOption(param, obj): Observable<any> {

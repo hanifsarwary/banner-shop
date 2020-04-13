@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/banner-admin/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SharedDataService } from 'src/app/banner-admin/services/shared-data.service';
 
 @Component({
   selector: 'app-product-details',
@@ -19,11 +20,11 @@ export class ProductDetailsComponent implements OnInit {
   productDetail: any;
   productSubOption: any;
   pricesData = [];
-  optionTypes = [];
+  optionsData = [];
   subOption = [];
   loading = true;
   constructor(private route: ActivatedRoute, private apiService: ApiService,
-    private modalService: NgbModal,
+    private modalService: NgbModal, private sharedData: SharedDataService,
     private SpinnerService: NgxSpinnerService, private toast: ToastrService) {
     this.route.params.subscribe(params => {
       if (params['id']) {
@@ -37,20 +38,17 @@ export class ProductDetailsComponent implements OnInit {
     this.subOption = subOptions;
     this.modalService.open(targetModal, { size: 'lg', centered: true });
   }
+
   ngOnInit() {
-    this.getPriceTypes();
-    this.getOptionTypes();
-  }
-
-  getPriceTypes() {
-    this.apiService.getPriceTypes().subscribe(res => {
-      this.pricesData = res.types;
+    this.sharedData.priceTypes.subscribe(message => {
+      console.log('------------------');
+      console.log(this.pricesData);
+      this.pricesData = message;
     });
-  }
-
-  getOptionTypes() {
-    this.apiService.getOptionsTypes().subscribe(res => {
-      this.optionTypes = res.types;
+    this.sharedData.optionTypes.subscribe(message => {
+      console.log('------------------------');
+      console.log(message);
+      this.optionsData = message;
     });
   }
 

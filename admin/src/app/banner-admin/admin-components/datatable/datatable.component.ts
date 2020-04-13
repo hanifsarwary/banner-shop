@@ -28,7 +28,7 @@ export class DatatableComponent implements OnChanges {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   sourceData;
   expandedElement: null;
-  subOptionDetail = [];
+  detailObj = [];
   subCategoryDetail = [];
   optionLoading = false;
   noOption = false;
@@ -50,13 +50,14 @@ export class DatatableComponent implements OnChanges {
 
   expandDetail(id) {
     this.currentId = id;
-    this.subOptionDetail = [];
+    this.detailObj = [];
     this.optionLoading = false;
     this.noOption = false;
     if (this.optionExpand) {
       this.apiService.getSubOption(id).subscribe(res => {
-        if (res) {
-          this.subOptionDetail = res;
+        this.detailObj = res;
+        if (this.detailObj.length) {
+          this.detailObj = res;
           this.optionLoading = true;
         } else {
           this.optionLoading = true;
@@ -64,14 +65,19 @@ export class DatatableComponent implements OnChanges {
         }});
     } else if (this.productExpand) {
       this.apiService.getProducts(id).subscribe(res => {
-        this.subOptionDetail = res.option_set;
-        this.optionLoading = true;
+        this.detailObj = res;
+        if (this.detailObj.length) {
+          this.optionLoading = true;
+        } else {
+          this.optionLoading = true;
+          this.noOption = true;
+        }
       });
     } else if (this.categoryExpand) {
       this.apiService.getSubCategory(id).subscribe(res => {
-        this.subOptionDetail = res;
-        if (this.subOptionDetail.length) {
-          this.subOptionDetail = res;
+        this.detailObj = res;
+        if (this.detailObj.length) {
+          this.detailObj = res;
           this.optionLoading = true;
         } else {
           this.optionLoading = true;
@@ -79,9 +85,5 @@ export class DatatableComponent implements OnChanges {
         }
       });
     }
-  }
-
-  openProductDetail(id) {
-    window.open('/product/' + id, '_blank');
   }
 }
