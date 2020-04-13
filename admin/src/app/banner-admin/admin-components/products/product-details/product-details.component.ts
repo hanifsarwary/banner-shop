@@ -41,13 +41,9 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.sharedData.priceTypes.subscribe(message => {
-      console.log('------------------');
-      console.log(this.pricesData);
       this.pricesData = message;
     });
     this.sharedData.optionTypes.subscribe(message => {
-      console.log('------------------------');
-      console.log(message);
       this.optionsData = message;
     });
   }
