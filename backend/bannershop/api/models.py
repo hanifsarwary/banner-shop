@@ -115,6 +115,7 @@ class TwoDependentSubOption(models.Model):
 
     first_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='two_first_option_set')
     second_sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True, related_name='two_second_option_set')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     price = models.FloatField(default=0)
 
     def __str__(self):
