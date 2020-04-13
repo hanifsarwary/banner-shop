@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
+import { objectToFormData } from 'object-to-formdata';
 import { withRouter } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop'
 
@@ -20,8 +21,8 @@ class Cart extends React.Component {
             const cart = JSON.parse(localStorage.getItem('cart'));
             this.setState({
                 cartItems: cart.cartItems,
-                total: cart.total,
-                subTotal: cart.total,
+                total: parseFloat(cart.total),
+                subTotal: parseFloat(cart.total),
                 loaded: true
             });
         } else {
@@ -99,7 +100,7 @@ class Cart extends React.Component {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-    
+
     jsonToFormData = (data) => {
         function buildFormData(formData, data, parentKey) {
             if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
@@ -108,12 +109,12 @@ class Cart extends React.Component {
                 });
             } else {
                 const value = data == null ? '' : data;
-    
+
                 formData.append(parentKey, value);
             }
         }
         const formData = new FormData();
-        
+
         buildFormData(formData, data);
 
         return formData;
@@ -145,8 +146,8 @@ class Cart extends React.Component {
             this.state.cartItems.forEach(item => {
                 const product = {
                     product: item.id,
-                    // custom_image: this.dataURLtoFile(item.file, 'custom_image'),
-                    custom_image: null,
+                    custom_image: this.dataURLtoFile(item.file, 'custom_image'),
+                    // custom_image: null,
                     special_note: item.special_note,
                     total_price: item.price,
                     total_weight: 5,
@@ -166,14 +167,29 @@ class Cart extends React.Component {
                 orderBody.order_productorders.push(product);
             });
 
+            const oTFDOptions = {
+                indices: true,
+                nullsAsUndefineds: true,
+            };
+
+            const formData = objectToFormData(
+                orderBody,
+                oTFDOptions, // optional
+            );
+
             this.setState({
                 orderLoad: true
             });
 
             console.log(orderBody);
-            // const formData = this.jsonToFormData(orderBody);
+            console.log(formData);
+            // const formData = this.jsonToFormData(formData);
 
-            bannerShop.post('/api/orders/', orderBody)
+            bannerShop.post('/api/orders/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
                 .then(res => {
                     return res;
                 }).then(data => {
