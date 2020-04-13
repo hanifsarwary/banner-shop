@@ -5,7 +5,7 @@ from api.views.custom_quotes import CustomQuoteViewSet
 from api.views.customers import CustomerListViewSet
 from api.views.products import (
     ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet, ProductDetailViewSet, AllOptionListView, 
-    GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, SubOptionDetailViewSet)
+    GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, SubOptionDetailViewSet, OptionSubOptionsListViewSet)
 from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet, UserDetailsWithUserName
 from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
 from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOptionViewSet, ProductOrderOptionListViewSet
@@ -27,6 +27,7 @@ urlpatterns = [
     path('orders/', OrderViewSet.as_view()),
     path('options/', AllOptionListView.as_view()),
     path('options/<int:pk>/', OptionDetailViewSet.as_view()),
+    path('options/<int:option_id>/sub-options/', OptionSubOptionsListViewSet.as_view()),
     path('sub-options/<int:pk>/', SubOptionDetailViewSet.as_view()),
     path('price-types/', GetProductPriceTypes.as_view()),
     path('option-types/', GetOptionTypes.as_view()),

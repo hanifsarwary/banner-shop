@@ -36,6 +36,16 @@ class SubProductOptionsListViewSet(ListCreateAPIView):
         return Response(serializer.data)
 
 
+class OptionSubOptionsListViewSet(ListCreateAPIView):
+    serializer_class = SubOptionSerializer
+    queryset = SubOption.objects
+
+    def list(self, request, option_id, *args, **kwargs):
+        queryset = self.get_queryset().filter(option_id=option_id, is_deleted=False).order_by('price')
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
 class CategoryProductsViewSet(ListAPIView):
 
     serializer_class = ProductSerializer
