@@ -1,24 +1,25 @@
-<div class="pagecontent">
-    <div class="row">
-        <div class="col-md-12">
-            <section class="tile">
-                <div class="tile-body">
-                    <div class="mt-3 clearfix">
-                        <div class="pull-left">
-                            <button type="button" class="btn btn-primary" (click)="openModal('add-category')">
-                                <i class="fa fa-plus"></i>
-                                Create Category
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mb-2 mt-4">
-                        <div *ngIf="categoriesData.length">
-                            <app-datatable [datatableColumns]="tableColumns" [categoryExpand]="true" [dataSource]="categoriesData" (categoryItemEvent)="categoryEventClicked($event)">
-                            </app-datatable>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<div class="container">
+    <div class="container-header">
+        <div class="product-btn">
+            <button class="btn btn-primary" (click)="openModal('add-category')">
+                <i class="fa fa-plus"></i>
+                Create Category
+            </button>
         </div>
     </div>
+    <div class="container-body">
+        <div class="product-heading">All Categories</div>
+        <div *ngIf="categoriesData.length">
+            <app-datatable [datatableColumns]="tableColumns" [categoryExpand]="true" [dataSource]="categoriesData" (categoryItemEvent)="categoryEventClicked($event)">
+            </app-datatable>
+        </div>
+    </div>
+    <div class="noRecord d-flex justify-content-center" *ngIf="!loading">
+        <span *ngIf="!categoriesData.length">No Record</span>
+    </div>
+    <div class="small-loader d-flex justify-content-center" [class.d-block]="loading">
+        <ngx-spinner size="medium" color="#fff" type="ball-scale-multiple">
+        </ngx-spinner>
+    </div>
 </div>
+

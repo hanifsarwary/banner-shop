@@ -26,6 +26,12 @@ export class ApiService {
     return this.httpClient.post<any>(this.global.products, dataObj, { headers: headers });
   }
 
+  updateProduct(id, dataObj): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.httpClient.put<any>(`${this.global.products}${id}/`, dataObj, { headers: headers });
+  }
+
   deleteCategory(categoryId): Observable<any> {
     return this.httpClient.delete<any>(`${this.global.categories}${categoryId}`);
   }
@@ -53,6 +59,11 @@ export class ApiService {
     return this.httpClient.get<any>(`${this.global.options}${param}`);
   }
 
+  updateOptions(param, obj): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.put<any>(`${this.global.options}${param}/`, obj);
+  }
+
   getSubCategory(param?): Observable<any> {
     param = param ? param : '';
     return this.httpClient.get<any>(`${this.global.categories}${param}/sub-categories/`);
@@ -61,6 +72,11 @@ export class ApiService {
   getSubOption(param?): Observable<any> {
     param = param ? param : '';
     return this.httpClient.get<any>(`${this.global.subOptions}${param}/`);
+  }
+
+  updateSubOption(param, obj): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.put<any>(`${this.global.subOptions}${param}/`, obj);
   }
 
   getOptionsByProduct(param?): Observable<any> {

@@ -68,9 +68,20 @@
               </ng-container>
 
               <ng-container matColumnDef="product_detail" class="text-right">
-                <th mat-header-cell *matHeaderCellDef>Product Detail </th>
+                <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" (click)="openProductDetail(element.id)">Product Detail</a>
+                    <a href="javascript:;" (click)="openProductDetail(element.id)">See details</a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="down_arrow" class="text-right">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element" class="example-element-row" 
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element"
+                (click)="expandDetail(element.id)">
+                    <i *ngIf="!expandedElement || element.id != currentId" class="fa fa-angle-down"></i>
+                    <i *ngIf="expandedElement && element.id === currentId" class="fa fa-angle-up"></i>
                 </td>
               </ng-container>
 
@@ -79,12 +90,14 @@
                   <div *ngIf="optionExpand" class="example-element-detail" 
                   [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                     <div class="option-detail">
-                        <h5>Sub Option</h5>
-                        <div class="options table-fixed mat-elevation-z8" *ngIf="optionLoading">
-                            <span>Name : </span> 
-                            <span>{{subOptionDetail?.name}}</span>
-                            <span>Price : </span> 
-                            <span>{{subOptionDetail?.price}}</span>
+                        <div *ngIf="optionLoading">
+                            <h5>Sub Option</h5>
+                            <div class="options table-fixed mat-elevation-z8">
+                                <span>Name : </span> 
+                                <span>{{subOptionDetail?.name}}</span>
+                                <span>Price : </span> 
+                                <span>{{subOptionDetail?.price}}</span>
+                            </div>
                         </div>
                         <div class="small-loader" *ngIf="!optionLoading">
                             <div class="loading"  [class.d-block]="optionLoading"></div>
@@ -114,8 +127,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="small-loader" *ngIf="!optionLoading">
-                            <div class="loading"  [class.d-block]="optionLoading"></div>
+                        <div *ngIf="!optionLoading">
+                            <div [class.loading]="productExpand" [class.d-block]="optionLoading"></div>
                         </div>
                         <div *ngIf="noOption" class="d-flex justify-content-center">
                             No Option
@@ -149,8 +162,8 @@
                         <div class="small-loader" *ngIf="!optionLoading">
                             <div class="loading"  [class.d-block]="optionLoading"></div>
                         </div>
-                        <div *ngIf="!subOptionDetail.length" class="d-flex justify-content-center">
-                            No Sub Category
+                        <div *ngIf="noOption" class="d-flex justify-content-center">
+                                No Sub Category
                         </div>
                     </div>
                   </div>
@@ -158,11 +171,9 @@
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="datatableColumns"></tr>
-              <tr mat-row *matRowDef="let element; columns: datatableColumns;" (click)="expandDetail(element.id)"
-                  class="example-element-row" [class.example-expanded-row]="expandedElement === element"
-                  (click)="expandedElement = expandedElement === element ? null : element">
+              <tr mat-row *matRowDef="let element; columns: datatableColumns;">
               </tr>
-              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+              <tr style="border: none !important;" mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
         </table>
     </div>

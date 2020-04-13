@@ -29,9 +29,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label" for="productType">Price Type:</label>
                     <select class="form-control col-sm-8" id="productType" (change)="openPriceModel($event)" formControlName="price_type">
-                        <option  value="1">Change per square foot</option>
-                        <option  value="2">Change with quantity range</option>
-                        <option  value="3">Fixed charge for fixed quantity</option>
+                        <option  *ngFor="let item of priceTypes | keyvalue" [value]="item.key">{{item.value}}</option>
                     </select>
                 </div>
                 <div *ngIf="priceType === '1'">

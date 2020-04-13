@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalAddCategoryComponent } from '../sub-components/modal-add-category/modal-add-category.component';
 @Component({
   selector: 'app-categories',
@@ -8,11 +9,13 @@ import { ModalAddCategoryComponent } from '../sub-components/modal-add-category/
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-  tableColumns = ['no', 'name', 'cat_image', 'actions' ];
+  tableColumns = ['no', 'name', 'cat_image', 'actions', 'down_arrow'];
   categoriesData = [];
+  loading = true;
   constructor(
     private apiService: ApiService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private SpinnerService: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -20,8 +23,12 @@ export class CategoriesComponent implements OnInit {
   }
 
   getCategories() {
+    this.loading = true;
+    this.SpinnerService.show();
     this.apiService.getCategories().subscribe(res => {
       this.categoriesData = res.results;
+      this.SpinnerService.hide();
+      this.loading = false;
     });
   }
 

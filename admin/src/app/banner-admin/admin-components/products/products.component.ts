@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  tableColumns = ['no', 'product_name', 'product_image', 'product_price_type', 'product_detail' ];
+  tableColumns = ['no', 'product_name', 'product_image', 'product_price_type', 'product_detail', 'down_arrow' ];
   productsData = [];
   categoriesData = [];
   pricesData = [];
@@ -66,6 +66,7 @@ export class ProductsComponent implements OnInit {
     const modalRef = this.modalService.open(ProductModelComponent, modalOptions);
     modalRef.componentInstance.modalType = type;
     modalRef.componentInstance.categories = this.categoriesData;
+    modalRef.componentInstance.priceTypes = this.pricesData;
   }
 
   deleteProduct(data) {

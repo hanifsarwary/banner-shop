@@ -32,6 +32,7 @@ export class DatatableComponent implements OnChanges {
   subCategoryDetail = [];
   optionLoading = false;
   noOption = false;
+  currentId = false;
 
   ngOnChanges() {
     this.sourceData = new MatTableDataSource(this.dataSource);
@@ -48,8 +49,10 @@ export class DatatableComponent implements OnChanges {
   }
 
   expandDetail(id) {
+    this.currentId = id;
     this.subOptionDetail = [];
     this.optionLoading = false;
+    this.noOption = false;
     if (this.optionExpand) {
       this.apiService.getSubOption(id).subscribe(res => {
         if (res) {
@@ -67,7 +70,13 @@ export class DatatableComponent implements OnChanges {
     } else if (this.categoryExpand) {
       this.apiService.getSubCategory(id).subscribe(res => {
         this.subOptionDetail = res;
-        this.optionLoading = true;
+        if (this.subOptionDetail.length) {
+          this.subOptionDetail = res;
+          this.optionLoading = true;
+        } else {
+          this.optionLoading = true;
+          this.noOption = true;
+        }
       });
     }
   }

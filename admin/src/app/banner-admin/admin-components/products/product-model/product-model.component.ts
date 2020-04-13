@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ProductModelComponent implements OnInit {
 
   @Input() categories;
+  @Input() priceTypes;
   public productForm: FormGroup;
   calculatedPrice = 75;
   isChild = false;
