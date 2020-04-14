@@ -25,6 +25,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { PriceTypePipe } from '../custom-pipe/price-type.pipe';
 import { OptionTypesPipe } from '../custom-pipe/option-types.pipe';
 import { CdkTableModule } from '@angular/cdk/table';
+import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     DashboardComponent,
     DatatableComponent,
     ModalAddCategoryComponent,
+    CategoryDetailComponent,
     PriceTypePipe,
     OptionTypesPipe
   ],

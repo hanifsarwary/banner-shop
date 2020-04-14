@@ -31,7 +31,6 @@ export class OptionModelComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log(this.optionForm.value);
     this.optionForm.reset();
     this.activeModal.close();
     this.toast.success('Option added successfully!', '');

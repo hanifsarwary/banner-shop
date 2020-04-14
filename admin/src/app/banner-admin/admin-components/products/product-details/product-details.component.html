@@ -71,7 +71,7 @@
                       <td class="col-3">
                         
                         <select [disabled]="recordId!==item.id" [(ngModel)]="item.option_type" class="form-control" id="optionType">
-                          <option  *ngFor="let item of optionTypes | keyvalue" [value]="item.key">{{item.value}}</option>
+                          <option  *ngFor="let item of optionsData | keyvalue" [value]="item.key">{{item.value}}</option>
                         </select>
 
                         <!-- <input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_type"> -->

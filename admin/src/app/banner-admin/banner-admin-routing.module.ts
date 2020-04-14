@@ -12,18 +12,19 @@ import { OrderStatusComponent } from './admin-components/order-status/order-stat
 import { PostCommentsComponent } from './admin-components/post-comments/post-comments.component';
 import { ProfileComponent } from './admin-components/profile/profile.component';
 import { ProductDetailsComponent } from './admin-components/products/product-details/product-details.component';
+import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
 
 const routes: Routes = [
     {
         path: '',
         component: BannerAdminComponent,
         children: [
-          { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
-          { path: 'dashboard', component: DashboardComponent },
+          { path: '', redirectTo: 'categories', pathMatch: 'prefix' },
           { path: 'categories', component: CategoriesComponent },
           { path: 'option-groups', component: OptionGroupsComponent },
           { path: 'products', component: ProductsComponent },
           { path: 'product/:id', component: ProductDetailsComponent },
+          { path: 'category/:id', component: CategoryDetailComponent },
           { path: 'user-accounts', component: UserAccountsComponent },
           { path: 'cms', component: CmsComponent },
           { path: 'custom-orders', component: CustomOrdersComponent },
