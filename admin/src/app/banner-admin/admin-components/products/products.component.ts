@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModelComponent } from './product-model/product-model.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-products',
@@ -19,21 +20,19 @@ export class ProductsComponent implements OnInit {
   notRecordFound = false;
   loading = true;
 
-  constructor(private apiService: ApiService,
+  constructor(private apiService: ApiService, private sharedDate: SharedDataService,
     private modalService: NgbModal, private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.getPriceTypes();
+
+    this.sharedDate.priceTypes.subscribe(message => {
+      this.pricesData = message;
+    });
+    this.sharedDate.optionTypes.subscribe(message => {
+      this.optionsData = message;
+    });
     this.getProducts();
     this.getCategories();
-    this.getOptions();
-  }
-
-  getPriceTypes() {
-    this.apiService.getPriceTypes().subscribe(res => {
-      localStorage.setItem('priceObj', JSON.stringify(res.types));
-      this.pricesData = res.types;
-    });
   }
 
   getProducts(param?) {
@@ -101,12 +100,6 @@ export class ProductsComponent implements OnInit {
     } else {
       this.getProducts(param);
     }
-  }
-
-  getOptions() {
-    this.apiService.getOptions().subscribe(res => {
-      this.optionsData = res.results;
-    });
   }
 
   getCategories() {
