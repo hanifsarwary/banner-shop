@@ -26,6 +26,7 @@ import { PriceTypePipe } from '../custom-pipe/price-type.pipe';
 import { OptionTypesPipe } from '../custom-pipe/option-types.pipe';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
+import { UtilsFunction } from './utils-function';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { CategoryDetailComponent } from './admin-components/categories/category-
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-  ]
+  ],
+  providers : [UtilsFunction]
 })
 export class BannerAdminModule { }

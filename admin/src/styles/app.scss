@@ -31,6 +31,65 @@
     animation-duration: 0.3s;
 }
 
+.content {
+    position: relative;
+    &:hover {
+      .content-overlay {
+        opacity: 1; 
+        background: rgba(0,0,0,0.7);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+      }
+    }
+    &:hover {
+      .content-details {
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      -webkit-transition: all 0.3s ease-in-out 0s;
+      -moz-transition: all 0.3s ease-in-out 0s;
+      transition: all 0.3s ease-in-out 0s;
+      opacity: 1;
+    }
+    }
+    .content-details {
+      position: absolute;
+      text-align: center;
+      opacity: 0;
+      i {
+        padding: 1rem;
+        border: 1px solid white;
+        opacity: 0.6;
+        border-radius: 50%;
+        background: black;
+        text-align: center;
+        cursor: pointer;
+        &:after{
+        color: #fff;
+        content: "\f044";
+        font-size: 25px;
+        font-family: "FontAwesome";
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+    }
+    .fadeIn-bottom{
+      top: 80%;
+    }
+  }
+
 @keyframes simple {
     0%   { transform: scale(0.5) }
     100% { transform: scale(1) }

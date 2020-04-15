@@ -4,7 +4,14 @@
     <div class="card" *ngIf="!loading">
         <div class="row product-section">
           <div class="col-5 pl-0">
-            <img src="{{productDetail?.default_product_image}}" class="card-img" alt="...">
+            <div [class.content]="editProductId">
+                <img [src]="imgFlag ? updateImg : utils.getImage(productDetail?.default_product_image)" class="card-img" alt="...">
+                <input style="display: none" type="file" [disabled]="!editProductId" (change)="onSelectFile($event)" #hiddenfileinput>
+                <div class="content-overlay" [disabled]="!editProductId"></div>
+                <div [disabled]="!editProductId" class="content-details d-flex flex-column justify-content-center fadeIn-bottom">
+                  <i (click)="hiddenfileinput.click()"></i>
+                </div>
+            </div>
           </div>
           <div class="col-7">
             <div class="card-body">
@@ -53,7 +60,7 @@
         <div class="row option-table">
           <div class="card-body">
             <h5>Product Options</h5>
-            <table class="table mat-elevation-z8 table-fixed" align="center">
+            <table *ngIf="productSubOption.length" class="table mat-elevation-z8 table-fixed" align="center">
               <thead>
                   <tr>
                       <th class="col-2">Option Name</th>
@@ -86,6 +93,9 @@
                   </tr>
               </tbody>
             </table>
+            <div *ngIf="!productSubOption.length" class="text-center mt-3">
+                No options
+            </div>
           </div>
         </div>
     </div>

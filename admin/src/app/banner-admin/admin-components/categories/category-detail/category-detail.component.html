@@ -4,7 +4,14 @@
     <div class="card" *ngIf="!loading">
         <div class="row product-section">
           <div class="col-5 pl-0">
-            <img src="{{categoryDetail?.default_category_image}}" class="card-img" alt="...">
+            <div [class.content]="editCategorytId">
+              <img [src]="imgFlag ? updateImg : utils.getImage(categoryDetail?.default_category_image)" class="card-img" alt="...">
+              <input style="display: none" type="file" [disabled]="!editCategorytId" (change)="onSelectFile($event)" #hiddenfileinput>
+              <div class="content-overlay" [disabled]="!editCategorytId"></div>
+              <div [disabled]="!editCategorytId" class="content-details d-flex flex-column justify-content-center fadeIn-bottom">
+                <i (click)="hiddenfileinput.click()"></i>
+              </div>
+          </div>
           </div>
           <div class="col-7">
             <div class="card-body">
