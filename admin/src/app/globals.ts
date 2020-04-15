@@ -7,6 +7,7 @@ export class Globals {
 
   constructor() {}
 
+  basic_url = 'http://34.68.49.20:8001';
   domanin_name = '/api';
   userSignup = `${this.domanin_name}/users/`;
   userLogin = `${this.domanin_name}/auth/token/obtain/`;

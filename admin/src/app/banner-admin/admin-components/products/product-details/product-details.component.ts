@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedDataService } from 'src/app/banner-admin/services/shared-data.service';
+import { UtilsFunction } from 'src/app/banner-admin/utils-function';
 
 @Component({
   selector: 'app-product-details',
@@ -13,6 +14,7 @@ import { SharedDataService } from 'src/app/banner-admin/services/shared-data.ser
 })
 export class ProductDetailsComponent implements OnInit {
 
+  selectedFile: File;
   productId: number;
   recordId: number;
   subOptionId: number;
@@ -23,8 +25,13 @@ export class ProductDetailsComponent implements OnInit {
   optionsData = [];
   subOption = [];
   loading = true;
+  imgFlag = false;
+  updateImgValue: any;
+  updateImg: any;
+
   constructor(private route: ActivatedRoute, private apiService: ApiService,
     private modalService: NgbModal, private sharedData: SharedDataService,
+    private utils: UtilsFunction,
     private SpinnerService: NgxSpinnerService, private toast: ToastrService) {
     this.route.params.subscribe(params => {
       if (params['id']) {
@@ -33,11 +40,6 @@ export class ProductDetailsComponent implements OnInit {
       }
     });
    }
-
-  openModal(targetModal, subOptions) {
-    this.subOption = subOptions;
-    this.modalService.open(targetModal, { size: 'lg', centered: true });
-  }
 
   ngOnInit() {
     this.sharedData.priceTypes.subscribe(message => {
@@ -48,19 +50,39 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.updateImgValue = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e) => {
+        this.updateImg = e.target.result;
+        this.imgFlag = true;
+      };
+    }
+  }
+
+  openModal(targetModal, subOptions) {
+    this.subOption = subOptions;
+    this.modalService.open(targetModal, { size: 'lg', centered: true });
+  }
+
   editProduct() {
     this.editProductId = true;
   }
 
   saveProduct(obj) {
-    const productObj = {};
-    productObj['product_name'] = obj['product_name'];
-    productObj['one_unit_weight'] = obj['one_unit_weight'];
-    productObj['weight_unit'] = obj['weight_unit'];
-    productObj['price_type'] = obj['price_type'];
-    productObj['product_description'] = obj['product_description'];
-    productObj['setup_cost'] = obj['setup_cost'];
-    this.apiService.updateProduct(obj['id'], productObj).subscribe(res => {
+    const formData = new FormData();
+    formData.append('product_name', obj['product_name']);
+    formData.append('one_unit_weight', obj['one_unit_weight']);
+    formData.append('weight_unit', obj['weight_unit']);
+    formData.append('price_type', obj['price_type']);
+    formData.append('setup_cost', obj['setup_cost']);
+    formData.append('product_description', obj['product_description']);
+    if (this.imgFlag) {
+      formData.append('default_product_image', this.updateImgValue);
+    }
+    this.apiService.updateProduct(obj['id'], formData).subscribe(res => {
       this.editProductId = false;
       this.toast.success('Product updated successfully!', '');
     });

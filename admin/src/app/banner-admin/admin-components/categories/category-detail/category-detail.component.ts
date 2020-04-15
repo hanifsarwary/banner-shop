@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/banner-admin/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { UtilsFunction } from 'src/app/banner-admin/utils-function';
 
 @Component({
   selector: 'app-category-detail',
@@ -17,8 +18,12 @@ export class CategoryDetailComponent implements OnInit {
   productList = [];
   subOption = [];
   loading = true;
+  imgFlag = false;
+  updateImgValue: any;
+  updateImg: any;
 
   constructor(private route: ActivatedRoute, private apiService: ApiService,
+    private utils: UtilsFunction,
     private SpinnerService: NgxSpinnerService, private toast: ToastrService) {
     this.route.params.subscribe(params => {
       if (params['id']) {
@@ -29,6 +34,18 @@ export class CategoryDetailComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.updateImgValue = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e) => {
+        this.updateImg = e.target.result;
+        this.imgFlag = true;
+      };
+    }
   }
 
   getProductDetail(categoryId) {
@@ -46,10 +63,13 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   saveCategory(obj) {
-    const categoryObj = {};
-    categoryObj['name'] = obj['name'];
-    // categoryObj['one_unit_weight'] = obj['one_unit_weight'];
-    this.apiService.updateCategory(obj['id'], categoryObj).subscribe(res => {
+    const formData = new FormData();
+    formData.append('name', obj['name']);
+    formData.append('default_category_image', this.updateImgValue);
+    if (this.imgFlag) {
+      formData.append('default_category_image', this.updateImgValue);
+    }
+    this.apiService.updateCategory(obj['id'], formData).subscribe(res => {
       this.editCategorytId = false;
       this.toast.success('Category updated successfully!', '');
     });
