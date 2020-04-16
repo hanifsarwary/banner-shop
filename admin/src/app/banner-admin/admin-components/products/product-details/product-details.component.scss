@@ -44,6 +44,13 @@ hr {
   .card-title {
       font-size: 2rem;
   }
+  img::after {
+    content: "\f0d7";
+    top: 3;
+    right: 0px;
+    position: absolute;
+    font-family: "FontAwesome";
+  }
   .product-edit a {
     font-size: 1rem;
     margin-top: 2rem;
@@ -129,3 +136,5 @@ button {
   border: none !important;
   outline: none !important;
 }
+
+

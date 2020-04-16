@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, Output, EventEmitter, OnChanges } 
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApiService } from '../../services/api.service';
+import { UtilsFunction } from '../../utils-function';
 
 @Component({
   selector: 'app-datatable',
@@ -17,7 +18,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class DatatableComponent implements OnChanges {
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private utils: UtilsFunction) { }
   @Output() categoryItemEvent = new EventEmitter();
   @Input() datatableColumns: [];
   @Input() dataSource: [];
@@ -65,7 +66,7 @@ export class DatatableComponent implements OnChanges {
         }});
     } else if (this.productExpand) {
       this.apiService.getProducts(id).subscribe(res => {
-        this.detailObj = res;
+        this.detailObj = res.option_set;
         if (this.detailObj.length) {
           this.optionLoading = true;
         } else {
