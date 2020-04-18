@@ -21,7 +21,9 @@ class CalculatePriceViewSet(APIView):
         
             if product.price_type == PRODUCT_PER_SQFT:
                 quantity = request.data['options'].pop('Quantity', 1)
-                basic_price = product.price_details['price'] * quantity * request.data.get('options').pop(price_details['labels'][0], 1) * request.data.get('options').pop(price_details['labels'][1])
+                basic_price = product.price_details['price'] * quantity * request.data.get('options').pop(
+                    product.price_details['labels'][0], 1) * request.data.get('options').pop(
+                        product.price_details['labels'][1])
             elif product.price_type == PRODUCT_VARIABLE_PER_QUANTITY:
                 quantity = request.data['options'].pop('Quantity', 1)
                 if product.price_details:
