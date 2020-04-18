@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OptionModelComponent } from './option-model/option-model.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-option-groups',
@@ -10,19 +11,22 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./option-groups.component.css']
 })
 export class OptionGroupsComponent implements OnInit {
-  tableColumns = ['no', 'option_name', 'option_type', 'down_arrow'];
+  tableColumns = ['no', 'option_name', 'option_type', 'option_detail', 'down_arrow'];
   optionsData = [];
   productData = [];
   pricesData = [];
   loading = true;
   constructor(private apiService: ApiService,
     private SpinnerService: NgxSpinnerService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private sharedData: SharedDataService) { }
 
   ngOnInit(): void {
     this.getOptions();
-    this.getOptionsType();
     this.getProducts();
+    this.sharedData.optionTypes.subscribe(message => {
+      this.optionsData = message;
+    });
   }
 
 
@@ -34,13 +38,6 @@ export class OptionGroupsComponent implements OnInit {
     const modalRef = this.modalService.open(OptionModelComponent, modalOptions);
     modalRef.componentInstance.modalType = type;
     modalRef.componentInstance.products = this.productData;
-  }
-
-  getOptionsType() {
-    this.apiService.getOptionsTypes().subscribe(res => {
-      localStorage.setItem('OptionPriceObj', JSON.stringify(res.types));
-      this.pricesData = res.types;
-    });
   }
 
   getOptions() {

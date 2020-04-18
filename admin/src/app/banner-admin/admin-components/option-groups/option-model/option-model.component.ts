@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ApiService } from 'src/app/banner-admin/services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { SharedDataService } from 'src/app/banner-admin/services/shared-data.service';
 
 @Component({
   selector: 'app-option-model',
@@ -14,19 +14,27 @@ export class OptionModelComponent implements OnInit {
   @Input() products;
   public optionForm: FormGroup;
   calculatedPrice = 75;
+  optionsData = [];
   isChild = false;
   priceType: string;
 
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
+    private sharedData: SharedDataService,
     private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.optionForm = this.fb.group({
-      option_name: ['', [Validators.minLength(3), Validators.required]],
-      product: ['', [Validators.minLength(3), Validators.required]],
+      option_name: ['', Validators.required],
+      option_type: ['', Validators.required],
+      option_description: [''],
+      is_suboptions: [''],
+      product: ['', Validators.required],
+    });
+    this.sharedData.optionTypes.subscribe(message => {
+      this.optionsData = message;
     });
   }
 
