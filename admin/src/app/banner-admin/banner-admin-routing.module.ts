@@ -13,6 +13,7 @@ import { PostCommentsComponent } from './admin-components/post-comments/post-com
 import { ProfileComponent } from './admin-components/profile/profile.component';
 import { ProductDetailsComponent } from './admin-components/products/product-details/product-details.component';
 import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
+import { OptionDetailComponent } from './admin-components/option-groups/option-detail/option-detail.component';
 
 const routes: Routes = [
     {
@@ -25,6 +26,7 @@ const routes: Routes = [
           { path: 'products', component: ProductsComponent },
           { path: 'product/:id', component: ProductDetailsComponent },
           { path: 'category/:id', component: CategoryDetailComponent },
+          { path: 'option/:id', component: OptionDetailComponent },
           { path: 'user-accounts', component: UserAccountsComponent },
           { path: 'cms', component: CmsComponent },
           { path: 'custom-orders', component: CustomOrdersComponent },

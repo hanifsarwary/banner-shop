@@ -44,6 +44,11 @@ hr {
   .card-title {
       font-size: 2rem;
   }
+  .card-heading input {
+    color: black !important;
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+  }
   img::after {
     content: "\f0d7";
     top: 3;

@@ -27,10 +27,12 @@ import { OptionTypesPipe } from '../custom-pipe/option-types.pipe';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
 import { UtilsFunction } from './utils-function';
+import { OptionDetailComponent } from './admin-components/option-groups/option-detail/option-detail.component';
 
 @NgModule({
   declarations: [
     BannerAdminComponent,
+    OptionDetailComponent,
     HeaderComponent,
     SidebarComponent,
     CategoriesComponent,

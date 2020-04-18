@@ -1,0 +1,75 @@
+.container {
+    .option-card {
+        .card {
+            margin-top: 8%;
+            left: 20%;
+            .text-div {
+                font-size: 15px;
+            }
+            .card-heading {
+              color: black !important;
+              font-size: 1.3rem !important;
+              font-weight: bold !important;
+              input {
+                color: black !important;
+                font-size: 1.3rem !important;
+                font-weight: bold !important;
+              }
+            }
+            .table-fixed{
+                width: 100%;
+                background-color: white;
+                tbody{
+                  height: 250px;
+                  overflow-y:auto;
+                  width: 100%;
+                  }
+                thead,tbody,tr,td,th{
+                  display:block;
+                }
+                tbody{
+                  td{
+                    float:left;
+                    height: 3.5rem;
+                    a i {
+                        margin-left: 3rem;
+                        font-size: 25px;
+                    }
+                  }
+                }
+                thead {
+                  tr{
+                    th{
+                      float:left;
+                      height: 3rem;
+                    }
+                  }
+                }
+              }
+        }
+    }
+}
+
+div.loading {
+  height: 20px;
+  width: 20px;
+  margin: 20px auto;
+  border-radius: 50%;
+  border: dashed 1px black;
+  animation-name: loader-spin;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  
+}
+@-webkit-keyframes loader-spin {
+  from   {  transform: rotate(0deg); }
+  to     {  transform: rotate(360deg); }
+}
+
+.applyBorder {
+    background: none;
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+  }
