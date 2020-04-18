@@ -80,6 +80,11 @@ export class ApiService {
     return this.httpClient.get<any>(`${this.global.options}${param}/sub-options/`);
   }
 
+  addSubOption(param, obj): Observable<any> {
+    param = param ? param : '';
+    return this.httpClient.post<any>(`${this.global.options}${param}/sub-options/`, obj);
+  }
+
   updateSubOption(param, obj): Observable<any> {
     param = param ? param : '';
     return this.httpClient.put<any>(`${this.global.subOptions}${param}/`, obj);

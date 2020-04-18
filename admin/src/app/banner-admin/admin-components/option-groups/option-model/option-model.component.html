@@ -13,10 +13,24 @@
                     <input type="text" class="form-control col-sm-8" formControlName="option_name" placeholder="Option name">
                 </div>
                 <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="optionType">Option Type:</label>
+                    <select class="form-control col-sm-8" formControlName="option_type" id="optionType">
+                        <option *ngFor="let item of optionsData | keyvalue" [value]="item.key">{{item.value}}</option>
+                    </select>
+                </div>
+                <div class="form-group row">
                     <label class="col-sm-4 col-form-label" for="productCategor">Select Product:</label>
                     <select class="form-control col-sm-8" id="productCategor" formControlName="product">
                         <option  *ngFor="let product of products" [value]="product.id">{{product.product_name}}</option>
                     </select>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="notes">Description:</label>
+                    <textarea class="form-control col-sm-8" formControlName="option_description" rows="3" 
+                        placeholder="Add Option Description..."></textarea>
+                </div>
+                <div class="checkbox row">
+                    <label class="col-sm-8 col-form-label">Sub Option &nbsp;<input type="checkbox" formControlName="is_suboptions"></label>
                 </div>
             </div>
         </form>
