@@ -1,0 +1,76 @@
+<div class="container p-0, m-0">
+    <div class="option-card" *ngIf="!loading">
+        <div class="card  mat-elevation-z8">
+            <div class="card-header p-1 m-0 bg-white d-flex flex-row justify-content-between">
+                <h4 class="card-heading mt-2 ml-1">
+                    <input [class.applyBorder]="!editOptionId" [disabled]="!editOptionId" class="form-control form-control-sm" type="text" [(ngModel)]="optionDetail.option_name">
+                </h4>
+                <div class="product-edit mt-1 mr-2 p-2">
+                    <a class="btn btn-primary" href="javascript:;" *ngIf="!editOptionId" (click)="editOption()">Edit</a>
+                    <a class="btn btn-primary" href="javascript:;" *ngIf="editOptionId" (click)="saveOption(optionDetail)">Save</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="text-div ml-3 mb-4 mt-3 row">
+                    <div class="font-weight-bold col-2 mt-2">Option Type</div>
+                    <div class="col-10 text-left">
+                        <select [class.applyBorder]="!editOptionId" [(ngModel)]="optionDetail.option_type" class="form-control" id="optionType">
+                            <option *ngFor="let item of optionsData | keyvalue" [value]="item.key">{{item.value}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-2 mt-2 ">Price Unit</div>
+                    <div class="col-10 text-left">
+                        <input [class.applyBorder]="!editOptionId" [disabled]="!editOptionId" class="form-control form-control-sm" type="text" [(ngModel)]="optionDetail.price_unit">
+                    </div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-2 mt-2 ">Option Description</div>
+                    <div class="col-10 text-left">
+                        <input [class.applyBorder]="!editOptionId" [disabled]="!editOptionId" class="form-control form-control-sm" type="text" [(ngModel)]="optionDetail.option_description">
+                    </div>
+                </div>
+            </div>
+            <div class="card-header bg-white d-flex flex-row justify-content-between">
+                <h4 class="card-heading mt-2 ml-1"> Sub Options </h4>
+                <div class="product-edit mt-1 mr-2">
+                    <button class="btn btn-primary"  [disabled]="!currentIdFlag" href="javascript:;" (click)="addRow()">Add</button>
+                </div>
+            </div>
+            <div class="card-body p-0 m-0" *ngIf="dynamicArray.length">
+                <table class="table table-fixed">
+                    <thead>
+                        <tr>
+                            <th class="col-5">Name</th>
+                            <th class="col-5">Price</th>
+                            <th class="col-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dynamicArray; let i = index;">
+                            <td class="col-5"><input [class.applyBorder]="!subOptionId && i+1 !== currentId" class="form-control form-control-sm" type="text" [(ngModel)]="item.name"></td>
+                            <td class="col-5"><input [class.applyBorder]="!subOptionId && i+1 !== currentId" class="form-control form-control-sm" type="text" [(ngModel)]="item.price"></td>
+                            <td class="col-2">
+                              <a *ngIf="subOptionId !== item.id && i+1 !== currentId" (click)="editSubOption(item.id)" href="javascript:;"><i class="fa fa-fw fa-edit"></i></a>
+                              <a *ngIf="subOptionId === item.id && i+1 !== currentId" (click)="saveSubOption(item)" href="javascript:;"><i class="fa fa-save"></i></a>
+                              <a *ngIf="currentId === i+1 " (click)="addSubOption(optionDetail.id, item)" href="javascript:;"> <i class="fa fa-save"></i></a>
+                              <a *ngIf="currentId === i+1 " (click)="deleteRow(i)" href="javascript:;"> <i class="fa fa-trash fa-o"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex p-5 justify-content-center" *ngIf="!optionLoading">
+                <div class="loading"  [class.d-block]="optionLoading"></div>
+            </div>
+            <div *ngIf="!dynamicArray.length" class="d-flex p-5 justify-content-center">
+                <span> No Sub option </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center" [class.d-block]="loading">
+  <ngx-spinner size="medium" color="#fff" type="ball-scale-multiple">
+  </ngx-spinner>
+</div>

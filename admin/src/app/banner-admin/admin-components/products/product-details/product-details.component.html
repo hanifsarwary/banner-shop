@@ -15,8 +15,8 @@
           </div>
           <div class="col-7">
             <div class="card-body">
-              <h5 class="card-title"> 
-                <input class="product-name" [class.applyBorder]="!editProductId" [disabled]="!editProductId" type="text" [(ngModel)]="productDetail.product_name">
+              <h5 class="card-title card-heading input"> 
+                <input [class.applyBorder]="!editProductId"  class="form-control form-control-sm" [disabled]="!editProductId" type="text" [(ngModel)]="productDetail.product_name">
               </h5>
               <div class="row card-text">
                 <div class="col-4"> Weight Unit : </div>
@@ -58,9 +58,9 @@
           </div>
         </div>
         <div class="row option-table">
-          <div class="card-body">
-            <h5>Product Options</h5>
-            <table *ngIf="productSubOption.length" class="table mat-elevation-z8 table-fixed" align="center">
+          <div class="card-body mt-4">
+            <h5 class="ml-4">Product Options</h5>
+            <table *ngIf="productSubOption.length" class="table mt-5 mat-elevation-z8 table-fixed" align="center">
               <thead>
                   <tr>
                       <th class="col-2">Option Name</th>

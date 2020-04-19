@@ -28,12 +28,13 @@ export class CategoryDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.categoryId = params['id'];
-        this.getProductDetail(this.categoryId);
       }
     });
    }
 
   ngOnInit(): void {
+    this.getProductDetail(this.categoryId);
+    this.getCategoryProducts(this.categoryId);
   }
 
   onSelectFile(event) {
@@ -51,10 +52,19 @@ export class CategoryDetailComponent implements OnInit {
   getProductDetail(categoryId) {
     this.loading = true;
     this.SpinnerService.show();
+    this.categoryDetail = [];
     this.apiService.getCategories(categoryId).subscribe( res => {
-      this.categoryDetail = res;
+      if (res) {
+        this.categoryDetail = res;
+        this.loading = false;
+      }
+    });
+  }
+
+  getCategoryProducts(categoryId) {
+    this.apiService.getProductsByCategory(categoryId).subscribe(res => {
+      this.productList = res;
       this.SpinnerService.hide();
-      this.loading = false;
     });
   }
 

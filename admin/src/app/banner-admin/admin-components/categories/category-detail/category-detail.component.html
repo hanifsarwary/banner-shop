@@ -25,35 +25,31 @@
             </div>
           </div>
         </div>
-        <!-- <div class="row option-table">
+        <div class="row option-table">
           <div class="card-body">
             <h5>Products</h5>
             <table class="table mat-elevation-z8 table-fixed" align="center">
               <thead>
                   <tr>
-                      <th class="col-2">Product Name</th>
+                      <th class="col-3">Product Name</th>
                       <th class="col-2">Product Image</th>
-                      <th class="col-2">Price Type</th>
-                      <th class="col-2">One Unit Weight</th>
-                      <th class="col-2">Weight Unit </th>
-                      <th class="col-1">Setup Cost</th>
-                      <th class="col-1"></th>
+                      <th class="col-4">Price Type</th>
+                      <th class="col-3"></th>
                   </tr>
               </thead>
               <tbody>
-                  <tr>
-                      <td class="col-2">AAA</td>
-                      <td class="col-2"></td>
-                      <td class="col-2"></td>
-                      <td class="col-2"></td>
-                      <td class="col-2"></td>
-                      <td class="col-1"></td>
-                      <td class="col-1"> <a href="javascript:;"> project detail </a></td>
+                  <tr *ngFor="let item of productList">
+                      <td class="col-3">{{item?.product_name}}</td>
+                      <td class="col-2">
+                        <img [src]="utils.getImage(item.default_product_image)" class="sub-category-img" alt="">
+                      </td>
+                      <td class="col-4">{{item?.price_type | priceType}}</td>
+                      <td class="col-3"> <a href="javascript:;" [routerLink]="['/product/', item?.id]"> project detail </a></td>
                   </tr>
               </tbody>
             </table>
           </div>
-        </div> -->
+        </div>
     </div>
 </div>
 
