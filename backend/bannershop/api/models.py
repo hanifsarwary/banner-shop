@@ -145,6 +145,7 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
+    
     STATUS_CHOICES = (
         ('Cancelled', 'Cancelled'),
         ('At Risk', 'At Risk'),
