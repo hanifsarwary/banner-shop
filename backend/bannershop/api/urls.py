@@ -1,16 +1,21 @@
 from django.urls import path
 
-from api.views.categories import CategoryListViewSet, SubCategoryListViewSet, CategoryDetailViewSet, CategorySubCategoryProductViewSet, AllCategoryListViewSet
+from api.views.categories import (
+    CategoryListViewSet, SubCategoryListViewSet, CategoryDetailViewSet, CategorySubCategoryProductViewSet,
+     AllCategoryListViewSet)
 from api.views.custom_quotes import CustomQuoteViewSet
 from api.views.customers import CustomerListViewSet
 from api.views.products import (
-    ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet, ProductDetailViewSet, AllOptionListView, 
-    GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, SubOptionDetailViewSet, OptionSubOptionsListViewSet)
+    ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet,
+     ProductDetailViewSet, AllOptionListView, GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, 
+     SubOptionDetailViewSet, OptionSubOptionsListViewSet)
 from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet, UserDetailsWithUserName
 from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
 from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOptionViewSet, ProductOrderOptionListViewSet
 from api.views.emails import SendOrderEmail
 from api.views.pricing import CalculatePriceViewSet
+from api.views.custom_orders import (
+    CustomOrderListCreateViewSet, CustomOrderDetailViewSet, InvoiceListViewSet, InvoiceDetailViewSet)
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 urlpatterns = [
@@ -22,7 +27,11 @@ urlpatterns = [
     path('contact-requests/', ContactRequestViewSet.as_view()),
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
+    path('custom-orders/', CustomOrderListCreateViewSet.as_view()),
+    path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
+    path('invoices/', InvoiceListViewSet.as_view()),
+    path('invoices/<int:pk>/', InvoiceDetailViewSet.as_view()),
     path('send-order-email/<int:order_id>/', SendOrderEmail.as_view()),
     path('orders/', OrderViewSet.as_view()),
     path('options/', AllOptionListView.as_view()),
