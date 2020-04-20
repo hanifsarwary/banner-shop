@@ -218,6 +218,12 @@ class CustomOrder(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
 
+class ProofHistory(models.Model):
+    custom_order = models.ForeignKey(CustomOrder, on_delete=models.CASCADE)
+    created_at = models.DateField()
+    comments = models.CharField(max_length=256, null=True)
+
+
 class Order(models.Model):
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
