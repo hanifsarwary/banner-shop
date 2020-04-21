@@ -18,8 +18,8 @@ class CustomOrderListCreateViewSet(ListCreateAPIView):
             queryset = queryset.filter(custom_product_name__icontains=product_name)
         return queryset
         
-
-    def get_queryset(self, request):
+    
+    def get_queryset(self):
 
         queryset = self.filter_status(CustomOrder.objects.all(), self.request.query_params.get('status'))
         queryset = self.filter_product_name(queryset, self.request.query_params.get('product_name'))
