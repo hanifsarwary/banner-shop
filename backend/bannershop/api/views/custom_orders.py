@@ -8,12 +8,12 @@ class CustomOrderListCreateViewSet(ListCreateAPIView):
 
     serializer_class = CustomOrderSerializer
 
-    def filter_status(queryset, status):
+    def filter_status(self, queryset, status):
         if status:
             queryset = queryset.filter(status=status)
         return queryset
 
-    def filter_product_name(queryset, product_name):
+    def filter_product_name(self, queryset, product_name):
         if product_name:
             queryset = queryset.filter(custom_product_name__icontains=product_name)
         return queryset
