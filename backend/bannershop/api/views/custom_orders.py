@@ -14,7 +14,7 @@ class CustomOrderListCreateViewSet(ListCreateAPIView):
             queryset = queryset.filter(status=status)
         return queryset
 
-    # def post(self, request):
+    # def get(self, request):
     #     queryset = self.filter_status(self.get_queryset(), request.data.get('status'))
 
 
