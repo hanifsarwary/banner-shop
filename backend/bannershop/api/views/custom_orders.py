@@ -7,19 +7,27 @@ from api.serializers.custom_orders import CustomOrderSerializer, InvoiceSerializ
 class CustomOrderListCreateViewSet(ListCreateAPIView):
 
     serializer_class = CustomOrderSerializer
-    queryset = CustomOrder.objects
+    queryset = CustomOrder.objects.all()
+
+    def filter_status(queryset, status):
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
+
+    # def post(self, request):
+    #     queryset = self.filter_status(self.get_queryset(), request.data.get('status'))
 
 
 class CustomOrderDetailViewSet(RetrieveUpdateAPIView):
 
     serializer_class = CustomOrderSerializer
-    queryset = CustomOrder.objects
+    queryset = CustomOrder.objects.all()
 
 
 class InvoiceListViewSet(ListCreateAPIView):
 
     serializer_class = InvoiceSerializer
-    queryset = Invoice.objects
+    queryset = Invoice.objects.all()
 
 
 
