@@ -7,15 +7,25 @@ from api.serializers.custom_orders import CustomOrderSerializer, InvoiceSerializ
 class CustomOrderListCreateViewSet(ListCreateAPIView):
 
     serializer_class = CustomOrderSerializer
-    queryset = CustomOrder.objects.all()
 
     def filter_status(queryset, status):
         if status:
             queryset = queryset.filter(status=status)
         return queryset
 
-    # def get(self, request):
-    #     queryset = self.filter_status(self.get_queryset(), request.data.get('status'))
+    def filter_product_name(queryset, product_name):
+        if product_name:
+            queryset = queryset.filter(custom_product_name__icontains=product_name)
+        return queryset
+        
+
+    def get_queryset(self, request):
+
+        queryset = self.filter_status(CustomOrder.objects.all(), self.request.query_params.get('status'))
+        queryset = self.filter_product_name(queryset, self.request.query_params.get('product_name'))
+        return queryset
+
+
 
 
 class CustomOrderDetailViewSet(RetrieveUpdateAPIView):
