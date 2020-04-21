@@ -13,10 +13,13 @@ import Cart from './Cart';
 import About from './About';
 import Contact from './Contact';
 import CustomQuote from './CustomQuote';
+import GlobalError from './Error';
 import './App.css';
 
 class App extends React.Component {
   state = {
+    error: false,
+    message: 'Internal server error',
     isLoggedIn: false,
     user: {},
     products: [],
@@ -27,22 +30,22 @@ class App extends React.Component {
     try {
       const token = localStorage.getItem('token');
       const user = jwtDecode(token);
-      if(user) {
+      if (user) {
         this.setState({
           user: user,
           isLoggedIn: true
         });
       }
-    } catch(err) {}
+    } catch (err) { }
   }
 
-  onLogin = ()=> {
+  onLogin = () => {
     this.setState({
       isLoggedIn: true
     });
   }
 
-  onLogout = ()=> {
+  onLogout = () => {
     this.setState({
       isLoggedIn: false
     });
@@ -54,35 +57,45 @@ class App extends React.Component {
     });
   }
 
+  errorMount = (message) => {
+    this.setState({
+      error: true,
+      message: message
+    });
+  }
+
   render() {
     return (
       <React.Fragment>
-        <Header 
+        <Header
           isLoggedIn={this.state.isLoggedIn}
           onLogout={this.onLogout}
         />
+        {this.state.error ? (
+          <GlobalError message={this.state.message} />
+        ) : ('')}
         <Switch>
           <Route path="/" exact>
-            <FeatureProduct />
+            <FeatureProduct errorMount={this.errorMount} />
             <Feature />
           </Route>
           <Route path="/shop/cart" exact>
-            <Cart isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand}/>
+            <Cart isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand} />
           </Route>
           <Route path="/category/:id" exact>
             <Category />
           </Route>
           <Route path="/product/:id" exact>
-            <Product />
+            <Product errorMount={this.errorMount} />
           </Route>
           <Route path="/about" exact>
             <About />
           </Route>
           <Route path="/contact" exact>
-            <Contact isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand}/>
+            <Contact isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand} />
           </Route>
           <Route path="/auth/login" exact>
-            <Login 
+            <Login
               isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin} previousPath={this.state.previousPath}
             />
           </Route>
@@ -90,7 +103,7 @@ class App extends React.Component {
             <SignUp />
           </Route>
           <Route>
-            <CustomQuote path="/customquote" exact/>
+            <CustomQuote path="/customquote" exact />
           </Route>
           <Redirect to="/" />
         </Switch>
