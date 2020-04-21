@@ -1,5 +1,6 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
-
+from rest_framework.views import  APIView
+from rest_framework.response import Response
 from api.models import CustomOrder, Invoice, ProofHistory
 from api.serializers.custom_orders import CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer
 
@@ -55,3 +56,12 @@ class ProofHistoryListView(ListCreateAPIView):
         queryset = self.get_queryset().filter(custom_order_id=custom_order_id).order_by('-created_at')
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class GetOrderTypes(APIView):
+
+    def get(self, request):
+        return_dict = dict()
+        for a, b in CustomOrder.STATUS_CHOICES: 
+            return_dict.setdefault(a, b) 
+        return Response({'types': return_dict})
