@@ -140,7 +140,7 @@ class Customer(models.Model):
     bussiness_type = models.TextField(null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     city = models.CharField(max_length=64, null=True, blank=True)
-    company_name = models.CharField(max_length=512, null=True, blank=True)
+    company_name = models.CharField(max_length=512, null=True, blank=True, db_index=True)
     country = models.CharField(max_length=16, null=True, blank=True)
     fax_number = models.CharField(max_length=32, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
