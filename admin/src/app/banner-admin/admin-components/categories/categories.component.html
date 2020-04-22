@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="container-header">
+    <div class="container-header mt-4 m-3">
         <div class="product-btn">
             <button class="btn btn-primary" (click)="openModal('add-category')">
                 <i class="fa fa-plus"></i>
@@ -7,7 +7,7 @@
             </button>
         </div>
     </div>
-    <div class="container-body">
+    <div class="container-body m-3">
         <div class="product-heading">All Categories</div>
         <div *ngIf="categoriesData.length">
             <app-datatable [datatableColumns]="tableColumns" [categoryExpand]="true" [dataSource]="categoriesData" (categoryItemEvent)="categoryEventClicked($event)">

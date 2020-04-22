@@ -99,5 +99,45 @@ export class ApiService {
     return this.httpClient.delete<any>(`${this.global.products}${productId}`);
   }
 
+  getUsers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.users}`);
+  }
+
+  getCustomers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.customers}`);
+  }
+
+  getCustomOrder(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.customOrders}`);
+  }
+
+  addInvoices(id, obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.invoices}${id}/`, obj);
+  }
+
+  updateInvoices(id, obj): Observable<any> {
+    return this.httpClient.put<any>(`${this.global.invoices}${id}/`, obj);
+  }
+
+  getInvoices(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.invoices}`);
+  }
+
+  getStatus(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.statusTypes}`);
+  }
+
+  addCustomOrder(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.addCustomOrders}`, obj);
+  }
+
+  addCustomers(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.customers}`, obj);
+  }
+
+  updateCustomOrder(id, obj): Observable<any> {
+    return this.httpClient.put<any>(`${this.global.customOrders}update/${id}/`, obj);
+  }
+
 
 }

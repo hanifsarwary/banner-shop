@@ -3,6 +3,10 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApiService } from '../../services/api.service';
 import { UtilsFunction } from '../../utils-function';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CustomOrdersComponent } from '../custom-orders/custom-orders.component';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-datatable',
@@ -18,22 +22,41 @@ import { UtilsFunction } from '../../utils-function';
 })
 export class DatatableComponent implements OnChanges {
 
-  constructor(private apiService: ApiService, private utils: UtilsFunction) { }
   @Output() categoryItemEvent = new EventEmitter();
   @Input() datatableColumns: [];
   @Input() dataSource: [];
+  @Input() pagination = true;
+  @Input() tableBorder = false;
+  @Input() borderedRows = true;
   @Input() optionExpand = false;
   @Input() productExpand = false;
   @Input() categoryExpand = false;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   sourceData;
+  invoiceForm: FormGroup;
   expandedElement: null;
   detailObj = [];
   subCategoryDetail = [];
+  invoiceObj = [];
+  customOrderId: number;
   optionLoading = false;
   noOption = false;
   currentId = false;
+
+  constructor(private apiService: ApiService,
+    private utils: UtilsFunction,
+    private modalService: NgbModal,
+    private toast: ToastrService,
+    private fb: FormBuilder) {
+      this.invoiceForm = this.fb.group({
+        authorization_code: [''],
+        invoice_number: [''],
+        paid_by: [''],
+        payment_method: [''],
+        sold_to: ['']
+      });
+    }
 
   ngOnChanges() {
     this.sourceData = new MatTableDataSource(this.dataSource);
@@ -47,6 +70,12 @@ export class DatatableComponent implements OnChanges {
       record: entryId
     };
     this.categoryItemEvent.emit(data);
+  }
+
+  openInvoiceModal(targetModal, id, invoiceObj) {
+    this.customOrderId = id;
+    this.invoiceObj = invoiceObj;
+    this.modalService.open(targetModal, { size: 'lg', centered: true });
   }
 
   expandDetail(id) {
@@ -86,5 +115,28 @@ export class DatatableComponent implements OnChanges {
         }
       });
     }
+  }
+
+  onSubmit(obj) {
+    if (this.invoiceObj) {
+      this.apiService.updateInvoices(this.customOrderId, obj.value).subscribe(res => {
+        this.toast.success('Invoice Updated successfully!', '');
+      });
+    } else {
+      this.apiService.addInvoices(this.customOrderId, obj.value).subscribe(res => {
+        this.toast.success('Invoice added successfully!', '');
+        this.invoiceForm.reset();
+      });
+    }
+  }
+
+  openModal(type, data) {
+    const modalOptions = {size: 'lg'};
+
+    const modalRef = this.modalService.open(CustomOrdersComponent, modalOptions);
+    modalRef.componentInstance.modalType = type;
+    modalRef.componentInstance.customOrderList = data;
+    modalRef.componentInstance.operation = 'Update';
+    modalRef.componentInstance.customOrderId = data.id;
   }
 }
