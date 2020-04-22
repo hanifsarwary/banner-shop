@@ -1,1 +1,87 @@
-<p>custom-orders works!</p>
+<div class="container-fluid p-0">
+    <div class="customers">
+        <div class="customOrderForm mt-4 mb-4 mat-elevation-z8">
+            <h4 class="heading mb-5 pt-5 text-center">{{operation}} Custom Order</h4>
+            <form [formGroup]="customOrderForm" class="m-3 mr-4" (ngSubmit)="onSubmit(customOrderForm)">
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="custom_job_name">Custom job name :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.custom_job_name" formControlName="custom_job_name" placeholder="Enter Custom job name">
+                    <label class="col-sm-2 col-form-label" for="custom_product_name">Custom product name :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.custom_product_name" formControlName="custom_product_name" placeholder="Enter Custom product name">
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="custom_quantity">Custom quantity :</label>
+                    <input type="number" class="form-control col-sm-4" [(ngModel)]="customOrderList.custom_quantity"  formControlName="custom_quantity" placeholder="Enter Custom quantity">
+                    <label class="col-sm-2 col-form-label" for="custom_version">Custom version :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.custom_version"  formControlName="custom_version" placeholder="Enter Custom version">
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="custom_proof">Custom proof :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.custom_proof" formControlName="custom_proof" placeholder="Enter Custom proof">
+                    <label class="col-sm-2 col-form-label" for="custom_sample">Custom sample :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.custom_sample" formControlName="custom_sample" placeholder="Enter Custom sample">
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="custom_paper">Custom paper :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.custom_paper" formControlName="custom_paper" placeholder="Enter Custom paper">
+                    <label class="col-sm-2 col-form-label" for="flat_size">Flat size :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.flat_size" formControlName="flat_size" placeholder="Enter Flat size">
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="ink_color">Ink color :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.ink_color" formControlName="ink_color" placeholder="Enter Ink color">
+                    <label class="col-sm-2 col-form-label" for="internal_notes">Internal notes :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.internal_notes" formControlName="internal_notes" placeholder="Enter Internal notes">
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="job_number">Job number :</label>
+                    <input type="number" class="form-control col-sm-4" [(ngModel)]="customOrderList.job_number" formControlName="job_number" placeholder="Enter Job number">
+                    <label class="col-sm-2 col-form-label" for="reference_number">Reference number :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.reference_number" formControlName="reference_number" placeholder="Enter Reference number">
+                </div>
+
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="details">Detail :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.details" formControlName="details" placeholder="Enter Detail">
+                    <label class="col-sm-2 col-form-label" for="special_instructoon">Special instructoon :</label>
+                    <input type="text" class="form-control col-sm-4" [(ngModel)]="customOrderList.special_instructoon" formControlName="special_instructoon" placeholder="Enter Special instructoon">
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="due_date">Due date :</label>
+                    <input type="date" class="form-control col-sm-4" [(ngModel)]="customOrderList.due_date" formControlName="due_date" placeholder="Enter Due Date">
+                    <label class="col-sm-2 col-form-label" for="start_date">Start Date :</label>
+                    <input type="date" class="form-control col-sm-4" [(ngModel)]="customOrderList.start_date" formControlName="start_date" placeholder="Enter Start Date">
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="status">Status :</label>
+                    <select class="form-control col-sm-4" id="statusType" [(ngModel)]="customOrderList.status" formControlName="status">
+                        <option  *ngFor="let item of statusList | keyvalue" [value]="item.key">{{item?.value}}</option>
+                    </select>
+                    <label class="col-sm-2 col-form-label" for="customer">Customer :</label>
+                    <select class="form-control col-sm-4" [ngModel]="customOrderList.customer ? customOrderList.customer.id : ''" id="customerType" formControlName="customer">
+                        <option  *ngFor="let item of customerList" [ngValue]="item.id">{{item?.company_name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group row ml-0 mr-0">
+                    <label class="col-sm-2 col-form-label" for="added_by">Added by :</label>
+                    <select class="form-control col-sm-4" [ngModel]="customOrderList.added_by ? customOrderList.added_by.id : ''" id="addedType" formControlName="added_by">
+                        <option  *ngFor="let item of userList" [ngValue]="item.id">{{item?.username}}</option>
+                    </select>
+                    <label class="col-sm-2 col-form-label" for="ticket_count">Ticket count :</label>
+                    <input type="number" class="form-control col-sm-4" [(ngModel)]="customOrderList.ticket_count" formControlName="ticket_count" placeholder="Enter Ticket count">
+                </div>
+
+                <button class="btn btn-primary btn-submit mb-5 mt-5 w-50" type="submit" [disabled]="customOrderForm.invalid"> {{operation}} </button>
+            </form>
+        </div>
+    </div>
+</div>

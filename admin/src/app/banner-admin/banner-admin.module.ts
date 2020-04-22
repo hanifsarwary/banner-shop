@@ -18,7 +18,9 @@ import { ProfileComponent } from './admin-components/profile/profile.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardComponent } from './admin-components/dashboard/dashboard.component';
 import { DatatableComponent } from './admin-components/datatable/datatable.component';
-import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
+import { MatTableModule,
+         MatPaginatorModule, MatSortModule,
+         MatInputModule } from '@angular/material';
 import { ModalAddCategoryComponent } from './admin-components/sub-components/modal-add-category/modal-add-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -28,6 +30,8 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
 import { UtilsFunction } from './utils-function';
 import { OptionDetailComponent } from './admin-components/option-groups/option-detail/option-detail.component';
+import { FiltersBarModule } from '../shared/filters-bar/filters-bar.module';
+import { CustomersComponent } from './admin-components/customers/customers.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,8 @@ import { OptionDetailComponent } from './admin-components/option-groups/option-d
     ModalAddCategoryComponent,
     CategoryDetailComponent,
     PriceTypePipe,
-    OptionTypesPipe
+    OptionTypesPipe,
+    CustomersComponent
   ],
   imports: [
     CommonModule,
@@ -63,6 +68,7 @@ import { OptionDetailComponent } from './admin-components/option-groups/option-d
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
+    FiltersBarModule
   ],
   providers : [UtilsFunction]
 })

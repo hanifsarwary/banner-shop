@@ -1,0 +1,83 @@
+<div class="container-filter mat-elevation-z8 mw-100">
+    <div class="row">
+        <div class="col-12">
+            <div class="m-0">
+                <table class="status-table text-center">
+                    <thead>
+                        <th>Date</th>
+                        <th>Date</th>
+                        <th>Job Orders</th>
+                        <th>Orders</th>
+                        <th>Company</th>
+                        <th>Proof Status</th>
+                        <th>Shipping Option</th>
+                        <th>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Invoiced Jobs</label>
+                            </div>
+                        </th>
+                    </thead>
+                    <tbody>
+                        <td>
+                            <input class="calender-input" matInput [satDatepicker]="picker1" [value]="date">
+                            <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
+                            [beginDate]="minDate" [endDate]="maxDate" #picker1></sat-datepicker>
+                            <sat-datepicker-toggle matSuffix [for]="picker1"></sat-datepicker-toggle>
+                        </td>
+                        <td>
+                            <input class="calender-input" matInput [satDatepicker]="picker2" [value]="date">
+                            <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
+                            [beginDate]="minDate" [endDate]="maxDate" #picker2></sat-datepicker>
+                            <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+                        </td>
+                        <td>
+                            <select class="form-control select-input" id="job-order">
+                                <option value="1">Job Order 1</option>
+                                <option value="2">Job Order 2</option>
+                                <option value="3">Job Order 3</option>
+                                <option value="4">Job Order 4</option>
+                                <option value="5">Job Order 5</option>
+                                <option value="6">Job Order 6</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control select-input" id="order">
+                                <option value="1">Order 1</option>
+                                <option value="2">Order 2</option>
+                                <option value="3">Order 3</option>
+                                <option value="4">Order 4</option>
+                                <option value="5">Order 5</option>
+                                <option value="6">Order 6</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control select-input" id="company">
+                                <option value="1">Shipping Option 1</option>
+                                <option value="2">Shipping Option 2</option>
+                                <option value="3">Shipping Option 3</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control select-input" id="proofStatus">
+                                <option value="1">Proof Status 1</option>
+                                <option value="2">Proof Status 2</option>
+                                <option value="3">Proof Status 3</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control select-input" id="shippingOption">
+                                <option value="1">Proof Status 1</option>
+                                <option value="2">Proof Status 2</option>
+                                <option value="3">Proof Status 3</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary w-100 h-100">Apply</button>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

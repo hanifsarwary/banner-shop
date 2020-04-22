@@ -14,13 +14,14 @@ import { ProfileComponent } from './admin-components/profile/profile.component';
 import { ProductDetailsComponent } from './admin-components/products/product-details/product-details.component';
 import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
 import { OptionDetailComponent } from './admin-components/option-groups/option-detail/option-detail.component';
+import { CustomersComponent } from './admin-components/customers/customers.component';
 
 const routes: Routes = [
     {
         path: '',
         component: BannerAdminComponent,
         children: [
-          { path: '', redirectTo: 'categories', pathMatch: 'prefix' },
+          { path: '', redirectTo: 'order-status', pathMatch: 'prefix' },
           { path: 'categories', component: CategoriesComponent },
           { path: 'option-groups', component: OptionGroupsComponent },
           { path: 'products', component: ProductsComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
           { path: 'custom-orders', component: CustomOrdersComponent },
           { path: 'order-status', component: OrderStatusComponent },
           { path: 'post-comments', component: PostCommentsComponent },
-          { path: 'profile', component: ProfileComponent }
+          { path: 'profile', component: ProfileComponent },
+          { path: 'customers', component: CustomersComponent }
         ]
     }
 ];
