@@ -7,8 +7,10 @@ class Login extends React.Component {
 	state = {
 		email: '',
 		password: '',
+		message: '',
 		valid: true,
-		logged: false
+		logged: false,
+		error: false
 	}
 
 	onLogin = () => {
@@ -19,7 +21,8 @@ class Login extends React.Component {
 		try {
 			if (this.state.email === '' || this.state.password === '') {
 				this.setState({
-					valid: false
+					valid: false,
+					message: 'Email and Password is required'
 				});
 			} else {
 				this.setState({
@@ -48,6 +51,13 @@ class Login extends React.Component {
 			}
 		} catch (error) {
 			console.log(error);
+			if(error.response.status === 400) {
+				this.setState({
+					logged: false,
+					valid: false,
+					message: 'Incorrect Email or Password!',
+				});
+			}
 		}
 	}
 
@@ -73,6 +83,14 @@ class Login extends React.Component {
 								<h4 className="m-text26 p-b-36 p-t-15">
 									Login to continue
 								</h4>
+
+								<div className="m-b-5" style={{ width: '100%' }}>
+									{!this.state.valid ? (
+										<span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>{this.state.message}</span>
+									) : (
+											""
+										)}
+								</div>
 
 								{this.state.required ? (
 									<span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
@@ -101,13 +119,7 @@ class Login extends React.Component {
 									</Link>
 								</div>
 
-								<div className="m-b-5" style={{ width: '100%' }}>
-									{!this.state.valid ? (
-										<span style={{ marginRight: '10px', fontWeight: '600', color: '#e65540' }}>Email and Password is required</span>
-									) : (
-											""
-										)}
-								</div>
+								
 
 								<div className="w-size25">
 									<button
