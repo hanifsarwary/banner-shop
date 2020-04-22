@@ -208,6 +208,7 @@ class CustomOrder(models.Model):
     reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
     start_date = models.DateField(null=True, blank=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=64, db_index=True)
+    quoted_price = models.FloatField(null=True)
     ticket_count = models.PositiveIntegerField(default=0, null=True)
     special_instructoon = models.TextField()
 
