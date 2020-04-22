@@ -1,7 +1,7 @@
 from api.models import CustomOrder, Invoice, ProofHistory
 from rest_framework.serializers import ModelSerializer
-
-
+from api.serializers.users import RetrieveUserSerializer
+from api.serializers.customers import CustomerSerializer
 class InvoiceSerializer(ModelSerializer):
 
     class Meta:
@@ -11,11 +11,11 @@ class InvoiceSerializer(ModelSerializer):
 
 class CustomOrderSerializer(ModelSerializer):
 
-
+    added_by = RetrieveUserSerializer()
+    customer = CustomerSerializer()
     class Meta:
         model = CustomOrder
         fields = '__all__'
-
 
 
 class ProofHistorySerializer(ModelSerializer):
