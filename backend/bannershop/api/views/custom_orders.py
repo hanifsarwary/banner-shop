@@ -18,12 +18,33 @@ class CustomOrderListViewSet(ListAPIView):
         if product_name:
             queryset = queryset.filter(custom_product_name__icontains=product_name)
         return queryset
-        
     
+    def filter_order_date(self, queryset, range_start, range_end):
+
+        if range_start and range_end:
+            queryset = queryset.filter(start_date__range=[range_start, range_end])
+        return queryset
+    
+    def filter_due_date(self, queryset, range_start, range_end):
+
+        if range_start and range_end:
+            queryset = queryset.filter(due_date__range=[range_start, range_end])
+        return queryset
+
+    def filter_proof(self, queryset, proof):
+        if proof:
+            queryset = queryset.filter(custom_proof=proof)
+        return queryset
+
     def get_queryset(self):
 
         queryset = self.filter_status(CustomOrder.objects.all(), self.request.query_params.get('status'))
         queryset = self.filter_product_name(queryset, self.request.query_params.get('product_name'))
+        queryset = self.filter_due_date(queryset, self.request.query_params.get('due_date_start'), 
+                                        self.request.query_params.get('due_date_end'))
+        queryset = self.filter_order_date(queryset, self.request.query_params.get('order_date_start'), 
+                                        self.request.query_params.get('order_date_end'))
+        queryset = self.filter_proof(queryset, self.request.query_params.get('proof'))
         return queryset
 
 
