@@ -20,13 +20,13 @@
                     </thead>
                     <tbody>
                         <td>
-                            <input class="calender-input" matInput [satDatepicker]="picker1" [value]="date">
+                            <input class="calender-input" matInput [satDatepicker]="picker1">
                             <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
                             [beginDate]="minDate" [endDate]="maxDate" #picker1></sat-datepicker>
                             <sat-datepicker-toggle matSuffix [for]="picker1"></sat-datepicker-toggle>
                         </td>
                         <td>
-                            <input class="calender-input" matInput [satDatepicker]="picker2" [value]="date">
+                            <input class="calender-input" matInput [satDatepicker]="picker2">
                             <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
                             [beginDate]="minDate" [endDate]="maxDate" #picker2></sat-datepicker>
                             <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>

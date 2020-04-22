@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { CustomOrderList } from '../model/custom-order';
 
 @Component({
   selector: 'app-custom-orders',
@@ -17,8 +18,7 @@ export class CustomOrdersComponent implements OnInit {
   customerList = [];
   invoicesList = [];
   statusList = [];
-
-  customOrderList = [];
+  customOrderList: CustomOrderList;
 
   constructor(private fb: FormBuilder, private apiServeice: ApiService,
     private toast: ToastrService) {
