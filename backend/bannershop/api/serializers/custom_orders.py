@@ -18,6 +18,13 @@ class CustomOrderSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class CustomOrderCreateSerializer(ModelSerializer):
+
+    class Meta:
+        model = CustomOrder
+        fields = '__all__'
+
+
 class ProofHistorySerializer(ModelSerializer):
 
     class Meta:
