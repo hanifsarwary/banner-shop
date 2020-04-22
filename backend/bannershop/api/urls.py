@@ -16,7 +16,7 @@ from api.views.emails import SendOrderEmail
 from api.views.pricing import CalculatePriceViewSet
 from api.views.custom_orders import (
     CustomOrderListViewSet, CustomOrderDetailViewSet, InvoiceListViewSet, InvoiceDetailViewSet,
-     ProofHistoryListView, GetOrderTypes, CustomOrderCreateViewSet)
+     ProofHistoryListView, GetOrderTypes, CustomOrderCreateViewSet, CustomOrderUpdateViewSet)
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 urlpatterns = [
@@ -31,6 +31,7 @@ urlpatterns = [
     path('custom-orders/', CustomOrderListViewSet.as_view()),
     path('custom-orders/create/', CustomOrderCreateViewSet.as_view()),
     path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
+    path('custom-orders/update/<int:pk>/', CustomOrderUpdateViewSet.as_view()),
     path('custom-orders-types/', GetOrderTypes.as_view()),
     path('custom-orders/proof-history/<int:custom_order_id>/', ProofHistoryListView.as_view()),
     path('customers/', CustomerListViewSet.as_view()),

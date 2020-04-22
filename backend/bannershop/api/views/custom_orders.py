@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, ListAPIView, CreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.views import  APIView
 from rest_framework.response import Response
 from api.models import CustomOrder, Invoice, ProofHistory
@@ -33,11 +33,16 @@ class CustomOrderCreateViewSet(CreateAPIView):
     queryset = CustomOrder.objects.all()
 
 
-class CustomOrderDetailViewSet(RetrieveUpdateAPIView):
+class CustomOrderDetailViewSet(RetrieveAPIView):
 
     serializer_class = CustomOrderSerializer
     queryset = CustomOrder.objects.all()
 
+
+class CustomOrderUpdateViewSet(UpdateAPIView):
+
+    serializer_class = CustomOrderCreateSerializer
+    queryset = CustomOrder.objects.all()
 
 class InvoiceListViewSet(ListCreateAPIView):
 
