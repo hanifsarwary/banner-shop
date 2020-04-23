@@ -150,22 +150,6 @@ class Customer(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
 
-class Invoice(models.Model):
-
-    authorization_code = models.CharField(max_length=256, null=True, blank=True)
-    invoice_number = models.IntegerField(unique=True, null=True, blank=True)
-    paid_by = models.CharField(max_length=512, null=True, blank=True)
-    payment_method = models.CharField(max_length=512, null=True, blank=True)
-
-    sold_to = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    def __str__(self):
-        return str(self.invoice_number)
-
-
-
 class CustomOrder(models.Model):
     
     STATUS_CHOICES = (
@@ -187,8 +171,6 @@ class CustomOrder(models.Model):
     )
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE, null=True, blank=True)
-
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     due_date = models.DateField(null=True, blank=True, db_index=True)
     details = models.TextField(max_length=512)
@@ -214,6 +196,22 @@ class CustomOrder(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+
+class Invoice(models.Model):
+
+    custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
+    authorization_code = models.CharField(max_length=256, null=True, blank=True)
+    invoice_number = models.IntegerField(unique=True, null=True, blank=True)
+    paid_by = models.CharField(max_length=512, null=True, blank=True)
+    payment_method = models.CharField(max_length=512, null=True, blank=True)
+
+    sold_to = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.invoice_number)
 
 
 class ProofHistory(models.Model):

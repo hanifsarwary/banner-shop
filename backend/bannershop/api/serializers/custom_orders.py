@@ -13,7 +13,6 @@ class CustomOrderSerializer(ModelSerializer):
 
     added_by = RetrieveUserSerializer()
     customer = CustomerSerializer()
-    invoice = InvoiceSerializer()
     
     class Meta:
         model = CustomOrder
