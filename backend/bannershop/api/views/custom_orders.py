@@ -66,7 +66,7 @@ class CustomOrderInvoice(ListAPIView):
     queryset = Invoice.objects.all()
 
     def list(self, request, custom_order_id, *args, **kwargs):
-        queryset = self.get_queryset().filter(custom_order_id=custom_order_id)
+        queryset = self.get_queryset().filter(custom_order=custom_order_id)
         serializer = self.serializer_class(queryset)
         return Response(serializer.data)
 
