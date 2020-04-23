@@ -32,7 +32,7 @@ urlpatterns = [
     path('custom-orders/', CustomOrderListViewSet.as_view()),
     path('custom-orders/create/', CustomOrderCreateViewSet.as_view()),
     path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
-    path('custom-orders/<int:pk>/invoice/', CustomOrderInvoice.as_view()),
+    path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
     path('custom-orders/update/<int:pk>/', CustomOrderUpdateViewSet.as_view()),
     path('custom-orders-types/', GetOrderTypes.as_view()),
     path('custom-orders/proof-history/<int:custom_order_id>/', ProofHistoryListView.as_view()),
