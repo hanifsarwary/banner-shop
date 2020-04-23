@@ -35,6 +35,16 @@ class CustomOrderListViewSet(ListAPIView):
         if proof:
             queryset = queryset.filter(custom_proof=proof)
         return queryset
+    
+    def filter_job_id(self, queryset, job_id):
+        if job_id:
+            queryset = queryset.filter(job_number=job_id)
+        return queryset
+    
+    def filter_reference_number(self, queryset, reference_number):
+        if reference_number:
+            queryset = queryset.filter(reference_number=reference_number)
+        return queryset
 
     def get_queryset(self):
 
@@ -45,6 +55,9 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_order_date(queryset, self.request.query_params.get('order_date_start'), 
                                         self.request.query_params.get('order_date_end'))
         queryset = self.filter_proof(queryset, self.request.query_params.get('proof'))
+        queryset = self.filter_job_id(queryset, self.request.query_params.get('job_id'))
+        queryset = self.filter_reference_number(queryset, self.request.query_params.get('reference_number'))
+
         return queryset
 
 
@@ -70,7 +83,6 @@ class CustomOrderInvoice(ListAPIView):
         print(queryset)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
-
 
 class CustomOrderUpdateViewSet(UpdateAPIView):
 
