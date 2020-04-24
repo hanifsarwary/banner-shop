@@ -106,21 +106,17 @@ class Menu extends React.Component {
                                             <li key={category.id}>
                                                 {(category.have_sub_categories && category.sub.length > 0) ? (
                                                     <React.Fragment>
-                                                        <a href="/" onClick={(e) => {
-                                                            e.preventDefault();
-                                                        }}>
+                                                        <Link to={`/category/${category.id}`}>
                                                             {category.name}
-                                                        </a>
+                                                        </Link>
                                                         <ul className="sub_menu">
                                                             {category.sub.map(subCat => {
                                                                 return (
                                                                     <li key={subCat.id}>
                                                                         {/* <Link to="/">{subCat.name}</Link> */}
-                                                                        <a href="/" onClick={(e) => {
-                                                                            e.preventDefault();
-                                                                        }}>
+                                                                        <Link to={`/category/${subCat.id}`}>
                                                                             {subCat.name}
-                                                                        </a>
+                                                                        </Link>
                                                                         {subCat.products.length > 0 ? (
                                                                             <ul className="sub_menu">
                                                                                 {subCat.products.map(product => {

@@ -11,21 +11,41 @@ class Category extends React.Component {
         loaded: false
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const id = this.props.match.params.id;
 
-        bannerShop.get(`/api/products/`)
-            .then((res) => {
-                if (res.status === 200) {
-                    this.setState({
-                        categoryItems: res.data.results,
-                        loaded: true
-                    })
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        await this.loadData(id);
+    }
+
+    loadData = async (id) => {
+        try {
+            const res = await bannerShop.get(`/api/products/category/${id}`)
+
+            if (res.status === 200) {
+                console.log(res);
+                this.setState({
+                    categoryItems: res.data.length > 0 ? res.data : [],
+                    loaded: true
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async componentWillReceiveProps(nextProps) {
+        try {
+            if (nextProps.match.params.id !== this.props.match.params.id) {
+                this.setState({
+                    loaded: false
+                });
+                const id = nextProps.match.params.id;
+
+                await this.loadData(id);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     render() {
@@ -43,7 +63,7 @@ class Category extends React.Component {
                     <div className="container">
                         <div className="row">
                             <CategorySideBar />
-                            <CategoryProducts items={this.state.categoryItems} loaded={this.state.loaded}/>
+                            <CategoryProducts items={this.state.categoryItems} loaded={this.state.loaded} />
                         </div>
                     </div>
                 </section>

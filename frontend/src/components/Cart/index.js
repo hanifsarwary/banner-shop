@@ -100,7 +100,6 @@ class Cart extends React.Component {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-
     jsonToFormData = (data) => {
         function buildFormData(formData, data, parentKey) {
             if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
@@ -117,6 +116,67 @@ class Cart extends React.Component {
 
         buildFormData(formData, data);
 
+        return formData;
+    }
+
+    getFormData = (formData, data, previousKey) => {
+        if (data instanceof Object) {
+            Object.keys(data).forEach(key => {
+                const value = data[key];
+                if (value instanceof Object && !Array.isArray(value)) {
+                    return this.getFormData(formData, value, key);
+                }
+                if (previousKey) {
+                    key = `${previousKey}[${key}]`;
+                }
+                if (Array.isArray(value)) {
+                    value.forEach(val => {
+                        formData.append(`${key}[]`, val);
+                    });
+                } else {
+                    formData.append(key, value);
+                }
+            });
+        }
+    }
+
+    objectToFormData = (obj, rootName, ignoreList) => {
+        let formData = new FormData();
+    
+        function appendFormData(data, root) {
+            if (!ignore(root)) {
+                root = root || '';
+                if (data instanceof File) {
+                    formData.append(root, data);
+                } else if (Array.isArray(data)) {
+                    for (var i = 0; i < data.length; i++) {
+                        appendFormData(data[i], root + '[' + i + ']');
+                    }
+                } else if (typeof data === 'object' && data) {
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            if (root === '') {
+                                appendFormData(data[key], key);
+                            } else {
+                                appendFormData(data[key], root + '.' + key);
+                            }
+                        }
+                    }
+                } else {
+                    if (data !== null && typeof data !== 'undefined') {
+                        formData.append(root, data);
+                    }
+                }
+            }
+        }
+    
+        function ignore(root){
+            return Array.isArray(ignoreList)
+                && ignoreList.some(function(x) { return x === root; });
+        }
+    
+        appendFormData(obj, rootName);
+    
         return formData;
     }
 
@@ -168,28 +228,28 @@ class Cart extends React.Component {
             });
 
             const oTFDOptions = {
-                indices: true,
+                indices: false,
                 nullsAsUndefineds: true,
             };
 
             const formData = objectToFormData(
                 orderBody,
-                oTFDOptions, // optional
+                oTFDOptions
             );
 
             this.setState({
                 orderLoad: true
             });
 
-            console.log(orderBody);
-            console.log(formData);
-            // const formData = this.jsonToFormData(formData);
 
-            bannerShop.post('/api/orders/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
+            console.log(orderBody);
+            // console.log(formData);
+            // const formData = this.jsonToFormData(formData);
+            // const formData = new FormData();
+
+            // this.getFormData(formData, orderBody);
+            // console.log(finalData);
+            bannerShop.post('/api/orders/', orderBody)
                 .then(res => {
                     return res;
                 }).then(data => {
