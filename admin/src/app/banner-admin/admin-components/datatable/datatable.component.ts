@@ -35,10 +35,13 @@ export class DatatableComponent implements OnChanges {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   sourceData;
   invoiceForm: FormGroup;
+  emailForm: FormGroup;
   expandedElement: null;
   detailObj = [];
+  customerInfo = [];
   subCategoryDetail = [];
   invoiceObj = [];
+  customerEmail = '';
   customOrderId: number;
   optionLoading = false;
   noOption = false;
@@ -54,7 +57,19 @@ export class DatatableComponent implements OnChanges {
         invoice_number: [''],
         paid_by: [''],
         payment_method: [''],
-        sold_to: ['']
+        sold_to: [''],
+        custom_order: ['']
+      });
+      this.emailForm = this.fb.group({
+        to: [''],
+        subject: [''],
+        message: this.fb.group({
+          product: [''],
+          quantity: [''],
+          ink: [''],
+          option: [''],
+          proof: ['']
+        })
       });
     }
 
@@ -70,12 +85,6 @@ export class DatatableComponent implements OnChanges {
       record: entryId
     };
     this.categoryItemEvent.emit(data);
-  }
-
-  openInvoiceModal(targetModal, id, invoiceObj) {
-    this.customOrderId = id;
-    this.invoiceObj = invoiceObj;
-    this.modalService.open(targetModal, { size: 'lg', centered: true });
   }
 
   expandDetail(id) {
@@ -117,26 +126,51 @@ export class DatatableComponent implements OnChanges {
     }
   }
 
-  onSubmit(obj) {
+  openInvoiceModal(targetModal, id) {
+    this.customOrderId = id;
+    this.invoiceObj = [];
+    this.apiService.getCustomerOrderInvoice(this.customOrderId).subscribe(res => {
+      this.invoiceObj =  res ? res[0] : [];
+    });
+    this.modalService.open(targetModal);
+  }
+
+  submitinvoiceForm(obj) {
     if (this.invoiceObj) {
-      this.apiService.updateInvoices(this.customOrderId, obj.value).subscribe(res => {
+      obj.value.custom_order = this.customOrderId;
+      console.log(obj.value);
+      this.apiService.updateInvoices(this.invoiceObj['id'], obj.value).subscribe(res => {
         this.toast.success('Invoice Updated successfully!', '');
       });
     } else {
-      this.apiService.addInvoices(this.customOrderId, obj.value).subscribe(res => {
+      this.apiService.addInvoices(obj.value).subscribe(res => {
         this.toast.success('Invoice added successfully!', '');
         this.invoiceForm.reset();
       });
     }
   }
 
+  openEmailModal(targetModal, customerEmail, customerInfo) {
+    this.customerInfo = customerInfo;
+    this.customerEmail = '';
+    this.customerEmail = customerEmail.email ? customerEmail.email : '';
+    this.modalService.open(targetModal, { size: 'lg'});
+  }
+
+  sendEmail(obj) {
+    this.apiService.sendEmailtoCustomer(obj.value).subscribe(res => {
+      this.toast.success('Email sended successfully!', '');
+      this.emailForm.reset();
+    });
+  }
+
   openModal(type, data) {
     const modalOptions = {size: 'lg'};
-
     const modalRef = this.modalService.open(CustomOrdersComponent, modalOptions);
     modalRef.componentInstance.modalType = type;
     modalRef.componentInstance.customOrderList = data;
     modalRef.componentInstance.operation = 'Update';
     modalRef.componentInstance.customOrderId = data.id;
+    modalRef.componentInstance.selectedCustomerObj = data.customer;
   }
 }

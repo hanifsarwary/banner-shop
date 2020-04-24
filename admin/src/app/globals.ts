@@ -21,6 +21,7 @@ export class Globals {
   users = `${this.domanin_name}/users/`;
   customers = `${this.domanin_name}/customers/`;
   customOrders = `${this.domanin_name}/custom-orders/`;
+  sendEmail = `${this.domanin_name}/send-custom-order-email/`;
   addCustomOrders = `${this.domanin_name}/custom-orders/create/`;
   invoices = `${this.domanin_name}/invoices/`;
   statusTypes = `${this.domanin_name}/custom-orders-types/`;
