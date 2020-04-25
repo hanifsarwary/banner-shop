@@ -111,8 +111,8 @@ export class ApiService {
     return this.httpClient.get<any>(`${this.global.customOrders}`);
   }
 
-  addInvoices(id, obj): Observable<any> {
-    return this.httpClient.post<any>(`${this.global.invoices}${id}/`, obj);
+  addInvoices(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.invoices}`, obj);
   }
 
   updateInvoices(id, obj): Observable<any> {
@@ -139,5 +139,16 @@ export class ApiService {
     return this.httpClient.put<any>(`${this.global.customOrders}update/${id}/`, obj);
   }
 
+  sendEmailtoCustomer(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.sendEmail}`, obj);
+  }
+
+  getCustomerOrderInvoice(id): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.customOrders}${id}/invoice/`);
+  }
+
+  updateInvoice(id, obj): Observable<any> {
+    return this.httpClient.put<any>(`${this.global.invoices}${id}`, obj);
+  }
 
 }

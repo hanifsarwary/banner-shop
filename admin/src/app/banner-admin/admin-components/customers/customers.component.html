@@ -1,5 +1,9 @@
 <div class="container-fluid p-0">
     <div class="customers">
+        <button class="btn btn-primary pull-left ml-4" (click)="openUserModal(User)">
+            <i class="fa fa-plus"></i>
+            Create User
+        </button>
         <div class="customerForm mt-5 mat-elevation-z8">
             <h4 class="heading mb-5 pt-5 text-center">Add Customer</h4>
             <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
@@ -59,3 +63,40 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #User let-modal>
+    <div class="modal-header">
+     <h5 class="modal-title" id="user">Creat User</h5>
+     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div class="modal-body">
+      <div class="userForm">
+          <form [formGroup]="userForm" class="m-3 mr-4" (ngSubmit)="addUser(userForm)">
+            <div class="form-group row ml-0 mr-0">
+                <label class="col-sm-4 col-form-label" for="username">Username :</label>
+                <input type="text" class="form-control col-sm-8" formControlName="username" placeholder="Username">
+            </div>
+            <div class="form-group row ml-0 mr-0">
+                <label class="col-sm-4 col-form-label" for="first_name">First Name :</label>
+                <input type="text" class="form-control col-sm-8" formControlName="first_name" placeholder="First name">
+            </div>
+            <div class="form-group row ml-0 mr-0">
+                <label class="col-sm-4 col-form-label" for="last_name">Last Name :</label>
+                <input type="text" class="form-control col-sm-8" formControlName="last_name" placeholder="Last name">
+            </div>
+            <div class="form-group row ml-0 mr-0">
+                <label class="col-sm-4 col-form-label" for="email">Email :</label>
+                <input type="email" class="form-control col-sm-8" formControlName="email" placeholder="email">
+            </div>
+            <div class="form-group row ml-0 mr-0">
+                <label class="col-sm-4 col-form-label" for="password">Password :</label>
+                <input type="password" class="form-control col-sm-8" formControlName="password" placeholder="password">
+            </div>
+            <button class="btn btn-primary btn-submit mt-4 w-50" type="submit" [disabled]="userForm.invalid"> Submit </button>
+          </form>
+      </div>
+    </div>
+   </ng-template>
