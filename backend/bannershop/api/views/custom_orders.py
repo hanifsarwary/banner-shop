@@ -3,7 +3,7 @@ from rest_framework.views import  APIView
 from rest_framework.response import Response
 from api.models import CustomOrder, Invoice, ProofHistory
 from api.serializers.custom_orders import CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer, CustomOrderCreateSerializer
-from django.auth.models import User
+from django.contrib.auth.models import User
 
 class CustomOrderListViewSet(ListAPIView):
 
