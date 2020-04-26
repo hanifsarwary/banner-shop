@@ -9,7 +9,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-custom-orders',
   templateUrl: './custom-orders.component.html',
-  styleUrls: ['./custom-orders.component.scss']
+  styleUrls: ['./custom-orders.component.scss'],
+  providers: [NgbActiveModal]
 })
 export class CustomOrdersComponent implements OnInit {
 
