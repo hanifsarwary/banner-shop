@@ -27,6 +27,7 @@ export class FiltersBarComponent implements OnInit {
   shipCalender;
   orderCalender;
   statusList = [];
+  companiesList = [];
   proofStatusList = [];
   orderInputDate;
   shipInputDate;
@@ -72,6 +73,7 @@ export class FiltersBarComponent implements OnInit {
   ngOnInit(): void {
     this.getStatus();
     this.getProofStatus();
+    this.getCompanies();
   }
 
   dueDateChange(event) {
@@ -152,6 +154,12 @@ export class FiltersBarComponent implements OnInit {
   getStatus() {
     this.apiServeice.getStatus().subscribe(res => {
       this.statusList = res.types;
+    });
+  }
+
+  getCompanies() {
+    this.apiServeice.getCompanies().subscribe(res => {
+      this.companiesList = res.names;
     });
   }
 
