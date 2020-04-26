@@ -107,7 +107,7 @@ class CustomOrderInvoice(ListAPIView):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
-class CustomOrderUpdateViewSet(UpdateAPIView):
+class CustomOrderUpdateViewSet(RetrieveUpdateAPIView):
 
     serializer_class = CustomOrderCreateSerializer
     
