@@ -35,6 +35,12 @@
     tr.example-element-row:not(.example-expanded-row):active {
       background: #efefef;
     }
+    .product_info {
+      b, small {
+        font-size: 12px !important;
+        float: left;
+      }
+    }
   }
 }
 
@@ -139,10 +145,13 @@
       }
     }
   }
+
 .btn-submit{
   margin-left: 25%;
   margin-right: 25%;
 }
-.btn-submit {
-  height: 50px;
+textarea {
+  text-align: left;
+  overflow: auto;
+  height: 20rem;
 }

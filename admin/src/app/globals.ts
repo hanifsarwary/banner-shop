@@ -25,5 +25,5 @@ export class Globals {
   addCustomOrders = `${this.domanin_name}/custom-orders/create/`;
   invoices = `${this.domanin_name}/invoices/`;
   statusTypes = `${this.domanin_name}/custom-orders-types/`;
-
+  statusProofTypes = `${this.domanin_name}/proof-status-types/`;
 }

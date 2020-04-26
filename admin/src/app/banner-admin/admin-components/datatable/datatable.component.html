@@ -31,7 +31,10 @@
 
             <ng-container matColumnDef="product_info">
                 <th mat-header-cell *matHeaderCellDef> Product Info </th>
-                <td mat-cell *matCellDef="let element">{{element?.custom_product_name}} <br> {{element?.custom_quantity}} <br> {{element?.ink_color}}</td>
+                <td mat-cell *matCellDef="let element" class="product_info">
+                    <b class="pl-3">Product: </b><small class="pl-2">{{element?.custom_product_name}}</small> <br>
+                    <b class="pl-3">Quantity: </b><small class="pl-2">{{element?.custom_quantity}}</small><br>
+                    <b class="pl-3">Ink: </b><small class="pl-2">{{element?.ink_color}}</small></td>
             </ng-container>
 
             <ng-container matColumnDef="submitted_date">
@@ -324,6 +327,9 @@
      </button>
     </div>
     <div class="modal-body">
+        <div class="d-flex justify-content-end mr-4">
+            <a href="javascript:;" (click)="window.print()">Print</a>
+        </div>
       <div class="invoiceForm">
           <form [formGroup]="invoiceForm" class="m-3 mr-4" (ngSubmit)="submitinvoiceForm(invoiceForm)">
             <div class="form-group row ml-0 mr-0">
@@ -369,32 +375,11 @@
             </div>
             <div class="form-group row ml-0 mr-0">
                 <label class="col-sm-4 col-form-label" for="subject">Subject :</label>
-                <input type="text" class="form-control col-sm-8" formControlName="subject" placeholder="Subject">
+                <input type="text" class="form-control col-sm-8" readonly formControlName="subject" placeholder="your Order {{customerInfo.reference_number}} with {{customerInfo.job_name}} is {{customerInfo.status}}">
             </div>
-            <div class="form-group row ml-0 mr-0" formGroupName="message">
+            <div class="form-group row ml-0 mr-0">
                 <label class="col-sm-4 col-form-label" for="message">Message :</label>
-                <div class="col-sm-8">
-                    <div class="form-group row ml-0 mr-0">
-                        <label class="col-sm-4 col-form-label" for="product">Product :</label>
-                        <input type="text" class="form-control col-sm-8" [(ngModel)]="customerInfo.custom_product_name" formControlName="product">
-                    </div>
-                    <div class="form-group row ml-0 mr-0">
-                        <label class="col-sm-4 col-form-label" for="quantity">Quantity :</label>
-                        <input type="text" class="form-control col-sm-8" [(ngModel)]="customerInfo.custom_quantity" formControlName="quantity">
-                    </div>
-                    <div class="form-group row ml-0 mr-0">
-                        <label class="col-sm-4 col-form-label" for="ink">Ink :</label>
-                        <input type="text" class="form-control col-sm-8" [(ngModel)]="customerInfo.ink_color" formControlName="ink">
-                    </div>
-                    <!-- <div class="form-group row ml-0 mr-0">
-                        <label class="col-sm-4 col-form-label" for="option">Options :</label>
-                        <input type="text" class="form-control col-sm-8" [(ngModel)]="customerInfo.ink_color" formControlName="message.option">
-                    </div> -->
-                    <div class="form-group row ml-0 mr-0">
-                        <label class="col-sm-4 col-form-label" for="proof">Proof :</label>
-                        <input type="text" class="form-control col-sm-8" [(ngModel)]="customerInfo.custom_proof" formControlName="proof">
-                    </div>
-                </div>
+                <textarea class="form-control col-sm-8" [(ngModel)]="emailContent" formControlName="message"></textarea>
             </div>
             <button class="btn btn-primary btn-submit mt-4 w-50" type="submit" [disabled]="emailForm.invalid"> Submit </button>
           </form>

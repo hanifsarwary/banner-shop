@@ -3,7 +3,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApiService } from '../../services/api.service';
 import { UtilsFunction } from '../../utils-function';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomOrdersComponent } from '../custom-orders/custom-orders.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
+  providers: [NgbActiveModal]
 })
 export class DatatableComponent implements OnChanges {
 
@@ -33,6 +34,8 @@ export class DatatableComponent implements OnChanges {
   @Input() categoryExpand = false;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  emailModalReference = null;
+  invoiceModalReference = null;
   sourceData;
   invoiceForm: FormGroup;
   emailForm: FormGroup;
@@ -41,17 +44,23 @@ export class DatatableComponent implements OnChanges {
   customerInfo = [];
   subCategoryDetail = [];
   invoiceObj = [];
+  userInfo = [];
   customerEmail = '';
   customOrderId: number;
   optionLoading = false;
   noOption = false;
   currentId = false;
+  emailContent;
+  window: any;
 
-  constructor(private apiService: ApiService,
+  constructor(
+    public activeModal: NgbActiveModal,
+    private apiService: ApiService,
     private utils: UtilsFunction,
     private modalService: NgbModal,
     private toast: ToastrService,
     private fb: FormBuilder) {
+      this.window = window;
       this.invoiceForm = this.fb.group({
         authorization_code: [''],
         invoice_number: [''],
@@ -61,15 +70,9 @@ export class DatatableComponent implements OnChanges {
         custom_order: ['']
       });
       this.emailForm = this.fb.group({
-        to: [''],
-        subject: [''],
-        message: this.fb.group({
-          product: [''],
-          quantity: [''],
-          ink: [''],
-          option: [''],
-          proof: ['']
-        })
+        to: '',
+        subject: '',
+        message: ''
       });
     }
 
@@ -132,35 +135,51 @@ export class DatatableComponent implements OnChanges {
     this.apiService.getCustomerOrderInvoice(this.customOrderId).subscribe(res => {
       this.invoiceObj =  res ? res[0] : [];
     });
-    this.modalService.open(targetModal);
+    this.invoiceModalReference = this.modalService.open(targetModal);
   }
 
   submitinvoiceForm(obj) {
     if (this.invoiceObj) {
       obj.value.custom_order = this.customOrderId;
-      console.log(obj.value);
       this.apiService.updateInvoices(this.invoiceObj['id'], obj.value).subscribe(res => {
         this.toast.success('Invoice Updated successfully!', '');
+        this.invoiceModalReference.close();
       });
     } else {
       this.apiService.addInvoices(obj.value).subscribe(res => {
         this.toast.success('Invoice added successfully!', '');
-        this.invoiceForm.reset();
+        this.invoiceModalReference.close();
       });
     }
   }
 
   openEmailModal(targetModal, customerEmail, customerInfo) {
+    this.customerInfo = [];
+    this.userInfo = [];
     this.customerInfo = customerInfo;
     this.customerEmail = '';
     this.customerEmail = customerEmail.email ? customerEmail.email : '';
-    this.modalService.open(targetModal, { size: 'lg'});
+    this.userInfo = customerEmail;
+    this.emailContent = `Dear ${this.userInfo['first_name']},
+      your order for ${this.customerInfo['job_name']} is ready.
+      Order Detail:
+      Product Name: ${this.customerInfo['custom_product_name']}
+      Quantity: ${this.customerInfo['custom_quantity']}
+      Ink Color: ${this.customerInfo['ink_color']}
+      Options:
+      Substrate:
+      Proof: ${this.customerInfo['proof_status']}
+      Turnaround:
+    Thank you,`;
+    this.emailModalReference = this.modalService.open(targetModal, { size: 'lg'});
   }
 
   sendEmail(obj) {
+    obj.value.subject = `your Order ${this.customerInfo['reference_number']} with
+                         ${this.customerInfo['job_name']} is ${this.customerInfo['status']}`;
     this.apiService.sendEmailtoCustomer(obj.value).subscribe(res => {
       this.toast.success('Email sended successfully!', '');
-      this.emailForm.reset();
+      this.emailModalReference.close();
     });
   }
 

@@ -32,7 +32,8 @@ import { UtilsFunction } from './utils-function';
 import { OptionDetailComponent } from './admin-components/option-groups/option-detail/option-detail.component';
 import { FiltersBarModule } from '../shared/filters-bar/filters-bar.module';
 import { CustomersComponent } from './admin-components/customers/customers.component';
-
+import { NgxsModule } from '@ngxs/store';
+import { DateRangeState } from '../store/state';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -68,7 +69,9 @@ import { CustomersComponent } from './admin-components/customers/customers.compo
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-    FiltersBarModule
+    FiltersBarModule,
+    NgxsModule.forRoot([
+      DateRangeState ])
   ],
   providers : [UtilsFunction]
 })
