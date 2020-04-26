@@ -16,5 +16,9 @@ class CustomerListViewSet(ListCreateAPIView):
 class CompanyNamesListView(APIView):
 
     def get(self, request):
+        temp_arr = Customer.objects.filter(company_name__isnull=False).values_list('company_name')
+        return_dict = dict()
+        for t in temp_arr:
+            return_dict[t] = t
 
-        return Response({'names': Customer.objects.filter(company_name__isnull=False).values_list('company_name')})
+        return Response({'names': return_dict})
