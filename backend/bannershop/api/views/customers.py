@@ -19,6 +19,6 @@ class CompanyNamesListView(APIView):
         temp_arr = Customer.objects.filter(company_name__isnull=False).values_list('company_name')
         return_dict = dict()
         for t in temp_arr:
-            return_dict[t[1]] = t[1]
+            return_dict[t[0]] = t[0]
 
         return Response({'names': return_dict})
