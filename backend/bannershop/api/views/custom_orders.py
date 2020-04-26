@@ -87,7 +87,9 @@ class CustomOrderInvoice(ListAPIView):
 class CustomOrderUpdateViewSet(UpdateAPIView):
 
     serializer_class = CustomOrderCreateSerializer
-    queryset = CustomOrder.objects.all()
+    
+    def get_queryset(self):
+        return CustomOrder.objects.get(self.kwargs['pk'])
 
 class InvoiceListViewSet(ListCreateAPIView):
 
