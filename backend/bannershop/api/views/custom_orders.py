@@ -8,7 +8,10 @@ from api.serializers.custom_orders import CustomOrderSerializer, InvoiceSerializ
 class CustomOrderListViewSet(ListAPIView):
 
     serializer_class = CustomOrderSerializer
-
+    
+    def get_queryset(Self):
+        return CustomOrder.objects.all()
+    
     def filter_status(self, queryset, status):
         if status:
             queryset = queryset.filter(status=status)
@@ -46,9 +49,9 @@ class CustomOrderListViewSet(ListAPIView):
             queryset = queryset.filter(reference_number=reference_number)
         return queryset
 
-    def get_queryset(self):
+    def post(self, request):
 
-        queryset = self.filter_status(CustomOrder.objects.all(), self.request.query_params.get('status'))
+        queryset = self.filter_status(self.get_queryset(), self.request.query_params.get('status'))
         queryset = self.filter_product_name(queryset, self.request.query_params.get('product_name'))
         queryset = self.filter_due_date(queryset, self.request.query_params.get('due_date_start'), 
                                         self.request.query_params.get('due_date_end'))
