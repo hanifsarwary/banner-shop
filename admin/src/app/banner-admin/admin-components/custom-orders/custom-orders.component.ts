@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomOrderList } from '../model/custom-order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-custom-orders',
@@ -18,14 +19,17 @@ export class CustomOrdersComponent implements OnInit {
   customerList = [];
   invoicesList = [];
   statusList = [];
+  customerId: number;
+  selectedCustomerObj: any;
   customOrderList: CustomOrderList;
 
-  constructor(private fb: FormBuilder, private apiServeice: ApiService,
+  constructor(private fb: FormBuilder,
+    private router: Router,
+    private apiServeice: ApiService,
     private toast: ToastrService) {
 
     this.customOrderForm = this.fb.group({
       due_date: [''],
-      details: [''],
       custom_job_name: [''],
       custom_product_name: [''],
       custom_quantity: [0, ''],
@@ -38,13 +42,12 @@ export class CustomOrdersComponent implements OnInit {
       internal_notes: [''],
       job_number: [0, ''],
       reference_number: [''],
-      start_date: [''],
-      status: [''],
       ticket_count: [0, ''],
       special_instructoon: [''],
       customer: [''],
-      invoice: [''],
-      added_by: ['']
+      details: ['no'],
+      start_date: [''],
+      status: [''],
     });
    }
 
@@ -53,6 +56,10 @@ export class CustomOrdersComponent implements OnInit {
     this.getInvoices();
     this.getUsers();
     this.getStatus();
+  }
+
+  customerPage() {
+    this.router.navigate(['/customers']);
   }
 
   getUsers() {
@@ -79,8 +86,23 @@ export class CustomOrdersComponent implements OnInit {
     });
   }
 
+  selectedCustomer(event) {
+    this.customOrderId = null;
+    this.customOrderId = event.target.value;
+    this.selectedCustomerObj = this.getObjFromJsonArray(this.customOrderId);
+    this.selectedCustomerObj = this.selectedCustomerObj[0];
+    console.log(this.selectedCustomerObj);
+  }
+
   onSubmit(obj) {
     if (this.operation === 'Add') {
+      const today = new Date();
+      const start_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      obj.value.customer = this.customOrderId;
+      obj.value.status = 'Submitted';
+      obj.value.start_date = start_date;
+      console.log('-----------------------------------------------');
+      console.log(obj.value);
       this.apiServeice.addCustomOrder(obj.value).subscribe(res => {
         this.toast.success('Custom Orders added successfully!', '');
         this.customOrderForm.reset();
@@ -90,6 +112,13 @@ export class CustomOrdersComponent implements OnInit {
         this.toast.success('Custom Orders updated successfully!', '');
       });
     }
+  }
+
+  getObjFromJsonArray(id) {
+    return this.customerList.filter(function(item) {
+      // tslint:disable-next-line: radix
+      return parseInt(item.id) === parseInt(id);
+    });
   }
 
 }

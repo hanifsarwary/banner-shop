@@ -6,4 +6,24 @@
             margin-left: 25%;
         }
     }
+    .customer-box {
+        border-right: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    .form-box {
+        label, input, select, textarea {
+            font-size: 13px;
+        }
+        label, input, select {
+            height: 2rem;
+        }
+        height: 2rem;
+        margin: 1.5rem;
+    }
+    .card-text {
+        font-size: 13px;
+    }
+    .text-shadow {
+        text-shadow: 0 0.2px;
+        letter-spacing: 0.2px;
+    }
 }

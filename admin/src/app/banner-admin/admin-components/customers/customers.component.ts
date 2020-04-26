@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SignupService } from '../../services/signup.service';
 
 @Component({
   selector: 'app-customers',
@@ -11,9 +13,13 @@ import { ToastrService } from 'ngx-toastr';
 export class CustomersComponent implements OnInit {
 
   public customerForm: FormGroup;
+  public userForm: FormGroup;
   userList = [];
 
-  constructor(private fb: FormBuilder, private apiServeice: ApiService,
+  constructor(private fb: FormBuilder,
+    private modalService: NgbModal,
+    private apiServeice: ApiService,
+    private userService: SignupService,
     private toast: ToastrService) {
 
     this.customerForm = this.fb.group({
@@ -28,15 +34,37 @@ export class CustomersComponent implements OnInit {
       zip_code: [''],
       user: [''],
     });
+
+    this.userForm = this.fb.group({
+      username: [''],
+      first_name: [''],
+      last_name: [''],
+      email: [''],
+      password: ['']
+    });
+
    }
 
   ngOnInit(): void {
     this.getUsers();
   }
 
+  openUserModal(targetModal) {
+    this.modalService.open(targetModal, {});
+  }
+
   getUsers() {
+    this.userList = [];
     this.apiServeice.getUsers().subscribe(res => {
       this.userList = res.results;
+    });
+  }
+
+  addUser(obj) {
+    this.userService.userSignUp(obj.value).subscribe(res => {
+      this.getUsers();
+      this.toast.success('User added successfully!', '');
+      this.userForm.reset();
     });
   }
 
