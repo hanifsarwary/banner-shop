@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomOrderList } from '../model/custom-order';
 import { Router } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-custom-orders',
@@ -23,7 +24,9 @@ export class CustomOrdersComponent implements OnInit {
   selectedCustomerObj: any;
   customOrderList: CustomOrderList;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    public activeModal: NgbActiveModal,
+    private fb: FormBuilder,
     private router: Router,
     private apiServeice: ApiService,
     private toast: ToastrService) {
@@ -45,7 +48,6 @@ export class CustomOrdersComponent implements OnInit {
       ticket_count: [0, ''],
       special_instructoon: [''],
       customer: [''],
-      details: ['no'],
       start_date: [''],
       status: [''],
     });
@@ -91,7 +93,6 @@ export class CustomOrdersComponent implements OnInit {
     this.customOrderId = event.target.value;
     this.selectedCustomerObj = this.getObjFromJsonArray(this.customOrderId);
     this.selectedCustomerObj = this.selectedCustomerObj[0];
-    console.log(this.selectedCustomerObj);
   }
 
   onSubmit(obj) {
@@ -101,15 +102,15 @@ export class CustomOrdersComponent implements OnInit {
       obj.value.customer = this.customOrderId;
       obj.value.status = 'Submitted';
       obj.value.start_date = start_date;
-      console.log('-----------------------------------------------');
-      console.log(obj.value);
       this.apiServeice.addCustomOrder(obj.value).subscribe(res => {
         this.toast.success('Custom Orders added successfully!', '');
         this.customOrderForm.reset();
       });
     } else {
+      obj.value.customer = this.selectedCustomerObj.id;
       this.apiServeice.updateCustomOrder(this.customOrderId, obj.value).subscribe(res => {
         this.toast.success('Custom Orders updated successfully!', '');
+        this.activeModal.close();
       });
     }
   }

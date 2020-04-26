@@ -9,7 +9,7 @@ import { SharedDataService } from './services/shared-data.service';
 })
 export class BannerAdminComponent implements OnInit {
 
-  collapedSideBar: boolean;
+  collapedSideBar = true;
   message: any;
 
   constructor(private apiService: ApiService, private data: SharedDataService) { }

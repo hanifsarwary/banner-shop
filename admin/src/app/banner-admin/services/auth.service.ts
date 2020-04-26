@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Globals } from 'src/app/globals';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,12 @@ export class AuthService {
 
   storeToken(token) {
     localStorage.setItem('token', token);
+    this.globals.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-type': 'application/json',
+        'Authorization': `Token ${this.globals.token}`
+      })
+    };
   }
 
   logOut() {

@@ -4,77 +4,114 @@
             <div class="m-0">
                 <table class="status-table text-center">
                     <thead>
-                        <th>Date</th>
-                        <th>Date</th>
+                        <th>Shipping Date</th>
+                        <th>Order Date</th>
                         <th>Job Orders</th>
-                        <th>Orders</th>
                         <th>Company</th>
                         <th>Proof Status</th>
-                        <th>Shipping Option</th>
-                        <th>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Invoiced Jobs</label>
-                            </div>
-                        </th>
+                        <th></th>
                     </thead>
                     <tbody>
-                        <td>
-                            <input class="calender-input" matInput [satDatepicker]="picker1">
-                            <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
-                            [beginDate]="minDate" [endDate]="maxDate" #picker1></sat-datepicker>
-                            <sat-datepicker-toggle matSuffix [for]="picker1"></sat-datepicker-toggle>
-                        </td>
-                        <td>
-                            <input class="calender-input" matInput [satDatepicker]="picker2">
-                            <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
-                            [beginDate]="minDate" [endDate]="maxDate" #picker2></sat-datepicker>
-                            <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
-                        </td>
-                        <td>
-                            <select class="form-control select-input" id="job-order">
-                                <option value="1">Job Order 1</option>
-                                <option value="2">Job Order 2</option>
-                                <option value="3">Job Order 3</option>
-                                <option value="4">Job Order 4</option>
-                                <option value="5">Job Order 5</option>
-                                <option value="6">Job Order 6</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="form-control select-input" id="order">
-                                <option value="1">Order 1</option>
-                                <option value="2">Order 2</option>
-                                <option value="3">Order 3</option>
-                                <option value="4">Order 4</option>
-                                <option value="5">Order 5</option>
-                                <option value="6">Order 6</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="form-control select-input" id="company">
-                                <option value="1">Shipping Option 1</option>
-                                <option value="2">Shipping Option 2</option>
-                                <option value="3">Shipping Option 3</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="form-control select-input" id="proofStatus">
-                                <option value="1">Proof Status 1</option>
-                                <option value="2">Proof Status 2</option>
-                                <option value="3">Proof Status 3</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="form-control select-input" id="shippingOption">
-                                <option value="1">Proof Status 1</option>
-                                <option value="2">Proof Status 2</option>
-                                <option value="3">Proof Status 3</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary w-100 h-100">Apply</button>
-                        </td>
+                        <tr>
+                            <td>
+                                <input input class="calender-input" matInput placeholder="Choose a date"
+                                [(ngModel)]="shipInputDate"
+                                value="{{(dateRange$ | async).due_date_start}} to {{(dateRange$ | async).due_date_end}}"
+                                (focus)="shipCalender = true; datePickerSelected()">
+                                <sat-datepicker-toggle (click)="shipCalender = true; datePickerSelected()"></sat-datepicker-toggle>
+
+                                <div class="position-absolute" *ngIf="shipCalender">
+                                    <div class="openCalenderView">
+                                        <div class="clearDates d-flex justify-content-left pl-3 pt-3">
+                                            <a href="javascript:;" (click)="clearDates('ship')">clear date</a>
+                                        </div>
+                                         <sat-calendar [rangeMode]="true"
+                                         (dateRangesChange)="dueDateChange($event)"
+                                         [startAt]="shipMinDate" 
+                                         [beginDate]="shipMinDate"
+                                         [endDate]="shipMaxDate"
+                                         [selected]="selectedDate"></sat-calendar>
+                                        <div class="date-select-button mt-3 p-2 text-right">
+                                            <button class="btn btn-primary" (click)="dateSelected('ship')">Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <!-- <input class="calender-input" matInput (dateChange)="orderDateChange($event)" [satDatepicker]="picker2">
+                                <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
+                                [beginDate]="minDate" [endDate]="maxDate" #picker2></sat-datepicker>
+                                <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle> -->
+
+                                <input input class="calender-input" matInput placeholder="Choose a date"
+                                [(ngModel)]="orderInputDate"
+                                value="{{(dateRange$ | async).order_date_start}} to {{(dateRange$ | async).order_date_end}}"
+                                (focus)="orderCalender = true; datePickerSelected()">
+                                <sat-datepicker-toggle (click)="orderCalender = true; datePickerSelected()"></sat-datepicker-toggle>
+
+                                <div class="position-absolute" *ngIf="orderCalender">
+                                    <div class="openCalenderView">
+                                        <div class="clearDates d-flex justify-content-left pl-3 pt-3">
+                                            <a href="javascript:;" (click)="clearDates('order')">clear date</a>
+                                        </div>
+                                         <sat-calendar [rangeMode]="true"
+                                         (dateRangesChange)="orderDateChange($event)"
+                                         [startAt]="orderMinDate" 
+                                         [beginDate]="orderMinDate"
+                                         [endDate]="orderMaxDate"
+                                         [selected]="selectedDate"></sat-calendar>
+                                        <div class="date-select-button mt-3 p-2 text-right">
+                                            <button class="btn btn-primary" (click)="dateSelected('order')">Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td>
+                                <select class="form-control select-input" [(ngModel)]="filters.status" id="job-order">
+                                    <option value="">All</option>
+                                    <option *ngFor="let status of statusList | keyvalue" [value]="status.key">{{status.value}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control select-input" id="order">
+                                    <option value="">All</option>
+                                    <option value="1">Order 1</option>
+                                    <option value="2">Order 2</option>
+                                    <option value="3">Order 3</option>
+                                    <option value="4">Order 4</option>
+                                    <option value="5">Order 5</option>
+                                    <option value="6">Order 6</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control select-input" [(ngModel)]="filters.proof" id="proofStatus">
+                                    <option value="">All</option>
+                                    <option *ngFor="let status of proofStatusList | keyvalue" [value]="status.key">{{status.value}}</option>
+                                </select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.job_id" placeholder="search job Id">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.reference_number" placeholder="search PO/Reference No">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.invoice_no" placeholder="search Invoice no">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.job_name" placeholder="search job name">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.place_by" placeholder="search placed by">
+                            </td>
+                            <td>
+                                <button class="btn btn-primary w-100 h-100" (click)="applyFilters()">Apply</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
