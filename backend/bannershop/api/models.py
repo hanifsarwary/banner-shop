@@ -198,6 +198,32 @@ class CustomOrder(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
 
+
+class PackingList(models.Model):
+
+    custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
+    address = models.TextField(null=True, blank=True)
+    city = models.CharField(max_length=64, null=True, blank=True)
+    company_name = models.CharField(max_length=512, null=True, blank=True, db_index=True)
+    country = models.CharField(max_length=16, null=True, blank=True)
+    fax_number = models.CharField(max_length=32, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    zip_code = models.CharField(max_length=16, null=True, blank=True)
+    received_by = models.CharField(max_length=32, null=True)
+    due_date = models.DateTimeField(null=True)
+    comments = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+
+
+class BoxesDetails(models.Model):
+    
+    packing_list = models.ForeignKey(PackingList, on_delete=models.CASCADE)
+    number_of_boxes = models.PositiveIntegerField(default=0)
+    quantity_per_box = models.PositiveIntegerField(default=0)
+
+
 class Invoice(models.Model):
 
     custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
