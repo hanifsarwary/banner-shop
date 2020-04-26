@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from api.models import (
     Product, ProductOrder, Category, Option, SubOption, Customer, Coupon, CustomQuote, ContactRequest, ProductOrderOption,
-    TwoDependentSubOption, ThreeDependentSubOption, Order
+    TwoDependentSubOption, ThreeDependentSubOption, Order, CustomOrder
     )
 
 
@@ -21,3 +21,4 @@ admin.site.register(ContactRequest)
 admin.site.register(ProductOrderOption)
 admin.site.register(TwoDependentSubOption)
 admin.site.register(ThreeDependentSubOption)
+admin.site.register(CustomOrder)
