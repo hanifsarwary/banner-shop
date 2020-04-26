@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-order-status',
@@ -13,15 +14,25 @@ export class OrderStatusComponent implements OnInit {
   'payment', 'placed_by', 'work_by', 'create_packing_list', 'send_email', 'edit_order'];
 
   customOrderList = [];
+  filters = {};
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getCustomOrder();
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['filterObj']) {
+        this.filters = JSON.parse(params['filterObj']);
+        this.getCustomOrder();
+      } else {
+        this.filters = {};
+        this.getCustomOrder();
+      }
+    });
   }
 
   getCustomOrder() {
-    this.apiService.getCustomOrder().subscribe(res => {
+    this.apiService.getCustomOrder(this.filters).subscribe(res => {
       this.customOrderList = res.results;
     });
   }

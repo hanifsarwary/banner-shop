@@ -92,6 +92,12 @@
                                         <option value="soft_proof">Hardcopy proof</option>
                                     </select>
                                 </div>
+                                <div class="row form-box" [hidden]="operation === 'Add'">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_proof">Status :</label>
+                                    <select class="form-control form-control-sm col-sm-3" id="proof" [ngModel]="customOrderList ? customOrderList.status : ''" formControlName="status" placeholder="Select Order Status">
+                                        <option *ngFor="let status of statusList | keyvalue" [value]="status.key">{{status.value}}</option>
+                                    </select>
+                                </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_paper">Paper :</label>
                                     <textarea type="text" class="form-control form-control-sm col-sm-9" [ngModel]="customOrderList ? customOrderList.custom_paper : ''" formControlName="custom_paper" placeholder="Enter Custom paper"></textarea>
