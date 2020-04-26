@@ -3,7 +3,7 @@ from rest_framework.views import  APIView
 from rest_framework.response import Response
 from api.models import CustomOrder, Invoice, ProofHistory
 from api.serializers.custom_orders import CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer, CustomOrderCreateSerializer
-
+from django.auth.models import User
 
 class CustomOrderListViewSet(ListAPIView):
 
@@ -61,7 +61,9 @@ class CustomOrderListViewSet(ListAPIView):
     
     def filter_added_by(self, queryset, added_by):
         if added_by:
-            queryset = queryset.filter(added_by__username=added_by)
+            user = User.objects.filter(username__in=added_by)
+            if user:
+                queryset = queryset.filter(added_by=user)
         return queryset
 
     def post(self, request):
