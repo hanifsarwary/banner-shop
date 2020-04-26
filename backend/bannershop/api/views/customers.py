@@ -17,4 +17,4 @@ class CompanyNamesListView(APIView):
 
     def get(self, request):
 
-        return Response({'names': Customer.obejcts.all().values('company_name')})
+        return Response({'names': Customer.objects.all().values('company_name')})
