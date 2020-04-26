@@ -169,7 +169,12 @@ class CustomOrder(models.Model):
         ('Submitted', 'Submitted'),
         ('Yet To Start', 'Yet To Start'),
     )
-
+    PROOF_STATUS_CHOICES = (('Proof File in Development','Proof File in Development'),
+                            ('Proof Submitted', 'Proof Submitted'),
+                            ('Proof Approved', 'Proof Approved'),
+                            ('Proof Rejected', 'Proof Rejected'),
+                            ('Awaiting Proof Approval', 'Awaiting Proof Approval'),
+                            ('Proof Resubmitted', 'Proof Resubmitted'))
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     due_date = models.DateField(null=True, blank=True, db_index=True)
@@ -186,6 +191,8 @@ class CustomOrder(models.Model):
     ink_color = models.TextField(null=True, blank=True)
     internal_notes = models.TextField()
     job_number = models.IntegerField(unique=True, blank=True, null=True)
+    proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
+                                    default=PROOF_STATUS_CHOICES[0][0])
     reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=64, db_index=True)
     quoted_price = models.FloatField(null=True)

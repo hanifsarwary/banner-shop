@@ -142,3 +142,12 @@ class GetOrderTypes(APIView):
         for a, b in CustomOrder.STATUS_CHOICES: 
             return_dict.setdefault(a, b) 
         return Response({'types': return_dict})
+
+
+class GetProofStatusTypes(APIView):
+
+    def get(self, request):
+        return_dict = dict()
+        for a, b in CustomOrder.PROOF_STATUS_CHOICES: 
+            return_dict.setdefault(a, b) 
+        return Response({'types': return_dict})
