@@ -60,8 +60,8 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_proof(queryset, self.request.query_params.get('proof'))
         queryset = self.filter_job_id(queryset, self.request.query_params.get('job_id'))
         queryset = self.filter_reference_number(queryset, self.request.query_params.get('reference_number'))
-
-        return queryset
+        
+        return Response({"results": self.serializer_class(self.paginate_queryset(queryset), many=True).data})
 
 
 class CustomOrderCreateViewSet(CreateAPIView):
