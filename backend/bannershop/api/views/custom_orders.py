@@ -25,7 +25,7 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_order_date(self, queryset, range_start, range_end):
 
         if range_start and range_end:
-            queryset = queryset.filter(start_date__range=[range_start, range_end])
+            queryset = queryset.filter(created_at__range=[range_start, range_end])
         return queryset
     
     def filter_due_date(self, queryset, range_start, range_end):
@@ -49,17 +49,35 @@ class CustomOrderListViewSet(ListAPIView):
             queryset = queryset.filter(reference_number=reference_number)
         return queryset
 
+    def filter_company_name(self, queryset, company_name):
+        if company_name:
+            queryset = queryset.filter(customer__company_name=company_name)
+        return queryset
+
+    def filter_invoice_no(self, queryset, invoice_no):
+        if invoice_no:
+            queryset = queryset.filter(invoice__invoice_number=invoice_no)
+        return queryset
+    
+    def filter_added_by(self, queryset, added_by):
+        if added_by:
+            queryset = queryset.filter(added_by__username=added_by)
+        return queryset
+
     def post(self, request):
 
-        queryset = self.filter_status(self.get_queryset(), self.request.query_params.get('status'))
-        queryset = self.filter_product_name(queryset, self.request.query_params.get('product_name'))
-        queryset = self.filter_due_date(queryset, self.request.query_params.get('due_date_start'), 
-                                        self.request.query_params.get('due_date_end'))
-        queryset = self.filter_order_date(queryset, self.request.query_params.get('order_date_start'), 
-                                        self.request.query_params.get('order_date_end'))
-        queryset = self.filter_proof(queryset, self.request.query_params.get('proof'))
-        queryset = self.filter_job_id(queryset, self.request.query_params.get('job_id'))
-        queryset = self.filter_reference_number(queryset, self.request.query_params.get('reference_number'))
+        queryset = self.filter_status(self.get_queryset(), self.request.data.get('status'))
+        queryset = self.filter_product_name(queryset, self.request.data.get('product_name'))
+        queryset = self.filter_due_date(queryset, self.request.data.get('due_date_start'), 
+                                        self.request.data.get('due_date_end'))
+        queryset = self.filter_order_date(queryset, self.request.data.get('order_date_start'), 
+                                        self.request.data.get('order_date_end'))
+        queryset = self.filter_proof(queryset, self.request.data.get('proof'))
+        queryset = self.filter_job_id(queryset, self.request.data.get('job_id'))
+        queryset = self.filter_reference_number(queryset, self.request.data.get('reference_number'))
+        queryset = self.filter_invoice_no(queryset, self.request.data.get('invoice_no'))
+        queryset = self.filter_added_by(queryset, self.request.data.get('placed_by'))
+        queryset = self.filter_company_name(queryset, self.request.data.get('company'))
         
         return Response({"results": self.serializer_class(self.paginate_queryset(queryset), many=True).data})
 
