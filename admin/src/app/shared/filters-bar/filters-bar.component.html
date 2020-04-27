@@ -17,7 +17,7 @@
                                 <input input class="calender-input" matInput placeholder="Choose a date"
                                 [(ngModel)]="shipInputDate"
                                 (focus)="shipCalender = true; datePickerSelected()">
-                                <sat-datepicker-toggle matSuffix [for]="picker1" (click)="shipCalender = true; datePickerSelected()"></sat-datepicker-toggle>
+                                <sat-datepicker-toggle (click)="shipCalender = true; datePickerSelected()"></sat-datepicker-toggle>
 
                                 <div class="position-absolute" *ngIf="shipCalender">
                                     <div class="openCalenderView">
@@ -41,7 +41,7 @@
                                 <input input class="calender-input" matInput placeholder="Choose a date"
                                 [(ngModel)]="orderInputDate"
                                 (focus)="orderCalender = true; datePickerSelected()">
-                                <sat-datepicker-toggle matSuffix [for]="picker2" (click)="orderCalender = true; datePickerSelected()"></sat-datepicker-toggle>
+                                <sat-datepicker-toggle (click)="orderCalender = true; datePickerSelected()"></sat-datepicker-toggle>
 
                                 <div class="position-absolute" *ngIf="orderCalender">
                                     <div class="openCalenderView">
