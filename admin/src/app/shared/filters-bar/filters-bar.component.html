@@ -16,9 +16,8 @@
                             <td>
                                 <input input class="calender-input" matInput placeholder="Choose a date"
                                 [(ngModel)]="shipInputDate"
-                                value="{{(dateRange$ | async).due_date_start}} to {{(dateRange$ | async).due_date_end}}"
                                 (focus)="shipCalender = true; datePickerSelected()">
-                                <sat-datepicker-toggle (click)="shipCalender = true; datePickerSelected()"></sat-datepicker-toggle>
+                                <sat-datepicker-toggle matSuffix [for]="picker1" (click)="shipCalender = true; datePickerSelected()"></sat-datepicker-toggle>
 
                                 <div class="position-absolute" *ngIf="shipCalender">
                                     <div class="openCalenderView">
@@ -30,7 +29,8 @@
                                          [startAt]="shipMinDate" 
                                          [beginDate]="shipMinDate"
                                          [endDate]="shipMaxDate"
-                                         [selected]="selectedDate"></sat-calendar>
+                                         [selected]="selectedDate"
+                                         #picker1></sat-calendar>
                                         <div class="date-select-button mt-3 p-2 text-right">
                                             <button class="btn btn-primary" (click)="dateSelected('ship')">Done</button>
                                         </div>
@@ -38,16 +38,10 @@
                                 </div>
                             </td>
                             <td>
-                                <!-- <input class="calender-input" matInput (dateChange)="orderDateChange($event)" [satDatepicker]="picker2">
-                                <sat-datepicker [rangeMode]="true" [startAt]="minDate" 
-                                [beginDate]="minDate" [endDate]="maxDate" #picker2></sat-datepicker>
-                                <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle> -->
-
                                 <input input class="calender-input" matInput placeholder="Choose a date"
                                 [(ngModel)]="orderInputDate"
-                                value="{{(dateRange$ | async).order_date_start}} to {{(dateRange$ | async).order_date_end}}"
                                 (focus)="orderCalender = true; datePickerSelected()">
-                                <sat-datepicker-toggle (click)="orderCalender = true; datePickerSelected()"></sat-datepicker-toggle>
+                                <sat-datepicker-toggle matSuffix [for]="picker2" (click)="orderCalender = true; datePickerSelected()"></sat-datepicker-toggle>
 
                                 <div class="position-absolute" *ngIf="orderCalender">
                                     <div class="openCalenderView">
@@ -59,7 +53,8 @@
                                          [startAt]="orderMinDate" 
                                          [beginDate]="orderMinDate"
                                          [endDate]="orderMaxDate"
-                                         [selected]="selectedDate"></sat-calendar>
+                                         [selected]="selectedDate"
+                                         #picker2></sat-calendar>
                                         <div class="date-select-button mt-3 p-2 text-right">
                                             <button class="btn btn-primary" (click)="dateSelected('order')">Done</button>
                                         </div>
