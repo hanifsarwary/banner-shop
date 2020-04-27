@@ -13,13 +13,10 @@ import { SignupService } from '../../services/signup.service';
 export class CustomersComponent implements OnInit {
 
   public customerForm: FormGroup;
-  public userForm: FormGroup;
-  userList = [];
+
 
   constructor(private fb: FormBuilder,
-    private modalService: NgbModal,
     private apiServeice: ApiService,
-    private userService: SignupService,
     private toast: ToastrService) {
 
     this.customerForm = this.fb.group({
@@ -32,40 +29,17 @@ export class CustomersComponent implements OnInit {
       fax_number: [''],
       phone_number: [''],
       zip_code: [''],
-      user: [''],
+      user: this.fb.group({
+        username: [''],
+        first_name: [''],
+        last_name: [''],
+        email: [''],
+        password: ['']
+      })
     });
-
-    this.userForm = this.fb.group({
-      username: [''],
-      first_name: [''],
-      last_name: [''],
-      email: [''],
-      password: ['']
-    });
-
    }
 
   ngOnInit(): void {
-    this.getUsers();
-  }
-
-  openUserModal(targetModal) {
-    this.modalService.open(targetModal, {});
-  }
-
-  getUsers() {
-    this.userList = [];
-    this.apiServeice.getUsers().subscribe(res => {
-      this.userList = res.results;
-    });
-  }
-
-  addUser(obj) {
-    this.userService.userSignUp(obj.value).subscribe(res => {
-      this.getUsers();
-      this.toast.success('User added successfully!', '');
-      this.userForm.reset();
-    });
   }
 
   onSubmit(obj) {

@@ -15,6 +15,7 @@ export class OrderStatusComponent implements OnInit {
 
   customOrderList = [];
   filters = {};
+  loader = true;
 
   constructor(private apiService: ApiService,
     private activatedRoute: ActivatedRoute) { }
@@ -32,8 +33,11 @@ export class OrderStatusComponent implements OnInit {
   }
 
   getCustomOrder() {
+    this.loader = true;
+    this.customOrderList = [];
     this.apiService.getCustomOrder(this.filters).subscribe(res => {
       this.customOrderList = res.results;
+      this.loader = false;
     });
   }
 
