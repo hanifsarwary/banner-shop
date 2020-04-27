@@ -160,11 +160,7 @@ class GetProofStatusTypes(APIView):
 class UpdateProofStatusViewSet(APIView):
 
     def patch(self, request, pk):
-        serializer = ProofStatusUpdateSerializer(CustomOrder, data=self.request.data, partial=True)
-        print(self.request.data)
-        if serializer.is_valid():
-            serializer.save()
-            print("here here")
-            ProofHistory.objects.create(custom_order=pk, proof_status=self.request.data.get('proof_status'))
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+        custom_order = CustomOrder.objects.filter(pk=pk).update(proof_status=self.request.data.get('proof_status'))
+        ProofHistory.objects.create(custom_order=pk, proof_status=self.request.data.get('proof_status'))
+        
+        return Response(CustomOrderCreateSerializer(custom_order).data)
