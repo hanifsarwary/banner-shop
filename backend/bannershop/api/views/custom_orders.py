@@ -161,6 +161,6 @@ class UpdateProofStatusViewSet(APIView):
 
     def patch(self, request, pk):
         custom_order = CustomOrder.objects.filter(pk=pk).update(proof_status=self.request.data.get('proof_status'))
-        ProofHistory.objects.create(custom_order=pk, proof_status=self.request.data.get('proof_status'))
+        ProofHistory.objects.create(custom_order=custom_order.first(), proof_status=self.request.data.get('proof_status'))
         
         return Response(CustomOrderCreateSerializer(custom_order).data)
