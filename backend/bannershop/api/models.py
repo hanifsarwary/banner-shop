@@ -248,7 +248,7 @@ class Invoice(models.Model):
 class ProofHistory(models.Model):
     custom_order = models.ForeignKey(CustomOrder, on_delete=models.CASCADE)
     created_at = models.DateField()
-    comments = models.CharField(max_length=256, null=True)
+    proof_status = models.CharField(max_length=256, null=True, choices=CustomOrder.PROOF_STATUS_CHOICES)
 
 
 class Order(models.Model):
