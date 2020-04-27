@@ -12,7 +12,7 @@ class RetrieveUserSerializer(ModelSerializer):
 
 class CreateUserSerializer(ModelSerializer):
 
-    password = CharField(write_only=True)
+    password = CharField(max_length=255, style={'input_type': 'password'})
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'is_staff')
