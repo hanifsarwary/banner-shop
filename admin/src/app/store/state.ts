@@ -5,10 +5,10 @@ import { DateRange } from '../banner-admin/admin-components/model/DateRange';
 @State<DateRange>({
     name: 'dateRange',
     defaults: {
-        due_date_start: '2019-10-10',
-        due_date_end: '2019-10-04',
-        order_date_start: '2019-10-10',
-        order_date_end: '2019-10-04'
+        due_date_start: '',
+        due_date_end: '',
+        order_date_start: '',
+        order_date_end: ''
     }
 })
 

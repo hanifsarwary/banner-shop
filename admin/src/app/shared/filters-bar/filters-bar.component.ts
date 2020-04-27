@@ -84,7 +84,7 @@ export class FiltersBarComponent implements OnInit {
     const dRange = new DateRange();
     dRange.due_date_start = start;
     dRange.due_date_end = end;
-    this.updateShipDateRange(dRange);
+    this.updateDateRange(dRange);
     this.shipInputDate = start + ' to ' + end;
   }
 
@@ -96,15 +96,11 @@ export class FiltersBarComponent implements OnInit {
     const dRange = new DateRange();
     dRange.order_date_start = start;
     dRange.order_date_end = end;
-    this.updateOrderDateRange(dRange);
+    this.updateDateRange(dRange);
     this.orderInputDate = start + ' to ' + end;
   }
 
-  updateShipDateRange(dateRange: DateRange) {
-    this.store.dispatch(new UpdateDateRange(dateRange));
-  }
-
-  updateOrderDateRange(dateRange: DateRange) {
+  updateDateRange(dateRange: DateRange) {
     this.store.dispatch(new UpdateDateRange(dateRange));
   }
 
@@ -138,6 +134,7 @@ export class FiltersBarComponent implements OnInit {
       this.filters.due_date_start = '';
       this.shipMinDate = null;
       this.shipMaxDate = null;
+
     } else {
       this.orderInputDate = '';
       this.filters.order_date_end = '';
