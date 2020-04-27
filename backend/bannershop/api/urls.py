@@ -4,7 +4,8 @@ from api.views.categories import (
     CategoryListViewSet, SubCategoryListViewSet, CategoryDetailViewSet, CategorySubCategoryProductViewSet,
      AllCategoryListViewSet)
 from api.views.custom_quotes import CustomQuoteViewSet
-from api.views.customers import CustomerListViewSet
+ 
+from api.views.customers import CustomerListViewSet, CompanyNamesListView
 from api.views.products import (
     ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet,
      ProductDetailViewSet, AllOptionListView, GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, 
@@ -15,7 +16,11 @@ from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOpti
 from api.views.emails import SendOrderEmail
 from api.views.pricing import CalculatePriceViewSet
 from api.views.custom_orders import (
-    CustomOrderListCreateViewSet, CustomOrderDetailViewSet, InvoiceListViewSet, InvoiceDetailViewSet, ProofHistoryListView)
+    CustomOrderListViewSet, CustomOrderDetailViewSet, InvoiceListViewSet, InvoiceDetailViewSet,
+     ProofHistoryListView, GetOrderTypes, CustomOrderCreateViewSet, GetProofStatusTypes, 
+      CustomOrderUpdateViewSet, CustomOrderInvoice)
+
+from api.views.packing_lists import BoxesListViewSet, PackingListViewSet
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 urlpatterns = [
@@ -27,10 +32,18 @@ urlpatterns = [
     path('contact-requests/', ContactRequestViewSet.as_view()),
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
-    path('custom-orders/', CustomOrderListCreateViewSet.as_view()),
+    path('custom-orders/', CustomOrderListViewSet.as_view()),
+    path('custom-orders/create/', CustomOrderCreateViewSet.as_view()),
     path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
+    path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
+    path('custom-orders/update/<int:pk>/', CustomOrderUpdateViewSet.as_view()),
+    path('custom-orders-types/', GetOrderTypes.as_view()),
+    path('proof-status-types/', GetProofStatusTypes.as_view()),
     path('custom-orders/proof-history/<int:custom_order_id>/', ProofHistoryListView.as_view()),
+    path('custom-orders/packing-list/<int:custom_order_id>/', PackingListViewSet.as_view()),
+    path('packing-lists/boxes/<int:packing_list_id>/', BoxesListViewSet.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
+    path('customers/company-names/', CompanyNamesListView.as_view()),
     path('invoices/', InvoiceListViewSet.as_view()),
     path('invoices/<int:pk>/', InvoiceDetailViewSet.as_view()),
     path('send-custom-order-email/', SendOrderEmail.as_view()),

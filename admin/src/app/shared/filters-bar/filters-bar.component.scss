@@ -1,0 +1,98 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~saturn-datepicker/theming';
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container-filter {
+    box-shadow: 0 0 1px;
+    .status-table {
+        width: 100%;
+        th, td {
+            width: 5%;
+        }
+        th {
+            height: 3rem;
+            border-bottom: 1px solid #a6adb3;
+            border-right: 1px solid #a6adb3;
+            width: 10%;
+        }
+        td {
+            .input-wrapper {
+                position: relative;
+            }
+            .input-wrapper:before {
+                content: "\f073";
+                font-family: FontAwesome;
+                font-style: normal;
+                font-weight: normal;
+                text-decoration: inherit;
+                font-size: 18px;
+                position: absolute;
+                margin-right: 1rem;
+                right: 0;
+            }
+            height: 3rem;
+            font-size: 18px;
+            border-bottom: 1px solid #a6adb3;
+            border-right: 1px solid #a6adb3;
+            width: 10%;
+            cursor: pointer;
+            i {
+                float: right;
+                margin-right: 2rem;
+            }
+            .calender-input {
+                width: 75%;
+                border: none;
+                font-size: 14px !important;
+            }
+            .select-input, input {
+                border: none;
+                outline: none;
+                box-shadow: none;
+                height: 100%;
+                font-size: 14px !important;
+            }
+            .openCalenderView {
+                background-color: white;
+                display: block;
+                position: relative;
+                width: 18.6rem;
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                .clearDates {
+                    font-size: 14px;
+                }
+                .date-select-button {
+                    margin-top: 10px;
+                    border-top: 1px solid rgba(0, 0, 0, 0.12);
+                  }
+            }
+        }
+    }
+    .date-control {
+        position: relative;
+        .inner-date-container {
+          position: absolute;
+          background: #ffffff;
+          z-index: 1;
+          width: 297px;
+          transition: all 0.2s;
+          border: 1px solid #ced4da;
+          z-index: 1002;
+        }
+        .inner-date-container.open {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+}
+
+.mat-select-panel{
+    position: absolute;
+    top: 32px;
+    left: 4px;
+    min-width: calc(100% + 22px) !important;
+    border-radius: 0px !important;
+    border: 1px solid blue;
+    border-top-style: none;
+}

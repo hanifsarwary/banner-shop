@@ -18,4 +18,13 @@ export class Globals {
   optionsPriceTypes = `${this.domanin_name}/option-types/`;
   pricetType = `${this.domanin_name}/price-types/`;
   productsByCategory = `${this.domanin_name}/products/category/`;
+  users = `${this.domanin_name}/users/`;
+  customers = `${this.domanin_name}/customers/`;
+  customOrders = `${this.domanin_name}/custom-orders/`;
+  sendEmail = `${this.domanin_name}/send-custom-order-email/`;
+  addCustomOrders = `${this.domanin_name}/custom-orders/create/`;
+  invoices = `${this.domanin_name}/invoices/`;
+  statusTypes = `${this.domanin_name}/custom-orders-types/`;
+  statusProofTypes = `${this.domanin_name}/proof-status-types/`;
+  companies = `${this.domanin_name}/customers/company-names/`;
 }

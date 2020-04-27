@@ -1,12 +1,12 @@
 <div class="container">
-    <div class="container-header">
+    <div class="container-header mt-4 m-3">
         <div class="product-btn">
             <button class="btn btn-primary" (click)="openModal('add-category')">
                 <i class="fa fa-plus"></i>
                 Create Product
             </button>
         </div>
-        <div class="filter">
+        <div class="filter mr-3">
             <div class="form-group filters form-inline row">
                 <label class="col-form-label" for="productCategor">Category :</label>
                 <select  (change)="showByCategoryId($event.target.value)" class="form-control" id="productCategor">
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="container-body">
+    <div class="container-body m-3">
         <div class="product-heading">All Products</div>
         <div *ngIf="productsData.length">
             <app-datatable [datatableColumns]="tableColumns" [productExpand]="true" [dataSource]="productsData">

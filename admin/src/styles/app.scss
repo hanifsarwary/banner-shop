@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~saturn-datepicker/bundle.css';
 @import "bootstrap/bootstrap";
 @import "spinner";
 @import "utils";
@@ -11,7 +13,9 @@
     }
 }
 
-
+*{
+  font-family: sans-serif;
+}
 /*--------------------------------------------------------------
 # Modal-Settings
 --------------------------------------------------------------*/
@@ -29,6 +33,12 @@
 .modal-content{
     animation-name: simple;
     animation-duration: 0.3s;
+}
+
+@media (min-width: 992px){
+  .modal-lg {
+    max-width: 85%;
+  }
 }
 
 .content {
