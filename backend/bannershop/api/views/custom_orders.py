@@ -2,7 +2,9 @@ from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIV
 from rest_framework.views import  APIView
 from rest_framework.response import Response
 from api.models import CustomOrder, Invoice, ProofHistory
-from api.serializers.custom_orders import CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer, CustomOrderCreateSerializer
+from api.serializers.custom_orders import (
+    CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer, CustomOrderCreateSerializer,
+    ProofStatusUpdateSerializer)
 from django.contrib.auth.models import User
 
 class CustomOrderListViewSet(ListAPIView):
@@ -153,3 +155,14 @@ class GetProofStatusTypes(APIView):
         for a, b in CustomOrder.PROOF_STATUS_CHOICES: 
             return_dict.setdefault(a, b) 
         return Response({'types': return_dict})
+
+
+class UpdateProofStatusViewSet(APIView):
+
+    def patch(self, request, pk):
+        serializer = ProofStatusUpdateSerializer(CustomOrder, data=self.request.data, partial=True)
+        print(self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)

@@ -31,3 +31,10 @@ class ProofHistorySerializer(ModelSerializer):
     class Meta:
         model = ProofHistory
         fields = '__all__'
+
+
+class ProofStatusUpdateSerializer(models.ModelSerializer):
+
+    class Meta:
+        model = CustomOrder
+        fields = ('proof_status', )
