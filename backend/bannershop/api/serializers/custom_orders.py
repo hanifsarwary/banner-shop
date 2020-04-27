@@ -33,7 +33,7 @@ class ProofHistorySerializer(ModelSerializer):
         fields = '__all__'
 
 
-class ProofStatusUpdateSerializer(models.ModelSerializer):
+class ProofStatusUpdateSerializer(ModelSerializer):
 
     class Meta:
         model = CustomOrder
