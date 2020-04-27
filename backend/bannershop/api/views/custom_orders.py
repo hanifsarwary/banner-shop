@@ -164,5 +164,6 @@ class UpdateProofStatusViewSet(APIView):
         print(self.request.data)
         if serializer.is_valid():
             serializer.save()
+            ProofHistory.objects.create(custom_order=pk, proof_status=self.request.data.get('proof_status'))
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
