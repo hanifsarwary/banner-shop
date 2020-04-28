@@ -15,8 +15,6 @@ class OrderViewSet(ListCreateAPIView):
         def parse(self, stream, media_type=None, parser_context=None):
             result = super().parse(stream=stream, media_type=media_type, parser_context=parser_context)
             data = {}
-            
-            data = json.loads(result.data)
             qdict = QueryDict('', mutable=True)
             qdict.update(data)
             print(data)    
