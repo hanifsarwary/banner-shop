@@ -18,7 +18,7 @@ class OrderViewSet(ListCreateAPIView):
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response('data': serializer.data)
+            return Response({'data': serializer.data})
         return Response({})
 
 class ProductOrderViewSet(ListCreateAPIView):
