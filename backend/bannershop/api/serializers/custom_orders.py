@@ -23,7 +23,12 @@ class CustomOrderCreateSerializer(ModelSerializer):
 
     class Meta:
         model = CustomOrder
-        fields = '__all__'
+        fields = (
+            'customer', 'added_by', 'due_date', 'custom_job_name',
+            'custom_product_name', 'custom_quantity', 'custom_version', 
+            'custom_proof','custom_sample', 'custom_paper', 'flat_size', 'ink_color', 
+            'internal_notes', 'job_number', 'reference_number','status','quoted_price', 
+            'ticket_count', 'special_instructoon')
 
 
 class CustomOrderUpdateSerializer(ModelSerializer):
