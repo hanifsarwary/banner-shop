@@ -105,7 +105,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_job_id(queryset, self.request.data.get('job_id'))
         queryset = self.filter_reference_number(queryset, self.request.data.get('reference_number'))
         queryset = self.filter_invoice_no(queryset, self.request.data.get('invoice_no'))
-        queryset = self.filter_added_by(queryset, self.request.data.get('placed_by'))
+        queryset = self.filter_added_by(queryset, self.request.data.get('place_by'))
         queryset = self.filter_company_name(queryset, self.request.data.get('company'))
         queryset = self.filter_job_name(queryset, self.request.data.get('job_name'))
         queryset = self.filter_search(queryset, self.request.data.get('search_info'))
