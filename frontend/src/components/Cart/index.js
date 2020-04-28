@@ -140,45 +140,26 @@ class Cart extends React.Component {
         }
     }
 
-    objectToFormData = (obj, rootName, ignoreList) => {
-        let formData = new FormData();
-    
-        function appendFormData(data, root) {
-            if (!ignore(root)) {
-                root = root || '';
-                if (data instanceof File) {
-                    formData.append(root, data);
-                } else if (Array.isArray(data)) {
-                    for (var i = 0; i < data.length; i++) {
-                        appendFormData(data[i], root + '[' + i + ']');
-                    }
-                } else if (typeof data === 'object' && data) {
-                    for (var key in data) {
-                        if (data.hasOwnProperty(key)) {
-                            if (root === '') {
-                                appendFormData(data[key], key);
-                            } else {
-                                appendFormData(data[key], root + '.' + key);
-                            }
-                        }
-                    }
-                } else {
-                    if (data !== null && typeof data !== 'undefined') {
-                        formData.append(root, data);
-                    }
-                }
+
+    toFormData(obj, form, namespace) {
+        let fd = form || new FormData();
+        let formKey;
+        
+        for(let property in obj) {
+          if(obj.hasOwnProperty(property) && obj[property]) {
+            if (obj[property] instanceof Date) {
+              fd.append(formKey, obj[property].toISOString());
             }
+            else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+              this.toFormData(obj[property], fd, formKey);
+            } else { // if it's a string or a File object
+              fd.append(formKey, obj[property]);
+            }
+          }
         }
-    
-        function ignore(root){
-            return Array.isArray(ignoreList)
-                && ignoreList.some(function(x) { return x === root; });
-        }
-    
-        appendFormData(obj, rootName);
-    
-        return formData;
-    }
+        
+        return fd;
+      }
 
     contOrder = () => {
         /* 
@@ -232,24 +213,18 @@ class Cart extends React.Component {
                 nullsAsUndefineds: true,
             };
 
-            const formData = objectToFormData(
-                orderBody,
-                oTFDOptions
-            );
+            // const formData = this.objectToFormData(
+            //     orderBody,
+            //     oTFDOptions
+            // );
+
+            const fd = this.toFormData(orderBody);
 
             this.setState({
                 orderLoad: true
             });
 
-
-            console.log(orderBody);
-            // console.log(formData);
-            // const formData = this.jsonToFormData(formData);
-            // const formData = new FormData();
-
-            // this.getFormData(formData, orderBody);
-            // console.log(finalData);
-            bannerShop.post('/api/orders/', orderBody)
+            bannerShop.post('/api/orders/', fd)
                 .then(res => {
                     return res;
                 }).then(data => {
