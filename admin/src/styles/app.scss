@@ -1,9 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~saturn-datepicker/bundle.css';
 @import "bootstrap/bootstrap";
 @import "spinner";
 @import "utils";
 @import "rtl";
 @import "responsive";
+@import "forms";
 
 @media print {
     .breadcrumb {
@@ -11,7 +14,9 @@
     }
 }
 
-
+*{
+  font-family: sans-serif;
+}
 /*--------------------------------------------------------------
 # Modal-Settings
 --------------------------------------------------------------*/
@@ -21,6 +26,12 @@
 .register-modal {
     top: -125px !important;
 }
+.close {
+  outline: none;
+}
+button {
+  outline: none !important;
+}
 .login-modal {
     top: -100px !important;
 }
@@ -29,6 +40,12 @@
 .modal-content{
     animation-name: simple;
     animation-duration: 0.3s;
+}
+
+@media (min-width: 992px){
+  .modal-lg {
+    max-width: 85%;
+  }
 }
 
 .content {

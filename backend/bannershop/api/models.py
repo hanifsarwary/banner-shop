@@ -140,7 +140,7 @@ class Customer(models.Model):
     bussiness_type = models.TextField(null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     city = models.CharField(max_length=64, null=True, blank=True)
-    company_name = models.CharField(max_length=512, null=True, blank=True)
+    company_name = models.CharField(max_length=512, null=True, blank=True, db_index=True)
     country = models.CharField(max_length=16, null=True, blank=True)
     fax_number = models.CharField(max_length=32, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
@@ -148,25 +148,6 @@ class Customer(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    def __str__(self):
-        return self.user.first_name
-
-
-class Invoice(models.Model):
-
-    authorization_code = models.CharField(max_length=256, null=True, blank=True)
-    invoice_number = models.IntegerField(unique=True, null=True, blank=True)
-    paid_by = models.CharField(max_length=512, null=True, blank=True)
-    payment_method = models.CharField(max_length=512, null=True, blank=True)
-
-    sold_to = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    def __str__(self):
-        return str(self.invoice_number)
-
 
 
 class CustomOrder(models.Model):
@@ -188,16 +169,18 @@ class CustomOrder(models.Model):
         ('Submitted', 'Submitted'),
         ('Yet To Start', 'Yet To Start'),
     )
-
+    PROOF_STATUS_CHOICES = (('Proof File in Development','Proof File in Development'),
+                            ('Proof Submitted', 'Proof Submitted'),
+                            ('Proof Approved', 'Proof Approved'),
+                            ('Proof Rejected', 'Proof Rejected'),
+                            ('Awaiting Proof Approval', 'Awaiting Proof Approval'),
+                            ('Proof Resubmitted', 'Proof Resubmitted'))
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE, null=True, blank=True)
-
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    due_date = models.DateField(null=True, blank=True)
-    details = models.TextField(max_length=512)
+    due_date = models.DateField(null=True, blank=True, db_index=True)
     # order_number = models.UUIDField(default=uuid.uuid4, editable=False)
     custom_job_name = models.CharField(max_length=256, null=True, blank=True)
-    custom_product_name = models.CharField(max_length=256, null=True, blank=True)
+    custom_product_name = models.CharField(max_length=256, null=True, blank=True, db_index=True)
     custom_quantity = models.PositiveIntegerField(null=True, blank=True)
     custom_version = models.CharField(max_length=16, null=True, blank=True)
     custom_proof = models.CharField(max_length=16, null=True, blank=True)
@@ -208,9 +191,11 @@ class CustomOrder(models.Model):
     ink_color = models.TextField(null=True, blank=True)
     internal_notes = models.TextField()
     job_number = models.IntegerField(unique=True, blank=True, null=True)
-    reference_number = models.CharField(max_length=256, null=True, blank=True)
-    start_date = models.DateField(null=True, blank=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=64)
+    proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
+                                    default=PROOF_STATUS_CHOICES[0][0])
+    reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=64, db_index=True)
+    quoted_price = models.FloatField(null=True)
     ticket_count = models.PositiveIntegerField(default=0, null=True)
     special_instructoon = models.TextField()
 
@@ -218,10 +203,52 @@ class CustomOrder(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
 
+
+class PackingList(models.Model):
+
+    custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
+    address = models.TextField(null=True, blank=True)
+    city = models.CharField(max_length=64, null=True, blank=True)
+    company_name = models.CharField(max_length=512, null=True, blank=True, db_index=True)
+    country = models.CharField(max_length=16, null=True, blank=True)
+    fax_number = models.CharField(max_length=32, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    zip_code = models.CharField(max_length=16, null=True, blank=True)
+    received_by = models.CharField(max_length=32, null=True)
+    due_date = models.DateTimeField(null=True)
+    comments = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+
+
+class BoxesDetails(models.Model):
+    
+    packing_list = models.ForeignKey(PackingList, on_delete=models.CASCADE)
+    number_of_boxes = models.PositiveIntegerField(default=0)
+    quantity_per_box = models.PositiveIntegerField(default=0)
+
+
+class Invoice(models.Model):
+
+    custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
+    authorization_code = models.CharField(max_length=256, null=True, blank=True)
+    invoice_number = models.IntegerField(unique=True, null=True, blank=True)
+    paid_by = models.CharField(max_length=512, null=True, blank=True)
+    payment_method = models.CharField(max_length=512, null=True, blank=True)
+
+    sold_to = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.invoice_number)
+
+
 class ProofHistory(models.Model):
     custom_order = models.ForeignKey(CustomOrder, on_delete=models.CASCADE)
-    created_at = models.DateField()
-    comments = models.CharField(max_length=256, null=True)
+    created_at = models.DateField(auto_now_add=True)
+    proof_status = models.CharField(max_length=256, null=True, choices=CustomOrder.PROOF_STATUS_CHOICES)
 
 
 class Order(models.Model):
@@ -294,7 +321,7 @@ class CustomQuote(models.Model):
 
 
 class ContactRequest(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     approach_details = models.CharField(max_length=128)
     message = models.CharField(max_length=1024)
 

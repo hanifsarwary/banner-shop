@@ -9,8 +9,8 @@ class SendOrderEmail(APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            print("bfskdbksbfksjbfs")
-            send_mail(request.data['subject'], request.data['message'], EMAIL_HOST_USER, request.data['to'])
+            to =[].append(request.data['message'])
+            send_mail(request.data['subject'], request.data['message'], EMAIL_HOST_USER, to)
             return Response({"message": "email is sent", "status": 200})
         except Exception as e:
             return Response({"message": str(e)})

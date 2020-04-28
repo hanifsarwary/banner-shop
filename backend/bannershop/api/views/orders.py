@@ -2,7 +2,7 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView
 from api.models import Order, ProductOrder, ProductOrderOption
 from api.serializers.orders import OrderSerializer, ProductOrderSerializer, ProductOrderOptionSerializer
 from rest_framework.response import Response
-
+from rest_framework.parsers import MultiPartParser
 from django_filters.rest_framework import DjangoFilterBackend
 
 class OrderViewSet(ListCreateAPIView):
@@ -11,8 +11,15 @@ class OrderViewSet(ListCreateAPIView):
     queryset = Order.objects.all().order_by('-id')
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['order_number', 'status', 'start_date', 'customer_required_date']
+    parser_classes = (MultiPartParser,)
 
-
+    def post(self, request, format=None):
+        print(request.data)
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data': serializer.data})
+        return Response({'errors': serializer.errors})
 
 class ProductOrderViewSet(ListCreateAPIView):
 
