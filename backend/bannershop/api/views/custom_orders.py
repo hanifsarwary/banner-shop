@@ -11,61 +11,71 @@ class CustomOrderListViewSet(ListAPIView):
 
     serializer_class = CustomOrderSerializer
     
-    def get_queryset(Self):
+    def get_queryset(self):
         return CustomOrder.objects.all()
     
     def filter_status(self, queryset, status):
         if status:
+            print('status:', status)
             queryset = queryset.filter(status=status)
         return queryset
 
     def filter_product_name(self, queryset, product_name):
         if product_name:
+            print('product_name:', product_name)
             queryset = queryset.filter(custom_product_name__icontains=product_name)
         return queryset
     
     def filter_order_date(self, queryset, range_start, range_end):
 
         if range_start and range_end:
+            print('order_date:', range_start)
             queryset = queryset.filter(created_at__range=[range_start, range_end])
         return queryset
     
     def filter_due_date(self, queryset, range_start, range_end):
 
         if range_start and range_end:
+            print('due_date:', range_end)
             queryset = queryset.filter(due_date__range=[range_start, range_end])
         return queryset
 
     def filter_proof(self, queryset, proof):
         if proof:
+            print('proof:', proof)
             queryset = queryset.filter(custom_proof=proof)
         return queryset
     
     def filter_job_id(self, queryset, job_id):
         if job_id:
+            print('job_id:', job_id)
             queryset = queryset.filter(job_number=job_id)
         return queryset
     
     def filter_reference_number(self, queryset, reference_number):
         if reference_number:
+            print('reference:', reference_number)
             queryset = queryset.filter(reference_number=reference_number)
         return queryset
 
     def filter_company_name(self, queryset, company_name):
         if company_name:
+            print('company_name:', company_name)
             queryset = queryset.filter(customer__company_name=company_name)
         return queryset
 
     def filter_invoice_no(self, queryset, invoice_no):
         if invoice_no:
+            print('invoice:', invoice_no)
             queryset = queryset.filter(invoice__invoice_number=invoice_no)
         return queryset
     
     def filter_added_by(self, queryset, added_by):
         if added_by:
-            user = User.objects.filter(username__in=added_by)
+            print('added_by:', added_by)
+            user = User.objects.filter(username__icontains=added_by)
             if user:
-                queryset = queryset.filter(added_by=user)
+                queryset = queryset.filter(added_by__in=user.values('id'))
         return queryset
 
     def post(self, request):
