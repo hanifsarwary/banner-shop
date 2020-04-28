@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.status import HTTP_400_BAD_REQUEST
 class OrderViewSet(ListCreateAPIView):
 
-    class NestedMultipartParser(parsers.MultiPartParser):
+    class NestedMultipartParser(MultiPartParser):
  
         def parse(self, stream, media_type=None, parser_context=None):
             result = super().parse(stream=stream, media_type=media_type, parser_context=parser_context)
