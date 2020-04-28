@@ -155,3 +155,13 @@ textarea {
   overflow: auto;
   height: 20rem;
 }
+.proof-history {
+  .history-table {
+    overflow-y: scroll !important;
+    max-height: 250px !important;
+    min-width: 100px !important;
+  }
+}
+.update-proof-status {
+  border-bottom: 1px solid #e9ecef;
+}

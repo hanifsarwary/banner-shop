@@ -6,6 +6,7 @@
 @import "utils";
 @import "rtl";
 @import "responsive";
+@import "forms";
 
 @media print {
     .breadcrumb {
@@ -24,6 +25,12 @@
 }
 .register-modal {
     top: -125px !important;
+}
+.close {
+  outline: none;
+}
+button {
+  outline: none !important;
 }
 .login-modal {
     top: -100px !important;
