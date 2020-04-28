@@ -14,11 +14,8 @@ class OrderViewSet(ListCreateAPIView):
  
         def parse(self, stream, media_type=None, parser_context=None):
             result = super().parse(stream=stream, media_type=media_type, parser_context=parser_context)
-            data = {}
-            qdict = QueryDict('', mutable=True)
-            qdict.update(result.data)
-            print(result.data)    
-            return DataAndFiles(qdict, result.files)
+            print(result.data)
+            return DataAndFiles(result.data, result.files)
 
     serializer_class = OrderSerializer
     queryset = Order.objects.all().order_by('-id')
