@@ -2,7 +2,7 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView
 from api.models import Order, ProductOrder, ProductOrderOption
 from api.serializers.orders import OrderSerializer, ProductOrderSerializer, ProductOrderOptionSerializer
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, JSONParser
 from django_filters.rest_framework import DjangoFilterBackend
 
 class OrderViewSet(ListCreateAPIView):
@@ -11,7 +11,7 @@ class OrderViewSet(ListCreateAPIView):
     queryset = Order.objects.all().order_by('-id')
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['order_number', 'status', 'start_date', 'customer_required_date']
-    parser_classes = (MultiPartParser, )
+    parser_classes = (MultiPartParser, JSONParser)
 
     def post(self, request, format=None):
         print(request.data)
