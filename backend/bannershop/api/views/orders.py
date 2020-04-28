@@ -32,13 +32,6 @@ class OrderViewSet(ListCreateAPIView):
     filterset_fields = ['order_number', 'status', 'start_date', 'customer_required_date']
     parser_classes = (NestedMultipartParser,)
 
-    def post(self, request, format=None):
-        print(request.data)
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'data': serializer.data})
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 class ProductOrderViewSet(ListCreateAPIView):
 
