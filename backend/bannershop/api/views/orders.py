@@ -14,7 +14,7 @@ class OrderViewSet(ListCreateAPIView):
             data = {}
             
             for key, value in result.data.items():
-                
+                print(key, ':', value)
                 if '[' in key and ']' in key:
                     index_left_bracket = key.index('[')
                     index_right_bracket = key.index(']')
@@ -25,7 +25,7 @@ class OrderViewSet(ListCreateAPIView):
                         data[nested_dict_key][nested_value_key] = value
                 else:
                     data[key] = value
-            print(data)
+            
             return DataAndFiles(data, result.files)
 
     serializer_class = OrderSerializer
