@@ -1,9 +1,9 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../../config';
 
 const CategoryProducts = (props) => {
-    console.log(props);
     if (props.loaded) {
         return (
             <div className="col-sm-6 col-md-8 col-lg-9 p-b-50">
@@ -20,7 +20,7 @@ const CategoryProducts = (props) => {
                                     <div className="col-sm-12 col-md-6 col-lg-4 p-b-50" key={item.id}>
                                         <div className="block2">
                                             <div className="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" style={{ height: '300px' }}>
-                                                <img src={`${item.default_product_image}`} alt="IMG-PRODUCT" />
+                                                <img src={`${BASE_URL}${item.default_product_image}`} alt="IMG-PRODUCT" />
                                             </div>
                                             <div className="block2-txt p-t-20">
                                                 <Link to={`/product/${item.id}`} className="block2-name dis-block s-text3 p-b-5" style={{ textTransform: 'capitalize' }}>
