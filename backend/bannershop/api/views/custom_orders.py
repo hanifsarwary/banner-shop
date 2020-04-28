@@ -55,13 +55,13 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_reference_number(self, queryset, reference_number):
         if reference_number:
             print('reference:', reference_number)
-            queryset = queryset.filter(reference_number=reference_number)
+            queryset = queryset.filter(reference_number__icontains=reference_number)
         return queryset
 
     def filter_company_name(self, queryset, company_name):
         if company_name:
             print('company_name:', company_name)
-            queryset = queryset.filter(customer__company_name=company_name)
+            queryset = queryset.filter(customer__company_name__icontains=company_name)
         return queryset
 
     def filter_invoice_no(self, queryset, invoice_no):
@@ -78,6 +78,11 @@ class CustomOrderListViewSet(ListAPIView):
                 queryset = queryset.filter(added_by__in=user.values('id'))
         return queryset
 
+    def filter_job_name(self, queryset, job_name):
+        if job_name:
+            queryset = queryset.filter(custom_job_name__icontains=job_name)
+        return queryset
+
     def post(self, request):
 
         queryset = self.filter_status(self.get_queryset(), self.request.data.get('status'))
@@ -92,6 +97,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_invoice_no(queryset, self.request.data.get('invoice_no'))
         queryset = self.filter_added_by(queryset, self.request.data.get('placed_by'))
         queryset = self.filter_company_name(queryset, self.request.data.get('company'))
+        queryset = self.filter_job_name(queryset, self.request.data.get('job_name'))
         
         return Response({"results": self.serializer_class(self.paginate_queryset(queryset), many=True).data})
 
