@@ -6,6 +6,7 @@ from api.serializers.custom_orders import (
     CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer, CustomOrderCreateSerializer,
     ProofStatusUpdateSerializer, CustomOrderUpdateSerializer)
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 class CustomOrderListViewSet(ListAPIView):
 
@@ -83,6 +84,14 @@ class CustomOrderListViewSet(ListAPIView):
             queryset = queryset.filter(custom_job_name__icontains=job_name)
         return queryset
 
+    def filter_search(self, queryset, search_info):
+        if search_info:
+            queryset = queryset.filter(
+                Q(custom_product_name__icontains=search_info)| 
+                Q(ink_color__icontains=search_info)
+                )
+        return queryset
+
     def post(self, request):
 
         queryset = self.filter_status(self.get_queryset(), self.request.data.get('status'))
@@ -98,6 +107,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_added_by(queryset, self.request.data.get('placed_by'))
         queryset = self.filter_company_name(queryset, self.request.data.get('company'))
         queryset = self.filter_job_name(queryset, self.request.data.get('job_name'))
+        queryset = self.filter_search(queryset, self.request.data.get('search_info'))
         
         return Response({"results": self.serializer_class(self.paginate_queryset(queryset), many=True).data})
 
