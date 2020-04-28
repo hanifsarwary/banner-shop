@@ -249,4 +249,16 @@ export class ApiService {
     return this.httpClient.put<any>(`${this.global.invoices}${id}`, obj, { headers: headers });
   }
 
+  getProofHistory(id): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `token ${this.global.token}`);
+    return this.httpClient.get<any>(`${this.global.customOrders}/proof-history/${id}/`, { headers: headers });
+  }
+  updateProofStatus(id, obj): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `token ${this.global.token}`);
+    return this.httpClient.patch<any>(`${this.global.customOrders}proof-status/update/${id}/`, obj, { headers: headers });
+  }
 }

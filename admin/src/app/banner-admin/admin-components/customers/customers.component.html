@@ -1,102 +1,68 @@
 <div class="container-fluid p-0">
     <div class="customers">
-        <button class="btn btn-primary pull-left ml-4" (click)="openUserModal(User)">
-            <i class="fa fa-plus"></i>
-            Create User
-        </button>
-        <div class="customerForm mt-5 mat-elevation-z8">
+        <div class="customOrderForm mt-4 mb-4">
             <h4 class="heading mb-5 pt-5 text-center">Add Customer</h4>
-            <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="approach_details">Approach details:</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="approach_details" placeholder="Approach details">
+            <div class="card">
+                <div class="body">
+                    <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
+                        <div class="row p-0 m-0">
+                            <div class="col-md-5 customer-box" formGroupName="user">
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="username">Username :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-6" formControlName="username" placeholder="Username">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-6" formControlName="first_name" placeholder="First name">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="last_name">Last Name :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-6" formControlName="last_name" placeholder="Last name">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="email">Email :</label>
+                                    <input type="email" class="form-control form-control-sm col-sm-6" formControlName="email" placeholder="email">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="password">Password :</label>
+                                    <input type="password" class="form-control form-control-sm col-sm-6" formControlName="password" placeholder="password">
+                                </div>
+                            </div>
+                            <div class="col-md-7 p-0 m-0">
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="approach_details">Approach details:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="approach_details" placeholder="Approach details">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow"for="bussiness_type">Bussiness type :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="bussiness_type" placeholder="Bussiness type">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="address">Address :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="address" placeholder="Enter Address">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="city">City :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="city" placeholder="Enter City name">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="company_name">Company Name:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="company_name" placeholder="Enter Company name">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="country">Country :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="country" placeholder="Enter Country name">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="fax_number">Fax number:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="fax_number" placeholder="Enter Fax number">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="phone_number">Phone number:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="phone_number" placeholder="Enter Phone number">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="zip_code">Zip code:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="zip_code" placeholder="Enter Zip code">
+                                </div>
+                                <button class="btn btn-primary btn-submit mb-5 mt-5 w-50" type="submit" [disabled]="customerForm.invalid"> Submit </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="bussiness_type">Bussiness type :</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="bussiness_type" placeholder="Bussiness type">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="address">Address :</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="address" placeholder="Enter Address">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="city">City :</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="city" placeholder="Enter City name">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="company_name">Company Name:</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="company_name" placeholder="Enter Company name">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="country">Country :</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="country" placeholder="Enter Country name">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="fax_number">Fax number:</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="fax_number" placeholder="Enter Fax number">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="phone_number">Phone number:</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="phone_number" placeholder="Enter Phone number">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="zip_code">Zip code:</label>
-                    <input type="text" class="form-control col-sm-6" formControlName="zip_code" placeholder="Enter Zip code">
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-5 pl-5 ml-2 col-form-label" for="user">User :</label>
-                    <select class="form-control col-sm-6" id="userType" formControlName="user">
-                        <option  *ngFor="let item of userList" [value]="item.id">{{item.username}}</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary customerForm mb-5 mt-3 w-50" type="submit" [disabled]="customerForm.invalid"> Send </button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-
-
-<ng-template #User let-modal>
-    <div class="modal-header">
-     <h5 class="modal-title" id="user">Creat User</h5>
-     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-     </button>
-    </div>
-    <div class="modal-body">
-      <div class="userForm">
-          <form [formGroup]="userForm" class="m-3 mr-4" (ngSubmit)="addUser(userForm)">
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="username">Username :</label>
-                <input type="text" class="form-control col-sm-8" formControlName="username" placeholder="Username">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="first_name">First Name :</label>
-                <input type="text" class="form-control col-sm-8" formControlName="first_name" placeholder="First name">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="last_name">Last Name :</label>
-                <input type="text" class="form-control col-sm-8" formControlName="last_name" placeholder="Last name">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="email">Email :</label>
-                <input type="email" class="form-control col-sm-8" formControlName="email" placeholder="email">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="password">Password :</label>
-                <input type="password" class="form-control col-sm-8" formControlName="password" placeholder="password">
-            </div>
-            <button class="btn btn-primary btn-submit mt-4 w-50" type="submit" [disabled]="userForm.invalid"> Submit </button>
-          </form>
-      </div>
-    </div>
-   </ng-template>

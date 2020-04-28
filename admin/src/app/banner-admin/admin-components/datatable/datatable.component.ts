@@ -36,13 +36,17 @@ export class DatatableComponent implements OnChanges {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   emailModalReference = null;
   invoiceModalReference = null;
+  proofHistoryModalReference = null;
   sourceData;
+  proofStatus;
   invoiceForm: FormGroup;
   emailForm: FormGroup;
   expandedElement: null;
   detailObj = [];
   customerInfo = [];
   subCategoryDetail = [];
+  proofHistoryList = [];
+  proofStatusList = [];
   invoiceObj = [];
   userInfo = [];
   customerEmail = '';
@@ -50,6 +54,7 @@ export class DatatableComponent implements OnChanges {
   optionLoading = false;
   noOption = false;
   currentId = false;
+  loader = true;
   emailContent;
   window: any;
 
@@ -80,6 +85,7 @@ export class DatatableComponent implements OnChanges {
     this.sourceData = new MatTableDataSource(this.dataSource);
     this.sourceData.sort = this.sort;
     this.sourceData.paginator = this.paginator;
+    this.getProofStatus();
   }
 
   categoryEvent(type, entryId) {
@@ -191,5 +197,32 @@ export class DatatableComponent implements OnChanges {
     modalRef.componentInstance.operation = 'Update';
     modalRef.componentInstance.customOrderId = data.id;
     modalRef.componentInstance.selectedCustomerObj = data.customer;
+  }
+
+  getProofStatus() {
+    this.apiService.getProofStatus().subscribe(res => {
+      this.proofStatusList = res.types;
+    });
+  }
+
+  updateProofStatus() {
+    this.apiService.updateProofStatus(this.customOrderId , {'proof_status': this.proofStatus}).subscribe(res => {
+      this.toast.success('Proof status updated successfully!', '');
+      this.proofHistoryModalReference.close();
+      this.customOrderId = null;
+    });
+  }
+
+  openProofDetailModal(targetModal, proofStatus, objId) {
+    this.customOrderId = null;
+    this.loader = true;
+    this.proofHistoryList = [];
+    this.proofStatus = proofStatus;
+    this.customOrderId = objId;
+    this.apiService.getProofHistory(objId).subscribe(res => {
+      this.proofHistoryList = res;
+      this.loader = false;
+    });
+    this.proofHistoryModalReference = this.modalService.open(targetModal);
   }
 }

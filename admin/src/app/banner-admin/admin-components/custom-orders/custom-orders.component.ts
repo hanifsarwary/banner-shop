@@ -21,12 +21,13 @@ export class CustomOrdersComponent implements OnInit {
   customerList = [];
   invoicesList = [];
   statusList = [];
+  proofStatusList = [];
   customerId: number;
   selectedCustomerObj: any;
   customOrderList: CustomOrderList;
 
   constructor(
-    public activeModal: NgbActiveModal,
+    private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private router: Router,
     private apiServeice: ApiService,
@@ -48,6 +49,7 @@ export class CustomOrdersComponent implements OnInit {
       reference_number: [''],
       ticket_count: [0, ''],
       special_instructoon: [''],
+      proof_status: [''],
       customer: [''],
       start_date: [''],
       status: [''],
@@ -59,6 +61,7 @@ export class CustomOrdersComponent implements OnInit {
     this.getInvoices();
     this.getUsers();
     this.getStatus();
+    this.getProofStatus();
   }
 
   customerPage() {
@@ -80,6 +83,12 @@ export class CustomOrdersComponent implements OnInit {
   getStatus() {
     this.apiServeice.getStatus().subscribe(res => {
       this.statusList = res.types;
+    });
+  }
+
+  getProofStatus() {
+    this.apiServeice.getProofStatus().subscribe(res => {
+      this.proofStatusList = res.types;
     });
   }
 
