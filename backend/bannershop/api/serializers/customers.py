@@ -11,9 +11,9 @@ class CustomerSerializer(ModelSerializer):
         fields = '__all__'
     
     def create(self, validated_data):
-        user = validated_data.pop('user')
-        user = User.objects.create(**user)
-        user.set_password(user['password'])
+        user_data = validated_data.pop('user')
+        user = User.objects.create(**user_data)
+        user.set_password(user_data['password'])
         return Customer.objects.create(user=user, **validated_data)
 
         
