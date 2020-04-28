@@ -11,7 +11,7 @@ class OrderViewSet(ListCreateAPIView):
     queryset = Order.objects.all().order_by('-id')
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['order_number', 'status', 'start_date', 'customer_required_date']
-    parser_classes = (MultiPartParser, JSONParser)
+    parser_classes = (MultiPartParser,)
 
     def post(self, request, format=None):
         print(request.data)
