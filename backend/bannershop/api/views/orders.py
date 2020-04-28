@@ -12,6 +12,7 @@ class OrderViewSet(ListCreateAPIView):
         def parse(self, stream, media_type=None, parser_context=None):
             result = super().parse(stream=stream, media_type=media_type, parser_context=parser_context)
             data = {}
+            
             for key, value in result.data.items():
                 
                 if '[' in key and ']' in key:
@@ -24,7 +25,7 @@ class OrderViewSet(ListCreateAPIView):
                         data[nested_dict_key][nested_value_key] = value
                 else:
                     data[key] = value
-            return DataAndFiles(data, result.files)
+            return DataAndFiles(result.data, result.files)
 
     serializer_class = OrderSerializer
     queryset = Order.objects.all().order_by('-id')
