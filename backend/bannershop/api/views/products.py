@@ -54,7 +54,7 @@ class CategoryProductsViewSet(ListAPIView):
     filterset_fields = ['is_featured', 'is_deleted', 'is_coupon_allowed', 'price_type']
 
     def list(self, request, category_id, *args, **kwargs):
-        queryset = self.get_queryset().filter(Q(category=category_id) | Q(category__parent_category=category_id))
+        queryset = self.get_queryset().filter(Q(category=category_id))
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
