@@ -86,6 +86,7 @@ class CustomOrderListViewSet(ListAPIView):
 
     def filter_search(self, queryset, search_info):
         if search_info:
+            print('search_info:', search_info)
             queryset = queryset.filter(
                 Q(custom_product_name__icontains=search_info)| 
                 Q(ink_color__icontains=search_info)
@@ -108,7 +109,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_company_name(queryset, self.request.data.get('company'))
         queryset = self.filter_job_name(queryset, self.request.data.get('job_name'))
         queryset = self.filter_search(queryset, self.request.data.get('search_info'))
-        
+        print(self.request.data)
         return Response({"results": self.serializer_class(self.paginate_queryset(queryset), many=True).data})
 
 
