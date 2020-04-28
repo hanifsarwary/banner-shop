@@ -16,8 +16,8 @@ class OrderViewSet(ListCreateAPIView):
             result = super().parse(stream=stream, media_type=media_type, parser_context=parser_context)
             data = {}
             qdict = QueryDict('', mutable=True)
-            qdict.update(data)
-            print(data)    
+            qdict.update(result.data)
+            print(result.data)    
             return DataAndFiles(qdict, result.files)
 
     serializer_class = OrderSerializer
