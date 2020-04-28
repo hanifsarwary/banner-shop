@@ -4,7 +4,7 @@ from api.serializers.orders import OrderSerializer, ProductOrderSerializer, Prod
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 from django_filters.rest_framework import DjangoFilterBackend
-
+from rest_framework.status import HTTP_400_BAD_REQUEST
 class OrderViewSet(ListCreateAPIView):
 
     serializer_class = OrderSerializer
@@ -19,7 +19,7 @@ class OrderViewSet(ListCreateAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response({'data': serializer.data})
-        return Response({'errors': serializer.errors})
+        return Response({'errors': serializer.errors, status=HTTP_400_BAD_REQUEST})
 
 class ProductOrderViewSet(ListCreateAPIView):
 
