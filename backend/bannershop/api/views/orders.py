@@ -25,6 +25,7 @@ class OrderViewSet(ListCreateAPIView):
                         data[nested_dict_key][nested_value_key] = value
                 else:
                     data[key] = value
+            print(data)
             return DataAndFiles(data, result.files)
 
     serializer_class = OrderSerializer
