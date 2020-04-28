@@ -321,7 +321,7 @@ class CustomQuote(models.Model):
 
 
 class ContactRequest(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     approach_details = models.CharField(max_length=128)
     message = models.CharField(max_length=1024)
 
