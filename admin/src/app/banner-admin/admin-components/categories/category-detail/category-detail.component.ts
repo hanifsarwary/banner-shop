@@ -4,6 +4,8 @@ import { ApiService } from 'src/app/banner-admin/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { UtilsFunction } from 'src/app/banner-admin/utils-function';
+import { ProductService } from 'src/app/banner-admin/services/product.service';
+import { CategoryService } from 'src/app/banner-admin/services/category.service';
 
 @Component({
   selector: 'app-category-detail',
@@ -22,9 +24,13 @@ export class CategoryDetailComponent implements OnInit {
   updateImgValue: any;
   updateImg: any;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService,
+  constructor(
+    private route: ActivatedRoute,
+    private categoryService: CategoryService,
+    private productService: ProductService,
     private utils: UtilsFunction,
-    private SpinnerService: NgxSpinnerService, private toast: ToastrService) {
+    private SpinnerService: NgxSpinnerService,
+    private toast: ToastrService) {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.categoryId = params['id'];
@@ -53,7 +59,7 @@ export class CategoryDetailComponent implements OnInit {
     this.loading = true;
     this.SpinnerService.show();
     this.categoryDetail = [];
-    this.apiService.getCategories(categoryId).subscribe( res => {
+    this.categoryService.getCategories(categoryId).subscribe( res => {
       if (res) {
         this.categoryDetail = res;
         this.loading = false;
@@ -62,7 +68,7 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   getCategoryProducts(categoryId) {
-    this.apiService.getProductsByCategory(categoryId).subscribe(res => {
+    this.productService.getProductsByCategory(categoryId).subscribe(res => {
       this.productList = res;
       this.SpinnerService.hide();
     });
@@ -75,11 +81,10 @@ export class CategoryDetailComponent implements OnInit {
   saveCategory(obj) {
     const formData = new FormData();
     formData.append('name', obj['name']);
-    formData.append('default_category_image', this.updateImgValue);
     if (this.imgFlag) {
       formData.append('default_category_image', this.updateImgValue);
     }
-    this.apiService.updateCategory(obj['id'], formData).subscribe(res => {
+    this.categoryService.updateCategory(obj['id'], formData).subscribe(res => {
       this.editCategorytId = false;
       this.toast.success('Category updated successfully!', '');
     });

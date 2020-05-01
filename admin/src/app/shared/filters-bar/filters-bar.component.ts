@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { DateRange } from 'src/app/banner-admin/admin-components/model/DateRange';
 import { UpdateDateRange } from 'src/app/store/actions';
 import { MatCalendar } from '@angular/material';
+import { TypesService } from 'src/app/banner-admin/services/types.service';
+import { UtilsFunction } from 'src/app/banner-admin/utils-function';
 declare var $: any;
 
 @Component({
@@ -51,20 +53,17 @@ export class FiltersBarComponent implements OnInit {
   @ViewChild('picker', { static: false }) datePicker: SatDatepickerModule;
   @Select(DateRangeState.getDateRange) dateRange$: Observable<DateRange>;
 
-  constructor(private datePipe: DatePipe,
+  constructor(
+    private datePipe: DatePipe,
     private apiServeice: ApiService,
+    private typeService: TypesService,
     private store: Store,
+    private util: UtilsFunction,
     private activatedRoute: ActivatedRoute,
     private router: Router) {
       this.activatedRoute.queryParams.subscribe(params => {
         if (params['filterObj']) {
           this.filters = JSON.parse(params['filterObj']);
-          const dueDates = {
-            start: this.filters.due_date_start,
-            end: this.filters.due_date_end
-          };
-        } else {
-          this.filters = this.filters;
         }
       });
       this.datePickerSelected();
@@ -85,7 +84,7 @@ export class FiltersBarComponent implements OnInit {
     dRange.due_date_start = start;
     dRange.due_date_end = end;
     this.updateDateRange(dRange);
-    this.shipInputDate = start + ' to ' + end;
+    this.shipInputDate = this.datePipe.transform(start, 'dd-MM-yyyy') + ' to ' + this.datePipe.transform(end, 'dd-MM-yyyy');
   }
 
   orderDateChange(event) {
@@ -97,7 +96,7 @@ export class FiltersBarComponent implements OnInit {
     dRange.order_date_start = start;
     dRange.order_date_end = end;
     this.updateDateRange(dRange);
-    this.orderInputDate = start + ' to ' + end;
+    this.orderInputDate = this.datePipe.transform(start, 'dd-MM-yyyy') + ' to ' + this.datePipe.transform(end, 'dd-MM-yyyy');
   }
 
   updateDateRange(dateRange: DateRange) {
@@ -108,14 +107,30 @@ export class FiltersBarComponent implements OnInit {
     this.orderInputDate = '';
     this.shipInputDate = '';
     if (this.filters.order_date_start) {
-      this.orderInputDate = this.filters.order_date_start + ' to ' + this.filters.order_date_end;
+      this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'dd-MM-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.order_date_end, 'dd-MM-yyyy');
+      this.orderMinDate = new Date(this.filters.order_date_start);
+      this.orderMaxDate = new Date(this.filters.order_date_end);
+    } else {
+      this.filters.order_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
+      this.filters.order_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
+      this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'dd-MM-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.order_date_end, 'dd-MM-yyyy');
       this.orderMinDate = new Date(this.filters.order_date_start);
       this.orderMaxDate = new Date(this.filters.order_date_end);
     }
     if (this.filters.due_date_start) {
-      this.shipInputDate = this.filters.due_date_start + ' to ' + this.filters.due_date_end;
+      this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'dd-MM-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.due_date_end, 'dd-MM-yyyy');
       this.shipMinDate = new Date(this.filters.due_date_start);
       this.shipMaxDate = new Date(this.filters.due_date_end);
+    } else {
+      this.filters.due_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
+      this.filters.due_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
+      this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'dd-MM-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.due_date_end, 'dd-MM-yyyy');
+      this.orderMinDate = new Date(this.filters.order_date_start);
+      this.orderMaxDate = new Date(this.filters.order_date_end);
     }
   }
 
@@ -144,24 +159,44 @@ export class FiltersBarComponent implements OnInit {
     }
   }
 
-  applyFilters() {
-    this.router.navigate(['/order-status'], { queryParams: { filterObj: JSON.stringify(this.filters) } });
+  applyFilters(value) {
+    switch (value) {
+      case 'due_date_today':
+        const today_date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date': today_date}) } });
+        break;
+      case 'due_date_tomorrow':
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrow_date = this.datePipe.transform(tomorrow, 'yyyy-MM-dd');
+          this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date': tomorrow_date}) } });
+          break;
+      case 'my_jobs':
+        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify( {'place_by': 'nimra'}) } });
+        break;
+      case 'all_jobs':
+        this.router.navigate(['/order-status'], { queryParams: { filterObj: ''}});
+        break;
+      default:
+        this.router.navigate(['/order-status'], { queryParams: { filterObj: JSON.stringify(this.filters) } });
+    }
   }
 
   getStatus() {
-    this.apiServeice.getStatus().subscribe(res => {
+    this.typeService.getStatus().subscribe(res => {
       this.statusList = res.types;
     });
   }
 
   getCompanies() {
-    this.apiServeice.getCompanies().subscribe(res => {
+    this.typeService.getCompanies().subscribe(res => {
       this.companiesList = res.names;
     });
   }
 
   getProofStatus() {
-    this.apiServeice.getProofStatus().subscribe(res => {
+    this.typeService.getProofStatus().subscribe(res => {
       this.proofStatusList = res.types;
     });
   }

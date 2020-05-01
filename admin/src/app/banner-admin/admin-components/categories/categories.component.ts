@@ -4,6 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalAddCategoryComponent } from '../sub-components/modal-add-category/modal-add-category.component';
 import { SharedDataService } from '../../services/shared-data.service';
+import { TypesService } from '../../services/types.service';
+import { CategoryService } from '../../services/category.service';
+import { UtilsFunction } from '../../utils-function';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
@@ -14,8 +17,10 @@ export class CategoriesComponent implements OnInit {
   categoriesData = [];
   loading = true;
   constructor(
-    private apiService: ApiService,
+    private categoryService: CategoryService,
+    private typeSerive: TypesService,
     private modalService: NgbModal,
+    private utils: UtilsFunction,
     private data: SharedDataService,
     private SpinnerService: NgxSpinnerService
   ) { }
@@ -29,7 +34,7 @@ export class CategoriesComponent implements OnInit {
   getCategories() {
     this.loading = true;
     this.SpinnerService.show();
-    this.apiService.getCategories().subscribe(res => {
+    this.categoryService.getCategories().subscribe(res => {
       this.categoriesData = res.results;
       this.SpinnerService.hide();
       this.loading = false;
@@ -48,20 +53,21 @@ export class CategoriesComponent implements OnInit {
 
   categoryEventClicked(data) {
     if ( data.type === 'delete') {
-      this.apiService.deleteCategory(data.record).subscribe(res => {
+      this.categoryService.deleteCategory(data.record).subscribe(res => {
       });
     }
   }
 
   getPriceTypes() {
-    this.apiService.getPriceTypes().subscribe(res => {
+    this.typeSerive.getPriceTypes().subscribe(res => {
       this.data.getPriceType(res.types);
     });
   }
 
   getOptionsType() {
-    this.apiService.getOptionsTypes().subscribe(res => {
+    this.typeSerive.getOptionsTypes().subscribe(res => {
       this.data.getOptionType(res.types);
     });
   }
+
 }
