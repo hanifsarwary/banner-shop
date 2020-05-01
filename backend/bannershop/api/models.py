@@ -224,7 +224,7 @@ class PackingList(models.Model):
 
 class BoxesDetails(models.Model):
     
-    packing_list = models.ForeignKey(PackingList, on_delete=models.CASCADE)
+    packing_list = models.ForeignKey(PackingList, on_delete=models.CASCADE, related_name='boxes_set')
     number_of_boxes = models.PositiveIntegerField(default=0)
     quantity_per_box = models.PositiveIntegerField(default=0)
 

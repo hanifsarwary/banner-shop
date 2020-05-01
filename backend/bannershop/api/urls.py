@@ -18,7 +18,8 @@ from api.views.pricing import CalculatePriceViewSet
 from api.views.custom_orders import (
     CustomOrderListViewSet, CustomOrderDetailViewSet, InvoiceListViewSet, InvoiceDetailViewSet,
      ProofHistoryListView, GetOrderTypes, CustomOrderCreateViewSet, GetProofStatusTypes, 
-      CustomOrderUpdateViewSet, CustomOrderInvoice, UpdateProofStatusViewSet)
+      CustomOrderUpdateViewSet, CustomOrderInvoice, UpdateProofStatusViewSet,
+      GetLatestJobNumber)
 
 from api.views.packing_lists import BoxesListViewSet, PackingListViewSet
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
@@ -39,6 +40,7 @@ urlpatterns = [
     path('custom-orders/update/<int:pk>/', CustomOrderUpdateViewSet.as_view()),
     path('custom-orders/proof-status/update/<int:pk>/', UpdateProofStatusViewSet.as_view()),
     path('custom-orders-types/', GetOrderTypes.as_view()),
+    path('get-latest-job-number/', GetLatestJobNumber.as_view()),
     path('proof-status-types/', GetProofStatusTypes.as_view()),
     path('custom-orders/proof-history/<int:custom_order_id>/', ProofHistoryListView.as_view()),
     path('custom-orders/packing-list/<int:custom_order_id>/', PackingListViewSet.as_view()),
