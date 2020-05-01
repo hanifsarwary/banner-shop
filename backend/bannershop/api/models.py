@@ -188,9 +188,9 @@ class CustomOrder(models.Model):
     custom_paper = models.TextField()
     
     flat_size = models.CharField(max_length=256, null=True, blank=True)
+    final_size = models.CharField(max_length=256, null=True, blank=True)
     ink_color = models.TextField(null=True, blank=True)
     internal_notes = models.TextField()
-    job_number = models.IntegerField(unique=True, blank=True, null=True)
     proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
                                     default=PROOF_STATUS_CHOICES[0][0])
     reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
@@ -292,7 +292,6 @@ class ProductOrderOption(models.Model):
     sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     price = models.FloatField(null=True, blank=True)
-
 
 
 class CustomQuote(models.Model):

@@ -50,7 +50,7 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_job_id(self, queryset, job_id):
         if job_id:
             print('job_id:', job_id)
-            queryset = queryset.filter(job_number=job_id)
+            queryset = queryset.filter(id=job_id)
         return queryset
     
     def filter_reference_number(self, queryset, reference_number):
@@ -192,3 +192,17 @@ class UpdateProofStatusViewSet(APIView):
         ProofHistory.objects.create(custom_order=custom_order, proof_status=self.request.data.get('proof_status'))
         
         return Response(CustomOrderCreateSerializer(custom_order).data)
+
+
+
+class GetLatestJobNumber(APIView):
+
+    def get(self, request):
+        custom_order = CustomOrder.objects.all().order_by('-id').first()
+        if custom_order:
+            latest_number = custom_order.id + 1
+        else:
+            latest_number = 70000
+        return Response({
+            'number': latest_number
+        })
