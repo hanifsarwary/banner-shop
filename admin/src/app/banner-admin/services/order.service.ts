@@ -75,5 +75,8 @@ export class OrderService {
   sendEmailtoCustomer(obj): Observable<any> {
     return this.httpClient.post<any>(`${this.global.sendEmail}`, obj, { headers: this.global.httpHeaders() });
   }
+  addPackingList(id, obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.customOrders}/packing-list/${id}/`, obj, { headers: this.global.httpHeaders() });
+  }
 
 }

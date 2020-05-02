@@ -173,7 +173,8 @@ export class FiltersBarComponent implements OnInit {
           this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date': tomorrow_date}) } });
           break;
       case 'my_jobs':
-        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify( {'place_by': 'nimra'}) } });
+        this.router.navigate(['/order-status'], { queryParams:
+                            { filter: JSON.stringify( {'place_by': localStorage.getItem('username')}) } });
         break;
       case 'all_jobs':
         this.router.navigate(['/order-status'], { queryParams: { filterObj: ''}});
