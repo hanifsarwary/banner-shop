@@ -29,6 +29,10 @@ export class AuthService {
     };
   }
 
+  storeUsername(name) {
+    localStorage.setItem('username', name);
+  }
+
   logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('priceObj');

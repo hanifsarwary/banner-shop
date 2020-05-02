@@ -1,0 +1,46 @@
+.card {
+    margin-right: 10%;
+    margin-left: 10%;
+    border: none !important;
+    .row {
+        .col-md-6 {
+            .form-border {
+                border: 1px solid rgba(0, 0, 0, 0.125);
+            }
+        }
+    }
+}
+.form-box {
+    margin: 0.5rem !important;
+}
+input {
+    background: none !important;
+}
+.firstForm, .boxesForm, .totalBoxesForm{
+    table {
+        border: 1px solid black;
+        th, td {
+            padding: 0.2rem !important;
+        }
+        td {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+    }
+}
+.form-box {
+    height: 1.7rem !important;
+}
+.customer-box {
+    border: none !important;
+}
+.del {
+    content: '\f068';
+    position: absolute;
+    font-family: "FontAwesome";
+}
+.add {
+    content: '\f067';
+    position: absolute;
+    font-family: "FontAwesome";
+}
