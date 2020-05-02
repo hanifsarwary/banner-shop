@@ -14,7 +14,8 @@ class PackingListSerializer(ModelSerializer):
     class Meta:
         model = PackingList
         fields = (
-            'custom_order', 'address', 'city', 'company_name', 'country', 'fax_number', 'phone_number',
+            'custom_order', 'address', 'city', 'first_name', 'last_name', 'company_name',
+            'country', 'fax_number', 'phone_number',
             'zip_code', 'received_by', 'due_date', 'comments', 'boxes')
     
     def create(self, validated_data):
