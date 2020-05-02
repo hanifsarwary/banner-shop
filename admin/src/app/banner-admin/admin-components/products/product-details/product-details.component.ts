@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedDataService } from 'src/app/banner-admin/services/shared-data.service';
 import { UtilsFunction } from 'src/app/banner-admin/utils-function';
+import { ProductService } from 'src/app/banner-admin/services/product.service';
+import { OptionService } from 'src/app/banner-admin/services/option.service';
 
 @Component({
   selector: 'app-product-details',
@@ -29,10 +31,15 @@ export class ProductDetailsComponent implements OnInit {
   updateImgValue: any;
   updateImg: any;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService,
-    private modalService: NgbModal, private sharedData: SharedDataService,
+  constructor(
+    private SpinnerService: NgxSpinnerService,
+    private productService: ProductService,
+    private sharedData: SharedDataService,
+    private optionService: OptionService,
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
     private utils: UtilsFunction,
-    private SpinnerService: NgxSpinnerService, private toast: ToastrService) {
+    private toast: ToastrService) {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.productId = params['id'];
@@ -82,7 +89,7 @@ export class ProductDetailsComponent implements OnInit {
     if (this.imgFlag) {
       formData.append('default_product_image', this.updateImgValue);
     }
-    this.apiService.updateProduct(obj['id'], formData).subscribe(res => {
+    this.productService.updateProduct(obj['id'], formData).subscribe(res => {
       this.editProductId = false;
       this.toast.success('Product updated successfully!', '');
     });
@@ -97,14 +104,14 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   saveSubOption(obj) {
-    this.apiService.updateSubOption(obj['id'], obj).subscribe(res => {
+    this.optionService.updateSubOption(obj['id'], obj).subscribe(res => {
       this.subOptionId = null;
       this.toast.success('Sub option updated successfully!', '');
     });
   }
 
   saveOptions(obj) {
-    this.apiService.updateOptions(obj['id'], obj).subscribe(res => {
+    this.optionService.updateOptions(obj['id'], obj).subscribe(res => {
       this.recordId = null;
       this.toast.success('Option updated successfully!', '');
     });
@@ -113,7 +120,7 @@ export class ProductDetailsComponent implements OnInit {
   getProductDetail(productId) {
     this.loading = true;
     this.SpinnerService.show();
-    this.apiService.getProducts(productId).subscribe( res => {
+    this.productService.getProducts(productId).subscribe( res => {
       this.productDetail = res;
       this.productSubOption = res.option_set;
       this.SpinnerService.hide();

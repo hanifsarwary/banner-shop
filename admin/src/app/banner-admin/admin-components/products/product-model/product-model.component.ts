@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/banner-admin/services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { ProductService } from 'src/app/banner-admin/services/product.service';
 
 @Component({
   selector: 'app-product-model',
@@ -19,6 +20,7 @@ export class ProductModelComponent implements OnInit {
   priceType: string;
 
   constructor(
+    private productService: ProductService,
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private apiService: ApiService,
@@ -107,7 +109,7 @@ export class ProductModelComponent implements OnInit {
 
   submitForm(): void {
     const formData = this.getFormDataObj();
-    this.apiService.addProduct(formData).subscribe(res => {
+    this.productService.addProduct(formData).subscribe(res => {
       this.productForm.reset();
       this.activeModal.close();
       this.toast.success('Product added successfully!', '');

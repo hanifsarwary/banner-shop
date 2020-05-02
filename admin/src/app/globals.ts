@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class Globals {
@@ -27,4 +28,11 @@ export class Globals {
   statusTypes = `${this.domanin_name}/custom-orders-types/`;
   statusProofTypes = `${this.domanin_name}/proof-status-types/`;
   companies = `${this.domanin_name}/customers/company-names/`;
+
+  httpHeaders() {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `token ${this.token}`);
+    return headers;
+  }
 }

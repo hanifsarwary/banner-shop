@@ -4,6 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OptionModelComponent } from './option-model/option-model.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SharedDataService } from '../../services/shared-data.service';
+import { ProductService } from '../../services/product.service';
+import { OptionService } from '../../services/option.service';
 
 @Component({
   selector: 'app-option-groups',
@@ -16,7 +18,9 @@ export class OptionGroupsComponent implements OnInit {
   productData = [];
   pricesData = [];
   loading = true;
-  constructor(private apiService: ApiService,
+  constructor(
+    private productService: ProductService,
+    private optionService: OptionService,
     private SpinnerService: NgxSpinnerService,
     private modalService: NgbModal,
     private sharedData: SharedDataService) { }
@@ -44,7 +48,7 @@ export class OptionGroupsComponent implements OnInit {
     this.loading = true;
     this.SpinnerService.show();
     this.optionsData = [];
-    this.apiService.getOptions().subscribe(res => {
+    this.optionService.getOptions().subscribe(res => {
       this.optionsData = res.results;
       this.SpinnerService.hide();
     });
@@ -63,7 +67,7 @@ export class OptionGroupsComponent implements OnInit {
     this.optionsData = [];
     this.loading = true;
     this.SpinnerService.show();
-    this.apiService.getOptionsByProduct(param).subscribe(res => {
+    this.productService.getOptionsByProduct(param).subscribe(res => {
       this.optionsData = res;
       this.SpinnerService.hide();
       this.loading = false;
@@ -71,7 +75,7 @@ export class OptionGroupsComponent implements OnInit {
   }
 
   getProducts() {
-    this.apiService.getProducts().subscribe(res => {
+    this.productService.getProducts().subscribe(res => {
       this.productData = res.results;
     });
   }

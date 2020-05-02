@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SharedDataService {
 
+  public storage: any;
+
   private prices = new BehaviorSubject<any>({});
   private options = new BehaviorSubject<any>([]);
   priceTypes = this.prices.asObservable();

@@ -34,6 +34,7 @@ import { FiltersBarModule } from '../shared/filters-bar/filters-bar.module';
 import { CustomersComponent } from './admin-components/customers/customers.component';
 import { NgxsModule } from '@ngxs/store';
 import { DateRangeState } from '../store/state';
+import { InvoiceComponent } from './admin-components/invoice/invoice.component';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -55,7 +56,8 @@ import { DateRangeState } from '../store/state';
     CategoryDetailComponent,
     PriceTypePipe,
     OptionTypesPipe,
-    CustomersComponent
+    CustomersComponent,
+    InvoiceComponent
   ],
   imports: [
     CommonModule,
