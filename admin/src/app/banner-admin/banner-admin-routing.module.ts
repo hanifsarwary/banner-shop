@@ -16,6 +16,7 @@ import { CategoryDetailComponent } from './admin-components/categories/category-
 import { OptionDetailComponent } from './admin-components/option-groups/option-detail/option-detail.component';
 import { CustomersComponent } from './admin-components/customers/customers.component';
 import { InvoiceComponent } from './admin-components/invoice/invoice.component';
+import { PackingListComponent } from './admin-components/packing-list/packing-list.component';
 
 const routes: Routes = [
     {
@@ -30,6 +31,7 @@ const routes: Routes = [
           { path: 'category/:id', component: CategoryDetailComponent },
           { path: 'option/:id', component: OptionDetailComponent },
           { path: 'invoice/:id', component: InvoiceComponent},
+          { path: 'packing-list/:id', component: PackingListComponent},
           { path: 'user-accounts', component: UserAccountsComponent },
           { path: 'cms', component: CmsComponent },
           { path: 'custom-orders', component: CustomOrdersComponent },

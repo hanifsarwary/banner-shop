@@ -35,6 +35,9 @@ import { CustomersComponent } from './admin-components/customers/customers.compo
 import { NgxsModule } from '@ngxs/store';
 import { DateRangeState } from '../store/state';
 import { InvoiceComponent } from './admin-components/invoice/invoice.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInsterceptorService } from './services/error-insterceptor.service';
+import { PackingListComponent } from './admin-components/packing-list/packing-list.component';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -57,7 +60,8 @@ import { InvoiceComponent } from './admin-components/invoice/invoice.component';
     PriceTypePipe,
     OptionTypesPipe,
     CustomersComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    PackingListComponent
   ],
   imports: [
     CommonModule,
@@ -75,6 +79,7 @@ import { InvoiceComponent } from './admin-components/invoice/invoice.component';
     NgxsModule.forRoot([
       DateRangeState ])
   ],
-  providers : [UtilsFunction]
+  providers : [UtilsFunction,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInsterceptorService, multi: true }]
 })
 export class BannerAdminModule { }

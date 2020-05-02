@@ -208,4 +208,9 @@ export class DatatableComponent implements OnChanges {
     });
     this.proofHistoryModalReference = this.modalService.open(targetModal);
   }
+
+  stringify(obj) {
+    return JSON.stringify(obj);
+  }
+
 }
