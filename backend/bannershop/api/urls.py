@@ -34,7 +34,7 @@ urlpatterns = [
     path('contact-requests/', ContactRequestViewSet.as_view()),
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
-    path('custom-orders/',  CustomOrderListViewSet.as_view()),
+    path('custom-orders/', csrf_exempt(CustomOrderListViewSet.as_view())),
     path('custom-orders/create/', CustomOrderCreateViewSet.as_view()),
     path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
     path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
