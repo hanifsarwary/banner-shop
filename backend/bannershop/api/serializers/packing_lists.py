@@ -25,5 +25,5 @@ class PackingListSerializer(ModelSerializer):
         packing_list = PackingList.objects.create(**validated_data)
         for _data in boxes_data:
             BoxesDetails.objects.create(packing_list=packing_list, **_data)
-        return order
+        return packing_list
 
