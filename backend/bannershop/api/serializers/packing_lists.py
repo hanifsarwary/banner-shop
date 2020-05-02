@@ -19,6 +19,7 @@ class PackingListSerializer(ModelSerializer):
             'zip_code', 'received_by', 'due_date', 'comments', 'boxes')
     
     def create(self, validated_data):
+        print(validated_data)
         boxes_data = validated_data.pop('boxes')
         
         packing_list = PackingList.objects.create(**validated_data)
