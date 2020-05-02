@@ -7,7 +7,10 @@ from api.serializers.custom_orders import (
     ProofStatusUpdateSerializer, CustomOrderUpdateSerializer)
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 
+
+@csrf_exempt
 class CustomOrderListViewSet(ListAPIView):
 
     serializer_class = CustomOrderSerializer
