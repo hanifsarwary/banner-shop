@@ -20,7 +20,7 @@ class PackingListSerializer(ModelSerializer):
     
     def create(self, validated_data):
         print(validated_data)
-        boxes_data = validated_data.pop('boxes')
+        boxes_data = validated_data.pop('boxes_set')
         
         packing_list = PackingList.objects.create(**validated_data)
         for _data in boxes_data:
