@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { SharedDataService } from './services/shared-data.service';
+import { TypesService } from './services/types.service';
 
 @Component({
   selector: 'app-banner-admin',
@@ -12,7 +13,10 @@ export class BannerAdminComponent implements OnInit {
   collapedSideBar = true;
   message: any;
 
-  constructor(private apiService: ApiService, private data: SharedDataService) { }
+  constructor(
+    private apiService: ApiService,
+    private typeSerive: TypesService,
+    private data: SharedDataService) { }
 
   ngOnInit(): void {
     this.getPriceTypes();
@@ -24,13 +28,13 @@ export class BannerAdminComponent implements OnInit {
   }
 
   getPriceTypes() {
-    this.apiService.getPriceTypes().subscribe(res => {
+    this.typeSerive.getPriceTypes().subscribe(res => {
       this.data.getPriceType(res.types);
     });
   }
 
   getOptionsType() {
-    this.apiService.getOptionsTypes().subscribe(res => {
+    this.typeSerive.getOptionsTypes().subscribe(res => {
       this.data.getOptionType(res.types);
     });
   }

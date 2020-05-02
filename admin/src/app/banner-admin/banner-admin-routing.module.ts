@@ -15,6 +15,7 @@ import { ProductDetailsComponent } from './admin-components/products/product-det
 import { CategoryDetailComponent } from './admin-components/categories/category-detail/category-detail.component';
 import { OptionDetailComponent } from './admin-components/option-groups/option-detail/option-detail.component';
 import { CustomersComponent } from './admin-components/customers/customers.component';
+import { InvoiceComponent } from './admin-components/invoice/invoice.component';
 
 const routes: Routes = [
     {
@@ -28,9 +29,12 @@ const routes: Routes = [
           { path: 'product/:id', component: ProductDetailsComponent },
           { path: 'category/:id', component: CategoryDetailComponent },
           { path: 'option/:id', component: OptionDetailComponent },
+          { path: 'invoice/:id', component: InvoiceComponent},
           { path: 'user-accounts', component: UserAccountsComponent },
           { path: 'cms', component: CmsComponent },
           { path: 'custom-orders', component: CustomOrdersComponent },
+          { path: 'update-custom-orders', component: CustomOrdersComponent },
+          { path: 'clone-custom-orders', component: CustomOrdersComponent},
           { path: 'order-status', component: OrderStatusComponent },
           { path: 'post-comments', component: PostCommentsComponent },
           { path: 'profile', component: ProfileComponent },

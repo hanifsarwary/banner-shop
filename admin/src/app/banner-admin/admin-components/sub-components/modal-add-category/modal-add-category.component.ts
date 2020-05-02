@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/banner-admin/services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { CategoryService } from 'src/app/banner-admin/services/category.service';
 
 @Component({
   selector: 'app-modal-add-category',
@@ -13,11 +14,12 @@ export class ModalAddCategoryComponent implements OnInit {
   @Input() categories;
   public categoryForm: FormGroup;
   isChild = false;
+
   constructor(
     public activeModal: NgbActiveModal,
+    private categoryService: CategoryService,
+    private toast: ToastrService,
     private fb: FormBuilder,
-    private apiService: ApiService,
-    private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +36,7 @@ export class ModalAddCategoryComponent implements OnInit {
   submitForm(): void {
     const formValues = this.categoryForm.value;
 
-    this.apiService.addCategory(formValues).subscribe(res => {
+    this.categoryService.addCategory(formValues).subscribe(res => {
       this.categoryForm.reset();
       this.activeModal.close();
       this.toast.success('Category added successfully!', '');

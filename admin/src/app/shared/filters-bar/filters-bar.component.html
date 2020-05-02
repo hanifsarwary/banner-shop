@@ -80,17 +80,22 @@
                                     <option *ngFor="let status of proofStatusList | keyvalue" [value]="status.key">{{status.value}}</option>
                                 </select>
                             </td>
-                            <td></td>
+                            <td>
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label mt-2" for="exampleCheck1">open order only</label>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" matInput [(ngModel)]="filters.job_id" placeholder="search job Id">
+                                <input type="number" matInput [(ngModel)]="filters.job_id" placeholder="search job Id">
                             </td>
                             <td>
                                 <input type="text" matInput [(ngModel)]="filters.reference_number" placeholder="search PO/Reference No">
                             </td>
                             <td>
-                                <input type="text" matInput [(ngModel)]="filters.invoice_no" placeholder="search Invoice no">
+                                <input type="number" matInput [(ngModel)]="filters.invoice_no" placeholder="search Invoice no">
                             </td>
                             <td>
                                 <input type="text" matInput [(ngModel)]="filters.job_name" placeholder="search job name">
@@ -99,8 +104,26 @@
                                 <input type="text" matInput [(ngModel)]="filters.place_by" placeholder="search placed by">
                             </td>
                             <td>
-                                <button class="btn btn-primary w-100 h-100" (click)="applyFilters()">Apply</button>
+                                <button class="btn btn-primary w-100 h-100" (click)="applyFilters('all')">Apply</button>
                             </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn w-100 h-100 HotPink" (click)="applyFilters('all')">Missing Deadline Jobs</button>
+                            </td>
+                            <td>
+                                <button class="btn w-100 h-100 Orange" (click)="applyFilters('due_date_today')">Jobs Due Today</button>
+                            </td>
+                            <td>
+                                <button class="btn w-100 h-100 Yellow" (click)="applyFilters('due_date_tomorrow')">Jobs Due Next Day</button>
+                            </td>
+                            <td>
+                                <button class="btn w-100 h-100 PaleGreen" (click)="applyFilters('all_jobs')">All Jobs</button>
+                            </td>
+                            <td>
+                                <button class="btn w-100 h-100 aquamarine" (click)="applyFilters('my_jobs')">My Jobs</button>
+                            </td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>

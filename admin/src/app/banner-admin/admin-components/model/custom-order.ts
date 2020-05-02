@@ -23,4 +23,7 @@ export class CustomOrderList {
     customer?: CustomerList;
     added_by?: AddedByList;
     ticket_count?: '';
+    quoted_price?: '';
+    final_size: '';
+
 }

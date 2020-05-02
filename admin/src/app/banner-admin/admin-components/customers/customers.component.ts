@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SignupService } from '../../services/signup.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-customers',
@@ -13,28 +11,30 @@ import { SignupService } from '../../services/signup.service';
 export class CustomersComponent implements OnInit {
 
   public customerForm: FormGroup;
+  validateFlag = false;
+  submitted = false;
 
 
   constructor(private fb: FormBuilder,
-    private apiServeice: ApiService,
+    private orderServeice: OrderService,
     private toast: ToastrService) {
 
     this.customerForm = this.fb.group({
-      approach_details: [''],
-      bussiness_type: [''],
-      address: [''],
-      city: [''],
-      company_name: [''],
-      country: [''],
-      fax_number: [''],
-      phone_number: [''],
-      zip_code: [''],
+      approach_details: ['', Validators.required],
+      bussiness_type: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      company_name: ['', Validators.required],
+      country: ['', Validators.required],
+      fax_number: ['', Validators.required],
+      phone_number: ['', Validators.required],
+      zip_code: ['', Validators.required],
       user: this.fb.group({
-        username: [''],
-        first_name: [''],
-        last_name: [''],
-        email: [''],
-        password: ['']
+        username: ['', Validators.required],
+        first_name: ['', Validators.required],
+        last_name: ['', Validators.required],
+        email: ['', Validators.required],
+        password: ['', Validators.required]
       })
     });
    }
@@ -43,10 +43,17 @@ export class CustomersComponent implements OnInit {
   }
 
   onSubmit(obj) {
-    this.apiServeice.addCustomers(obj.value).subscribe(res => {
-      this.toast.success('Customer added successfully!', '');
-      this.customerForm.reset();
-    });
+    this.submitted = true;
+    if (this.customerForm.valid) {
+      this.validateFlag = false;
+      this.submitted = false;
+      this.orderServeice.addCustomers(obj.value).subscribe(res => {
+        this.toast.success('Customer added successfully!', '');
+        this.customerForm.reset();
+      });
+    } else {
+      this.validateFlag = true;
+    }
   }
 
 }

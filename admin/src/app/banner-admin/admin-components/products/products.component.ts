@@ -4,6 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModelComponent } from './product-model/product-model.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SharedDataService } from '../../services/shared-data.service';
+import { ProductService } from '../../services/product.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-products',
@@ -20,8 +22,12 @@ export class ProductsComponent implements OnInit {
   notRecordFound = false;
   loading = true;
 
-  constructor(private apiService: ApiService, private sharedDate: SharedDataService,
-    private modalService: NgbModal, private SpinnerService: NgxSpinnerService) { }
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private sharedDate: SharedDataService,
+    private modalService: NgbModal,
+    private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
 
@@ -39,7 +45,7 @@ export class ProductsComponent implements OnInit {
     this.loading = true;
     this.SpinnerService.show();
     this.productsData = [];
-    this.apiService.getProducts(param).subscribe(res => {
+    this.productService.getProducts(param).subscribe(res => {
       this.productsData = res.results;
       this.SpinnerService.hide();
       this.loading = false;
@@ -50,7 +56,7 @@ export class ProductsComponent implements OnInit {
     this.loading = true;
     this.SpinnerService.show();
     this.productsData = [];
-    this.apiService.getProductsByCategory(param).subscribe(res => {
+    this.productService.getProductsByCategory(param).subscribe(res => {
         this.productsData = res;
         this.SpinnerService.hide();
         this.loading = false;
@@ -70,7 +76,7 @@ export class ProductsComponent implements OnInit {
 
   deleteProduct(data) {
     if ( data.type === 'delete') {
-      this.apiService.deleteProduct(data.record).subscribe(res => {
+      this.productService.deleteProduct(data.record).subscribe(res => {
       });
     }
   }
@@ -103,7 +109,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getCategories() {
-    this.apiService.getCategories().subscribe(res => {
+    this.categoryService.getCategories().subscribe(res => {
       this.categoriesData = res.results;
     });
   }
