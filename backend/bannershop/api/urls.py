@@ -23,6 +23,7 @@ from api.views.custom_orders import (
 
 from api.views.packing_lists import BoxesListViewSet, PackingListViewSet
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('all-categories/', AllCategoryListViewSet.as_view()),
@@ -33,7 +34,7 @@ urlpatterns = [
     path('contact-requests/', ContactRequestViewSet.as_view()),
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
-    path('custom-orders/', CustomOrderListViewSet.as_view()),
+    path('custom-orders/', csrf_exempt(CustomOrderListViewSet.as_view())),
     path('custom-orders/create/', CustomOrderCreateViewSet.as_view()),
     path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
     path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
