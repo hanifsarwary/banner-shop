@@ -138,16 +138,18 @@
                               <tr *ngFor="let box of dynamicBoxes; let i = index;">
                                 <td scope="row">
                                     <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Enter number of boxes" [(ngModel)]="dynamicBoxes[i].number_of_boxes" type="text"
+                                    placeholder="Enter number of boxes" [(ngModel)]="dynamicBoxes[i].number_of_boxes" type="number"
                                     [ngClass]="{ 'is-invalid': submitted && dynamicBoxes[i].number_of_boxes === '' }">
                                 </td>
                                 <td formGroupName="boxes">
                                     <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
-                                    placeholder="quantity per box" [(ngModel)]="dynamicBoxes[i].quantity_per_box" type="text"
+                                    placeholder="quantity per box" [(ngModel)]="dynamicBoxes[i].quantity_per_box" type="number"
+                                    (ngModelChange)="calculateQuantity(dynamicBoxes[i], i)"
                                     [ngClass]="{ 'is-invalid': submitted && dynamicBoxes[i].quantity_per_box === '' }">
                                 </td>
                                 <td>
-                                    <input class="form-control form-control-sm" readonly type="text" >
+                                    <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="dynamicBoxes[i].quantity" readonly type="text" >
                                 </td>
                                 <td>
                                     <input class="form-control form-control-sm" readonly type="text" >
