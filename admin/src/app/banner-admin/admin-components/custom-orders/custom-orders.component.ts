@@ -37,9 +37,10 @@ export class CustomOrdersComponent implements OnInit {
   userId: number;
   job_no_exist = false;
   job_id;
+  opeFlag = true;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   constructor(
-    private activeModal: NgbActiveModal,
     private orderServeice: OrderService,
     private typeService: TypesService,
     private data: SharedDataService,
@@ -79,6 +80,7 @@ export class CustomOrdersComponent implements OnInit {
         this.selectedCustomerObj = this.customOrderList.customer;
         this.customOrderId = this.customOrderList.id;
         this.userId = this.selectedCustomerObj.user ? this.selectedCustomerObj.user.id : '';
+        this.opeFlag = this.operation === 'Update' ? false : true;
       }
     });
    }
@@ -156,6 +158,7 @@ export class CustomOrdersComponent implements OnInit {
     this.customOrderId = '';
     this.selectedCustomerObj = this.getCompanyFromCustomerObj(this.companyName);
     this.selectedCustomerObj = this.selectedCustomerObj[0];
+    this.customOrderId = this.selectedCustomerObj.id;
   }
 
   goToOrderStatus() {
@@ -173,7 +176,7 @@ export class CustomOrdersComponent implements OnInit {
         obj.value.customer = this.customOrderId;
         obj.value.status = 'Submitted';
         obj.value.start_date = start_date;
-        obj.value.added_by = localStorage.getItem('username');
+        obj.value.added_by = this.userInfo.id;
         this.orderServeice.addCustomOrder(obj.value).subscribe(res => {
             this.toast.success('Custom Orders added successfully!', '');
             this.router.navigate(['/order-status']);
@@ -184,9 +187,10 @@ export class CustomOrdersComponent implements OnInit {
       }
     } else {
       obj.value.customer = this.selectedCustomerObj.id;
-      this.orderServeice.updateCustomOrder(this.customOrderId, obj.value).subscribe(res => {
+      obj.value.added_by = this.userInfo.id;
+      this.orderServeice.updateCustomOrder(this.customOrderList.id, obj.value).subscribe(res => {
         this.toast.success('Custom Orders updated successfully!', '');
-        this.activeModal.close();
+        this.router.navigate(['/order-status']);
       });
     }
   }

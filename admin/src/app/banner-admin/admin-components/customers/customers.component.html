@@ -38,7 +38,7 @@
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="approach_details">Approach details:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="approach_details" placeholder="Approach details"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('approach_details').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow"for="bussiness_type">Bussiness type :</label>
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow"for="bussiness_type">Bussiness Type :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="bussiness_type" placeholder="Bussiness type"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('bussiness_type').errors }">
                                 </div>
@@ -59,12 +59,18 @@
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('country').errors }">
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="fax_number">Fax number:</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="fax_number">Fax Number:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="fax_number" placeholder="Enter Fax number"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('fax_number').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="phone_number">Phone number:</label>
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="phone_number">Phone Number:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="phone_number" placeholder="Enter Phone number"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('phone_number').errors }">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="second_email">Second Email:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="second_email" placeholder="Enter Second email">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="second_email">Third Email :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="second_email" placeholder="Enter Third email">
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="zip_code">Zip code:</label>
@@ -72,7 +78,7 @@
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('zip_code').errors }">
                                 </div>
                                 <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
-                                <button class="btn btn-primary btn-submit mb-5 mt-5 w-50" type="submit"> Submit </button>
+                                <button class="btn btn-primary btn-submit mb-5 mt-5 mr-4 pull-right" type="submit"> Submit </button>
                             </div>
                         </div>
                     </form>

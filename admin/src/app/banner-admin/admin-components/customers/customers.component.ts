@@ -29,6 +29,8 @@ export class CustomersComponent implements OnInit {
       fax_number: ['', Validators.required],
       phone_number: ['', Validators.required],
       zip_code: ['', Validators.required],
+      second_email: [''],
+      third_email: [''],
       user: this.fb.group({
         username: ['', Validators.required],
         first_name: ['', Validators.required],
