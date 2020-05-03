@@ -112,7 +112,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_search(queryset, self.request.data.get('search_info'))
         
         return Response({"results": self.serializer_class(self.paginate_queryset(
-            queryset.order_by('id')), many=True).data})
+            queryset.order_by('-id')), many=True).data})
 
 
 class CustomOrderCreateViewSet(CreateAPIView):
