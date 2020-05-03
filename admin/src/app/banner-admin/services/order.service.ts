@@ -25,9 +25,8 @@ export class OrderService {
 
   // Custom Orders API's
 
-  getCustomOrder(obj, param?): Observable<any> {
-    param = param ? param : '';
-    return this.httpClient.post<any>(`${this.global.customOrders}${param}`, obj, { headers: this.global.httpHeaders() } );
+  getCustomOrder(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.customOrders}`, obj, { headers: this.global.httpHeaders() } );
   }
 
   addCustomOrder(obj): Observable<any> {

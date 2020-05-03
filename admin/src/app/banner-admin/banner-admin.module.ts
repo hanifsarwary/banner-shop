@@ -19,8 +19,10 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardComponent } from './admin-components/dashboard/dashboard.component';
 import { DatatableComponent } from './admin-components/datatable/datatable.component';
 import { MatTableModule,
-         MatPaginatorModule, MatSortModule,
-         MatInputModule } from '@angular/material';
+         MatPaginatorModule,
+         MatSortModule,
+         MatTooltipModule,
+         MatButtonModule} from '@angular/material';
 import { ModalAddCategoryComponent } from './admin-components/sub-components/modal-add-category/modal-add-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -76,6 +78,8 @@ import { PackingListComponent } from './admin-components/packing-list/packing-li
     FormsModule,
     ReactiveFormsModule,
     FiltersBarModule,
+    MatTooltipModule,
+    MatButtonModule,
     NgxsModule.forRoot([
       DateRangeState ])
   ],
