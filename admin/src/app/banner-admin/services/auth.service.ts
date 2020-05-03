@@ -33,10 +33,17 @@ export class AuthService {
     localStorage.setItem('username', name);
   }
 
+  storeUserInfo(userInfo) {
+    userInfo = JSON.stringify(userInfo);
+    localStorage.setItem('userInfo', userInfo);
+  }
+
   logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('priceObj');
     localStorage.removeItem('OptionPriceObj');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userInfo');
   }
 
 }
