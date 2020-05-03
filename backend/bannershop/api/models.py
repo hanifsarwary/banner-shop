@@ -221,6 +221,7 @@ class PackingList(models.Model):
     received_by = models.CharField(max_length=32, null=True)
     due_date = models.DateField(null=True)
     comments = models.TextField(null=True)
+    total_quantity = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
@@ -231,6 +232,7 @@ class BoxesDetails(models.Model):
     packing_list = models.ForeignKey(PackingList, on_delete=models.CASCADE, blank=True, related_name='boxes_set')
     number_of_boxes = models.PositiveIntegerField(default=0)
     quantity_per_box = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=0)
 
 
 class Invoice(models.Model):
