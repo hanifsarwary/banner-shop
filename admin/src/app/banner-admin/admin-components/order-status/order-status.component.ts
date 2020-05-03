@@ -49,17 +49,24 @@ export class OrderStatusComponent implements OnInit {
   }
 
   searchItem() {
-    const params = this.search_info ? `?search_info=${this.search_info}` : '';
+    const params = this.search_info ? { 'search_info' : this.search_info } : '';
     this.getCustomOrder(params);
   }
 
   getCustomOrder(params?) {
     this.loader = true;
     this.customOrderList = [];
-    this.orderServeice.getCustomOrder(this.filters, params).subscribe(res => {
-      this.customOrderList = res.results;
-      this.loader = false;
-    });
+    if (params) {
+      this.orderServeice.getCustomOrder(params).subscribe(res => {
+        this.customOrderList = res.results;
+        this.loader = false;
+      });
+    } else {
+      this.orderServeice.getCustomOrder(this.filters).subscribe(res => {
+        this.customOrderList = res.results;
+        this.loader = false;
+      });
+    }
   }
 
 }

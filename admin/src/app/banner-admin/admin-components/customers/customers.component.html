@@ -24,8 +24,13 @@
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="email">Email :</label>
-                                    <input type="email" class="form-control form-control-sm col-sm-6" formControlName="email" placeholder="email"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.email').errors }">
+                                    <div class="col-sm-6 p-0 m-0">
+                                        <input type="email" class="form-control form-control-sm" formControlName="email" placeholder="email"
+                                        [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.email').errors }">
+                                        <div *ngIf="customerForm.get('user.email').hasError('pattern')">
+                                            <small style="color: red;">The Email is not valid.</small>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="password">Password :</label>
@@ -63,14 +68,29 @@
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="fax_number" placeholder="Enter Fax number"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('fax_number').errors }">
                                     <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="phone_number">Phone Number:</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="phone_number" placeholder="Enter Phone number"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('phone_number').errors }">
+                                    <div class="col-sm-3 p-0 m-0">
+                                        <input type="text" class="form-control form-control-sm" formControlName="phone_number" placeholder="Enter Phone number"
+                                        [ngClass]="{ 'is-invalid': submitted && customerForm.get('phone_number').errors }">
+                                        <div *ngIf="customerForm.get('phone_number').hasError('pattern')">
+                                            <small style="color: red;">only number are allowed.</small>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="second_email">Second Email:</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="second_email" placeholder="Enter Second email">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="second_email">Third Email :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="second_email" placeholder="Enter Third email">
+                                    <div class="col-sm-3 p-0 m-0">
+                                        <input type="text" class="form-control form-control-sm" formControlName="second_email" placeholder="Enter Second email">
+                                        <div *ngIf="customerForm.get('second_email').hasError('pattern')">
+                                            <small style="color: red;">The Email is not valid.</small>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="third_email">Third Email :</label>
+                                    <div class="col-sm-3 p-0 m-0">
+                                        <input type="text" class="form-control form-control-sm" formControlName="third_email" placeholder="Enter Third email">
+                                        <div *ngIf="customerForm.get('third_email').hasError('pattern')">
+                                            <small style="color: red;">The Email is not valid.</small>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="zip_code">Zip code:</label>
