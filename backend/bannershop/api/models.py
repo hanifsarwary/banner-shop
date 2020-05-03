@@ -145,6 +145,8 @@ class Customer(models.Model):
     fax_number = models.CharField(max_length=32, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     zip_code = models.CharField(max_length=16, null=True, blank=True)
+    second_email = models.EmailField(null=True, blank=True)
+    third_email = models.EmailField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
