@@ -27,15 +27,19 @@ export class CustomersComponent implements OnInit {
       company_name: ['', Validators.required],
       country: ['', Validators.required],
       fax_number: ['', Validators.required],
-      phone_number: ['', Validators.required],
+      phone_number: ['', [Validators.required, Validators.minLength(8),
+                          Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]],
       zip_code: ['', Validators.required],
-      second_email: [''],
-      third_email: [''],
+      second_email: ['', Validators.compose([
+                         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      third_email: ['', Validators.compose([
+                        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
       user: this.fb.group({
         username: ['', Validators.required],
         first_name: ['', Validators.required],
         last_name: ['', Validators.required],
-        email: ['', Validators.required],
+        email: ['', Validators.compose([Validators.required,
+                    Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
         password: ['', Validators.required]
       })
     });

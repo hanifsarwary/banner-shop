@@ -15,7 +15,7 @@
                         <div class="col-md-6 customer-box m-0 p-0">
                             <fieldset class="border mr-3">
                                 <legend class="p-0 ml-3 m-0">From</legend>
-                                <div class="m-3 mb-4">
+                                <div class="m-3 mb-5">
                                     <div class="row form-box">
                                         <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
                                         <input [ngModel]="userList.first_name" name="firstName" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
@@ -50,7 +50,7 @@
                         <div class="col-md-6 m-0 p-0">
                             <fieldset class="border ml-3">
                                 <legend class="p-0 ml-3 m-0">To</legend>
-                                <div class="m-3 mb-4">
+                                <div class="m-3 mb-5">
                                     <div class="row form-box">
                                         <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
                                         <input type="text" formControlName="first_name" class="form-control form-control-sm col-sm-9"
@@ -83,8 +83,13 @@
                                     </div>
                                     <div class="row form-box">
                                         <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="phone_number">Tel :</label>
-                                        <input type="text" formControlName="phone_number" class="form-control form-control-sm col-sm-9"
-                                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('phone_number').errors }">
+                                        <div class="col-sm-9 p-0 m-0">
+                                            <input type="text" formControlName="phone_number" class="form-control form-control-sm"
+                                            [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('phone_number').errors }">
+                                            <div *ngIf="packingListFrom.get('phone_number').hasError('pattern')">
+                                                <small style="color: red;">Min digit (8) Max digit (12) and only number are allowed.</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </fieldset>
@@ -152,7 +157,7 @@
                                 </td>
                               </tr>
                               <tr>
-                                <td (click)="addRow(i)">
+                                <td (click)="addRow()">
                                     <i class="fa fa-plus fa-1x ml-2"></i>
                                 </td>
                                 <td></td>
