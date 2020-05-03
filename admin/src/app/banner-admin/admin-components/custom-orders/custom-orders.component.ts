@@ -19,7 +19,7 @@ export class CustomOrdersComponent implements OnInit {
 
   @Input() selectedCustomerObj;
   @Input() operation = 'Add';
-  @Input() customOrderId;
+  @Input() customerOrderId;
   @Input() customOrderList: CustomOrderList;
 
   public customOrderForm: FormGroup;
@@ -34,7 +34,6 @@ export class CustomOrdersComponent implements OnInit {
   companyName;
   companiesList = [];
   customerId: number;
-  userId: number;
   job_no_exist = false;
   job_id;
   opeFlag = true;
@@ -78,8 +77,7 @@ export class CustomOrdersComponent implements OnInit {
         this.customOrderList = JSON.parse(params['customOrderList']);
         this.operation = params['operation'];
         this.selectedCustomerObj = this.customOrderList.customer;
-        this.customOrderId = this.customOrderList.id;
-        this.userId = this.selectedCustomerObj.user ? this.selectedCustomerObj.user.id : '';
+        this.customerOrderId = this.selectedCustomerObj.id;
         this.opeFlag = this.operation === 'Update' ? false : true;
       }
     });
@@ -144,21 +142,21 @@ export class CustomOrdersComponent implements OnInit {
   }
 
   selectedCustomer(event) {
-    this.customOrderId = null;
-    this.customOrderId = event.target.value;
+    this.customerOrderId = null;
+    this.customerId = event.target.value;
+    this.customerOrderId = event.target.value;
     this.companyName = '';
-    this.userId = event.target.value;
-    this.selectedCustomerObj = this.getObjFromJsonArray(this.customOrderId);
+    this.selectedCustomerObj = this.getObjFromJsonArray(this.customerOrderId);
     this.selectedCustomerObj = this.selectedCustomerObj[0];
   }
 
   selectedCompanies(event) {
     this.companyName = null;
     this.companyName = event.target.value;
-    this.customOrderId = '';
+    this.customerOrderId = '';
     this.selectedCustomerObj = this.getCompanyFromCustomerObj(this.companyName);
     this.selectedCustomerObj = this.selectedCustomerObj[0];
-    this.customOrderId = this.selectedCustomerObj.id;
+    this.customerId = this.selectedCustomerObj.id;
   }
 
   goToOrderStatus() {
@@ -173,7 +171,7 @@ export class CustomOrdersComponent implements OnInit {
         this.validateFlag = false;
         const today = new Date();
         const start_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        obj.value.customer = this.customOrderId;
+        obj.value.customer = this.customerId;
         obj.value.status = 'Submitted';
         obj.value.start_date = start_date;
         obj.value.added_by = this.userInfo.id;
