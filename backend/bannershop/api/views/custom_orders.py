@@ -38,8 +38,12 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_due_date(self, queryset, range_start, range_end):
 
         if range_start and range_end:
-            print('due_date:', range_end)
             queryset = queryset.filter(due_date__range=[range_start, range_end])
+        elif range_start:
+            queryset = queryset.filter(due_date=range_start)
+        elif range_end:
+            queryset = queryset.filter(due_date=range_end)
+            
         return queryset
 
     def filter_proof(self, queryset, proof):
