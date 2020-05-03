@@ -219,7 +219,7 @@ class PackingList(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     zip_code = models.CharField(max_length=16, null=True, blank=True)
     received_by = models.CharField(max_length=32, null=True)
-    due_date = models.DateTimeField(null=True)
+    due_date = models.DateField(null=True)
     comments = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
