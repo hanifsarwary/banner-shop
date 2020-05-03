@@ -77,6 +77,7 @@ export class PackingListComponent implements OnInit {
       if (this.dynamicBoxes[0].number_of_boxes !== '' && this.dynamicBoxes[0].quantity_per_box !== '') {
         this.orderService.addPackingList(this.customOrderId, obj.value).subscribe(res => {
           this.toast.success('Packing List Created successfully!', '');
+          this.router.navigate(['/order-status']);
         });
       } else {
         this.validateFlag = true;
