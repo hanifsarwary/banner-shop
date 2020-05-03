@@ -163,14 +163,14 @@ export class FiltersBarComponent implements OnInit {
     switch (value) {
       case 'due_date_today':
         const today_date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date': today_date}) } });
+        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date_start': today_date}) } });
         break;
       case 'due_date_tomorrow':
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
         const tomorrow_date = this.datePipe.transform(tomorrow, 'yyyy-MM-dd');
-          this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date': tomorrow_date}) } });
+          this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date_end': tomorrow_date}) } });
           break;
       case 'my_jobs':
         this.router.navigate(['/order-status'], { queryParams:

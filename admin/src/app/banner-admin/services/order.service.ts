@@ -79,4 +79,8 @@ export class OrderService {
     return this.httpClient.post<any>(`${this.global.customOrders}/packing-list/${id}/`, obj, { headers: this.global.httpHeaders() });
   }
 
+  getJobId(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.jobId}`, { headers: this.global.httpHeaders() });
+  }
+
 }

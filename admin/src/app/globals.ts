@@ -28,6 +28,7 @@ export class Globals {
   statusTypes = `${this.domanin_name}/custom-orders-types/`;
   statusProofTypes = `${this.domanin_name}/proof-status-types/`;
   companies = `${this.domanin_name}/customers/company-names/`;
+  jobId = `${this.domanin_name}/get-latest-job-number/`;
 
   httpHeaders() {
     const headers = new HttpHeaders();

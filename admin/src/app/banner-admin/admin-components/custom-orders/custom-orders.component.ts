@@ -36,6 +36,7 @@ export class CustomOrdersComponent implements OnInit {
   customerId: number;
   userId: number;
   job_no_exist = false;
+  job_id;
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -69,6 +70,7 @@ export class CustomOrdersComponent implements OnInit {
       customer: [''],
       start_date: [''],
       status: [''],
+      added_by: ''
     });
     this.route.queryParams.subscribe(params => {
       if (params['customOrderList']) {
@@ -88,12 +90,19 @@ export class CustomOrdersComponent implements OnInit {
     this.getStatus();
     this.getProofStatus();
     this.getCompanies();
+    this.getJobId();
   }
 
   get formValidator() { return this.customOrderForm.controls; }
 
   customerPage() {
     this.router.navigate(['/customers']);
+  }
+
+  getJobId() {
+    this.orderServeice.getJobId().subscribe(res => {
+      this.job_id = res.number;
+    });
   }
 
   getUsers() {
@@ -154,7 +163,7 @@ export class CustomOrdersComponent implements OnInit {
   }
 
   onSubmit(obj) {
-    if (this.operation === 'Add') {
+    if (this.operation === 'Add' || this.operation === 'Clone' ) {
       this.submitted = true;
       if (this.customOrderForm.valid) {
         this.submitted = false;
@@ -164,8 +173,10 @@ export class CustomOrdersComponent implements OnInit {
         obj.value.customer = this.customOrderId;
         obj.value.status = 'Submitted';
         obj.value.start_date = start_date;
+        obj.value.added_by = localStorage.getItem('username');
         this.orderServeice.addCustomOrder(obj.value).subscribe(res => {
             this.toast.success('Custom Orders added successfully!', '');
+            this.router.navigate(['/order-status']);
             this.customOrderForm.reset();
         });
       } else {
