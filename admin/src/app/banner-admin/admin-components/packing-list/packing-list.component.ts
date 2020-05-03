@@ -41,7 +41,8 @@ export class PackingListComponent implements OnInit {
       address: ['', Validators.required],
       city: ['', Validators.required],
       company_name: ['', Validators.required],
-      phone_number: ['', Validators.required],
+      phone_number: ['', [Validators.required, Validators.minLength(8),
+                          Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]],
       zip_code: ['', Validators.required],
       due_date: ['', Validators.required],
       comment: ['', Validators.required],
@@ -85,7 +86,7 @@ export class PackingListComponent implements OnInit {
     }
   }
 
-  addRow(index) {
+  addRow() {
     this.newBox = {number_of_boxes: '', quantity_per_box: ''};
     this.dynamicBoxes.push(this.newBox);
     this.toast.success('New row added successfully', 'New Row');
