@@ -29,7 +29,7 @@ class PackingListSerializer(ModelSerializer):
 
 
 
-class class PackingListUpdateSerializer(ModelSerializer):
+class PackingListUpdateSerializer(ModelSerializer):
 
     class Meta:
         model = PackingList
