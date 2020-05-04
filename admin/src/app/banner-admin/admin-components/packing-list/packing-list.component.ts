@@ -23,6 +23,7 @@ export class PackingListComponent implements OnInit {
   customerList: CustomerList;
   userList: UserList;
   newBox: any = {};
+  quantity;
   submitted = false;
   validateFlag = false;
   dynamicBoxes: Array<BoxList> = [];
@@ -84,6 +85,11 @@ export class PackingListComponent implements OnInit {
         this.validateFlag = true;
       }
     }
+  }
+
+  calculateQuantity(obj, i) {
+    this.quantity = obj.quantity_per_box * obj.number_of_boxes;
+    this.dynamicBoxes[i].quantity = obj.quantity_per_box * obj.number_of_boxes;
   }
 
   addRow() {

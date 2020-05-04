@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
     <div class="customers">
         <div class="mt-4 mb-4">
-            <h4 class="heading mb-5 pt-5 text-center">Add Customer</h4>
+            <h4 class="heading mb-5 pt-5 mr-5 text-center">Add Customer</h4>
             <div class="card">
                 <div class="body">
                     <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
@@ -39,14 +39,11 @@
                                 </div>
                             </div>
                             <div class="col-md-7 p-0 m-0">
-                                <div class="row form-box">
+                                <!-- <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="approach_details">Approach details:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="approach_details" placeholder="Approach details"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('approach_details').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow"for="bussiness_type">Bussiness Type :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="bussiness_type" placeholder="Bussiness type"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('bussiness_type').errors }">
-                                </div>
+                                </div> -->
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="address">Address :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="address" placeholder="Enter Address"
@@ -96,6 +93,9 @@
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="zip_code">Zip code:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="zip_code" placeholder="Enter Zip code"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('zip_code').errors }">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow"for="bussiness_type">Bussiness Type :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="bussiness_type" placeholder="Bussiness type"
+                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('bussiness_type').errors }">
                                 </div>
                                 <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
                                 <button class="btn btn-primary btn-submit mb-5 mt-5 mr-4 pull-right" type="submit"> Submit </button>

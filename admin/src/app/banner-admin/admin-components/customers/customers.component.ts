@@ -20,13 +20,13 @@ export class CustomersComponent implements OnInit {
     private toast: ToastrService) {
 
     this.customerForm = this.fb.group({
-      approach_details: ['', Validators.required],
+      approach_details: [''],
       bussiness_type: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
       company_name: ['', Validators.required],
-      country: ['', Validators.required],
-      fax_number: ['', Validators.required],
+      country: ['USA', Validators.required],
+      fax_number: [''],
       phone_number: ['', [Validators.required, Validators.minLength(8),
                           Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]],
       zip_code: ['', Validators.required],
