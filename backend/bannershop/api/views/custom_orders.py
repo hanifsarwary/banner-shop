@@ -97,6 +97,13 @@ class CustomOrderListViewSet(ListAPIView):
                 Q(ink_color__icontains=search_info)
                 )
         return queryset
+    
+    def filter_missing_deadline(self, queryset, missing_deadline):
+        from datetime import date
+        if missing_deadline:
+            queryset = queryset.filter(due_date__lt=date.today()).exclude(status='Shipped')
+        return queryset
+
 
     def post(self, request):
 
@@ -114,6 +121,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_company_name(queryset, self.request.data.get('company'))
         queryset = self.filter_job_name(queryset, self.request.data.get('job_name'))
         queryset = self.filter_search(queryset, self.request.data.get('search_info'))
+        queryset = self.filter_missing_deadline(queryset, self.request.data.get('is_missing_deadline'))
         
         return Response({"results": self.serializer_class(self.paginate_queryset(
             queryset.order_by('-id')), many=True).data})

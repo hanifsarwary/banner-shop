@@ -24,3 +24,17 @@ class BoxesListViewSet(ListCreateAPIView):
         queryset = self.get_queryset().filter(packing_list_id=packing_list_id)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class PackingListDetailViewSet(RetrieveUpdateAPIView):
+
+    serializer_class = PackingListSerializer
+    queryset = PackingList.objects.all()
+
+
+
+class BoxesDetailViewSet(RetrieveUpdateAPIView):
+
+    serializer_class = BoxDetailsSerializer
+    queryset = BoxesDetails.objects.all()
+

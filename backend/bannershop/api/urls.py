@@ -21,9 +21,10 @@ from api.views.custom_orders import (
       CustomOrderUpdateViewSet, CustomOrderInvoice, UpdateProofStatusViewSet,
       GetLatestJobNumber)
 
-from api.views.packing_lists import BoxesListViewSet, PackingListViewSet
+from api.views.packing_lists import BoxesListViewSet, PackingListViewSet, PackingListDetailViewSet, BoxesDetailViewSet
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 from django.views.decorators.csrf import csrf_exempt
+
 
 urlpatterns = [
     path('all-categories/', AllCategoryListViewSet.as_view()),
@@ -46,6 +47,8 @@ urlpatterns = [
     path('custom-orders/proof-history/<int:custom_order_id>/', ProofHistoryListView.as_view()),
     path('custom-orders/packing-list/<int:custom_order_id>/', PackingListViewSet.as_view()),
     path('packing-lists/boxes/<int:packing_list_id>/', BoxesListViewSet.as_view()),
+    path('packing-lists/<int:pk>/update/', PackingListDetailViewSet.as_view()),
+    path('boxes/<int:pk>/update/', BoxesDetailViewSet.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
     path('customers/company-names/', CompanyNamesListView.as_view()),
     path('invoices/', InvoiceListViewSet.as_view()),
