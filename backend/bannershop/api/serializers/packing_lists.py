@@ -27,3 +27,13 @@ class PackingListSerializer(ModelSerializer):
             BoxesDetails.objects.create(packing_list=packing_list, **_data)
         return packing_list
 
+
+
+class class PackingListUpdateSerializer(ModelSerializer):
+
+    class Meta:
+        model = PackingList
+        fields = (
+            'custom_order', 'address', 'city', 'first_name', 'last_name', 'company_name',
+            'country', 'fax_number', 'phone_number',
+            'zip_code', 'received_by', 'due_date', 'comments')
