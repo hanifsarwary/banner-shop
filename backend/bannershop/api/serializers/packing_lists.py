@@ -15,7 +15,7 @@ class PackingListSerializer(ModelSerializer):
         model = PackingList
         fields = (
             'custom_order', 'address', 'city', 'first_name', 'last_name', 'company_name',
-            'country', 'fax_number', 'phone_number',
+            'country', 'fax_number', 'phone_number', 'id',
             'zip_code', 'received_by', 'due_date', 'comments', 'boxes')
     
     def create(self, validated_data):
@@ -35,5 +35,5 @@ class PackingListUpdateSerializer(ModelSerializer):
         model = PackingList
         fields = (
             'custom_order', 'address', 'city', 'first_name', 'last_name', 'company_name',
-            'country', 'fax_number', 'phone_number',
+            'country', 'fax_number', 'phone_number', 'id',
             'zip_code', 'received_by', 'due_date', 'comments')
