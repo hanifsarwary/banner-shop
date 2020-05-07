@@ -52,4 +52,4 @@ class BoxesBulkCreateSerializer(Serializer):
                     quantity_per_box=_data.get("quantity_per_box"), 
                     number_of_boxes=_data.get("number_of_boxes"),
                     packing_list=_data.get("packing_list")))
-        return boxes_arr
+        return None
