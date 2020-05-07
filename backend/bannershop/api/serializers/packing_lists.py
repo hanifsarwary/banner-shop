@@ -47,6 +47,13 @@ class BoxesBulkCreateSerializer(Serializer):
         boxes_data = validated_data.pop('boxes')
         boxes_arr = []
         for _data in boxes_data:
+            {
+            "number_of_boxes": 10,
+            "quantity_per_box": 10
+}
             boxes_arr.append(
-                BoxesDetails.objects.create(**_data))
+                BoxesDetails.objects.create(
+                    quantity_per_box=_data.get("quantity_per_box"), 
+                    number_of_boxes=_data.get("number_of_boxes"),
+                    packing_list=_data.get("packing_list")))
         return boxes_arr
