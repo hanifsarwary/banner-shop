@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from api.models import PackingList, BoxesDetails
 from api.serializers.packing_lists import PackingListSerializer, BoxDetailsSerializer, PackingListUpdateSerializer
 from rest_framework.response import Response
@@ -33,7 +33,7 @@ class PackingListDetailViewSet(RetrieveUpdateAPIView):
 
 
 
-class BoxesDetailViewSet(RetrieveUpdateAPIView):
+class BoxesDetailViewSet(RetrieveUpdateDestroyAPIView):
 
     serializer_class = BoxDetailsSerializer
     queryset = BoxesDetails.objects.all()

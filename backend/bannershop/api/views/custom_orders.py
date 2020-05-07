@@ -1,9 +1,11 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import (
+    ListCreateAPIView, RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, RetrieveUpdateAPIView,
+    RetrieveDestroyAPIView)
 from rest_framework.views import  APIView
 from rest_framework.response import Response
-from api.models import CustomOrder, Invoice, ProofHistory
+from api.models import CustomOrder, ProofHistory
 from api.serializers.custom_orders import (
-    CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer, CustomOrderCreateSerializer,
+    CustomOrderSerializer, ProofHistorySerializer, CustomOrderCreateSerializer,
     ProofStatusUpdateSerializer, CustomOrderUpdateSerializer)
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -73,7 +75,7 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_invoice_no(self, queryset, invoice_no):
         if invoice_no:
             print('invoice:', invoice_no)
-            queryset = queryset.filter(invoice__invoice_number=invoice_no)
+            queryset = queryset.filter(invoice_number=invoice_no)
         return queryset
     
     def filter_added_by(self, queryset, added_by):
@@ -139,22 +141,22 @@ class CustomOrderCreateViewSet(CreateAPIView):
     queryset = CustomOrder.objects.all()
 
 
-class CustomOrderDetailViewSet(RetrieveAPIView):
+class CustomOrderDetailViewSet(RetrieveDestroyAPIView):
 
     serializer_class = CustomOrderSerializer
     queryset = CustomOrder.objects.all()
 
 
-class CustomOrderInvoice(ListAPIView):
+# class CustomOrderInvoice(ListAPIView):
 
-    serializer_class = InvoiceSerializer
-    queryset = Invoice.objects.all()
+#     serializer_class = InvoiceSerializer
+#     queryset = Invoice.objects.all()
 
-    def list(self, request, custom_order_id, *args, **kwargs):
-        queryset = self.get_queryset().filter(custom_order=custom_order_id)
-        print(queryset)
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+#     def list(self, request, custom_order_id, *args, **kwargs):
+#         queryset = self.get_queryset().filter(custom_order=custom_order_id)
+#         print(queryset)
+#         serializer = self.serializer_class(queryset, many=True)
+#         return Response(serializer.data)
 
 class CustomOrderUpdateViewSet(RetrieveUpdateAPIView):
 
@@ -163,17 +165,17 @@ class CustomOrderUpdateViewSet(RetrieveUpdateAPIView):
     def get_queryset(self):
         return CustomOrder.objects.filter(pk=self.kwargs['pk'])
 
-class InvoiceListViewSet(ListCreateAPIView):
+# class InvoiceListViewSet(ListCreateAPIView):
 
-    serializer_class = InvoiceSerializer
-    queryset = Invoice.objects.all()
+#     serializer_class = InvoiceSerializer
+#     queryset = Invoice.objects.all()
 
 
 
-class InvoiceDetailViewSet(RetrieveUpdateAPIView):
+# class InvoiceDetailViewSet(RetrieveUpdateAPIView):
 
-    serializer_class = InvoiceSerializer
-    queryset = Invoice.objects
+#     serializer_class = InvoiceSerializer
+#     queryset = Invoice.objects
 
 
 class ProofHistoryListView(ListCreateAPIView):

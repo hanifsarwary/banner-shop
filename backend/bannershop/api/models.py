@@ -202,6 +202,7 @@ class CustomOrder(models.Model):
     flat_size = models.CharField(max_length=256, null=True, blank=True)
     final_size = models.CharField(max_length=256, null=True, blank=True)
     ink_color = models.TextField(null=True, blank=True)
+    invoice_number = models.CharField(max_length=256, null=True, blank=True)
     internal_notes = models.TextField()
     proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
                                     default=PROOF_STATUS_CHOICES[0][0])
@@ -245,20 +246,20 @@ class BoxesDetails(models.Model):
     quantity = models.PositiveIntegerField(default=0)
 
 
-class Invoice(models.Model):
+# class Invoice(models.Model):
 
-    custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
-    authorization_code = models.CharField(max_length=256, null=True, blank=True)
-    invoice_number = models.IntegerField(unique=True, null=True, blank=True)
-    paid_by = models.CharField(max_length=512, null=True, blank=True)
-    payment_method = models.CharField(max_length=512, null=True, blank=True)
+#     custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
+#     authorization_code = models.CharField(max_length=256, null=True, blank=True)
+#     invoice_number = models.IntegerField(unique=True, null=True, blank=True)
+#     paid_by = models.CharField(max_length=512, null=True, blank=True)
+#     payment_method = models.CharField(max_length=512, null=True, blank=True)
 
-    sold_to = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+#     sold_to = models.TextField(null=True, blank=True)
+#     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+#     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
-    def __str__(self):
-        return str(self.invoice_number)
+#     def __str__(self):
+#         return str(self.invoice_number)
 
 
 class ProofHistory(models.Model):

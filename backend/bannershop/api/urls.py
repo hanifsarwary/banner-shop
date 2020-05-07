@@ -16,9 +16,9 @@ from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOpti
 from api.views.emails import SendOrderEmail
 from api.views.pricing import CalculatePriceViewSet
 from api.views.custom_orders import (
-    CustomOrderListViewSet, CustomOrderDetailViewSet, InvoiceListViewSet, InvoiceDetailViewSet,
+    CustomOrderListViewSet, CustomOrderDetailViewSet,
      ProofHistoryListView, GetOrderTypes, CustomOrderCreateViewSet, GetProofStatusTypes, 
-      CustomOrderUpdateViewSet, CustomOrderInvoice, UpdateProofStatusViewSet,
+      CustomOrderUpdateViewSet, UpdateProofStatusViewSet,
       GetLatestJobNumber)
 
 from api.views.packing_lists import BoxesListViewSet, PackingListViewSet, PackingListDetailViewSet, BoxesDetailViewSet
@@ -38,7 +38,7 @@ urlpatterns = [
     path('custom-orders/', csrf_exempt(CustomOrderListViewSet.as_view())),
     path('custom-orders/create/', CustomOrderCreateViewSet.as_view()),
     path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
-    path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
+    # path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
     path('custom-orders/update/<int:pk>/', CustomOrderUpdateViewSet.as_view()),
     path('custom-orders/proof-status/update/<int:pk>/', UpdateProofStatusViewSet.as_view()),
     path('custom-orders-types/', GetOrderTypes.as_view()),
@@ -48,11 +48,11 @@ urlpatterns = [
     path('custom-orders/packing-list/<int:custom_order_id>/', PackingListViewSet.as_view()),
     path('packing-lists/boxes/<int:packing_list_id>/', BoxesListViewSet.as_view()),
     path('packing-lists/<int:pk>/update/', PackingListDetailViewSet.as_view()),
-    path('boxes/<int:pk>/update/', BoxesDetailViewSet.as_view()),
+    path('boxes/<int:pk>/', BoxesDetailViewSet.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
     path('customers/company-names/', CompanyNamesListView.as_view()),
-    path('invoices/', InvoiceListViewSet.as_view()),
-    path('invoices/<int:pk>/', InvoiceDetailViewSet.as_view()),
+    # path('invoices/', InvoiceListViewSet.as_view()),
+    # path('invoices/<int:pk>/', InvoiceDetailViewSet.as_view()),
     path('send-custom-order-email/', SendOrderEmail.as_view()),
     path('orders/', OrderViewSet.as_view()),
     path('options/', AllOptionListView.as_view()),
