@@ -25,7 +25,7 @@ class CustomOrderCreateSerializer(ModelSerializer):
         model = CustomOrder
         fields = (
             'customer', 'added_by', 'due_date', 'custom_job_name',
-            'custom_product_name', 'custom_quantity', 'custom_version', 
+            'custom_product_name','invoice_number', 'custom_quantity', 'custom_version', 
             'custom_proof','custom_sample', 'custom_paper', 'flat_size', 'ink_color', 
             'internal_notes', 'reference_number','status','quoted_price', 
             'ticket_count', 'special_instructoon', 'final_size')
@@ -40,7 +40,7 @@ class CustomOrderUpdateSerializer(ModelSerializer):
             'custom_product_name', 'custom_quantity', 'custom_version', 
             'custom_proof','custom_sample', 'custom_paper', 'flat_size', 'ink_color', 
             'internal_notes', 'reference_number','status','quoted_price', 
-            'ticket_count', 'special_instructoon', 'final_size')
+            'ticket_count', 'special_instructoon', 'final_size', 'invoice_number')
 
 
 class ProofHistorySerializer(ModelSerializer):
