@@ -179,8 +179,7 @@ class CustomOrder(models.Model):
         ('Proof Submitted', 'Proof Submitted'),
         ('Prepress Dept.', 'Prepress Dept.'),
         ('On Hold', 'On Hold'),
-        ('Submitted', 'Submitted'),
-        ('Yet To Start', 'Yet To Start'),
+        ('Submitted', 'Submitted')
     )
     PROOF_STATUS_CHOICES = (('Proof File in Development','Proof File in Development'),
                             ('Proof Submitted', 'Proof Submitted'),

@@ -104,6 +104,11 @@ class CustomOrderListViewSet(ListAPIView):
             queryset = queryset.filter(due_date__lt=date.today()).exclude(status='Shipped')
         return queryset
 
+    def filter_open_orders(self, queryset, is_open):
+        if is_open:
+            queryset = queryset.exclude(Q(status__in=CustomOrder.STATUS_CHOICES[4:]))
+        return queryset
+
 
     def post(self, request):
 
@@ -122,6 +127,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_job_name(queryset, self.request.data.get('job_name'))
         queryset = self.filter_search(queryset, self.request.data.get('search_info'))
         queryset = self.filter_missing_deadline(queryset, self.request.data.get('is_missing_deadline'))
+        queryset = self.filter_open_orders(queryset, self.request.data.get('is_open'))
         
         return Response({"results": self.serializer_class(self.paginate_queryset(
             queryset.order_by('-id')), many=True).data})
@@ -184,7 +190,7 @@ class GetOrderTypes(APIView):
 
     def get(self, request):
         return_dict = dict()
-        for a, b in CustomOrder.STATUS_CHOICES: 
+        for a, b in tuple(reversed(CustomOrder.STATUS_CHOICES)): 
             return_dict.setdefault(a, b) 
         return Response({'types': return_dict})
 
