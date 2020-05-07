@@ -39,9 +39,14 @@ class PackingListUpdateSerializer(ModelSerializer):
             'zip_code', 'received_by', 'due_date', 'comments')
 
 
-class BoxesBulkCreateSerializer(Serializer):
+class BoxesBulkCreateSerializer(ModelSerializer):
 
     boxes = BoxDetailsSerializer(many=True)
+
+    class Meta:
+        model = BoxesDetails
+        fields = ('boxes',)
+    
 
     def create(self, validated_data):
         boxes_data = validated_data.pop('boxes')
