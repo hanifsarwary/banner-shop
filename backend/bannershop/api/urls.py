@@ -21,7 +21,9 @@ from api.views.custom_orders import (
       CustomOrderUpdateViewSet, UpdateProofStatusViewSet,
       GetLatestJobNumber)
 
-from api.views.packing_lists import BoxesListViewSet, PackingListViewSet, PackingListDetailViewSet, BoxesDetailViewSet
+from api.views.packing_lists import (
+    BoxesListViewSet, PackingListViewSet, PackingListDetailViewSet, BoxesDetailViewSet,
+    BoxesBulkCreate)
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 from django.views.decorators.csrf import csrf_exempt
 
@@ -49,6 +51,7 @@ urlpatterns = [
     path('packing-lists/boxes/<int:packing_list_id>/', BoxesListViewSet.as_view()),
     path('packing-lists/<int:pk>/update/', PackingListDetailViewSet.as_view()),
     path('boxes/<int:pk>/', BoxesDetailViewSet.as_view()),
+    path('boxes/bulk-create/', BoxesBulkCreate.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
     path('customers/company-names/', CompanyNamesListView.as_view()),
     # path('invoices/', InvoiceListViewSet.as_view()),

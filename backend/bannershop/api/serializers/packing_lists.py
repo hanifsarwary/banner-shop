@@ -1,5 +1,5 @@
 from api.models import PackingList, BoxesDetails
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer
 
 
 class BoxDetailsSerializer(ModelSerializer):
@@ -37,3 +37,16 @@ class PackingListUpdateSerializer(ModelSerializer):
             'custom_order', 'address', 'city', 'first_name', 'last_name', 'company_name',
             'country', 'fax_number', 'phone_number', 'id',
             'zip_code', 'received_by', 'due_date', 'comments')
+
+
+class BoxesBulkCreateSerializer(Serializer):
+
+    boxes = BoxDetailsSerializer(many=True)
+
+    def create(self, validated_data):
+        boxes_data = validated_data.pop('boxes')
+        boxes_arr = []
+        for _data in boxes_data:
+            boxes_arr.append(
+                BoxesDetails.objects.create(**_data))
+        return boxes_arr
