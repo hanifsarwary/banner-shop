@@ -55,3 +55,10 @@ legend {
 .has-error input {
     border: 1px solid red;
 }
+
+input[type="date"]:focus::before {
+    content: none !important;
+}
+span i {
+    cursor: pointer;
+}

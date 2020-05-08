@@ -29,6 +29,9 @@ export class Globals {
   statusProofTypes = `${this.domanin_name}/proof-status-types/`;
   companies = `${this.domanin_name}/customers/company-names/`;
   jobId = `${this.domanin_name}/get-latest-job-number/`;
+  packingList = `${this.domanin_name}/packing-lists/`;
+  boxesCreate = `${this.domanin_name}/boxes/bulk-create/`;
+  boxesDelete = `${this.domanin_name}/boxes/`;
 
   httpHeaders() {
     const headers = new HttpHeaders();

@@ -95,9 +95,9 @@
                                     [ngModel]="customOrderList ? customOrderList.custom_quantity : ''"  formControlName="custom_quantity" placeholder="Enter Custom quantity">
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_version">Version :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_version.errors }"
-                                    [ngModel]="customOrderList ? customOrderList.custom_version : ''"  formControlName="custom_version" placeholder="Enter Custom version">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="final_size">Final size :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.final_size.errors }"
+                                    [ngModel]="customOrderList ? customOrderList.final_size : ''" formControlName="final_size" placeholder="Enter Final size">
                                     <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="flat_size">Flat size :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.flat_size.errors }"
                                     [ngModel]="customOrderList ? customOrderList.flat_size : ''" formControlName="flat_size" placeholder="Enter Flat size">
@@ -123,9 +123,12 @@
                                     </select>
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="final_size">Final size :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.final_size.errors }"
-                                    [ngModel]="customOrderList ? customOrderList.final_size : ''" formControlName="final_size" placeholder="Enter Final size">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_version">Version :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_version.errors }"
+                                    [ngModel]="customOrderList ? customOrderList.custom_version : ''"  formControlName="custom_version" placeholder="Enter Custom version">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="invoice_number">Invoice No :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.invoice_number.errors }"
+                                    [ngModel]="customOrderList ? customOrderList.invoice_number : ''"  formControlName="invoice_number" placeholder="Enter Invoice number">
                                 </div>
                                 <div class="row form-box" [hidden]="operation === 'Add'">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_proof">Order Status :</label>

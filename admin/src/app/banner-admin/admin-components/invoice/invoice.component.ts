@@ -39,7 +39,6 @@ export class InvoiceComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.customOrderId = params['id'];
-        this.getInvoice();
       }
     });
   }
