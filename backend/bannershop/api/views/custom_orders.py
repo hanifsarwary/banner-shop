@@ -51,7 +51,7 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_proof(self, queryset, proof):
         if proof:
             print('proof:', proof)
-            queryset = queryset.filter(custom_proof=proof)
+            queryset = queryset.filter(proof_status=proof)
         return queryset
     
     def filter_job_id(self, queryset, job_id):
