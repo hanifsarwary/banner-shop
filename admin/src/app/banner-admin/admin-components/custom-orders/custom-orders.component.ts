@@ -55,6 +55,7 @@ export class CustomOrdersComponent implements OnInit {
       custom_product_name: ['', Validators.required],
       custom_quantity: [0, Validators.required],
       custom_version: ['', Validators.required],
+      invoice_number: ['', Validators.required],
       custom_proof: ['', Validators.required],
       custom_sample: ['', Validators.required],
       custom_paper: ['', Validators.required],
@@ -85,7 +86,6 @@ export class CustomOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCustomers();
-    this.getInvoices();
     this.getUsers();
     this.getStatus();
     this.getProofStatus();
@@ -171,7 +171,7 @@ export class CustomOrdersComponent implements OnInit {
         this.validateFlag = false;
         const today = new Date();
         const start_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        obj.value.customer = this.customerId;
+        obj.value.customer = this.customerId ? this.customerId : this.selectedCustomerObj.id;
         obj.value.status = 'Submitted';
         obj.value.start_date = start_date;
         obj.value.added_by = this.userInfo.id;

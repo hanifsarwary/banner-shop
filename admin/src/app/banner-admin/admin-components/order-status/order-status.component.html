@@ -12,7 +12,7 @@
         </div>
         
         <div class="mt-3" *ngIf="customOrderList.length">
-            <app-datatable [pagination]="false" [dataSource]="customOrderList" [borderedRows]="false" [tableBorder]="true" [datatableColumns]="tableColumns"></app-datatable>
+            <app-datatable (reloadPage)="reloadPage($event)" [pagination]="false" [dataSource]="customOrderList" [borderedRows]="false" [tableBorder]="true" [datatableColumns]="tableColumns"></app-datatable>
         </div>
         <div *ngIf="!loader">
             <span class="no-record d-flex justify-content-center font-weight-bold" *ngIf="!customOrderList.length">

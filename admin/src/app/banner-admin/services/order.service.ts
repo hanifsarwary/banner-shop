@@ -37,6 +37,10 @@ export class OrderService {
     return this.httpClient.put<any>(`${this.global.customOrders}update/${id}/`, obj, { headers: this.global.httpHeaders() });
   }
 
+  deleteOrder(id): Observable<any> {
+    return this.httpClient.delete<any>(`${this.global.customOrders}${id}/`, { headers: this.global.httpHeaders() } );
+  }
+
   // Invoices API's
 
   getInvoices(): Observable<any> {
@@ -74,12 +78,29 @@ export class OrderService {
   sendEmailtoCustomer(obj): Observable<any> {
     return this.httpClient.post<any>(`${this.global.sendEmail}`, obj, { headers: this.global.httpHeaders() });
   }
+
   addPackingList(id, obj): Observable<any> {
-    return this.httpClient.post<any>(`${this.global.customOrders}/packing-list/${id}/`, obj, { headers: this.global.httpHeaders() });
+    return this.httpClient.post<any>(`${this.global.customOrders}packing-list/${id}/`, obj, { headers: this.global.httpHeaders() });
+  }
+
+  updatePackingList(id, obj): Observable<any> {
+    return this.httpClient.put<any>(`${this.global.packingList}${id}/update/`, obj, { headers: this.global.httpHeaders() });
+  }
+
+  createBoxesList(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.boxesCreate}`, obj, { headers: this.global.httpHeaders() });
   }
 
   getJobId(): Observable<any> {
     return this.httpClient.get<any>(`${this.global.jobId}`, { headers: this.global.httpHeaders() });
+  }
+
+  getPackingList(id): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.customOrders}/packing-list/${id}/`, { headers: this.global.httpHeaders() });
+  }
+
+  deleteBoxes(id) {
+    return this.httpClient.delete<any>(`${this.global.boxesDelete}${id}/`, { headers: this.global.httpHeaders() });
   }
 
 }

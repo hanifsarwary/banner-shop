@@ -30,6 +30,7 @@ import { Router, NavigationExtras } from '@angular/router';
 export class DatatableComponent implements OnChanges {
 
   @Output() categoryItemEvent = new EventEmitter();
+  @Output() reloadPage = new EventEmitter();
   @Input() datatableColumns: [];
   @Input() dataSource: [];
   @Input() pagination = true;
@@ -42,6 +43,8 @@ export class DatatableComponent implements OnChanges {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   emailModalReference = null;
   proofHistoryModalReference = null;
+  delModalReference = null;
+  deleteOrderId: number;
   sourceData;
   proofStatus;
   emailForm: FormGroup;
@@ -95,6 +98,20 @@ export class DatatableComponent implements OnChanges {
       record: entryId
     };
     this.categoryItemEvent.emit(data);
+  }
+
+  opendeleteModel(targetModal, id) {
+    this.deleteOrderId = id;
+    this.delModalReference = this.modalService.open(targetModal,  { size: 'sm'});
+  }
+
+  deleteOrders() {
+    this.orderService.deleteOrder(this.deleteOrderId).subscribe(res => {
+      this.toast.success('Delete Order successfully!', '');
+      this.delModalReference.close();
+      this.deleteOrderId = null;
+      this.reloadPage.emit(true);
+    });
   }
 
   expandDetail(id) {

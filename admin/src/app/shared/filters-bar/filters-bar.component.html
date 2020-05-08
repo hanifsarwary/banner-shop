@@ -82,7 +82,7 @@
                             </td>
                             <td>
                                 <div class="form-check mb-2">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <input type="checkbox" (change)="openOrderOnly($event)" class="form-check-input" id="exampleCheck1">
                                     <label class="form-check-label mt-2" for="exampleCheck1">open order only</label>
                                 </div>
                             </td>
@@ -109,7 +109,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <button class="btn w-100 h-100 HotPink" (click)="applyFilters('all')">Missing Deadline Jobs</button>
+                                <button class="btn w-100 h-100 HotPink" (click)="applyFilters('is_missing_deadline')">Missing Deadline Jobs</button>
                             </td>
                             <td>
                                 <button class="btn w-100 h-100 Orange" (click)="applyFilters('due_date_today')">Jobs Due Today</button>
@@ -123,7 +123,9 @@
                             <td>
                                 <button class="btn w-100 h-100 aquamarine" (click)="applyFilters('my_jobs')">My Jobs</button>
                             </td>
-                            <td></td>
+                            <td>
+                                <button class="btn btn-primary w-100 h-100" (click)="clearFilter()">Clear Filters</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

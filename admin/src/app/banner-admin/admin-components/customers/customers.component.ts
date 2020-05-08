@@ -25,6 +25,8 @@ export class CustomersComponent implements OnInit {
       address: ['', Validators.required],
       city: ['', Validators.required],
       company_name: ['', Validators.required],
+      status: ['', Validators.required],
+      resale_no: ['', Validators.required],
       country: ['USA', Validators.required],
       fax_number: [''],
       phone_number: ['', [Validators.required, Validators.minLength(8),
