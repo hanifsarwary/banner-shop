@@ -25,5 +25,5 @@ export class CustomOrderList {
     ticket_count?: '';
     quoted_price?: '';
     final_size: '';
-
+    invoice_number: '';
 }

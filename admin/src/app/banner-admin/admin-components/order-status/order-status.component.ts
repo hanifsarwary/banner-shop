@@ -69,4 +69,8 @@ export class OrderStatusComponent implements OnInit {
     }
   }
 
+  reloadPage(event) {
+    this.getCustomOrder();
+  }
+
 }

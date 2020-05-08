@@ -161,6 +161,9 @@ export class FiltersBarComponent implements OnInit {
 
   applyFilters(value) {
     switch (value) {
+      case 'is_missing_deadline':
+        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'is_missing_deadline': true}) } });
+        break;
       case 'due_date_today':
         const today_date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
         this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date_start': today_date}) } });
@@ -184,10 +187,18 @@ export class FiltersBarComponent implements OnInit {
     }
   }
 
+  clearFilter() {
+    this.router.navigate(['/order-status'], { queryParams: { filterObj: ''}});
+  }
+
   getStatus() {
     this.typeService.getStatus().subscribe(res => {
       this.statusList = res.types;
     });
+  }
+
+  openOrderOnly(event) {
+    this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'is_open': event.target.checked}) } });
   }
 
   getCompanies() {

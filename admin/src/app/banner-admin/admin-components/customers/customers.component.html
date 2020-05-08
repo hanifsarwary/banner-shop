@@ -53,6 +53,14 @@
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('city').errors }">
                                 </div>
                                 <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="resale_no">Resale No :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="resale_no" placeholder="Enter resale no"
+                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('resale_no').errors }">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="status">Satatus :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="status" placeholder="Enter status"
+                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('status').errors }">
+                                </div>
+                                <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="company_name">Company Name:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="company_name" placeholder="Enter Company name"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('company_name').errors }">

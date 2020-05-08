@@ -15,7 +15,8 @@
             <ng-container matColumnDef="invoice_no">
                 <th mat-header-cell *matHeaderCellDef> Invoice # </th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" [routerLink]="['/invoice/', element.id]">TBD</a>
+                    {{element.invoice_number}}
+                    <!-- <a href="javascript:;" [routerLink]="['/invoice/', element.id]">TBD</a> -->
                 </td>
             </ng-container>
 
@@ -70,7 +71,7 @@
             <ng-container matColumnDef="proof_status">
                 <th mat-header-cell *matHeaderCellDef> Proof Status </th>
                 <td mat-cell *matCellDef="let element">
-                    {{element.custom_proof}} <br>
+                    {{element.proof_status}} <br>
                     <a href="javascript:;" (click)="openProofDetailModal(ProofDetail,element.proof_status, element.id)">
                         <small>Proof Detail</small>
                     </a>
@@ -80,7 +81,9 @@
             <ng-container matColumnDef="send_email">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" (click)="openEmailModal(Email, element?.customer?.user, element)">Send Email</a>
+                    <a href="javascript:;" (click)="openEmailModal(Email, element?.customer?.user, element)">
+                        <small>Send Email</small>
+                    </a>
                 </td>
             </ng-container>
 
@@ -88,7 +91,8 @@
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
                     <a href="javascript:;" (click)="editOrders(element)"><small class="font-size-10">Edit Order</small></a><br>
-                    <a href="javascript:;" (click)="cloneOrders(element)"><small class="font-size-10">Clone Order</small></a>
+                    <a href="javascript:;" (click)="cloneOrders(element)"><small class="font-size-10">Clone Order</small></a><br>
+                    <a href="javascript:;" (click)="opendeleteModel(deleteOrder, element.id)"><small class="font-size-10">Delete Order</small></a>
                 </td>
             </ng-container>
 
@@ -329,7 +333,7 @@
 
         </table>
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[50, 70, 100]" showFirstLastButtons></mat-paginator>
 </div>
 
 <ng-template #Email let-modal>
@@ -405,5 +409,15 @@
             </div>
         </div>
       </div>
+    </div>
+</ng-template>
+
+<ng-template #deleteOrder let-modal>
+    <div class="modal-body">
+        <div class="contatiner">
+            <h4 class="text-center mt-3">Are you sure?</h4>
+            <button type="button" class="btn btn-primary  pull-right mt-4" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" class="btn btn-danger pull-right mr-3 mt-4" (click)="deleteOrders()">Delete</button>
+        </div>
     </div>
 </ng-template>
