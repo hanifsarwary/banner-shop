@@ -37,6 +37,8 @@ export class CustomOrdersComponent implements OnInit {
   job_no_exist = false;
   job_id;
   opeFlag = true;
+  shipping;
+  loader = true;
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   constructor(
@@ -71,15 +73,19 @@ export class CustomOrdersComponent implements OnInit {
       customer: [''],
       start_date: [''],
       status: [''],
-      added_by: ''
+      added_by: '',
+      shipping_type: [''],
+      shipping_contact_name: [''],
+      shipping_street_address: [''],
+      shipping_city: [''],
+      shipping_state: [''],
+      shipping_zip_code: ['']
     });
-    this.route.queryParams.subscribe(params => {
-      if (params['customOrderList']) {
-        this.customOrderList = JSON.parse(params['customOrderList']);
+    this.route.params.subscribe(params => {
+      if (params['id']) {
         this.operation = params['operation'];
-        this.selectedCustomerObj = this.customOrderList.customer;
-        this.customerOrderId = this.selectedCustomerObj.id;
         this.opeFlag = this.operation === 'Update' ? false : true;
+        this.getCustomOrderById(params['id']);
       }
     });
    }
@@ -91,6 +97,16 @@ export class CustomOrdersComponent implements OnInit {
     this.getProofStatus();
     this.getCompanies();
     this.getJobId();
+  }
+
+  getCustomOrderById(id) {
+    this.loader = true;
+    this.orderServeice.getCustomOrderById(id).subscribe(res => {
+      this.customOrderList = res;
+      this.selectedCustomerObj = this.customOrderList.customer;
+      this.customerOrderId = this.selectedCustomerObj.id;
+      this.loader = false;
+    });
   }
 
   get formValidator() { return this.customOrderForm.controls; }

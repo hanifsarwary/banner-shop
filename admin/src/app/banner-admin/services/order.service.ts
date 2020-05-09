@@ -103,4 +103,12 @@ export class OrderService {
     return this.httpClient.delete<any>(`${this.global.boxesDelete}${id}/`, { headers: this.global.httpHeaders() });
   }
 
+  getCustomOrderById(id) {
+    return this.httpClient.get<any>(`${this.global.customOrders}${id}/`, { headers: this.global.httpHeaders() });
+  }
+
+  getProofApprovedDate(id) {
+    return this.httpClient.get<any>(`${this.global.proofApprovedDate}${id}/`, { headers: this.global.httpHeaders() });
+  }
+
 }

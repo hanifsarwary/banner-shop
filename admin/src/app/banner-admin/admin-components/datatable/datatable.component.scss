@@ -10,6 +10,9 @@
   font-family: sans-serif;
   table {
     width: 100%;
+    th, td, mat-header-cell, mat-cell {
+      width: 3rem;
+    }
     th.mat-header-cell {
       color: rgba(0,0,0,.54);
       font-size: 14px;

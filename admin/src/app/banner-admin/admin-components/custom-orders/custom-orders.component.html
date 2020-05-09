@@ -1,5 +1,5 @@
 <div class="container-fluid p-0">
-    <div class="customers">
+    <div class="customers" *ngIf="!loader || operation === 'Add'">
         <button [hidden]="operation === 'Update'" class="btn btn-primary pull-left ml-4" (click)="customerPage()">
             <i class="fa fa-plus"></i>
             Create Customer
@@ -10,7 +10,7 @@
                 <div class="body">
                     <div class="row p-0 m-0">
                         <div class="col-md-5 customer-box">
-                            <div class="row card-text pl-4 p-2 pt-4">
+                            <div class="row card-text pl-4 p-2 pt-3">
                                 <label for="custome" class="col-4 mt-1 text-shadow">Select Customer</label>
                                 <select class="form-control form-control-sm col-sm-7" id="customer" [class.customer-field]="submitted && !customerOrderId"
                                     [(ngModel)]="customerOrderId" (change)="selectedCustomer($event)">
@@ -62,11 +62,11 @@
                         <div class="col-md-7 p-0 m-0">
                             <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
                             <form [formGroup]="customOrderForm" (ngSubmit)="onSubmit(customOrderForm)">
-                                <div class="row form-box" *ngIf="!opeFlag">
+                                <div class="row form-box pt-2" *ngIf="!opeFlag">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="job_number">Job Id :</label>
                                     <input type="number" name="id" class="form-control form-control-sm col-sm-9" readonly [ngModel]="customOrderList ? customOrderList.id: ''" [ngModelOptions]="{standalone: true}">
                                 </div>
-                                <div class="row form-box" *ngIf="opeFlag">
+                                <div class="row form-box pt-2" *ngIf="opeFlag">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="job_number">Job Id :</label>
                                     <input type="number" name="id" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="job_id" [ngModelOptions]="{standalone: true}">
                                 </div>
@@ -155,6 +155,32 @@
                                     <textarea type="text" class="form-control form-control-sm col-sm-9" [ngClass]="{ 'is-invalid': submitted && formValidator.special_instructoon.errors }"
                                     [ngModel]="customOrderList ? customOrderList.special_instructoon : ''" formControlName="special_instructoon" placeholder="Enter Special instructoon"></textarea>
                                 </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_type">Shipment :</label>
+                                    <select class="form-control form-control-sm col-sm-9" id="shipping_type" (change)="shipping = $event.target.value" [ngModel]="customOrderList ? customOrderList.shipping_type : ''" formControlName="shipping_type">
+                                        <option value="No Shipment">No Shipment</option>
+                                        <option value="Delivery">Delivery</option>
+                                        <option value="Shipping">Shipping</option>
+                                    </select>
+                                </div>
+                                <div class="p-0 m-0" *ngIf="shipping === 'Delivery' || shipping === 'Shipping' || customOrderList.shipping_type === 'Delivery' || customOrderList.shipping_type === 'Shipping'">
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_contact_name">Contact Name :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="customOrderList ? customOrderList.shipping_contact_name : ''" formControlName="shipping_contact_name" placeholder="Enter contact name">
+                                        <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_street_address">Address :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="customOrderList ? customOrderList.shipping_street_address : ''" formControlName="shipping_street_address" placeholder="Enter address">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_city">City :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="customOrderList ? customOrderList.shipping_city : ''" formControlName="shipping_city" placeholder="Enter city">
+                                        <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_state">State :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="customOrderList ? customOrderList.shipping_state : ''" formControlName="shipping_state" placeholder="Enter state">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_zip_code">Zip Code :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="customOrderList ? customOrderList.shipping_zip_code : ''" formControlName="shipping_zip_code" placeholder="Enter zip code">
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-center mb-3 mt-5">
                                     <button class="btn btn-primary btn-sub" disabled> Clone order </button>
                                     <button class="btn btn-primary btn-sub mr-3 ml-3" type="submit"> Finish </button>
@@ -165,6 +191,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="loader d-flex flex-row justify-content-center" *ngIf="loader && operation != 'Add'">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
         </div>
     </div>
 </div>
