@@ -241,4 +241,4 @@ class ProofApprovedDateViewSet(APIView):
         else:
             approve_date = None
 
-            return Response({'result_date': approve_date})
+        return Response({'result_date': approve_date})
