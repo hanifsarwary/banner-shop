@@ -163,7 +163,7 @@
                                         <option value="Shipping">Shipping</option>
                                     </select>
                                 </div>
-                                <div class="p-0 m-0" *ngIf="shipping === 'Delivery' || shipping === 'Shipping' || customOrderList.shipping_type === 'Delivery' || customOrderList.shipping_type === 'Shipping'">
+                                <div class="p-0 m-0" *ngIf="shipping === 'Delivery' || shipping === 'Shipping'">
                                     <div class="row form-box">
                                         <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_contact_name">Contact Name :</label>
                                         <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="customOrderList ? customOrderList.shipping_contact_name : ''" formControlName="shipping_contact_name" placeholder="Enter contact name">
