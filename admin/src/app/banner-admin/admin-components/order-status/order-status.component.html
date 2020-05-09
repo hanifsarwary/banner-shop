@@ -1,5 +1,5 @@
 <div class="container-fluid p-0 m-0">
-    <app-filters-bar></app-filters-bar>
+    <app-filters-bar (clearSearch)="clearSearch($event)"></app-filters-bar>
     <div class="orders">
         <div class="header d-flex flex-row justify-content-between">
             <h4 class="mt-5 mb-5 ml-3">List Of All Orders</h4>

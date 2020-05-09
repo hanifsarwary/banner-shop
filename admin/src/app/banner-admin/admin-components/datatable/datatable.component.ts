@@ -210,6 +210,7 @@ export class DatatableComponent implements OnChanges {
       this.toast.success('Proof status updated successfully!', '');
       this.proofHistoryModalReference.close();
       this.customOrderId = null;
+      this.reloadPage.emit(true);
     });
   }
 

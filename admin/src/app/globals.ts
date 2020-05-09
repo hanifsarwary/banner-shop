@@ -32,6 +32,7 @@ export class Globals {
   packingList = `${this.domanin_name}/packing-lists/`;
   boxesCreate = `${this.domanin_name}/boxes/bulk-create/`;
   boxesDelete = `${this.domanin_name}/boxes/`;
+  proofApprovedDate = `${this.domanin_name}/custom-orders/proof-status/proof-approved_date/`;
 
   httpHeaders() {
     const headers = new HttpHeaders();
