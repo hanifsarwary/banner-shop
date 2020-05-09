@@ -228,3 +228,17 @@ class GetLatestJobNumber(APIView):
         return Response({
             'number': latest_number
         })
+
+class ProofApprovedDateViewSet(APIView):
+
+    def get(self, request, custom_order):
+        proof_status = ProofHistory.objects.filter(
+            custom_order=custom_order,
+            proof_status=custom_order.PROOF_STATUS_CHOICES[2][0]).order_by('-id').first()
+        
+        if proof_status:
+            approve_date = proof_status.created_at
+        else:
+            approve_date = None
+
+            return Response({'result_date': approve_date})

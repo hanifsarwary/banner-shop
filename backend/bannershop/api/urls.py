@@ -18,7 +18,7 @@ from api.views.pricing import CalculatePriceViewSet
 from api.views.custom_orders import (
     CustomOrderListViewSet, CustomOrderDetailViewSet,
      ProofHistoryListView, GetOrderTypes, CustomOrderCreateViewSet, GetProofStatusTypes, 
-      CustomOrderUpdateViewSet, UpdateProofStatusViewSet,
+      CustomOrderUpdateViewSet, UpdateProofStatusViewSet, ProofApprovedDateViewSet,
       GetLatestJobNumber)
 
 from api.views.packing_lists import (
@@ -43,6 +43,8 @@ urlpatterns = [
     # path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
     path('custom-orders/update/<int:pk>/', CustomOrderUpdateViewSet.as_view()),
     path('custom-orders/proof-status/update/<int:pk>/', UpdateProofStatusViewSet.as_view()),
+    path('custom-orders/proof-status/proof-approved_date/<int:custom_order>/', 
+         ProofApprovedDateViewSet.as_view()),
     path('custom-orders-types/', GetOrderTypes.as_view()),
     path('get-latest-job-number/', GetLatestJobNumber.as_view()),
     path('proof-status-types/', GetProofStatusTypes.as_view()),
@@ -72,7 +74,9 @@ urlpatterns = [
     path('products/<int:pk>/', ProductDetailViewSet.as_view()),
     path('products/category/<int:category_id>/', CategoryProductsViewSet.as_view()),
     path('products/<int:product_id>/options/', ProductOptionsListViewSet.as_view()),
-    path('products/<int:product_id>/options/<int:option_id>/sub-options/', SubProductOptionsListViewSet.as_view()),
+    path('products/<int:product_id>/options/<int:option_id>/sub-options/', 
+         SubProductOptionsListViewSet.as_view()),
+    
     path('users/', UsersListCreateViewSet.as_view()),
     path('users/<int:pk>/', UsersDetailUpdateViewSet.as_view()),
     path('users/<str:username>/', UserDetailsWithUserName.as_view()),
