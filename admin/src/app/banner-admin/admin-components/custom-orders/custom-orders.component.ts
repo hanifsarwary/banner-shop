@@ -103,6 +103,7 @@ export class CustomOrdersComponent implements OnInit {
     this.loader = true;
     this.orderServeice.getCustomOrderById(id).subscribe(res => {
       this.customOrderList = res;
+      this.shipping = this.customOrderList.shipping_type;
       this.selectedCustomerObj = this.customOrderList.customer;
       this.customerOrderId = this.selectedCustomerObj.id;
       this.loader = false;

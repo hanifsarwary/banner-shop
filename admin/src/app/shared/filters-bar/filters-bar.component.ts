@@ -189,8 +189,26 @@ export class FiltersBarComponent implements OnInit {
   }
 
   clearFilter() {
+    this.filters = {
+      status: '',
+      company: '',
+      due_date_start: '',
+      due_date_end: '',
+      order_date_start: '',
+      order_date_end: '',
+      proof: '',
+      job_id: '',
+      reference_number: '',
+      invoice_no: '',
+      job_name: '',
+      place_by: '',
+    };
     this.clearSearch.emit(true);
     this.router.navigate(['/order-status'], { queryParams: { filterObj: ''}});
+  }
+
+  asIsOrder(a, b) {
+    return 1;
   }
 
   getStatus() {
