@@ -187,6 +187,11 @@ class CustomOrder(models.Model):
                             ('Proof Rejected', 'Proof Rejected'),
                             ('Awaiting Proof Approval', 'Awaiting Proof Approval'),
                             ('Proof Resubmitted', 'Proof Resubmitted'))
+    
+    SHIPPING_TYPE_CHOICES = (('No Shipment', 'No Shipment'),
+                             ('Delivery', 'Delivery'),
+                             ('Shipping', 'Shipping'))
+
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     due_date = models.DateField(null=True, blank=True, db_index=True)
@@ -211,6 +216,14 @@ class CustomOrder(models.Model):
     quoted_price = models.FloatField(null=True)
     ticket_count = models.PositiveIntegerField(default=0, null=True)
     special_instructoon = models.TextField()
+
+    shipping_type = models.CharField(max_length=64, 
+                                     choices=SHIPPING_TYPE_CHOICES, null=True, blank=True)
+    shipping_contact_name = models.CharField(max_length=256, null=True, blank=True )
+    shipping_street_address = models.CharField(max_length=512, null=True, blank=True)
+    shipping_city = models.CharField(max_length=64, null=True, blank=True)
+    shipping_state = models.CharField(max_length=64, null=True, blank=True)
+    shipping_zip_code = models.CharField(max_length=16, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
