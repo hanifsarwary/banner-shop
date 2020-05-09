@@ -5,7 +5,7 @@ from api.views.categories import (
      AllCategoryListViewSet)
 from api.views.custom_quotes import CustomQuoteViewSet
  
-from api.views.customers import CustomerListViewSet, CompanyNamesListView
+from api.views.customers import CustomerListViewSet, CompanyNamesListView, CustomerStatusViewSet
 from api.views.products import (
     ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet,
      ProductDetailViewSet, AllOptionListView, GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, 
@@ -46,6 +46,7 @@ urlpatterns = [
     path('custom-orders/proof-status/proof-approved_date/<int:custom_order>/', 
          ProofApprovedDateViewSet.as_view()),
     path('custom-orders-types/', GetOrderTypes.as_view()),
+    path('customer-status-types/', CustomerStatusViewSet.as_view()),
     path('get-latest-job-number/', GetLatestJobNumber.as_view()),
     path('proof-status-types/', GetProofStatusTypes.as_view()),
     path('custom-orders/proof-history/<int:custom_order_id>/', ProofHistoryListView.as_view()),
