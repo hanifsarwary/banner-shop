@@ -234,7 +234,7 @@ class ProofApprovedDateViewSet(APIView):
     def get(self, request, custom_order):
         proof_status = ProofHistory.objects.filter(
             custom_order=custom_order,
-            proof_status=custom_order.PROOF_STATUS_CHOICES[2][0]).order_by('-id').first()
+            proof_status=CustomOrder.PROOF_STATUS_CHOICES[2][0]).order_by('-id').first()
         
         if proof_status:
             approve_date = proof_status.created_at
