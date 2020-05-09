@@ -192,8 +192,10 @@ class GetOrderTypes(APIView):
 
     def get(self, request):
         return_dict = dict()
+        count = 0
         for a, b in tuple(reversed(CustomOrder.STATUS_CHOICES)): 
-            return_dict.setdefault(a, b) 
+            return_dict.setdefault(count, b) 
+            count += 1
         return Response({'types': return_dict})
 
 
