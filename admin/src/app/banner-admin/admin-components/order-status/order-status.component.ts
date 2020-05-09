@@ -73,4 +73,8 @@ export class OrderStatusComponent implements OnInit {
     this.getCustomOrder();
   }
 
+  clearSearch(event) {
+    this.search_info = '';
+  }
+
 }

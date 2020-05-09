@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { SatDatepickerModule } from 'saturn-datepicker';
 import { DatePipe } from '@angular/common';
 import { ApiService } from 'src/app/banner-admin/services/api.service';
@@ -21,6 +21,7 @@ declare var $: any;
 })
 export class FiltersBarComponent implements OnInit {
 
+  @Output() clearSearch = new EventEmitter();
   shipMaxDate = new Date();
   shipMinDate = new Date();
   orderMaxDate = new Date();
@@ -188,6 +189,7 @@ export class FiltersBarComponent implements OnInit {
   }
 
   clearFilter() {
+    this.clearSearch.emit(true);
     this.router.navigate(['/order-status'], { queryParams: { filterObj: ''}});
   }
 

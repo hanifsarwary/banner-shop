@@ -24,6 +24,12 @@ export class CustomOrderList {
     added_by?: AddedByList;
     ticket_count?: '';
     quoted_price?: '';
-    final_size: '';
-    invoice_number: '';
+    final_size?: '';
+    invoice_number?: '';
+    shipping_type?: '';
+    shipping_contact_name?: '';
+    shipping_street_address: '';
+    shipping_city?: '';
+    shipping_state?: '';
+    shipping_zip_code?: '';
 }
