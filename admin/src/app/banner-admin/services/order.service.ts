@@ -111,4 +111,8 @@ export class OrderService {
     return this.httpClient.get<any>(`${this.global.proofApprovedDate}${id}/`, { headers: this.global.httpHeaders() });
   }
 
+  getStatus() {
+    return this.httpClient.get<any>(`${this.global.customerStatus}/`, { headers: this.global.httpHeaders() });
+  }
+
 }

@@ -7,7 +7,7 @@
                     <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
                         <div class="row p-0 m-0">
                             <div class="col-md-5 customer-box" formGroupName="user">
-                                <div class="row form-box">
+                                <div class="row form-box pt-3">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="username">Username :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-6" formControlName="username" placeholder="Username"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.username').errors }">
@@ -38,13 +38,13 @@
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.password').errors }">
                                 </div>
                             </div>
-                            <div class="col-md-7 p-0 m-0">
+                            <div class="col-md-7 p-0 m-0 p-2">
                                 <!-- <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="approach_details">Approach details:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="approach_details" placeholder="Approach details"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('approach_details').errors }">
                                 </div> -->
-                                <div class="row form-box">
+                                <div class="row form-box pt-1">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="address">Address :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="address" placeholder="Enter Address"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('address').errors }">
@@ -56,9 +56,10 @@
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="resale_no">Resale No :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="resale_no" placeholder="Enter resale no"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('resale_no').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="status">Satatus :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="status" placeholder="Enter status"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('status').errors }">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="status">Status :</label>
+                                    <select class="form-control form-control-sm col-sm-3" id="order-status" formControlName="status">
+                                        <option *ngFor="let status of statusList | keyvalue" [value]="status.key">{{status.value}}</option>
+                                    </select>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="company_name">Company Name:</label>
@@ -106,7 +107,11 @@
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('bussiness_type').errors }">
                                 </div>
                                 <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
-                                <button class="btn btn-primary btn-submit mb-5 mt-5 mr-4 pull-right" type="submit"> Submit </button>
+
+                                <div class="d-flex justify-content-end mb-3 mt-5">
+                                    <button class="btn btn-primary btn-submit mr-3 ml-3" type="submit"> Submit </button>
+                                    <a class="btn btn-primary btn-sub mr-3" [routerLink]="['/order-status']"> Cancel </a>
+                                </div>
                             </div>
                         </div>
                     </form>
