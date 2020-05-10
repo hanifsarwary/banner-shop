@@ -51,6 +51,7 @@ class BoxesBulkCreateSerializer(Serializer):
                 BoxesDetails.objects.create(
                     quantity_per_box=_data.get("quantity_per_box"), 
                     number_of_boxes=_data.get("number_of_boxes"),
+                    quantity=_data.get('quantity'),
                     packing_list=_data.get("packing_list")))
         print("boxes are created")
         return {
