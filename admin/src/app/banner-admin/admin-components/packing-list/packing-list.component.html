@@ -1,6 +1,6 @@
 <div class="container-fluid p-0">
     <div class="customers">
-        <div class="customOrderForm">
+        <div class="customOrderForm" *ngIf="!loader">
             <h4 class="heading mb-4 pt-2 text-center">Packing List</h4>
             <div class="card">
                 <div class="body">
@@ -160,7 +160,8 @@
                                     [(ngModel)]="dynamicBoxes[i].quantity" readonly type="text" >
                                 </td>
                                 <td>
-                                    <input class="form-control form-control-sm" readonly type="text" >
+                                    <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="dynamicBoxes[i].job_name" type="text" >
                                 </td>
                                 <td (click)="deleteRow(i, dynamicBoxes[i].id)">
                                     <span><i class="fa fa-trash fa-1x mt-1"></i></span>
@@ -188,10 +189,12 @@
                             <tbody>
                               <tr>
                                 <td scope="row">
-                                    <input class="form-control form-control-sm" readonly type="text" >
+                                    <input class="form-control form-control-sm" [(ngModel)]="totalBoxes"
+                                    [ngModelOptions]="{standalone: true}" readonly type="number" >
                                 </td>
                                 <td>
-                                    <input class="form-control form-control-sm" readonly type="text" >
+                                    <input class="form-control form-control-sm" [(ngModel)]="totalQuantity"
+                                    [ngModelOptions]="{standalone: true}" readonly type="number" >
                                 </td>
                                 <td>
                                     <input class="form-control form-control-sm" formControlName="received_by" placeholder="Received by.."
@@ -219,6 +222,13 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="loader d-flex flex-row justify-content-center" *ngIf="loader">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
         </div>
     </div>
 </div>
