@@ -11,7 +11,7 @@ export class PackingList {
     phone_number?: '';
     zip_code?: '';
     due_date?: '';
-    comment?: '';
+    comments?: '';
     received_by?: '';
     boxes?: BoxList[];
 }
