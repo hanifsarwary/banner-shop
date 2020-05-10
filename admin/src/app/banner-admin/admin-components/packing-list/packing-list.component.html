@@ -205,9 +205,9 @@
                             </tbody>
                         </table>
                         <label class="p-0 pt-2 text-shadow" for="comment">Comment :</label>
-                        <textarea type="text" formControlName="comment" class="form-control form-control-sm"
-                        placeholder="Add comments.." [ngModel]="packingList ? packingList.comment : ''"
-                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('comment').errors }"></textarea>
+                        <textarea type="text" formControlName="comments" class="form-control form-control-sm"
+                        placeholder="Add comments.." [ngModel]="packingList ? packingList.comments : ''"
+                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('comments').errors }"></textarea>
                     </div>
                         <div class="d-flex justify-content-center mb-3 mt-5">
                             <div matTooltip="Fill the Form">
