@@ -26,9 +26,12 @@ export class PackingListComponent implements OnInit {
   userList: UserList;
   newBox: any = {};
   quantity;
+  loader = true;
   submitted = false;
   validateFlag = false;
   updateObj = true;
+  totalBoxes = 0;
+  totalQuantity = 0;
   dynamicBoxes: Array<BoxList> = [];
 
   constructor(
@@ -70,20 +73,34 @@ export class PackingListComponent implements OnInit {
         this.userList = this.customerList.user;
       }
     });
-    this.newBox = {number_of_boxes: '', quantity_per_box: ''};
+    this.newBox = {number_of_boxes: '', quantity_per_box: '', job_name: ''};
     this.dynamicBoxes.push(this.newBox);
   }
 
   getPackingList(id) {
+    this.loader = true;
     this.orderService.getPackingList(id).subscribe(res => {
       if (res.length !== 0) {
         this.updateObj = false;
         this.packingList = res[0];
         this.dynamicBoxes = this.packingList.boxes;
+        this.calculateTotal();
+        this.loader = false;
       } else {
         this.updateObj = true;
+        this.loader = false;
       }
     });
+  }
+
+  calculateTotal() {
+    this.totalBoxes = 0;
+    this.totalQuantity = 0;
+    for (let index = 0; index < this.dynamicBoxes.length; index++) {
+      // tslint:disable-next-line: radix
+      this.totalBoxes = this.totalBoxes + parseInt(this.dynamicBoxes[index].number_of_boxes);
+      this.totalQuantity = this.totalQuantity + this.dynamicBoxes[index].quantity;
+    }
   }
 
   onSubmit(obj) {
@@ -126,10 +143,11 @@ export class PackingListComponent implements OnInit {
   calculateQuantity(obj, i) {
     this.quantity = obj.quantity_per_box * obj.number_of_boxes;
     this.dynamicBoxes[i].quantity = obj.quantity_per_box * obj.number_of_boxes;
+    this.calculateTotal();
   }
 
   addRow() {
-    this.newBox = {number_of_boxes: '', quantity_per_box: ''};
+    this.newBox = {number_of_boxes: '', quantity_per_box: '', job_name: ''};
     this.dynamicBoxes.push(this.newBox);
     this.toast.success('New row added successfully', 'New Row');
     return true;
@@ -144,6 +162,7 @@ export class PackingListComponent implements OnInit {
         this.orderService.deleteBoxes(id).subscribe(res => {});
       }
       this.dynamicBoxes.splice(index, 1);
+      this.calculateTotal();
       this.toast.warning('Row deleted successfully', 'Delete row');
       return true;
     }
