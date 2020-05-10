@@ -49,7 +49,7 @@ export class PackingListComponent implements OnInit {
                           Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]],
       zip_code: ['', Validators.required],
       due_date: ['', Validators.required],
-      comment: ['', Validators.required],
+      comments: ['', Validators.required],
       received_by: ['', Validators.required],
       boxes: '',
       custom_order: ''
@@ -89,9 +89,9 @@ export class PackingListComponent implements OnInit {
   onSubmit(obj) {
     this.submitted = true;
     obj.value.due_date = this.datePipe.transform(obj.value.due_date, 'yyyy-MM-dd');
-    // obj.value.boxes = this.dynamicBoxes;
     obj.value.custom_order = this.customOrderId;
     if (this.updateObj) {
+      obj.value.boxes = this.dynamicBoxes;
       if (this.packingListFrom.valid) {
         if (this.dynamicBoxes[0].number_of_boxes !== '' && this.dynamicBoxes[0].quantity_per_box !== '') {
           this.orderService.addPackingList(this.customOrderId, obj.value).subscribe(res => {
@@ -105,6 +105,7 @@ export class PackingListComponent implements OnInit {
     } else {
       this.orderService.updatePackingList(this.packingList.id, obj.value).subscribe(res => {
         this.toast.success('List updated successfully!', '');
+        this.router.navigate(['/order-status']);
       });
     }
   }

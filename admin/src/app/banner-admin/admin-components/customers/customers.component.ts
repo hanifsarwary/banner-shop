@@ -13,6 +13,7 @@ export class CustomersComponent implements OnInit {
   public customerForm: FormGroup;
   validateFlag = false;
   submitted = false;
+  statusList = [];
 
 
   constructor(private fb: FormBuilder,
@@ -48,6 +49,13 @@ export class CustomersComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.getStatus();
+  }
+
+  getStatus() {
+    this.orderServeice.getStatus().subscribe(res => {
+      this.statusList = res.types;
+    });
   }
 
   onSubmit(obj) {
