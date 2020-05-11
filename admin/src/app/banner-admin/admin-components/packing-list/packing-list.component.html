@@ -213,11 +213,11 @@
                         [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('comments').errors }"></textarea>
                     </div>
                         <div class="d-flex justify-content-center mb-3 mt-5">
-                            <div matTooltip="Fill the Form">
+                            <div matTooltip="Fill the Form" class="hide-print">
                                 <button class="btn btn-primary btn-sub mr-3" type="submit"> Submit 
                                 </button>
                             </div>
-                            <a class="btn btn-primary btn-sub" [routerLink]="['/order-status']"> Close </a>
+                            <a class="btn btn-primary btn-sub hide-print" [routerLink]="['/order-status']"> Close </a>
                         </div>
                     </form>
                 </div>
