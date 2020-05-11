@@ -32,6 +32,7 @@ export class PackingListComponent implements OnInit {
   updateObj = true;
   totalBoxes = 0;
   totalQuantity = 0;
+  window;
   dynamicBoxes: Array<BoxList> = [];
 
   constructor(
@@ -42,6 +43,7 @@ export class PackingListComponent implements OnInit {
     private router: Router,
     private datePipe: DatePipe
     ) {
+    this.window = window;
     this.packingListFrom = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],

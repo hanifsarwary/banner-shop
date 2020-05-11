@@ -14,7 +14,15 @@ input, textarea {
 .print-btn {
     border-radius: 20%;
 }
+.form-box {
+    text-align: left;
+}
 .customOrderForm {
-    margin-left: 5% !important;
-    margin-right: 5% !important;
+    width: 75%;
+}
+
+@media print {
+    .hide-print {
+      display: none;
+    }
 }
