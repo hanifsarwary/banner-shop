@@ -85,7 +85,7 @@ export class FiltersBarComponent implements OnInit {
     dRange.due_date_start = start;
     dRange.due_date_end = end;
     this.updateDateRange(dRange);
-    this.shipInputDate = this.datePipe.transform(start, 'dd-MM-yyyy') + ' to ' + this.datePipe.transform(end, 'dd-MM-yyyy');
+    this.shipInputDate = this.datePipe.transform(start, 'MM-dd-yyyy') + ' to ' + this.datePipe.transform(end, 'MM-dd-yyyy');
   }
 
   orderDateChange(event) {
@@ -97,7 +97,7 @@ export class FiltersBarComponent implements OnInit {
     dRange.order_date_start = start;
     dRange.order_date_end = end;
     this.updateDateRange(dRange);
-    this.orderInputDate = this.datePipe.transform(start, 'dd-MM-yyyy') + ' to ' + this.datePipe.transform(end, 'dd-MM-yyyy');
+    this.orderInputDate = this.datePipe.transform(start, 'MM-dd-yyyy') + ' to ' + this.datePipe.transform(end, 'MM-dd-yyyy');
   }
 
   updateDateRange(dateRange: DateRange) {
@@ -108,28 +108,28 @@ export class FiltersBarComponent implements OnInit {
     this.orderInputDate = '';
     this.shipInputDate = '';
     if (this.filters.order_date_start) {
-      this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'dd-MM-yyyy') + ' to ' +
-      this.datePipe.transform(this.filters.order_date_end, 'dd-MM-yyyy');
+      this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'MM-dd-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.order_date_end, 'MM-dd-yyyy');
       this.orderMinDate = new Date(this.filters.order_date_start);
       this.orderMaxDate = new Date(this.filters.order_date_end);
     } else {
       this.filters.order_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
       this.filters.order_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
-      this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'dd-MM-yyyy') + ' to ' +
-      this.datePipe.transform(this.filters.order_date_end, 'dd-MM-yyyy');
+      this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'MM-dd-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.order_date_end, 'MM-dd-yyyy');
       this.orderMinDate = new Date(this.filters.order_date_start);
       this.orderMaxDate = new Date(this.filters.order_date_end);
     }
     if (this.filters.due_date_start) {
-      this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'dd-MM-yyyy') + ' to ' +
-      this.datePipe.transform(this.filters.due_date_end, 'dd-MM-yyyy');
+      this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'MM-dd-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.due_date_end, 'MM-dd-yyyy');
       this.shipMinDate = new Date(this.filters.due_date_start);
       this.shipMaxDate = new Date(this.filters.due_date_end);
     } else {
       this.filters.due_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
       this.filters.due_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
-      this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'dd-MM-yyyy') + ' to ' +
-      this.datePipe.transform(this.filters.due_date_end, 'dd-MM-yyyy');
+      this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'MM-dd-yyyy') + ' to ' +
+      this.datePipe.transform(this.filters.due_date_end, 'MM-dd-yyyy');
       this.orderMinDate = new Date(this.filters.order_date_start);
       this.orderMaxDate = new Date(this.filters.order_date_end);
     }

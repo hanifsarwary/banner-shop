@@ -16,8 +16,10 @@
             <ng-container matColumnDef="invoice_no">
                 <th mat-header-cell *matHeaderCellDef> Invoice # </th>
                 <td mat-cell *matCellDef="let element">
-                    {{element.invoice_number}}
-                    <!-- <a href="javascript:;" [routerLink]="['/invoice/', element.id]">TBD</a> -->
+                    {{element.invoice_number}} <br>
+                    <a href="javascript:;" (click)="openModalInvoice(Invoice, element.id, element?.invoice_number)">
+                        <small>Invoice detail</small>
+                    </a>
                 </td>
             </ng-container>
 
@@ -60,7 +62,12 @@
 
             <ng-container matColumnDef="job_status">
                 <th mat-header-cell *matHeaderCellDef> Job Status </th>
-                <td mat-cell *matCellDef="let element">{{element.status}}</td>
+                <td mat-cell *matCellDef="let element">
+                    {{element.status}} <br>
+                    <a href="javascript:;" (click)="openModalOrderStatus(Status, element.id, element?.status)">
+                        <small>Status detail</small>
+                    </a>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="shipment_tracking">

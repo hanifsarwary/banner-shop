@@ -13,6 +13,7 @@ import { OptionService } from '../../services/option.service';
 import { OrderService } from '../../services/order.service';
 import { SharedDataService } from '../../services/shared-data.service';
 import { Router, NavigationExtras } from '@angular/router';
+import { InvoiceComponent } from '../invoice/invoice.component';
 
 @Component({
   selector: 'app-datatable',
@@ -54,6 +55,7 @@ export class DatatableComponent implements OnChanges {
   subCategoryDetail = [];
   proofHistoryList = [];
   proofStatusList = [];
+  statusList = [];
   userInfo = [];
   customerEmail = '';
   customOrderId: number;
@@ -90,6 +92,7 @@ export class DatatableComponent implements OnChanges {
     this.sourceData.sort = this.sort;
     this.sourceData.paginator = this.paginator;
     this.getProofStatus();
+    this.getOrderStatus();
   }
 
   categoryEvent(type, entryId) {
@@ -205,6 +208,12 @@ export class DatatableComponent implements OnChanges {
     });
   }
 
+  getOrderStatus() {
+    this.typeService.getStatus().subscribe(res => {
+      this.statusList = res.types;
+    });
+  }
+
   updateProofStatus() {
     this.orderService.updateProofStatus(this.customOrderId , {'proof_status': this.proofStatus}).subscribe(res => {
       this.toast.success('Proof status updated successfully!', '');
@@ -225,6 +234,35 @@ export class DatatableComponent implements OnChanges {
       this.loader = false;
     });
     this.proofHistoryModalReference = this.modalService.open(targetModal);
+  }
+
+  openModalInvoice(targetModal, objId, invoiceNo) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'invoice';
+    modalRef.componentInstance.orderId = objId;
+    modalRef.componentInstance.invoice_number = invoiceNo;
+    modalRef.componentInstance.operationType = invoiceNo ? 'Update Invoice' : 'Add Invoice';
+    modalRef.componentInstance.funtionType = 'updateInvoice';
+  }
+
+  openModalOrderStatus(targetModal, objId, status) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'status';
+    modalRef.componentInstance.orderId = objId;
+    modalRef.componentInstance.status = status;
+    modalRef.componentInstance.statusList = this.statusList;
+    modalRef.componentInstance.operationType = status ? 'Update Status' : 'Add Status';
+    modalRef.componentInstance.funtionType = 'updateStatus';
+    console.log('--------------------------------------');
+    console.log('=====================================');
   }
 
   stringify(obj) {

@@ -1,45 +1,24 @@
-<div class="container-fluid p-0">
-    <div class="customers">
-        <div class="customOrderForm mt-4 mb-4">
-            <h4 class="heading mb-5 pt-5 text-center">Invoice</h4>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{operationType}}</h5>
+        <button type="button" class="close" (click)="activeModal.close('Close click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row form-box mr-3" *ngIf="modelActive === 'invoice'">
+            <label class="col-sm-4 col-form-label" for="invoice_number">Invoice No :</label>
+            <input type="text" class="form-control col-sm-8" [(ngModel)]="invoice_number">
         </div>
-        <div class="d-flex justify-content-center print-btn mb-2">
-            <a href="javascript:;" (click)="window.print()">Print</a>
+        <div class="row form-box mr-3" *ngIf="modelActive === 'status'">
+            <label class="col-sm-4 col-form-label" for="order_status">Order Status :</label>
+            <select class="form-control form-control-sm col-sm-8" id="order-status" [(ngModel)]="status" placeholder="Select Order Status">
+                <option *ngFor="let status of statusList | keyvalue: asIsOrder" [value]="status.key">{{status.value}}</option>
+            </select>
         </div>
-        <div class="card">
-            <div class="body m-5">
-                <div class="invoiceForm">
-                    <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
-                      <form [formGroup]="invoiceForm" class="m-3 mr-4" (ngSubmit)="submitinvoiceForm(invoiceForm)">
-                        <div class="form-group row ml-0 mr-0">
-                            <label class="col-sm-4 col-form-label" for="authorization_code">Code :</label>
-                            <input type="text" class="form-control col-sm-8" [ngClass]="{ 'is-invalid': submitted && invoiceForm.get('authorization_code').errors }"
-                            [ngModel]="invoiceObj ? invoiceObj.authorization_code : ''" formControlName="authorization_code" placeholder="Enter Authorization code">
-                        </div>
-                        <div class="form-group row ml-0 mr-0">
-                            <label class="col-sm-4 col-form-label" for="invoice_number">Invoice No :</label>
-                            <input type="number" class="form-control col-sm-8" [ngClass]="{ 'is-invalid': submitted && invoiceForm.get('invoice_number').errors }"
-                            [ngModel]="invoiceObj ? invoiceObj.invoice_number : ''" formControlName="invoice_number" placeholder="Enter Invoice number">
-                        </div>
-                        <div class="form-group row ml-0 mr-0">
-                            <label class="col-sm-4 col-form-label" for="paid_by">Paid By :</label>
-                            <input type="text" class="form-control col-sm-8" [ngClass]="{ 'is-invalid': submitted && invoiceForm.get('paid_by').errors }"
-                            [ngModel]="invoiceObj ? invoiceObj.paid_by : ''" formControlName="paid_by" placeholder="Enter Paid By ">
-                        </div>
-                        <div class="form-group row ml-0 mr-0">
-                            <label class="col-sm-4 col-form-label" for="payment_method">Payment :</label>
-                            <input type="text" class="form-control col-sm-8" [ngClass]="{ 'is-invalid': submitted && invoiceForm.get('payment_method').errors }"
-                            [ngModel]="invoiceObj ? invoiceObj.payment_method : ''" formControlName="payment_method" placeholder="Enter Payment method">
-                        </div>
-                        <div class="form-group row ml-0 mr-0">
-                            <label class="col-sm-4 col-form-label" for="sold_to">Sold to :</label>
-                            <input type="text" class="form-control col-sm-8" [ngClass]="{ 'is-invalid': submitted && invoiceForm.get('sold_to').errors }"
-                            [ngModel]="invoiceObj ? invoiceObj.sold_to : ''" formControlName="sold_to" placeholder="Enter Sold to">
-                        </div>
-                        <button class="btn btn-primary btn-submit mt-4 w-25 pull-right" type="submit"> Submit </button>
-                      </form>
-                </div>
-            </div>
-        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="this[funtionType]()">{{operationType}}</button>
     </div>
 </div>
