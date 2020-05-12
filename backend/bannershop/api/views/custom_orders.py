@@ -108,7 +108,7 @@ class CustomOrderListViewSet(ListAPIView):
 
     def filter_open_orders(self, queryset, is_open):
         if is_open:
-            queryset = queryset.exclude(Q(status__in=CustomOrder.STATUS_CHOICES[4:]))
+            queryset = queryset.filter(status__in=CustomOrder.STATUS_CHOICES[4:])
         return queryset
 
 
