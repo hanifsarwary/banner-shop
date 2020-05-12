@@ -17,17 +17,16 @@ import { SharedDataService } from '../../services/shared-data.service';
 })
 export class CustomOrdersComponent implements OnInit {
 
-  @Input() selectedCustomerObj;
+  @Input() customerList;
   @Input() operation = 'Add';
-  @Input() customerOrderId;
-  @Input() customOrderList: CustomOrderList;
+  @Input() orderList: CustomOrderList;
 
   public customOrderForm: FormGroup;
   sharedObj;
   submitted = false;
   validateFlag = false;
   userList = [];
-  customerList = [];
+  allCustomers = [];
   invoicesList = [];
   statusList = [];
   proofStatusList = [];
@@ -57,7 +56,6 @@ export class CustomOrdersComponent implements OnInit {
       custom_product_name: ['', Validators.required],
       custom_quantity: [0, Validators.required],
       custom_version: ['', Validators.required],
-      invoice_number: ['', Validators.required],
       custom_proof: ['', Validators.required],
       custom_sample: ['', Validators.required],
       custom_paper: ['', Validators.required],
@@ -72,7 +70,6 @@ export class CustomOrdersComponent implements OnInit {
       proof_status: [''],
       customer: [''],
       start_date: [''],
-      status: [''],
       added_by: '',
       shipping_type: [''],
       shipping_contact_name: [''],
@@ -102,10 +99,11 @@ export class CustomOrdersComponent implements OnInit {
   getCustomOrderById(id) {
     this.loader = true;
     this.orderServeice.getCustomOrderById(id).subscribe(res => {
-      this.customOrderList = res;
-      this.shipping = this.customOrderList.shipping_type;
-      this.selectedCustomerObj = this.customOrderList.customer;
-      this.customerOrderId = this.selectedCustomerObj.id;
+      this.orderList = res;
+      this.shipping = this.orderList.shipping_type;
+      this.customerList = this.orderList.customer;
+      this.customerId = this.customerList.id;
+      this.companyName = this.customerList.company_name;
       this.loader = false;
     });
   }
@@ -130,7 +128,7 @@ export class CustomOrdersComponent implements OnInit {
 
   getCustomers() {
     this.orderServeice.getCustomers().subscribe(res => {
-      this.customerList = res.results;
+      this.allCustomers = res.results;
     });
   }
 
@@ -159,21 +157,20 @@ export class CustomOrdersComponent implements OnInit {
   }
 
   selectedCustomer(event) {
-    this.customerOrderId = null;
+    this.customerId = null;
     this.customerId = event.target.value;
-    this.customerOrderId = event.target.value;
-    this.companyName = '';
-    this.selectedCustomerObj = this.getObjFromJsonArray(this.customerOrderId);
-    this.selectedCustomerObj = this.selectedCustomerObj[0];
+    this.customerList = this.getObjFromJsonArray(this.customerId);
+    this.customerList = this.customerList[0];
+    this.customerId = this.customerList.id;
+    this.companyName = this.customerList.company_name;
   }
 
   selectedCompanies(event) {
     this.companyName = null;
     this.companyName = event.target.value;
-    this.customerOrderId = '';
-    this.selectedCustomerObj = this.getCompanyFromCustomerObj(this.companyName);
-    this.selectedCustomerObj = this.selectedCustomerObj[0];
-    this.customerId = this.selectedCustomerObj.id;
+    this.customerList = this.getCompanyFromCustomerObj(this.companyName);
+    this.customerList = this.customerList[0];
+    this.customerId = this.customerList.id;
   }
 
   goToOrderStatus() {
@@ -188,7 +185,7 @@ export class CustomOrdersComponent implements OnInit {
         this.validateFlag = false;
         const today = new Date();
         const start_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        obj.value.customer = this.customerId ? this.customerId : this.selectedCustomerObj.id;
+        obj.value.customer = this.customerId ? this.customerId : this.customerList.id;
         obj.value.status = 'Submitted';
         obj.value.start_date = start_date;
         obj.value.added_by = this.userInfo.id;
@@ -201,9 +198,9 @@ export class CustomOrdersComponent implements OnInit {
         this.validateFlag = true;
       }
     } else {
-      obj.value.customer = this.selectedCustomerObj.id;
+      obj.value.customer = this.customerList.id;
       obj.value.added_by = this.userInfo.id;
-      this.orderServeice.updateCustomOrder(this.customOrderList.id, obj.value).subscribe(res => {
+      this.orderServeice.updateCustomOrder(this.orderList.id, obj.value).subscribe(res => {
         this.toast.success('Custom Orders updated successfully!', '');
         this.router.navigate(['/order-status']);
       });
@@ -211,14 +208,14 @@ export class CustomOrdersComponent implements OnInit {
   }
 
   getObjFromJsonArray(id) {
-    return this.customerList.filter(function(item) {
+    return this.allCustomers.filter(function(item) {
       // tslint:disable-next-line: radix
       return parseInt(item.id) === parseInt(id);
     });
   }
 
   getCompanyFromCustomerObj(value) {
-    return this.customerList.filter(function(item) {
+    return this.allCustomers.filter(function(item) {
       return item.company_name === value;
     });
   }

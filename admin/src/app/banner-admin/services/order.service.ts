@@ -73,6 +73,10 @@ export class OrderService {
     return this.httpClient.patch<any>(`${this.global.customOrders}proof-status/update/${id}/`, obj, { headers: this.global.httpHeaders() });
   }
 
+  updateOrderField(id, obj): Observable<any> {
+    return this.httpClient.patch<any>(`${this.global.customOrders}update/${id}/`, obj, { headers: this.global.httpHeaders() });
+  }
+
   // Customer Email API's
 
   sendEmailtoCustomer(obj): Observable<any> {
