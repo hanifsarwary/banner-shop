@@ -1,13 +1,13 @@
 <div class="container-fluid p-0">
-    <div class="customers">
+    <div class="customers" align="center">
         <div class="customOrderForm" *ngIf="!loader">
             <h4 class="heading mb-4 pt-2 text-center">Packing List</h4>
             <div class="card">
                 <div class="body">
                     <form [formGroup]="packingListFrom" (ngSubmit)="onSubmit(packingListFrom)">
                     <div class="row form-box">
-                        <label class="col-sm-1 p-0 pt-2 col-form-label text-shadow font-weight-bold" for="due_date">Ship Date :</label>
-                        <input type="date" placeholder="select date" value="null" formControlName="due_date" class="form-control form-control-sm col-sm-4"
+                        <label class="col-sm-2 p-0 pt-2 col-form-label text-shadow font-weight-bold" for="due_date">Ship Date :</label>
+                        <input type="date" placeholder="select date" value="null" formControlName="due_date" class="form-control form-control-sm col-sm-3"
                         [ngModel]="packingList ? packingList.due_date : ''"
                         [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('due_date').errors }">
                         <b *ngIf="validateFlag" class="col-sm-4 text-right text-danger">Filled the missing fields</b>
@@ -16,7 +16,7 @@
                         <div class="col-md-6 customer-box m-0 p-0">
                             <fieldset class="border mr-3">
                                 <legend class="p-0 ml-3 m-0">From</legend>
-                                <div class="m-3 mb-5">
+                                <div class="m-1">
                                     <div class="row form-box">
                                         <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
                                         <input [ngModel]="userList.first_name" name="firstName" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
@@ -51,7 +51,7 @@
                         <div class="col-md-6 m-0 p-0">
                             <fieldset class="border ml-3">
                                 <legend class="p-0 ml-3 m-0">To</legend>
-                                <div class="m-3 mb-5">
+                                <div class="m-1">
                                     <div class="row form-box">
                                         <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
                                         <input type="text" formControlName="first_name" class="form-control form-control-sm col-sm-9"
@@ -103,7 +103,7 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div class="firstForm mt-4">
+                    <div class="firstForm mt-1">
                         <table class="table">
                             <thead class="thead-dark">
                               <tr>
@@ -131,7 +131,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="boxesForm mt-4">
+                    <div class="boxesForm mt-1">
                         <table class="table">
                             <thead class="thead-dark">
                               <tr>
@@ -164,19 +164,19 @@
                                     [(ngModel)]="dynamicBoxes[i].job_name" type="text" >
                                 </td>
                                 <td (click)="deleteRow(i, dynamicBoxes[i].id)">
-                                    <span><i class="fa fa-trash fa-1x mt-1"></i></span>
+                                    <span><i class="fa fa-trash fa-1x mt-1 hide-print"></i></span>
                                 </td>
                               </tr>
                               <tr>
                                 <td colspan="5">
-                                    <span (click)="addRow()"><i class="fa fa-plus fa-1x ml-2"></i></span>
-                                    <span *ngIf="dynamicBoxes.length" class="pull-right" (click)="saveBoxes()"><i class="fa fa-save fa-1x mr-2"></i></span>
+                                    <span (click)="addRow()"><i class="fa fa-plus fa-1x ml-2 hide-print"></i></span>
+                                    <span *ngIf="dynamicBoxes.length" class="pull-right" (click)="saveBoxes()"><i class="fa fa-save fa-1x mr-2 hide-print"></i></span>
                                 </td>
                               </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="totalBoxesForm mt-4">
+                    <div class="totalBoxesForm mt-1">
                         <table class="table">
                             <thead class="thead-dark">
                               <tr>
@@ -207,18 +207,22 @@
                               </tr>
                             </tbody>
                         </table>
-                        <label class="p-0 pt-2 text-shadow" for="comment">Comment :</label>
-                        <textarea type="text" formControlName="comments" class="form-control form-control-sm"
+                    </div>
+                    <div class="p-0 m-0">
+                        <label class="p-0 col-form-label text-shadow" for="comment">Comment :</label>
+                        <textarea type="text" formControlName="comments"
+                        class="form-control form-control-sm"
                         placeholder="Add comments.." [ngModel]="packingList ? packingList.comments : ''"
                         [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('comments').errors }"></textarea>
                     </div>
-                        <div class="d-flex justify-content-center mb-3 mt-5">
-                            <div matTooltip="Fill the Form" class="hide-print">
-                                <button class="btn btn-primary btn-sub mr-3" type="submit"> Submit 
-                                </button>
-                            </div>
-                            <a class="btn btn-primary btn-sub hide-print" [routerLink]="['/order-status']"> Close </a>
+                    <div class="d-flex justify-content-center mb-3 mt-5">
+                        <div matTooltip="Fill the Form" class="hide-print">
+                            <button class="btn btn-primary btn-sub mr-3" type="submit"> Submit 
+                            </button>
                         </div>
+                        <a class="btn btn-primary btn-sub hide-print" [routerLink]="['/order-status']"> Close </a>
+                        <a href="javascript:;" type="button" class="btn btn-primary btn-sub hide-print ml-3" (click)="window.print()"> Print </a>
+                    </div>
                     </form>
                 </div>
             </div>
