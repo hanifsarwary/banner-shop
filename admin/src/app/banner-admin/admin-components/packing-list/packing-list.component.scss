@@ -1,6 +1,5 @@
 .card {
-    margin-right: 10%;
-    margin-left: 10%;
+    text-align: left;
     border: none !important;
     .row {
         .col-md-6 {
@@ -69,4 +68,10 @@ span i {
     .hide-print {
       display: none;
     }
+}
+.table .thead-dark th {
+    font-size: 13px;
+}
+.customOrderForm {
+    width: 75%;;
 }

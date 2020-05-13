@@ -11,7 +11,7 @@
                     <div class="row p-0 m-0">
                         <div class="col-md-5 customer-box">
                             <div class="row card-text pl-4 p-2 pt-3">
-                                <label for="custome" class="col-4 mt-1 text-shadow">Select Customer</label>
+                                <label for="custome" class="col-4 mt-1 text-shadow"><b *ngIf="!orderList" class="text-danger">* </b>Select Customer</label>
                                 <select class="form-control form-control-sm col-sm-7" id="customer" [class.customer-field]="submitted && !customerId"
                                     [(ngModel)]="customerId" (change)="selectedCustomer($event)">
                                     <option></option>
@@ -19,7 +19,7 @@
                                 </select>
                             </div>
                             <div class="row card-text pl-4 p-2 pt-2">
-                                <label for="custome" class="col-4 mt-1 text-shadow">Select Company</label>
+                                <label for="custome" class="col-4 mt-1 text-shadow"><b *ngIf="!orderList" class="text-danger">* </b>Select Company</label>
                                 <select class="form-control form-control-sm col-sm-7" id="company"
                                     [(ngModel)]="companyName" [class.customer-field]="submitted && !companyName"
                                     (change)="selectedCompanies($event)">
@@ -72,88 +72,67 @@
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="ticket_count">Ticket count :</label>
-                                    <input type="number" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.ticket_count.errors }"
-                                    [ngModel]="orderList ? orderList.ticket_count : ''" formControlName="ticket_count" placeholder="Enter Ticket count">
+                                    <input type="number" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.ticket_count : ''" formControlName="ticket_count" placeholder="Enter Ticket count">
                                     <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="quoted_price">Quoted price :</label>
-                                    <input type="number" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.quoted_price.errors }"
-                                    [ngModel]="orderList ? orderList.quoted_price : ''" formControlName="quoted_price" placeholder="Enter Quoted price">
+                                    <input type="number" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.quoted_price : ''" formControlName="quoted_price" placeholder="Enter Quoted price">
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="reference_number">PO/Reference No :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.reference_number.errors }"
-                                    [ngModel]="orderList ? orderList.reference_number : ''" formControlName="reference_number" placeholder="Enter Reference number">
+                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.reference_number : ''" formControlName="reference_number" placeholder="Enter Reference number">
                                     <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="due_date">Due date :</label>
-                                    <input type="date" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.due_date.errors }"
-                                    [ngModel]="orderList ? orderList.due_date : ''" formControlName="due_date" placeholder="Enter Due Date">
+                                    <input type="date" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.due_date : ''" formControlName="due_date" placeholder="Enter Due Date">
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_job_name">Job name :</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_job_name"><b *ngIf="!orderList" class="text-danger">* </b>Job name :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_job_name.errors }"
                                     [ngModel]="orderList ? orderList.custom_job_name : ''" formControlName="custom_job_name" placeholder="Enter Custom job name">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="custom_quantity">Quantity :</label>
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="custom_quantity"><b *ngIf="!orderList" class="text-danger">* </b>Quantity :</label>
                                     <input type="number" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_quantity.errors }"
                                     [ngModel]="orderList ? orderList.custom_quantity : ''"  formControlName="custom_quantity" placeholder="Enter Custom quantity">
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="final_size">Final size :</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="final_size"><b *ngIf="!orderList" class="text-danger">* </b>Final size :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.final_size.errors }"
                                     [ngModel]="orderList ? orderList.final_size : ''" formControlName="final_size" placeholder="Enter Final size">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="flat_size">Flat size :</label>
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="flat_size"><b *ngIf="!orderList" class="text-danger">* </b>Flat size :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.flat_size.errors }"
                                     [ngModel]="orderList ? orderList.flat_size : ''" formControlName="flat_size" placeholder="Enter Flat size">
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_product_name">Product name :</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_product_name"><b *ngIf="!orderList" class="text-danger">* </b>Product name :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_product_name.errors }"
                                     [ngModel]="orderList ? orderList.custom_product_name : ''" formControlName="custom_product_name" placeholder="Enter product name">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="ink_color">Ink color :</label>
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="ink_color"><b *ngIf="!orderList" class="text-danger">* </b>Ink color :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.ink_color.errors }"
                                     [ngModel]="orderList ? orderList.ink_color : ''" formControlName="ink_color" placeholder="Enter Ink color">
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_sample">Sample :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_sample.errors }"
-                                    [ngModel]="orderList ? orderList.custom_sample : ''" formControlName="custom_sample" placeholder="Enter sample">
+                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.custom_sample : ''" formControlName="custom_sample" placeholder="Enter sample">
                                     <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="custom_proof">Proof :</label>
-                                    <select class="form-control form-control-sm col-sm-3" id="proof" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_proof.errors }"
-                                    [ngModel]="orderList ? orderList.custom_proof : ''" formControlName="custom_proof" placeholder="Enter Custom proof">
+                                    <select class="form-control form-control-sm col-sm-3" id="proof" [ngModel]="orderList ? orderList.custom_proof : ''" formControlName="custom_proof" placeholder="Enter Custom proof">
                                         <option value="no_proof">No proof</option>
                                         <option value="soft_proof">Soft proof</option>
                                         <option value="soft_proof">Hardcopy proof</option>
                                     </select>
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_version">Version :</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_version"><b *ngIf="!orderList" class="text-danger">* </b>Version:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_version.errors }"
                                     [ngModel]="orderList ? orderList.custom_version : ''"  formControlName="custom_version" placeholder="Enter Custom version">
-                                    <!-- <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="invoice_number">Invoice No :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" [ngClass]="{ 'is-invalid': submitted && formValidator.invoice_number.errors }"
-                                    [ngModel]="orderList ? orderList.invoice_number : ''"  formControlName="invoice_number" placeholder="Enter Invoice number"> -->
                                 </div>
-                                <!-- <div class="row form-box" [hidden]="operation === 'Add'">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_proof">Order Status :</label>
-                                    <select class="form-control form-control-sm col-sm-3" id="order-status" [ngModel]="orderList ? orderList.status : ''" formControlName="status" placeholder="Select Order Status">
-                                        <option *ngFor="let status of statusList | keyvalue" [value]="status.key">{{status.value}}</option>
-                                    </select>
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="custom_proof">Proof Status :</label>
-                                    <select class="form-control form-control-sm col-sm-3" id="proof" [ngModel]="orderList ? orderList.proof_status : ''" formControlName="proof_status" placeholder="Select Proof Status">
-                                        <option *ngFor="let status of proofStatusList | keyvalue" [value]="status.key">{{status.value}}</option>
-                                    </select>
-                                </div> -->
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_paper">Paper :</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_paper"><b *ngIf="!orderList" class="text-danger">* </b>Paper :</label>
                                     <textarea type="text" class="form-control form-control-sm col-sm-9" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_paper.errors }"
                                     [ngModel]="orderList ? orderList.custom_paper : ''" formControlName="custom_paper" placeholder="Enter Custom paper"></textarea>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="internal_notes">Internal notes :</label>
-                                    <textarea type="text" class="form-control form-control-sm col-sm-9" [ngClass]="{ 'is-invalid': submitted && formValidator.internal_notes.errors }"
-                                    [ngModel]="orderList ? orderList.internal_notes : ''" formControlName="internal_notes" placeholder="Enter Internal notes"></textarea>
+                                    <textarea type="text" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.internal_notes : ''" formControlName="internal_notes" placeholder="Enter Internal notes"></textarea>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="special_instructoon">Special instruction :</label>
-                                    <textarea type="text" class="form-control form-control-sm col-sm-9" [ngClass]="{ 'is-invalid': submitted && formValidator.special_instructoon.errors }"
-                                    [ngModel]="orderList ? orderList.special_instructoon : ''" formControlName="special_instructoon" placeholder="Enter Special instruction"></textarea>
+                                    <textarea type="text" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.special_instructoon : ''" formControlName="special_instructoon" placeholder="Enter Special instruction"></textarea>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_type">Shipment :</label>
