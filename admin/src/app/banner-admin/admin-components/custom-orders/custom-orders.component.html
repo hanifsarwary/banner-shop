@@ -122,7 +122,7 @@
                                     </select>
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_paper"><b *ngIf="!orderList" class="text-danger">* </b>Paper *CHg to Material :</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_paper"><b *ngIf="!orderList" class="text-danger">* </b>Material :</label>
                                     <textarea type="text" class="form-control form-control-sm col-sm-9" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_paper.errors }"
                                     [ngModel]="orderList ? orderList.custom_paper : ''" formControlName="custom_paper" placeholder="Enter Custom paper"></textarea>
                                 </div>
