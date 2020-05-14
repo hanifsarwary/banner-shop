@@ -2,7 +2,8 @@ import React from 'react';
 import Loader from 'react-loader-spinner';
 import { objectToFormData } from 'object-to-formdata';
 import { withRouter } from 'react-router-dom';
-import bannerShop from '../../api/bannerShop'
+import bannerShop from '../../api/bannerShop';
+import axios from 'axios';
 
 class Cart extends React.Component {
     state = {
@@ -100,7 +101,6 @@ class Cart extends React.Component {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-
     jsonToFormData = (data) => {
         function buildFormData(formData, data, parentKey) {
             if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
@@ -119,6 +119,53 @@ class Cart extends React.Component {
 
         return formData;
     }
+
+    getFormData = (formData, data, previousKey) => {
+        if (data instanceof Object) {
+            Object.keys(data).forEach(key => {
+                const value = data[key];
+                if (value instanceof Object && !Array.isArray(value)) {
+                    return this.getFormData(formData, value, key);
+                }
+                if (previousKey) {
+                    key = `${previousKey}[${key}]`;
+                }
+                if (Array.isArray(value)) {
+                    value.forEach(val => {
+                        formData.append(`${key}[]`, val);
+                    });
+                } else {
+                    formData.append(key, value);
+                }
+            });
+        }
+    }
+
+    toFormData(obj, form, namespace) {
+        let fd = form || new FormData();
+        let formKey;
+        
+        for(let property in obj) {
+          if(obj.hasOwnProperty(property) && obj[property]) {
+            if (namespace) {
+              formKey = namespace + '[' + property + ']';
+            } else {
+              formKey = property;
+            }
+           
+            if (obj[property] instanceof Date) {
+              fd.append(formKey, obj[property].toISOString());
+            }
+            else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+              this.toFormData(obj[property], fd, formKey);
+            } else { // if it's a string or a File object
+              fd.append(formKey, obj[property]);
+            }
+          }
+        }
+        
+        return fd;
+      }
 
     contOrder = () => {
         /* 
@@ -168,42 +215,51 @@ class Cart extends React.Component {
             });
 
             const oTFDOptions = {
-                indices: true,
+                indices: false,
                 nullsAsUndefineds: true,
             };
-
-            const formData = objectToFormData(
-                orderBody,
-                oTFDOptions, // optional
-            );
+            const fd = this.toFormData(orderBody);
 
             this.setState({
                 orderLoad: true
             });
 
-            console.log(orderBody);
-            console.log(formData);
-            // const formData = this.jsonToFormData(formData);
 
-            bannerShop.post('/api/orders/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+            axios.post('http://34.68.49.20:8001/api/orders/', fd, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+              }).then(res => {
+                return res;
+            }).then(data => {
+                const orderNum = data.data.order_number;
+                localStorage.removeItem('cart');
+                this.setState({
+                    orderLoad: false,
+                    completed: true,
+                    orderNum: orderNum
+                });
             })
-                .then(res => {
-                    return res;
-                }).then(data => {
-                    const orderNum = data.data.order_number;
-                    localStorage.removeItem('cart');
-                    this.setState({
-                        orderLoad: false,
-                        completed: true,
-                        orderNum: orderNum
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            .catch(err => {
+                console.log(err);
+            });
+
+              
+            // bannerShop.post('/api/orders/', fd, {
+            //     headers: { 'Content-Type': 'multipart/form-data' },
+            //   })
+            //     .then(res => {
+            //         return res;
+            //     }).then(data => {
+            //         const orderNum = data.data.order_number;
+            //         localStorage.removeItem('cart');
+            //         this.setState({
+            //             orderLoad: false,
+            //             completed: true,
+            //             orderNum: orderNum
+            //         });
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //     })
         } else {
             this.props.previousPathHand(this.props.location.pathname);
             this.props.history.push('/auth/login');

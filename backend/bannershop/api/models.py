@@ -134,33 +134,163 @@ class ThreeDependentSubOption(models.Model):
 
 
 class Customer(models.Model):
+
+    ACTIVE = 1
+    INACTIVE = 0
+    STATUS_CHOICES = (
+        (ACTIVE, 'Active'),
+        (INACTIVE, 'In active')
+
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    
+    approach_details = models.TextField(null=True, blank=True)
+    bussiness_type = models.TextField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    city = models.CharField(max_length=64, null=True, blank=True)
+    company_name = models.CharField(max_length=512, null=True, blank=True, db_index=True)
+    country = models.CharField(max_length=16, null=True, blank=True)
+    fax_number = models.CharField(max_length=32, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
+    resale_no = models.CharField(max_length=256, null=True, blank=True)
+    second_email = models.EmailField(null=True, blank=True)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=ACTIVE)
+    third_email = models.EmailField(null=True, blank=True)
+    zip_code = models.CharField(max_length=16, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
-    def __str__(self):
-        return self.user.first_name
+
+class CustomOrder(models.Model):
+    
+    STATUS_CHOICES = (
+        ('Picked Up', 'Picked Up'),
+        ('Cancelled', 'Cancelled'),
+        ('Delivered', 'Delivered'),
+        ('Shipped', 'Shipped'),
+        ('Mailing Dept.', 'Mailing Dept.'),
+        ('Bindery Dept.', 'Bindery Dept.'),
+        ('On Press', 'On Press'),
+        ('Proof Resubmitted - Waiting approval', 'Proof Resubmitted - Waiting approval'),
+        ('Proof Rejected', 'Proof Rejected'),
+        ('Proof Approved', 'Proof Approved'),
+        ('Proof Submitted', 'Proof Submitted'),
+        ('Prepress Dept.', 'Prepress Dept.'),
+        ('On Hold', 'On Hold'),
+        ('Submitted', 'Submitted')
+    )
+    PROOF_STATUS_CHOICES = (('Proof File in Development','Proof File in Development'),
+                            ('Proof Submitted', 'Proof Submitted'),
+                            ('Proof Approved', 'Proof Approved'),
+                            ('Proof Rejected', 'Proof Rejected'),
+                            ('Awaiting Proof Approval', 'Awaiting Proof Approval'),
+                            ('Proof Resubmitted', 'Proof Resubmitted'))
+    
+    SHIPPING_TYPE_CHOICES = (('No Shipment', 'No Shipment'),
+                             ('Delivery', 'Delivery'),
+                             ('Shipping', 'Shipping'))
+
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    due_date = models.DateField(null=True, blank=True, db_index=True)
+    # order_number = models.UUIDField(default=uuid.uuid4, editable=False)
+    custom_job_name = models.CharField(max_length=256, null=True, blank=True)
+    custom_product_name = models.CharField(max_length=256, null=True, blank=True, db_index=True)
+    custom_quantity = models.PositiveIntegerField(null=True, blank=True)
+    custom_version = models.CharField(max_length=16, null=True, blank=True)
+    custom_proof = models.CharField(max_length=16, null=True, blank=True)
+    custom_sample = models.TextField()
+    custom_paper = models.TextField()
+    
+    flat_size = models.CharField(max_length=256, null=True, blank=True)
+    final_size = models.CharField(max_length=256, null=True, blank=True)
+    ink_color = models.TextField(null=True, blank=True)
+    invoice_number = models.CharField(max_length=256, null=True, blank=True)
+    internal_notes = models.TextField()
+    proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
+                                    default=PROOF_STATUS_CHOICES[0][0])
+    reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=64, db_index=True)
+    quoted_price = models.FloatField(null=True)
+    ticket_count = models.PositiveIntegerField(default=0, null=True)
+    special_instructoon = models.TextField()
+
+    shipping_type = models.CharField(max_length=64, 
+                                     choices=SHIPPING_TYPE_CHOICES, null=True, blank=True)
+    shipping_contact_name = models.CharField(max_length=256, null=True, blank=True )
+    shipping_street_address = models.CharField(max_length=512, null=True, blank=True)
+    shipping_city = models.CharField(max_length=64, null=True, blank=True)
+    shipping_state = models.CharField(max_length=64, null=True, blank=True)
+    shipping_zip_code = models.CharField(max_length=16, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+
+
+class PackingList(models.Model):
+
+    custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
+    address = models.TextField(null=True, blank=True)
+    city = models.CharField(max_length=64, null=True, blank=True)
+    company_name = models.CharField(max_length=512, null=True, blank=True, db_index=True)
+    first_name = models.CharField(max_length=256, null=True, blank=True)
+    last_name = models.CharField(max_length=256, null=True, blank=True)
+    country = models.CharField(max_length=16, null=True, blank=True)
+    fax_number = models.CharField(max_length=32, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    zip_code = models.CharField(max_length=16, null=True, blank=True)
+    received_by = models.CharField(max_length=32, null=True)
+    due_date = models.DateField(null=True)
+    comments = models.TextField(null=True)
+    total_quantity = models.PositiveIntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+
+
+class BoxesDetails(models.Model):
+    
+    packing_list = models.ForeignKey(PackingList, on_delete=models.CASCADE, blank=True, related_name='boxes_set')
+    number_of_boxes = models.PositiveIntegerField(default=0)
+    quantity_per_box = models.PositiveIntegerField(default=0)
+    job_name = models.CharField(max_length=256, null=True, blank=True)
+    quantity = models.PositiveIntegerField(default=0)
+
+
+# class Invoice(models.Model):
+
+#     custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
+#     authorization_code = models.CharField(max_length=256, null=True, blank=True)
+#     invoice_number = models.IntegerField(unique=True, null=True, blank=True)
+#     paid_by = models.CharField(max_length=512, null=True, blank=True)
+#     payment_method = models.CharField(max_length=512, null=True, blank=True)
+
+#     sold_to = models.TextField(null=True, blank=True)
+#     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+#     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+#     def __str__(self):
+#         return str(self.invoice_number)
+
+
+class ProofHistory(models.Model):
+    custom_order = models.ForeignKey(CustomOrder, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now_add=True)
+    proof_status = models.CharField(max_length=256, null=True, choices=CustomOrder.PROOF_STATUS_CHOICES)
 
 
 class Order(models.Model):
-    STATUS_CHOICES = (
-        ('Cancelled', 'Cancelled'),
-        ('At Risk', 'At Risk'),
-        ('Payment Pending', 'Payment Pending'),
-        ('Completed', 'Completed'),
-        ('Delivered', 'Delivered'),
-        ('In Progress', 'In Progress'),
-        ('Yet To Start', 'Yet To Start'),
-    )
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     customer_required_date = models.DateField(null=True, blank=True)
     details = models.TextField(max_length=512)
     order_number = models.UUIDField(default=uuid.uuid4, editable=False)
     start_date = models.DateField(null=True, blank=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=32)
+    status = models.CharField(choices=CustomOrder.STATUS_CHOICES, max_length=64)
+    special_instruction = models.TextField(null=True)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
@@ -195,7 +325,6 @@ class ProductOrderOption(models.Model):
     price = models.FloatField(null=True, blank=True)
 
 
-
 class CustomQuote(models.Model):
     additional_requirements = models.CharField(max_length=512)
     company_name = models.CharField(max_length=64)
@@ -222,7 +351,7 @@ class CustomQuote(models.Model):
 
 
 class ContactRequest(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     approach_details = models.CharField(max_length=128)
     message = models.CharField(max_length=1024)
 

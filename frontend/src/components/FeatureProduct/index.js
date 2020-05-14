@@ -21,6 +21,11 @@ class Footer extends React.Component {
             })
             .catch((err) => {
                 console.log(err);
+                if (!err.response) {
+                    this.props.errorMount('Unable to connect to server');
+                } else if (err.response.status === 500) {
+                    this.props.errorMount('Internal Server Error');
+                }
             });
     }
 

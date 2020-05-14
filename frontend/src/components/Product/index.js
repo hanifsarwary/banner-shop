@@ -158,6 +158,11 @@ class ProductDetail extends React.Component {
       });
     } catch (error) {
       console.log(error);
+      if(!error.response) {
+        this.props.errorMount('Unable to connect to server');
+			} else if(error.response.status === 500) {
+				this.props.errorMount('Internal Server Error');
+      }
     }
   }
 

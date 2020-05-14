@@ -7,13 +7,10 @@ from api.models import Order, ProductOrder
 
 class SendOrderEmail(APIView):
 
-    def get(self, request, *args, **kwargs):
-        
-        
-        order = Order.objects.get(pk=kwargs['order_id']) 
-        product_orders = ProductOrder.objects.filter(order_id=kwargs['order_id'])
-        message = " A customer Name: " + order.customer.user.first_name + ' ' + order.customer.user.last_name
-        message += "\n and Email: " + order.customer.user.email + '\n posted an order under order no:' + str(order.order_number)
-
-        send_mail(" dummy subject", message, EMAIL_HOST_USER, ['hanifsarwari.nuces@gmail.com'])
-        return Response({"message": "email is sent"})
+    def post(self, request, *args, **kwargs):
+        try:
+            to =[].append(request.data['message'])
+            send_mail(request.data['subject'], request.data['message'], EMAIL_HOST_USER, to)
+            return Response({"message": "email is sent", "status": 200})
+        except Exception as e:
+            return Response({"message": str(e)})
