@@ -1,27 +1,59 @@
 * {
   font-family: sans-serif;
 }
-.heading {
-    margin-left: 1rem;
-    margin-top: 3rem;
-    font-size: 25px;
-    text-shadow: 5 0 0px;
-}
-hr {
-    margin: 1rem;
-}
 .container {
     width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
+    .heading {
+      margin-left: 1rem;
+      font-size: 25px;
+      text-shadow: 5 0 0px;
+    }
+    hr {
+      margin: 0 !important;
+      margin: 1rem !important;
+    }
     .card {
       font-family: sans-serif;
-      width: 96.5rem;
+      text-align: left;
       margin: 1rem;
-      margin-top: 3rem;
       box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0);
-      // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .product-section {
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    .card-body {
+      padding: 0;
+      margin-top: 5rem;
+      margin-right: 2rem;
+    .card-title {
+        font-size: 2rem;
+    }
+    .card-heading input {
+      color: black !important;
+      font-size: 1.5rem !important;
+      font-weight: bold !important;
+    }
+    img::after {
+      content: "\f0d7";
+      top: 3;
+      right: 0px;
+      position: absolute;
+      font-family: "FontAwesome";
+    }
+    .product-edit a {
+      font-size: 1rem;
+      margin-top: 2rem;
+      margin-right: 2rem;
+    }
+    .product-description {
+        text-align: justify;
+        background: none;
+        input {
+          background: none;
+        }
+      }
+    }
   }
 }
 
@@ -33,102 +65,48 @@ hr {
     color: #888;
 }
 
-.product-section {
-  padding: 0;
-  margin: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  .card-body {
-    padding: 0;
-    margin-top: 5rem;
-    margin-right: 2rem;
-  .card-title {
-      font-size: 2rem;
-  }
-  .card-heading input {
-    color: black !important;
-    font-size: 1.5rem !important;
-    font-weight: bold !important;
-  }
-  img::after {
-    content: "\f0d7";
-    top: 3;
-    right: 0px;
-    position: absolute;
-    font-family: "FontAwesome";
-  }
-  .product-edit a {
-    font-size: 1rem;
-    margin-top: 2rem;
-    margin-right: 2rem;
-  }
-  .product-description {
-      text-align: justify;
-      background: none;
-      input {
-        background: none;
-      }
-    }
-  }
-}
 .card-img {
   height: 25rem;
     border-right: 1px solid rgba(0, 0, 0, 0.125);
-  }
-.option-table {
-    padding: 0;
-    margin: 0;
-    .card-body {
-      .product-name  {
-              margin: 1rem 0 2rem 4rem !important;
-              font-size: 1.5rem !important;
-              font-weight: 600 !important;
-      }
-        .option-table {
-            padding: 0;
-            margin: 0;
-        .card-title {
-            font-size: 15px;
-        }
-        }
-    }
 }
 
 .table-fixed{
-    width: 75rem;
-    background-color: white;
-    tbody{
-      height: 250px;
-      overflow-y:auto;
-      width: 100%;
-      }
-    thead,tbody,tr,td,th{
-      display:block;
+  width: 100%;
+  background-color: white;
+  tbody{
+    height: 250px;
+    overflow-y:auto;
+    width: 100%;
     }
-    tbody{
-      td{
-        float:left;
-        height: 3.5rem;
-      }
-    }
-    thead {
-      tr{
-        th{
-          float:left;
-          height: 3rem;
-        }
-      }
-    }
-  }
-  button {
-    width: 7rem;
-    height: 2.5rem;
-  }
-  .applyBorder {
-    background: none;
-    outline: none;
+  thead,tbody,tr,td,th{
+    display:block;
     border: none;
-    -webkit-appearance: none;
   }
+  th, td {
+    border-bottom: 1px solid #dee2e6;
+  }
+  tbody{
+    td{
+      float:left;
+      height: 3.5rem;
+    }
+  }
+  thead {
+    tr{
+      th{
+        float:left;
+        height: 3rem;
+        font-size: 14px;
+      }
+    }
+  }
+}
+.applyBorder {
+  background: none;
+  outline: none;
+  border: none;
+  -webkit-appearance: none;
+}
 .sub-option table {
   width: 35rem !important;
 }

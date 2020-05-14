@@ -4,11 +4,13 @@ import { OrderService } from '../../services/order.service';
 import { CustomOrderList } from '../model/custom-order';
 import { CustomerList } from '../model/customer-list';
 import { UserList } from '../model/user';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-work-order',
   templateUrl: './work-order.component.html',
-  styleUrls: ['./work-order.component.scss']
+  styleUrls: ['./work-order.component.scss'],
+  providers: [DatePipe]
 })
 export class WorkOrderComponent implements OnInit {
 
@@ -16,12 +18,15 @@ export class WorkOrderComponent implements OnInit {
   customerList: CustomerList;
   userList: UserList;
   proofApprovedDate;
+  orderDateTime;
   loader = true;
   window;
 
   constructor(
     private route: ActivatedRoute,
-    private orderService: OrderService) {
+    private orderService: OrderService,
+    private datePipe: DatePipe
+    ) {
       this.window = window;
     }
 
@@ -44,6 +49,7 @@ export class WorkOrderComponent implements OnInit {
     this.loader = true;
     this.orderService.getCustomOrderById(id).subscribe(res => {
       this.orderList = res;
+      this.orderDateTime = this.datePipe.transform(this.orderList.created_at, 'M/d/yy, h:mm:ss a');
       this.customerList = this.orderList.customer;
       this.userList = this.customerList.user;
       this.loader = false;

@@ -16,7 +16,6 @@ export class OptionService {
       param = param ? param : '';
       return this.httpClient.get<any>(`${this.global.options}${param}`, { headers: this.global.httpHeaders() });
     }
-
     updateOptions(param, obj): Observable<any> {
       param = param ? param : '';
       return this.httpClient.put<any>(`${this.global.options}${param}/`, obj, { headers: this.global.httpHeaders() });
@@ -35,5 +34,9 @@ export class OptionService {
     updateSubOption(param, obj): Observable<any> {
       param = param ? param : '';
       return this.httpClient.put<any>(`${this.global.subOptions}${param}/`, obj, { headers: this.global.httpHeaders() });
+    }
+
+    addSubOptionByProduct(id, obj): Observable<any> {
+      return this.httpClient.post<any>(`${this.global.products}${id}/options/`, obj, { headers: this.global.httpHeaders() });
     }
 }
