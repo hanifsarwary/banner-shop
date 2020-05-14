@@ -201,7 +201,6 @@ class CustomOrder(models.Model):
     custom_quantity = models.PositiveIntegerField(null=True, blank=True)
     custom_version = models.CharField(max_length=16, null=True, blank=True)
     custom_proof = models.CharField(max_length=16, null=True, blank=True)
-    custom_sample = models.TextField()
     custom_paper = models.TextField()
     
     flat_size = models.CharField(max_length=256, null=True, blank=True)
