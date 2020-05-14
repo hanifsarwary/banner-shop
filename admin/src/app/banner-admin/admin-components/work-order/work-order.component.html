@@ -1,95 +1,79 @@
 
-<div class="container-fluid p-0">
-    <div class="customers" align="center">
-        <div class="customOrderForm mt-4" *ngIf="!loader">
-            <div class="heading pb-4 pt-3 text-left">
+<div class="container-fluid" align="center">
+    <div class="customers">
+        <div class="card" *ngIf="!loader">
+            <div class="heading pb-4 pt-5 text-left">
                 <img class="logo-img" src="../../../../assets/images/4cc logo.png" alt="">
             </div>
-            <div class="card">
-                <div class="body">
-                    <div class="row p-0 m-0">
-                        <div class="col-md-12 p-0 m-0">
-                            <div class="row form-box pb-3">
-                                <div class="col-sm-6 p-0 font-weight-bold">Proof Approval Date : {{proofApprovedDate | date:'LLLL dd,yyyy, EEEE'}}</div>
-                                <div class="col-sm-6 p-0 font-weight-bold">Shipping Deadline Date : {{orderList.due_date | date:'LLLL dd,yyyy, EEEE'}}</div>
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-danger text-shadow" for="job_number">WordOrder/Job ID :</label>
-                                <input type="number" class="form-control form-control-sm col-sm-3 text-danger" readonly [(ngModel)]="orderList.id">
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="reference_number">PO/Reference No :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.reference_number">
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_version">Version :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.custom_version">
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="invoice_number">Invoice No :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.invoice_number">
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_job_name">Job name :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.custom_job_name">
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="due_date">Due date :</label>
-                                <input type="date" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.due_date">
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="final_size">Final size :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.final_size" >
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="flat_size">Flat size :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.flat_size">
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_proof">Order Status :</label>
-                                <input class="form-control form-control-sm col-sm-3" id="order-status" readonly [(ngModel)]="orderList.status"/>
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="custom_product_name">Product name :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.custom_product_name">
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="ink_color">Ink color :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.ink_color">
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="custom_quantity">Quantity :</label>
-                                <input type="number" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.custom_quantity">
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_sample">Sample :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.custom_sample">
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="custom_proof">Proof :</label>
-                                <input class="form-control form-control-sm col-sm-3" id="proof" readonly [(ngModel)]="orderList.custom_proof">
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="due_date">Due date :</label>
-                                <input type="date" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.due_date">
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="country">Company Name :</label>
-                                <input class="form-control form-control-sm col-sm-3" id="country" readonly [(ngModel)]="customerList.company_name"/>
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_paper">Paper :</label>
-                                <textarea type="text" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.custom_paper"></textarea>
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="special_instructoon">Special instruction :</label>
-                                <textarea type="text" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.special_instructoon"></textarea>
-                            </div>
-                            <div class="row form-box">
-                                <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_type">Shipment :</label>
-                                <input class="form-control form-control-sm col-sm-3" id="shipping_type" readonly [(ngModel)]="orderList.shipping_type"/>
-                                <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_contact_name">Contact Name :</label>
-                                <input type="text" class="form-control form-control-sm col-sm-3" readonly  [(ngModel)]="orderList.shipping_contact_name">
-                            </div>
-                            <div class="p-0 m-0" *ngIf="orderList.shipping_type === 'Delivery' || orderList.shipping_type === 'Shipping'">
-                                <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_street_address">Address :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" readonly  [(ngModel)]="orderList.shipping_street_address"/>
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_state">State :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" readonly  [(ngModel)]="orderList.shipping_state"/>
-                                </div>
-                                <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_city">City :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" readonly  [(ngModel)]="orderList.shipping_city"/>
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_zip_code">Zip Code :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" readonly  [(ngModel)]="orderList.shipping_zip_code"/>
-                                </div>
-                            </div>
-                        </div>
+            <div class="body">
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="job_number">WordOrder/Job ID :</label>
+                    <input type="number" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.id">
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label font-weight-bold text-danger text-shadow" for="custom_job_name">Order Date&Time :</label>
+                    <input type="text" class="form-control font-weight-bold text-danger form-control-sm col-sm-3" readonly [(ngModel)]="orderDateTime">
+                    <label class="col-sm-2 p-0 pl-4 pt-2 col-form-label font-weight-bold text-danger text-shadow text-shadow" for="due_date">Due date :</label>
+                    <input type="date" class="form-control font-weight-bold text-danger form-control-sm col-sm-4" readonly [(ngModel)]="orderList.due_date">
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_product_name">Product name :</label>
+                    <input type="text" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.custom_product_name">
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_quantity">Total Quantity :</label>
+                    <input type="number" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.custom_quantity">
+                    <label class="col-sm-2 p-0 pl-4  pt-2 col-form-label text-shadow" for="custom_version">Version :</label>
+                    <input type="text" class="form-control form-control-sm col-sm-4" readonly [(ngModel)]="orderList.custom_version">
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="flat_size">Flat size :</label>
+                    <input type="text" class="form-control form-control-sm col-sm-3" readonly [(ngModel)]="orderList.flat_size">
+                    <label class="col-sm-2 p-0 pl-4 pt-2 col-form-label text-shadow" for="final_size">Final size :</label>
+                    <input type="text" class="form-control form-control-sm col-sm-4" readonly [(ngModel)]="orderList.final_size" >
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="ink_color">Ink color :</label>
+                    <input type="text" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.ink_color">
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_paper">Material :</label>
+                    <textarea type="text" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.custom_paper"></textarea>
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="special_instructoon">Special instruction :</label>
+                    <textarea type="text" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.special_instructoon"></textarea>
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="country">Company/Customer* :</label>
+                    <input class="form-control form-control-sm col-sm-3" id="country" readonly [(ngModel)]="customerList.company_name"/>
+                    <label class="col-sm-2 p-0 pl-4 pt-2 col-form-label text-shadow" for="reference_number">PO/Reference No :</label>
+                    <input type="text" class="form-control form-control-sm col-sm-4" readonly [(ngModel)]="orderList.reference_number">
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_job_name">Job name :</label>
+                    <input type="text" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.custom_job_name">
+                </div>
+                <div class="row form-box">
+                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_type">Shipment :</label>
+                    <input class="form-control form-control-sm col-sm-9" id="shipping_type" readonly [(ngModel)]="orderList.shipping_type"/>
+                </div>
+                <div class="p-0 m-0" *ngIf="orderList.shipping_type === 'Delivery' || orderList.shipping_type === 'Shipping'">
+                    <div class="row form-box">
+                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_contact_name">Contact Name :</label>
+                        <input type="text" class="form-control form-control-sm col-sm-9" readonly  [(ngModel)]="orderList.shipping_contact_name">
+                    </div>
+                    <div class="row form-box">
+                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_street_address">Address :</label>
+                        <input type="text" class="form-control form-control-sm col-sm-3" readonly  [(ngModel)]="orderList.shipping_street_address"/>
+                        <label class="col-sm-2 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_state">State :</label>
+                        <input type="text" class="form-control form-control-sm col-sm-4" readonly  [(ngModel)]="orderList.shipping_state"/>
+                    </div>
+                    <div class="row form-box">
+                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_city">City :</label>
+                        <input type="text" class="form-control form-control-sm col-sm-3" readonly  [(ngModel)]="orderList.shipping_city"/>
+                        <label class="col-sm-2 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_zip_code">Zip Code :</label>
+                        <input type="text" class="form-control form-control-sm col-sm-4" readonly  [(ngModel)]="orderList.shipping_zip_code"/>
                     </div>
                 </div>
             </div>

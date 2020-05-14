@@ -8,6 +8,7 @@ import { SharedDataService } from 'src/app/banner-admin/services/shared-data.ser
 import { UtilsFunction } from 'src/app/banner-admin/utils-function';
 import { ProductService } from 'src/app/banner-admin/services/product.service';
 import { OptionService } from 'src/app/banner-admin/services/option.service';
+import { OptionModelComponent } from '../../option-groups/option-model/option-model.component';
 
 @Component({
   selector: 'app-product-details',
@@ -25,11 +26,14 @@ export class ProductDetailsComponent implements OnInit {
   productSubOption: any;
   pricesData = [];
   optionsData = [];
+  productData = [];
   subOption = [];
   loading = true;
   imgFlag = false;
   updateImgValue: any;
   updateImg: any;
+  dynamicSubOptions = [];
+  optionObj = {};
 
   constructor(
     private SpinnerService: NgxSpinnerService,
@@ -55,6 +59,7 @@ export class ProductDetailsComponent implements OnInit {
     this.sharedData.optionTypes.subscribe(message => {
       this.optionsData = message;
     });
+    this.getProducts();
   }
 
   onSelectFile(event) {
@@ -114,6 +119,25 @@ export class ProductDetailsComponent implements OnInit {
     this.optionService.updateOptions(obj['id'], obj).subscribe(res => {
       this.recordId = null;
       this.toast.success('Option updated successfully!', '');
+    });
+  }
+
+  openProductOptionModal(type) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = type === 'register' ? 'lg' : '';
+    modalOptions.windowClass = type + '-modal';
+
+    const modalRef = this.modalService.open(OptionModelComponent, modalOptions);
+    modalRef.componentInstance.modalType = type;
+    modalRef.componentInstance.productId = this.productId;
+    modalRef.componentInstance.optionsData = this.optionsData;
+    modalRef.componentInstance.products = this.productData;
+
+  }
+
+  getProducts() {
+    this.productService.getProducts().subscribe(res => {
+      this.productData = res.results;
     });
   }
 

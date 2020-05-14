@@ -49,13 +49,13 @@ export class PackingListComponent implements OnInit {
       last_name: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      company_name: ['', Validators.required],
-      phone_number: ['', [Validators.required, Validators.minLength(8),
+      company_name: [''],
+      phone_number: ['', [Validators.minLength(8),
                           Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]],
       zip_code: ['', Validators.required],
       due_date: ['', Validators.required],
-      comments: ['', Validators.required],
-      received_by: ['', Validators.required],
+      comments: [''],
+      received_by: [''],
       boxes: '',
       custom_order: ''
     });

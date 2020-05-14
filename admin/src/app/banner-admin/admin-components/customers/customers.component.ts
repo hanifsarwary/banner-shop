@@ -13,6 +13,7 @@ export class CustomersComponent implements OnInit {
   public customerForm: FormGroup;
   validateFlag = false;
   submitted = false;
+  usernameError = false;
   statusList = [];
 
 
@@ -22,7 +23,7 @@ export class CustomersComponent implements OnInit {
 
     this.customerForm = this.fb.group({
       approach_details: [''],
-      bussiness_type: ['', Validators.required],
+      bussiness_type: [''],
       address: ['', Validators.required],
       city: ['', Validators.required],
       company_name: ['', Validators.required],
@@ -66,6 +67,8 @@ export class CustomersComponent implements OnInit {
       this.orderServeice.addCustomers(obj.value).subscribe(res => {
         this.toast.success('Customer added successfully!', '');
         this.customerForm.reset();
+      }, err => {
+        this.usernameError = true;
       });
     } else {
       this.validateFlag = true;
