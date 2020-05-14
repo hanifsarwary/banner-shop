@@ -34,7 +34,7 @@ export class OrderService {
   }
 
   updateCustomOrder(id, obj): Observable<any> {
-    return this.httpClient.put<any>(`${this.global.customOrders}update/${id}/`, obj, { headers: this.global.httpHeaders() });
+    return this.httpClient.patch<any>(`${this.global.customOrders}update/${id}/`, obj, { headers: this.global.httpHeaders() });
   }
 
   deleteOrder(id): Observable<any> {
