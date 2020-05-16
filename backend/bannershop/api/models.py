@@ -201,21 +201,20 @@ class CustomOrder(models.Model):
     custom_quantity = models.PositiveIntegerField(null=True, blank=True)
     custom_version = models.CharField(max_length=16, null=True, blank=True)
     custom_proof = models.CharField(max_length=16, null=True, blank=True)
-    custom_sample = models.TextField()
     custom_paper = models.TextField()
     
     flat_size = models.CharField(max_length=256, null=True, blank=True)
     final_size = models.CharField(max_length=256, null=True, blank=True)
     ink_color = models.TextField(null=True, blank=True)
     invoice_number = models.CharField(max_length=256, null=True, blank=True)
-    internal_notes = models.TextField()
+    internal_notes = models.TextField(null=True, blank=True)
     proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
                                     default=PROOF_STATUS_CHOICES[0][0])
     reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=64, db_index=True)
     quoted_price = models.FloatField(null=True)
     ticket_count = models.PositiveIntegerField(default=0, null=True)
-    special_instructoon = models.TextField()
+    special_instructoon = models.TextField(null=True, blank=True)
 
     shipping_type = models.CharField(max_length=64, 
                                      choices=SHIPPING_TYPE_CHOICES, null=True, blank=True)
@@ -280,49 +279,6 @@ class ProofHistory(models.Model):
     custom_order = models.ForeignKey(CustomOrder, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
     proof_status = models.CharField(max_length=256, null=True, choices=CustomOrder.PROOF_STATUS_CHOICES)
-
-
-class Order(models.Model):
-
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    customer_required_date = models.DateField(null=True, blank=True)
-    details = models.TextField(max_length=512)
-    order_number = models.UUIDField(default=uuid.uuid4, editable=False)
-    start_date = models.DateField(null=True, blank=True)
-    status = models.CharField(choices=CustomOrder.STATUS_CHOICES, max_length=64)
-    special_instruction = models.TextField(null=True)
-
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    def __str__(self):
-        return str(self.order_number)
-
-
-
-class ProductOrder(models.Model):
-    product = models.ForeignKey(Product, related_name='product_productorders', on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, related_name='order_productorders' ,on_delete=models.CASCADE)
-
-    custom_image = models.FileField(null=True, blank=True, upload_to='images/order_custom/')
-    special_note = models.CharField(max_length=128)
-    total_price = models.FloatField(default=0)
-    total_weight = models.FloatField(default=0)
-    product_units = models.FloatField(default=1)
-
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    def __str__(self):
-        return self.product.__str__() + ' ------- ' + self.order.__str__()
-
-class ProductOrderOption(models.Model):
-
-    product_order = models.ForeignKey(ProductOrder,related_name='product_order_options', on_delete=models.CASCADE)
-    option = models.ForeignKey(Option, on_delete=models.CASCADE)
-    sub_option = models.ForeignKey(SubOption, on_delete=models.CASCADE, null=True, blank=True)
-    quantity = models.IntegerField(default=0, null=True, blank=True)
-    price = models.FloatField(null=True, blank=True)
 
 
 class CustomQuote(models.Model):
