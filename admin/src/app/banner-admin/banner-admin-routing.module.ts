@@ -18,6 +18,7 @@ import { CustomersComponent } from './admin-components/customers/customers.compo
 import { InvoiceComponent } from './admin-components/invoice/invoice.component';
 import { PackingListComponent } from './admin-components/packing-list/packing-list.component';
 import { WorkOrderComponent } from './admin-components/work-order/work-order.component';
+import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
 
 const routes: Routes = [
     {
@@ -42,7 +43,8 @@ const routes: Routes = [
           { path: 'order-status', component: OrderStatusComponent },
           { path: 'post-comments', component: PostCommentsComponent },
           { path: 'profile', component: ProfileComponent },
-          { path: 'customers', component: CustomersComponent }
+          { path: 'customers', component: AllCustomersComponent },
+          { path: 'add-customer', component: CustomersComponent }
         ]
     }
 ];

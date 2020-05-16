@@ -41,6 +41,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInsterceptorService } from './services/error-insterceptor.service';
 import { PackingListComponent } from './admin-components/packing-list/packing-list.component';
 import { WorkOrderComponent } from './admin-components/work-order/work-order.component';
+import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -65,7 +66,8 @@ import { WorkOrderComponent } from './admin-components/work-order/work-order.com
     CustomersComponent,
     InvoiceComponent,
     PackingListComponent,
-    WorkOrderComponent
+    WorkOrderComponent,
+    AllCustomersComponent
   ],
   imports: [
     CommonModule,

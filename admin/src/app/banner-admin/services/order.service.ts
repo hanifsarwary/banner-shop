@@ -15,8 +15,9 @@ export class OrderService {
 
   // Customer API's
 
-  getCustomers(): Observable<any> {
-    return this.httpClient.get<any>(`${this.global.customers}`, { headers: this.global.httpHeaders() });
+  getCustomers(param?): Observable<any> {
+    const params = param ? param : '';
+    return this.httpClient.get<any>(`${this.global.customers}${params}`, { headers: this.global.httpHeaders() });
   }
 
   addCustomers(obj): Observable<any> {

@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="container-header mt-4 m-3">
+        <div class="product-btn">
+            <button class="btn btn-primary" (click)="gotoCustomer()">
+                <i class="fa fa-plus"></i> Add Customers
+            </button>
+        </div>
+        <div class="filter mr-3 mt-2">
+            <div class="form-group filters form-inline row p-0 m-0">
+                <label class="col-form-label form-control-sm" for="status">Status :</label>
+                <select class="form-control form-control-sm"  (change)="showByStatus($event.target.value)" id="status">
+                    <option value="">All</option>
+                    <option value=1>Active</option>
+                    <option value=0>In active</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="container-body m-3">
+        <div class="product-heading">All Customers</div>
+        <div *ngIf="customerList.length">
+            <app-datatable [dataSource]="customerList" [borderedRows]="false" [tableBorder]="true" [datatableColumns]="tableColumns"></app-datatable>
+        </div>
+        <div *ngIf="!loader">
+            <span class="no-record d-flex justify-content-center font-weight-bold" *ngIf="!customerList.length">
+                No Record
+            </span>
+        </div>
+        <div class="loader d-flex flex-row justify-content-center" *ngIf="loader">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
