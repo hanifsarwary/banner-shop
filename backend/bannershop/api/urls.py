@@ -12,7 +12,6 @@ from api.views.products import (
      SubOptionDetailViewSet, OptionSubOptionsListViewSet)
 from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet, UserDetailsWithUserName
 from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
-from api.views.orders import OrderViewSet, ProductOrderViewSet, ProductOrderOptionViewSet, ProductOrderOptionListViewSet
 from api.views.emails import SendOrderEmail
 from api.views.pricing import CalculatePriceViewSet
 from api.views.custom_orders import (
@@ -60,7 +59,7 @@ urlpatterns = [
     # path('invoices/', InvoiceListViewSet.as_view()),
     # path('invoices/<int:pk>/', InvoiceDetailViewSet.as_view()),
     path('send-custom-order-email/', SendOrderEmail.as_view()),
-    path('orders/', OrderViewSet.as_view()),
+    
     path('options/', AllOptionListView.as_view()),
     path('options/<int:pk>/', OptionDetailViewSet.as_view()),
     path('options/<int:option_id>/sub-options/', OptionSubOptionsListViewSet.as_view()),
@@ -68,9 +67,7 @@ urlpatterns = [
     path('price-types/', GetProductPriceTypes.as_view()),
     path('option-types/', GetOptionTypes.as_view()),
     path('prices/', CalculatePriceViewSet.as_view()),
-    path('product-orders/', ProductOrderViewSet.as_view()),
-    path('product-orders/<int:product_order>/options/', ProductOrderOptionListViewSet.as_view()),
-    path('product-order-options/', ProductOrderOptionViewSet.as_view()),
+
     path('products/', ProductsListViewSet.as_view()),
     path('products/<int:pk>/', ProductDetailViewSet.as_view()),
     path('products/category/<int:category_id>/', CategoryProductsViewSet.as_view()),
