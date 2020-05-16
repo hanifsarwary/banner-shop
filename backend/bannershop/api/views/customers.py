@@ -6,11 +6,14 @@ from rest_framework.views import APIView
 from api.models import Customer
 from api.serializers.customers import CustomerSerializer
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 
 class CustomerListViewSet(ListCreateAPIView):
     
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all().order_by('-id')
+    filter_backends = [DjangoFilterBackend, ]
+    filterset_fields = ['status']
     
 
 class CompanyNamesListView(APIView):
