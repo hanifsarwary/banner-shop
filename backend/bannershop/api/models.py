@@ -208,14 +208,14 @@ class CustomOrder(models.Model):
     final_size = models.CharField(max_length=256, null=True, blank=True)
     ink_color = models.TextField(null=True, blank=True)
     invoice_number = models.CharField(max_length=256, null=True, blank=True)
-    internal_notes = models.TextField()
+    internal_notes = models.TextField(null=True, blank=True)
     proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
                                     default=PROOF_STATUS_CHOICES[0][0])
     reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=64, db_index=True)
     quoted_price = models.FloatField(null=True)
     ticket_count = models.PositiveIntegerField(default=0, null=True)
-    special_instructoon = models.TextField()
+    special_instructoon = models.TextField(null=True, blank=True)
 
     shipping_type = models.CharField(max_length=64, 
                                      choices=SHIPPING_TYPE_CHOICES, null=True, blank=True)
