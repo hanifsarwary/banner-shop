@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer
 from api.serializers.users import CreateUserSerializer
 from api.models import Customer
 from django.contrib.auth.models import User
@@ -18,3 +18,10 @@ class CustomerSerializer(ModelSerializer):
         return Customer.objects.create(user=user, **validated_data)
 
         
+class CustomerStatusUpdateSerializer(ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = ('status', )
+
+    

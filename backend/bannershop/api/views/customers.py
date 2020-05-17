@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from api.models import Customer
-from api.serializers.customers import CustomerSerializer
+from api.serializers.customers import CustomerSerializer, CustomerStatusUpdateSerializer
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -35,3 +35,9 @@ class CustomerStatusViewSet(APIView):
         for a, b in Customer.STATUS_CHOICES:
             return_dict.setdefault(a, b) 
         return Response({'types': return_dict})
+
+
+class CustomerStatusUpdateViewSet(UpdateAPIView):
+
+    serializer_class = CustomerStatusUpdateSerializer
+    queryset = Customer.objects.all()
