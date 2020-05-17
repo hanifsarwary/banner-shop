@@ -109,7 +109,7 @@ export class CustomOrdersComponent implements OnInit {
   get formValidator() { return this.customOrderForm.controls; }
 
   customerPage() {
-    this.router.navigate(['/customers']);
+    this.router.navigate(['/add-customer']);
   }
 
   getJobId() {
