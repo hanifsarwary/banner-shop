@@ -32,7 +32,7 @@ class CreateOrderOptionsViewSet(CreateAPIView):
     queryset = OrderOption.objects.all()
 
 
-class ListOrderOptionsViewSet(ListAPIView):
+class ListOrderOptionsViewSet(ListCreateAPIView):
 
     serializer_class = OrderOptionSerializer
     queryset = OrderOption.objects
