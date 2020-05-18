@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label" for="productCategor">Select Product:</label>
-                    <select class="form-control col-sm-8" id="productCategor" formControlName="product">
+                    <select class="form-control col-sm-8" [(ngModel)]="productId" id="productCategor" formControlName="product">
                         <option  *ngFor="let product of products" [value]="product.id">{{product.product_name}}</option>
                     </select>
                 </div>

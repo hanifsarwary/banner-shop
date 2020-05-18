@@ -1,0 +1,24 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{operationType}}</h5>
+        <button type="button" class="close" (click)="activeModal.close('Close click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row form-box mr-3" *ngIf="modelActive === 'invoice'">
+            <label class="col-sm-4 col-form-label" for="invoice_number">Invoice No :</label>
+            <input type="text" class="form-control col-sm-8" [(ngModel)]="invoice_number">
+        </div>
+        <div class="row form-box mr-3" *ngIf="modelActive === 'status'">
+            <label class="col-sm-4 col-form-label" for="order_status">Order Status :</label>
+            <select class="form-control form-control-sm col-sm-8" id="order-status" [(ngModel)]="status" placeholder="Select Order Status">
+                <option *ngFor="let status of statusList | keyvalue: asIsOrder" [value]="status.key">{{status.value}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="this[funtionType]()">{{operationType}}</button>
+    </div>
+</div>

@@ -1,6 +1,10 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, ListAPIView
+from rest_framework.generics import (
+    ListCreateAPIView, RetrieveUpdateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView,
+    CreateAPIView)
 from api.models import PackingList, BoxesDetails
-from api.serializers.packing_lists import PackingListSerializer, BoxDetailsSerializer
+from api.serializers.packing_lists import (
+    PackingListSerializer, BoxDetailsSerializer, PackingListUpdateSerializer, 
+    BoxesBulkCreateSerializer)
 from rest_framework.response import Response
 
 
@@ -24,3 +28,22 @@ class BoxesListViewSet(ListCreateAPIView):
         queryset = self.get_queryset().filter(packing_list_id=packing_list_id)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class PackingListDetailViewSet(RetrieveUpdateAPIView):
+
+    serializer_class = PackingListUpdateSerializer
+    queryset = PackingList.objects.all()
+
+
+
+class BoxesDetailViewSet(RetrieveUpdateDestroyAPIView):
+
+    serializer_class = BoxDetailsSerializer
+    queryset = BoxesDetails.objects.all()
+
+
+class BoxesBulkCreate(CreateAPIView):
+
+    serializer_class = BoxesBulkCreateSerializer
+

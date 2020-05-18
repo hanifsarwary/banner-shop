@@ -7,15 +7,89 @@
                 <td mat-cell *matCellDef="let element; let i = index"> {{sourceData.filteredData.indexOf(element)+1}} </td>
             </ng-container>
 
+            <!-- Customer Columns -->
+
+            <ng-container matColumnDef="username">
+                <th mat-header-cell *matHeaderCellDef> Username </th>
+                <td mat-cell *matCellDef="let element">{{element?.user?.username}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="first_name">
+                <th mat-header-cell *matHeaderCellDef> First name </th>
+                <td mat-cell *matCellDef="let element">{{element?.user?.first_name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="last_name">
+                <th mat-header-cell *matHeaderCellDef> Last name </th>
+                <td mat-cell *matCellDef="let element">{{element?.user?.last_name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element">{{element?.user?.email}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="bussiness_type">
+                <th mat-header-cell *matHeaderCellDef> Bussiness Type </th>
+                <td mat-cell *matCellDef="let element">{{element.bussiness_type}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef> Address </th>
+                <td mat-cell *matCellDef="let element">{{element.address}}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef> City </th>
+                <td mat-cell *matCellDef="let element">{{element.city}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="company_name">
+                <th mat-header-cell *matHeaderCellDef> Company </th>
+                <td mat-cell *matCellDef="let element">{{element.company_name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="country">
+                <th mat-header-cell *matHeaderCellDef> Country </th>
+                <td mat-cell *matCellDef="let element">{{element.country}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="phone_number">
+                <th mat-header-cell *matHeaderCellDef> Phone # </th>
+                <td mat-cell *matCellDef="let element">{{element.phone_number}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="resale_no">
+                <th mat-header-cell *matHeaderCellDef> Resale no </th>
+                <td mat-cell *matCellDef="let element">{{element.resale_no}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="zip_code">
+                <th mat-header-cell *matHeaderCellDef> Zip Code </th>
+                <td mat-cell *matCellDef="let element">{{element.zip_code}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element">{{element.status === 1 ? 'Active' : 'In active'}}</td>
+            </ng-container>
+
+            <!-- customer columns end -->
+
+
             <ng-container matColumnDef="work_order">
                 <th mat-header-cell *matHeaderCellDef> Work Order </th>
-                <td mat-cell *matCellDef="let element">{{element.job_number}}</td>
+                <td mat-cell *matCellDef="let element">
+                    <a href="javascript:;" [routerLink]="['/work-orders/', element.id]"><small class="font-size-10">{{element.id}}</small></a></td>
             </ng-container>
 
             <ng-container matColumnDef="invoice_no">
                 <th mat-header-cell *matHeaderCellDef> Invoice # </th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" (click)="openInvoiceModal(Invoice, element.id)">TBD</a>
+                    {{element.invoice_number}} <br>
+                    <a href="javascript:;" (click)="openModalInvoice(Invoice, element.id, element?.invoice_number)">
+                        <small>Invoice detail</small>
+                    </a>
                 </td>
             </ng-container>
 
@@ -32,14 +106,23 @@
             <ng-container matColumnDef="product_info">
                 <th mat-header-cell *matHeaderCellDef> Product Info </th>
                 <td mat-cell *matCellDef="let element" class="product_info">
-                    <b class="pl-3">Product: </b><small class="pl-2">{{element?.custom_product_name}}</small> <br>
-                    <b class="pl-3">Quantity: </b><small class="pl-2">{{element?.custom_quantity}}</small><br>
-                    <b class="pl-3">Ink: </b><small class="pl-2">{{element?.ink_color}}</small></td>
+                    <div class="d-flex flex-column">
+                        <div>
+                            <b class="ml-2 text-left">Product: </b><small class="ml-2 text-left">{{element?.custom_product_name}}</small>
+                        </div>
+                        <div>
+                            <b class="ml-2 text-left">Quantity: </b><small class="ml-2 text-left">{{element?.custom_quantity}}</small>
+                        </div>
+                        <div>
+                            <b class="ml-2 text-left">Ink: </b><small class="ml-2 text-left">{{element?.ink_color}}</small>
+                        </div>
+                    </div>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="submitted_date">
                 <th mat-header-cell *matHeaderCellDef> Submitted Date </th>
-                <td mat-cell *matCellDef="let element">{{element.start_date}}</td>
+                <td mat-cell *matCellDef="let element">{{element.created_at | date:'dd-MM-yyyy'}}</td>
             </ng-container>
 
             <ng-container matColumnDef="due_date">
@@ -49,7 +132,12 @@
 
             <ng-container matColumnDef="job_status">
                 <th mat-header-cell *matHeaderCellDef> Job Status </th>
-                <td mat-cell *matCellDef="let element">{{element.status}}</td>
+                <td mat-cell *matCellDef="let element">
+                    {{element.status}} <br>
+                    <a href="javascript:;" (click)="openModalOrderStatus(Status, element.id, element?.status)">
+                        <small>Status detail</small>
+                    </a>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="shipment_tracking">
@@ -70,7 +158,7 @@
             <ng-container matColumnDef="proof_status">
                 <th mat-header-cell *matHeaderCellDef> Proof Status </th>
                 <td mat-cell *matCellDef="let element">
-                    {{element.custom_proof}} <br>
+                    {{element.proof_status}} <br>
                     <a href="javascript:;" (click)="openProofDetailModal(ProofDetail,element.proof_status, element.id)">
                         <small>Proof Detail</small>
                     </a>
@@ -80,20 +168,29 @@
             <ng-container matColumnDef="send_email">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" (click)="openEmailModal(Email, element?.customer?.user, element)">Send Email</a>
+                    <a href="javascript:;" (click)="openEmailModal(Email, element?.customer?.user, element)">
+                        <small>Send Email</small>
+                    </a>
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="edit_order">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" (click)="openModal('add-category', element)">Edit Order</a>
+                    <a href="javascript:;" [routerLink]="['/update-custom-orders/', element.id, 'Update']"><small class="font-size-10">Edit Order</small></a><br>
+                    <a href="javascript:;" [routerLink]="['/clone-custom-orders/', element.id, 'Clone']"><small class="font-size-10">Clone Order</small></a><br>
+                    <a href="javascript:;" (click)="opendeleteModel(deleteOrder, element.id)"><small class="font-size-10">Delete Order</small></a>
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="payment">
-                <th mat-header-cell *matHeaderCellDef> Payment </th>
+            <ng-container matColumnDef="quoted_price">
+                <th mat-header-cell *matHeaderCellDef> Quoted price </th>
                 <td mat-cell *matCellDef="let element">{{element.quoted_price}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="final_size">
+                <th mat-header-cell *matHeaderCellDef> Final size </th>
+                <td mat-cell *matCellDef="let element">{{element.final_size}}</td>
             </ng-container>
 
             <ng-container matColumnDef="placed_by">
@@ -123,7 +220,10 @@
 
             <ng-container matColumnDef="create_packing_list">
                 <th mat-header-cell *matHeaderCellDef> Create Packing List </th>
-                <td mat-cell *matCellDef="let element"> </td>
+                <td mat-cell *matCellDef="let element">
+                    <a href="javascript:;" [routerLink]="['/packing-list/', element.id]"
+                    [queryParams]="{obj: stringify(element)}">Go</a>
+                </td>
             </ng-container>
 
             <!-- Option Columns -->
@@ -320,51 +420,10 @@
 
         </table>
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[50, 70, 100]" showFirstLastButtons></mat-paginator>
 </div>
 
-
-<ng-template #Invoice let-modal>
-    <div class="modal-header">
-     <h5 class="modal-title" id="invoice">Invoice</h5>
-     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-     </button>
-    </div>
-    <div class="modal-body">
-        <div class="d-flex justify-content-end mr-4">
-            <a href="javascript:;" (click)="window.print()">Print</a>
-        </div>
-      <div class="invoiceForm">
-          <form [formGroup]="invoiceForm" class="m-3 mr-4" (ngSubmit)="submitinvoiceForm(invoiceForm)">
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="authorization_code">Code :</label>
-                <input type="text" class="form-control col-sm-8" [ngModel]="invoiceObj ? invoiceObj.authorization_code : ''" formControlName="authorization_code" placeholder="Enter Authorization code">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="invoice_number">Invoice No :</label>
-                <input type="number" class="form-control col-sm-8" [ngModel]="invoiceObj ? invoiceObj.invoice_number : ''" formControlName="invoice_number" placeholder="Enter Invoice number">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="paid_by">Paid By :</label>
-                <input type="text" class="form-control col-sm-8" [ngModel]="invoiceObj ? invoiceObj.paid_by : ''" formControlName="paid_by" placeholder="Enter Paid By ">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="payment_method">Payment :</label>
-                <input type="text" class="form-control col-sm-8" [ngModel]="invoiceObj ? invoiceObj.payment_method : ''" formControlName="payment_method" placeholder="Enter Payment method">
-            </div>
-            <div class="form-group row ml-0 mr-0">
-                <label class="col-sm-4 col-form-label" for="sold_to">Sold to :</label>
-                <input type="text" class="form-control col-sm-8" [ngModel]="invoiceObj ? invoiceObj.sold_to : ''" formControlName="sold_to" placeholder="Enter Sold to">
-            </div>
-            <button class="btn btn-primary btn-submit mt-4 w-50" type="submit" [disabled]="invoiceForm.invalid"> Submit </button>
-          </form>
-      </div>
-    </div>
-   </ng-template>
-
-
-   <ng-template #Email let-modal>
+<ng-template #Email let-modal>
     <div class="modal-header">
      <h5 class="modal-title" id="email">Send Email</h5>
      <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
@@ -390,7 +449,7 @@
           </form>
       </div>
     </div>
-   </ng-template>
+</ng-template>
 
 <ng-template #ProofDetail let-modal>
     <div class="modal-header">
@@ -437,5 +496,15 @@
             </div>
         </div>
       </div>
+    </div>
+</ng-template>
+
+<ng-template #deleteOrder let-modal>
+    <div class="modal-body">
+        <div class="contatiner">
+            <h4 class="text-center mt-3">Are you sure?</h4>
+            <button type="button" class="btn btn-primary  pull-right mt-4" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" class="btn btn-danger pull-right mr-3 mt-4" (click)="deleteOrders()">Delete</button>
+        </div>
     </div>
 </ng-template>

@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomOrderList } from '../model/custom-order';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TypesService } from '../../services/types.service';
+import { OrderService } from '../../services/order.service';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-custom-orders',
@@ -14,58 +17,105 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class CustomOrdersComponent implements OnInit {
 
+  @Input() customerList;
+  @Input() operation = 'Add';
+  @Input() orderList: CustomOrderList;
+
   public customOrderForm: FormGroup;
-  operation = 'Add';
-  customOrderId: number;
+  sharedObj;
+  submitted = false;
+  validateFlag = false;
   userList = [];
-  customerList = [];
+  allCustomers = [];
   invoicesList = [];
   statusList = [];
   proofStatusList = [];
+  companyName;
+  companiesList = [];
   customerId: number;
-  selectedCustomerObj: any;
-  customOrderList: CustomOrderList;
+  job_no_exist = false;
+  job_id;
+  opeFlag = true;
+  shipping;
+  loader = true;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   constructor(
-    private activeModal: NgbActiveModal,
-    private fb: FormBuilder,
-    private router: Router,
+    private orderServeice: OrderService,
+    private typeService: TypesService,
+    private data: SharedDataService,
     private apiServeice: ApiService,
-    private toast: ToastrService) {
+    private toast: ToastrService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router) {
 
     this.customOrderForm = this.fb.group({
       due_date: [''],
-      custom_job_name: [''],
-      custom_product_name: [''],
-      custom_quantity: [0, ''],
-      custom_version: [''],
+      custom_job_name: ['', Validators.required],
+      custom_product_name: ['', Validators.required],
+      custom_quantity: [0, Validators.required],
+      custom_version: ['', Validators.required],
       custom_proof: [''],
-      custom_sample: [''],
-      custom_paper: [''],
-      flat_size: [''],
-      ink_color: [''],
+      custom_paper: ['', Validators.required],
+      flat_size: ['', Validators.required],
+      ink_color: ['', Validators.required],
       internal_notes: [''],
-      job_number: [0, ''],
       reference_number: [''],
-      ticket_count: [0, ''],
       special_instructoon: [''],
+      // quoted_price: [''],
+      final_size: ['', Validators.required],
       proof_status: [''],
       customer: [''],
       start_date: [''],
-      status: [''],
+      added_by: '',
+      shipping_type: [''],
+      shipping_contact_name: [''],
+      shipping_street_address: [''],
+      shipping_city: [''],
+      shipping_state: [''],
+      shipping_zip_code: ['']
+    });
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.operation = params['operation'];
+        this.opeFlag = this.operation === 'Update' ? false : true;
+        this.getCustomOrderById(params['id']);
+      }
     });
    }
 
   ngOnInit(): void {
     this.getCustomers();
-    this.getInvoices();
     this.getUsers();
     this.getStatus();
     this.getProofStatus();
+    this.getCompanies();
+    this.getJobId();
   }
 
+  getCustomOrderById(id) {
+    this.loader = true;
+    this.orderServeice.getCustomOrderById(id).subscribe(res => {
+      this.orderList = res;
+      this.shipping = this.orderList.shipping_type;
+      this.customerList = this.orderList.customer;
+      this.customerId = this.customerList.id;
+      this.companyName = this.customerList.company_name;
+      this.loader = false;
+    });
+  }
+
+  get formValidator() { return this.customOrderForm.controls; }
+
   customerPage() {
-    this.router.navigate(['/customers']);
+    this.router.navigate(['/add-customer']);
+  }
+
+  getJobId() {
+    this.orderServeice.getJobId().subscribe(res => {
+      this.job_id = res.number;
+    });
   }
 
   getUsers() {
@@ -75,60 +125,96 @@ export class CustomOrdersComponent implements OnInit {
   }
 
   getCustomers() {
-    this.apiServeice.getCustomers().subscribe(res => {
-      this.customerList = res.results;
+    this.orderServeice.getCustomers().subscribe(res => {
+      this.allCustomers = res.results;
+    });
+  }
+
+  getCompanies() {
+    this.typeService.getCompanies().subscribe(res => {
+      this.companiesList = res.names;
     });
   }
 
   getStatus() {
-    this.apiServeice.getStatus().subscribe(res => {
+    this.typeService.getStatus().subscribe(res => {
       this.statusList = res.types;
     });
   }
 
   getProofStatus() {
-    this.apiServeice.getProofStatus().subscribe(res => {
+    this.typeService.getProofStatus().subscribe(res => {
       this.proofStatusList = res.types;
     });
   }
 
   getInvoices() {
-    this.apiServeice.getInvoices().subscribe(res => {
+    this.orderServeice.getInvoices().subscribe(res => {
       this.invoicesList = res.results;
     });
   }
 
   selectedCustomer(event) {
-    this.customOrderId = null;
-    this.customOrderId = event.target.value;
-    this.selectedCustomerObj = this.getObjFromJsonArray(this.customOrderId);
-    this.selectedCustomerObj = this.selectedCustomerObj[0];
+    this.customerId = null;
+    this.customerId = event.target.value;
+    this.customerList = this.getObjFromJsonArray(this.customerId);
+    this.customerList = this.customerList[0];
+    this.customerId = this.customerList.id;
+    this.companyName = this.customerList.company_name;
+  }
+
+  selectedCompanies(event) {
+    this.companyName = null;
+    this.companyName = event.target.value;
+    this.customerList = this.getCompanyFromCustomerObj(this.companyName);
+    this.customerList = this.customerList[0];
+    this.customerId = this.customerList.id;
+  }
+
+  goToOrderStatus() {
+    this.router.navigate(['/order-status']);
   }
 
   onSubmit(obj) {
-    if (this.operation === 'Add') {
-      const today = new Date();
-      const start_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-      obj.value.customer = this.customOrderId;
-      obj.value.status = 'Submitted';
-      obj.value.start_date = start_date;
-      this.apiServeice.addCustomOrder(obj.value).subscribe(res => {
-        this.toast.success('Custom Orders added successfully!', '');
-        this.customOrderForm.reset();
-      });
+    if (this.operation === 'Add' || this.operation === 'Clone' ) {
+      this.submitted = true;
+      if (this.customOrderForm.valid) {
+        this.submitted = false;
+        this.validateFlag = false;
+        const today = new Date();
+        const start_date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        obj.value.customer = this.customerId ? this.customerId : this.customerList.id;
+        obj.value.status = 'Submitted';
+        obj.value.start_date = start_date;
+        obj.value.added_by = this.userInfo.id;
+        this.orderServeice.addCustomOrder(obj.value).subscribe(res => {
+            this.toast.success('Custom Orders added successfully!', '');
+            this.router.navigate(['/order-status']);
+            this.customOrderForm.reset();
+        });
+      } else {
+        this.validateFlag = true;
+      }
     } else {
-      obj.value.customer = this.selectedCustomerObj.id;
-      this.apiServeice.updateCustomOrder(this.customOrderId, obj.value).subscribe(res => {
+      obj.value.customer = this.customerList.id;
+      obj.value.added_by = this.userInfo.id;
+      this.orderServeice.updateCustomOrder(this.orderList.id, obj.value).subscribe(res => {
         this.toast.success('Custom Orders updated successfully!', '');
-        this.activeModal.close();
+        this.router.navigate(['/order-status']);
       });
     }
   }
 
   getObjFromJsonArray(id) {
-    return this.customerList.filter(function(item) {
+    return this.allCustomers.filter(function(item) {
       // tslint:disable-next-line: radix
       return parseInt(item.id) === parseInt(id);
+    });
+  }
+
+  getCompanyFromCustomerObj(value) {
+    return this.allCustomers.filter(function(item) {
+      return item.company_name === value;
     });
   }
 

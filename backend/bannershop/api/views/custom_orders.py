@@ -1,12 +1,15 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import (
+    ListCreateAPIView, RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, RetrieveUpdateAPIView,
+    RetrieveDestroyAPIView)
 from rest_framework.views import  APIView
 from rest_framework.response import Response
-from api.models import CustomOrder, Invoice, ProofHistory
+from api.models import CustomOrder, ProofHistory
 from api.serializers.custom_orders import (
-    CustomOrderSerializer, InvoiceSerializer, ProofHistorySerializer, CustomOrderCreateSerializer,
+    CustomOrderSerializer, ProofHistorySerializer, CustomOrderCreateSerializer,
     ProofStatusUpdateSerializer, CustomOrderUpdateSerializer)
 from django.contrib.auth.models import User
 from django.db.models import Q
+
 
 class CustomOrderListViewSet(ListAPIView):
 
@@ -37,20 +40,24 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_due_date(self, queryset, range_start, range_end):
 
         if range_start and range_end:
-            print('due_date:', range_end)
             queryset = queryset.filter(due_date__range=[range_start, range_end])
+        elif range_start:
+            queryset = queryset.filter(due_date=range_start)
+        elif range_end:
+            queryset = queryset.filter(due_date=range_end)
+            
         return queryset
 
     def filter_proof(self, queryset, proof):
         if proof:
             print('proof:', proof)
-            queryset = queryset.filter(custom_proof=proof)
+            queryset = queryset.filter(proof_status=proof)
         return queryset
     
     def filter_job_id(self, queryset, job_id):
         if job_id:
             print('job_id:', job_id)
-            queryset = queryset.filter(job_number=job_id)
+            queryset = queryset.filter(id=job_id)
         return queryset
     
     def filter_reference_number(self, queryset, reference_number):
@@ -68,7 +75,7 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_invoice_no(self, queryset, invoice_no):
         if invoice_no:
             print('invoice:', invoice_no)
-            queryset = queryset.filter(invoice__invoice_number=invoice_no)
+            queryset = queryset.filter(invoice_number=invoice_no)
         return queryset
     
     def filter_added_by(self, queryset, added_by):
@@ -92,6 +99,21 @@ class CustomOrderListViewSet(ListAPIView):
                 Q(ink_color__icontains=search_info)
                 )
         return queryset
+    
+    def filter_missing_deadline(self, queryset, missing_deadline):
+        from datetime import date
+        if missing_deadline:
+            queryset = queryset.filter(due_date__lt=date.today()).exclude(status='Shipped')
+        return queryset
+
+    def filter_open_orders(self, queryset, is_open):
+        if is_open:
+            filter_arr = [i[0] for i in CustomOrder.STATUS_CHOICES[4:]]
+            
+            queryset = queryset.filter(status__in=filter_arr)
+            print(filter_arr)
+        return queryset
+
 
     def post(self, request):
 
@@ -109,8 +131,11 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_company_name(queryset, self.request.data.get('company'))
         queryset = self.filter_job_name(queryset, self.request.data.get('job_name'))
         queryset = self.filter_search(queryset, self.request.data.get('search_info'))
-        print(self.request.data)
-        return Response({"results": self.serializer_class(self.paginate_queryset(queryset), many=True).data})
+        queryset = self.filter_missing_deadline(queryset, self.request.data.get('is_missing_deadline'))
+        queryset = self.filter_open_orders(queryset, self.request.data.get('is_open'))
+        
+        return Response({"results": self.serializer_class(self.paginate_queryset(
+            queryset.order_by('-id')), many=True).data})
 
 
 class CustomOrderCreateViewSet(CreateAPIView):
@@ -119,22 +144,22 @@ class CustomOrderCreateViewSet(CreateAPIView):
     queryset = CustomOrder.objects.all()
 
 
-class CustomOrderDetailViewSet(RetrieveAPIView):
+class CustomOrderDetailViewSet(RetrieveDestroyAPIView):
 
     serializer_class = CustomOrderSerializer
     queryset = CustomOrder.objects.all()
 
 
-class CustomOrderInvoice(ListAPIView):
+# class CustomOrderInvoice(ListAPIView):
 
-    serializer_class = InvoiceSerializer
-    queryset = Invoice.objects.all()
+#     serializer_class = InvoiceSerializer
+#     queryset = Invoice.objects.all()
 
-    def list(self, request, custom_order_id, *args, **kwargs):
-        queryset = self.get_queryset().filter(custom_order=custom_order_id)
-        print(queryset)
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+#     def list(self, request, custom_order_id, *args, **kwargs):
+#         queryset = self.get_queryset().filter(custom_order=custom_order_id)
+#         print(queryset)
+#         serializer = self.serializer_class(queryset, many=True)
+#         return Response(serializer.data)
 
 class CustomOrderUpdateViewSet(RetrieveUpdateAPIView):
 
@@ -143,17 +168,17 @@ class CustomOrderUpdateViewSet(RetrieveUpdateAPIView):
     def get_queryset(self):
         return CustomOrder.objects.filter(pk=self.kwargs['pk'])
 
-class InvoiceListViewSet(ListCreateAPIView):
+# class InvoiceListViewSet(ListCreateAPIView):
 
-    serializer_class = InvoiceSerializer
-    queryset = Invoice.objects.all()
+#     serializer_class = InvoiceSerializer
+#     queryset = Invoice.objects.all()
 
 
 
-class InvoiceDetailViewSet(RetrieveUpdateAPIView):
+# class InvoiceDetailViewSet(RetrieveUpdateAPIView):
 
-    serializer_class = InvoiceSerializer
-    queryset = Invoice.objects
+#     serializer_class = InvoiceSerializer
+#     queryset = Invoice.objects
 
 
 class ProofHistoryListView(ListCreateAPIView):
@@ -170,7 +195,7 @@ class GetOrderTypes(APIView):
 
     def get(self, request):
         return_dict = dict()
-        for a, b in CustomOrder.STATUS_CHOICES: 
+        for a, b in tuple(reversed(CustomOrder.STATUS_CHOICES)): 
             return_dict.setdefault(a, b) 
         return Response({'types': return_dict})
 
@@ -192,3 +217,31 @@ class UpdateProofStatusViewSet(APIView):
         ProofHistory.objects.create(custom_order=custom_order, proof_status=self.request.data.get('proof_status'))
         
         return Response(CustomOrderCreateSerializer(custom_order).data)
+
+
+
+class GetLatestJobNumber(APIView):
+
+    def get(self, request):
+        custom_order = CustomOrder.objects.all().order_by('-id').first()
+        if custom_order:
+            latest_number = custom_order.id + 1
+        else:
+            latest_number = 70000
+        return Response({
+            'number': latest_number
+        })
+
+class ProofApprovedDateViewSet(APIView):
+
+    def get(self, request, custom_order):
+        proof_status = ProofHistory.objects.filter(
+            custom_order=custom_order,
+            proof_status=CustomOrder.PROOF_STATUS_CHOICES[2][0]).order_by('-id').first()
+        
+        if proof_status:
+            approve_date = proof_status.created_at
+        else:
+            approve_date = None
+
+        return Response({'result_date': approve_date})

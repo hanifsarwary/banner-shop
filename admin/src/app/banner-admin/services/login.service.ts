@@ -13,4 +13,8 @@ export class LoginService {
     return this.http.post<any>(`${this.globals.userLogin}`, loginCredentials);
   }
 
+  getUserInfo(username) {
+    return this.http.get<any>(`${this.globals.userSignup}${username}`);
+  }
+
 }

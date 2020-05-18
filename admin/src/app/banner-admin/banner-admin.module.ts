@@ -19,8 +19,10 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardComponent } from './admin-components/dashboard/dashboard.component';
 import { DatatableComponent } from './admin-components/datatable/datatable.component';
 import { MatTableModule,
-         MatPaginatorModule, MatSortModule,
-         MatInputModule } from '@angular/material';
+         MatPaginatorModule,
+         MatSortModule,
+         MatTooltipModule,
+         MatButtonModule} from '@angular/material';
 import { ModalAddCategoryComponent } from './admin-components/sub-components/modal-add-category/modal-add-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -34,6 +36,12 @@ import { FiltersBarModule } from '../shared/filters-bar/filters-bar.module';
 import { CustomersComponent } from './admin-components/customers/customers.component';
 import { NgxsModule } from '@ngxs/store';
 import { DateRangeState } from '../store/state';
+import { InvoiceComponent } from './admin-components/invoice/invoice.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInsterceptorService } from './services/error-insterceptor.service';
+import { PackingListComponent } from './admin-components/packing-list/packing-list.component';
+import { WorkOrderComponent } from './admin-components/work-order/work-order.component';
+import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -55,7 +63,11 @@ import { DateRangeState } from '../store/state';
     CategoryDetailComponent,
     PriceTypePipe,
     OptionTypesPipe,
-    CustomersComponent
+    CustomersComponent,
+    InvoiceComponent,
+    PackingListComponent,
+    WorkOrderComponent,
+    AllCustomersComponent
   ],
   imports: [
     CommonModule,
@@ -70,9 +82,12 @@ import { DateRangeState } from '../store/state';
     FormsModule,
     ReactiveFormsModule,
     FiltersBarModule,
+    MatTooltipModule,
+    MatButtonModule,
     NgxsModule.forRoot([
       DateRangeState ])
   ],
-  providers : [UtilsFunction]
+  providers : [UtilsFunction,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInsterceptorService, multi: true }]
 })
 export class BannerAdminModule { }

@@ -5,6 +5,7 @@ import { SharedDataService } from 'src/app/banner-admin/services/shared-data.ser
 import { UtilsFunction } from 'src/app/banner-admin/utils-function';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { OptionService } from 'src/app/banner-admin/services/option.service';
 
 @Component({
   selector: 'app-option-detail',
@@ -26,9 +27,13 @@ export class OptionDetailComponent implements OnInit {
   loading = true;
   optionLoading = false;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService,
-    private sharedData: SharedDataService, private utils: UtilsFunction,
-    private SpinnerService: NgxSpinnerService, private toast: ToastrService) {
+  constructor(
+    private route: ActivatedRoute,
+    private optionService: OptionService,
+    private sharedData: SharedDataService,
+    private utils: UtilsFunction,
+    private SpinnerService: NgxSpinnerService,
+    private toast: ToastrService) {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.optionId = params['id'];
@@ -48,14 +53,14 @@ export class OptionDetailComponent implements OnInit {
   }
 
   saveOption(obj) {
-    this.apiService.updateOptions(obj['id'], obj).subscribe(res => {
+    this.optionService.updateOptions(obj['id'], obj).subscribe(res => {
       this.editOptionId = false;
       this.toast.success('Option updated successfully!', '');
     });
   }
 
   getSubOption(id) {
-    this.apiService.getSubOption(id).subscribe(res => {
+    this.optionService.getSubOption(id).subscribe(res => {
       this.dynamicArray = res;
       this.optionLoading = true;
     });
@@ -66,7 +71,7 @@ export class OptionDetailComponent implements OnInit {
   }
 
   saveSubOption(obj) {
-    this.apiService.updateSubOption(obj['id'], obj).subscribe(res => {
+    this.optionService.updateSubOption(obj['id'], obj).subscribe(res => {
       this.subOptionId = null;
       this.toast.success('Sub option updated successfully!', '');
     });
@@ -75,7 +80,7 @@ export class OptionDetailComponent implements OnInit {
   getOptionDetail(id) {
     this.loading = true;
     this.SpinnerService.show();
-    this.apiService.getOptions(id).subscribe(res => {
+    this.optionService.getOptions(id).subscribe(res => {
       this.optionDetail = res;
       this.sharedData.optionTypes.subscribe(message => {
         this.optionsData = message;
@@ -86,7 +91,7 @@ export class OptionDetailComponent implements OnInit {
   }
 
   addSubOption(id, obj) {
-    this.apiService.addSubOption(id, obj).subscribe(res => {
+    this.optionService.addSubOption(id, obj).subscribe(res => {
       this.currentId = null;
       this.currentIdFlag = true;
       this.toast.success('Sub option added successfully!', '');

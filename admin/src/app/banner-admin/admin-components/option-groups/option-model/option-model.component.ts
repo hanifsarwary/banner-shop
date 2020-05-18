@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SharedDataService } from 'src/app/banner-admin/services/shared-data.service';
+import { OptionService } from 'src/app/banner-admin/services/option.service';
 
 @Component({
   selector: 'app-option-model',
@@ -17,11 +18,13 @@ export class OptionModelComponent implements OnInit {
   optionsData = [];
   isChild = false;
   priceType: string;
+  productId;
 
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private sharedData: SharedDataService,
+    private optionService: OptionService,
     private toast: ToastrService
   ) { }
 
@@ -39,9 +42,11 @@ export class OptionModelComponent implements OnInit {
   }
 
   submitForm(): void {
-    this.optionForm.reset();
-    this.activeModal.close();
-    this.toast.success('Option added successfully!', '');
+    this.productId = this.optionForm.value.product;
+    this.optionService.addSubOptionByProduct(this.productId, this.optionForm.value).subscribe(res => {
+      this.toast.success('Option added successfully!', '');
+      window.location.reload();
+    });
   }
 
 }

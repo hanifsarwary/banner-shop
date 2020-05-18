@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class Globals {
@@ -27,4 +28,17 @@ export class Globals {
   statusTypes = `${this.domanin_name}/custom-orders-types/`;
   statusProofTypes = `${this.domanin_name}/proof-status-types/`;
   companies = `${this.domanin_name}/customers/company-names/`;
+  jobId = `${this.domanin_name}/get-latest-job-number/`;
+  packingList = `${this.domanin_name}/packing-lists/`;
+  boxesCreate = `${this.domanin_name}/boxes/bulk-create/`;
+  boxesDelete = `${this.domanin_name}/boxes/`;
+  customerStatus = `${this.domanin_name}/customer-status-types/`;
+  proofApprovedDate = `${this.domanin_name}/custom-orders/proof-status/proof-approved_date/`;
+
+  httpHeaders() {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `token ${this.token}`);
+    return headers;
+  }
 }

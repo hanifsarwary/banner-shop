@@ -1,7 +1,8 @@
-<div class="heading">Product Detail</div>
-<hr>
 <div class="container">
-    <div class="card" *ngIf="!loading">
+  <div class="product-detail" align="center" *ngIf="!loading">
+    <div class="heading mt-3">Product Detail</div>
+    <hr>
+    <div class="card">
         <div class="row product-section">
           <div class="col-5 pl-0">
             <div [class.content]="editProductId">
@@ -50,55 +51,55 @@
                   <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.product_description">
                 </div>
               </div>
-              <div class="row pull-right product-edit">
+              <div class="row pull-right product-edit mb-3">
                 <a href="javascript:;" *ngIf="!editProductId" (click)="editProduct()">Edit</a>
                 <a href="javascript:;" *ngIf="editProductId" (click)="saveProduct(productDetail)">Save</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="row option-table">
-          <div class="card-body mt-4">
-            <h5 class="ml-4">Product Options</h5>
-            <table *ngIf="productSubOption.length" class="table mt-5 mat-elevation-z8 table-fixed" align="center">
-              <thead>
-                  <tr>
-                      <th class="col-2">Option Name</th>
-                      <th class="col-2">Price Unit</th>
-                      <th class="col-3">Option Type</th>
-                      <th class="col-3">Option Description</th>
-                      <th class="col-1"></th>
-                      <th class="col-1"></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let item of productSubOption">
-                      <td class="col-2"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_name"></td>
-                      <td class="col-2"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.price_unit"></td>
-                      <td class="col-3">
-                        
-                        <select [disabled]="recordId!==item.id" [(ngModel)]="item.option_type" class="form-control" id="optionType">
-                          <option  *ngFor="let item of optionsData | keyvalue" [value]="item.key">{{item.value}}</option>
-                        </select>
-
-                        <!-- <input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_type"> -->
-                      
-                      </td>
-                      <td class="col-3"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_description"></td>
-                      <td class="col-1">
-                        <a *ngIf="recordId !== item.id" (click)="editOption(item.id)" href="javascript:;"> Edit</a>
-                        <a *ngIf="recordId === item.id" (click)="saveOptions(item)" href="javascript:;"> Save</a>
-                      </td>
-                      <td class="col-1"> <a (click)="openModal(subOptionModal, item.suboption_set)" href="javascript:;" >sub option</a></td>
-                  </tr>
-              </tbody>
-            </table>
-            <div *ngIf="!productSubOption.length" class="text-center mt-3">
-                No options
-            </div>
-          </div>
-        </div>
     </div>
+    <div class="card">
+      <div class="card-header bg-white d-flex flex-row justify-content-between">
+        <h5 class="mt-2 font-weight-bold">Product Options</h5>
+        <div class="product-edit mt-1 mr-2">
+            <button class="btn btn-primary" (click)="openProductOptionModal(subOptionModal)">Add</button>
+        </div>
+      </div>
+      <div class="card-body p-0 m-0">
+        <table *ngIf="productSubOption.length" class="table table-fixed" align="center">
+          <thead>
+              <tr>
+                  <th class="col-2">Option Name</th>
+                  <th class="col-2">Price Unit</th>
+                  <th class="col-3">Option Type</th>
+                  <th class="col-3">Option Description</th>
+                  <th class="col-1"></th>
+                  <th class="col-1"></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of productSubOption">
+                  <td class="col-2"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_name"></td>
+                  <td class="col-2"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.price_unit"></td>
+                  <td class="col-3">
+                    <select [disabled]="recordId!==item.id" [(ngModel)]="item.option_type" class="form-control form-control-sm" id="optionType">
+                      <option  *ngFor="let item of optionsData | keyvalue" [value]="item.key">{{item.value}}</option>
+                    </select>
+                  </td>
+                  <td class="col-3"><input class="form-control form-control-sm" [disabled]="recordId!==item.id" type="text" [(ngModel)]="item.option_description"></td>
+                  <td class="col-1">
+                    <a *ngIf="recordId !== item.id" (click)="editOption(item.id)" href="javascript:;"> <small>Edit</small></a>
+                    <a *ngIf="recordId === item.id" (click)="saveOptions(item)" href="javascript:;"> <small>Save</small></a>
+                  </td>
+                  <td class="col-1"> <a (click)="openModal(subOptionModal, item.suboption_set)" href="javascript:;" ><small>sub option</small></a></td>
+              </tr>
+          </tbody>
+        </table>
+        <div *ngIf="!productSubOption.length" class="text-center mt-3">No options</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="d-flex justify-content-center" [class.d-block]="loading">

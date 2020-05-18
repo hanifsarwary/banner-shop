@@ -1,0 +1,28 @@
+.loader {
+    margin-top: 40%;
+}
+.card {
+    border: none !important;
+}
+input, textarea {
+    background: none !important;
+}
+.logo-img {
+    width: 15rem;
+    height: 4rem;
+}
+.print-btn {
+    border-radius: 20%;
+}
+.form-box {
+    text-align: left;
+}
+.customers {
+    width: 60rem;
+}
+
+@media print {
+    .hide-print {
+      display: none;
+    }
+}

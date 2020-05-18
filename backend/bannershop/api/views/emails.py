@@ -2,8 +2,6 @@ from django.core.mail import send_mail
 from rest_framework.response import Response
 from bannershop.settings import EMAIL_HOST_USER
 from rest_framework.views import APIView
-from api.models import Order, ProductOrder
-
 
 class SendOrderEmail(APIView):
 

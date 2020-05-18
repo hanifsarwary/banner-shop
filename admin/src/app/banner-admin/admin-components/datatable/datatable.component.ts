@@ -1,12 +1,19 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, OnChanges } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ApiService } from '../../services/api.service';
 import { UtilsFunction } from '../../utils-function';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomOrdersComponent } from '../custom-orders/custom-orders.component';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { TypesService } from '../../services/types.service';
+import { ProductService } from '../../services/product.service';
+import { CategoryService } from '../../services/category.service';
+import { OptionService } from '../../services/option.service';
+import { OrderService } from '../../services/order.service';
+import { SharedDataService } from '../../services/shared-data.service';
+import { Router, NavigationExtras } from '@angular/router';
+import { InvoiceComponent } from '../invoice/invoice.component';
 
 @Component({
   selector: 'app-datatable',
@@ -24,6 +31,7 @@ import { ToastrService } from 'ngx-toastr';
 export class DatatableComponent implements OnChanges {
 
   @Output() categoryItemEvent = new EventEmitter();
+  @Output() reloadPage = new EventEmitter();
   @Input() datatableColumns: [];
   @Input() dataSource: [];
   @Input() pagination = true;
@@ -35,11 +43,11 @@ export class DatatableComponent implements OnChanges {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   emailModalReference = null;
-  invoiceModalReference = null;
   proofHistoryModalReference = null;
+  delModalReference = null;
+  deleteOrderId: number;
   sourceData;
   proofStatus;
-  invoiceForm: FormGroup;
   emailForm: FormGroup;
   expandedElement: null;
   detailObj = [];
@@ -47,7 +55,7 @@ export class DatatableComponent implements OnChanges {
   subCategoryDetail = [];
   proofHistoryList = [];
   proofStatusList = [];
-  invoiceObj = [];
+  statusList = [];
   userInfo = [];
   customerEmail = '';
   customOrderId: number;
@@ -55,25 +63,23 @@ export class DatatableComponent implements OnChanges {
   noOption = false;
   currentId = false;
   loader = true;
+  submitted = false;
   emailContent;
   window: any;
 
   constructor(
+    private categoryService: CategoryService,
+    private productService: ProductService,
+    private optionService: OptionService,
     public activeModal: NgbActiveModal,
-    private apiService: ApiService,
-    private utils: UtilsFunction,
+    private typeService: TypesService,
+    private orderService: OrderService,
     private modalService: NgbModal,
+    private utils: UtilsFunction,
     private toast: ToastrService,
+    private data: SharedDataService,
+    private router: Router,
     private fb: FormBuilder) {
-      this.window = window;
-      this.invoiceForm = this.fb.group({
-        authorization_code: [''],
-        invoice_number: [''],
-        paid_by: [''],
-        payment_method: [''],
-        sold_to: [''],
-        custom_order: ['']
-      });
       this.emailForm = this.fb.group({
         to: '',
         subject: '',
@@ -86,6 +92,7 @@ export class DatatableComponent implements OnChanges {
     this.sourceData.sort = this.sort;
     this.sourceData.paginator = this.paginator;
     this.getProofStatus();
+    this.getOrderStatus();
   }
 
   categoryEvent(type, entryId) {
@@ -96,13 +103,27 @@ export class DatatableComponent implements OnChanges {
     this.categoryItemEvent.emit(data);
   }
 
+  opendeleteModel(targetModal, id) {
+    this.deleteOrderId = id;
+    this.delModalReference = this.modalService.open(targetModal,  { size: 'sm'});
+  }
+
+  deleteOrders() {
+    this.orderService.deleteOrder(this.deleteOrderId).subscribe(res => {
+      this.toast.success('Delete Order successfully!', '');
+      this.delModalReference.close();
+      this.deleteOrderId = null;
+      this.reloadPage.emit(true);
+    });
+  }
+
   expandDetail(id) {
     this.currentId = id;
     this.detailObj = [];
     this.optionLoading = false;
     this.noOption = false;
     if (this.optionExpand) {
-      this.apiService.getSubOption(id).subscribe(res => {
+      this.optionService.getSubOption(id).subscribe(res => {
         this.detailObj = res;
         if (this.detailObj.length) {
           this.detailObj = res;
@@ -112,7 +133,7 @@ export class DatatableComponent implements OnChanges {
           this.noOption = true;
         }});
     } else if (this.productExpand) {
-      this.apiService.getProducts(id).subscribe(res => {
+      this.productService.getProducts(id).subscribe(res => {
         this.detailObj = res.option_set;
         if (this.detailObj.length) {
           this.optionLoading = true;
@@ -122,7 +143,7 @@ export class DatatableComponent implements OnChanges {
         }
       });
     } else if (this.categoryExpand) {
-      this.apiService.getSubCategory(id).subscribe(res => {
+      this.categoryService.getSubCategory(id).subscribe(res => {
         this.detailObj = res;
         if (this.detailObj.length) {
           this.detailObj = res;
@@ -131,30 +152,6 @@ export class DatatableComponent implements OnChanges {
           this.optionLoading = true;
           this.noOption = true;
         }
-      });
-    }
-  }
-
-  openInvoiceModal(targetModal, id) {
-    this.customOrderId = id;
-    this.invoiceObj = [];
-    this.apiService.getCustomerOrderInvoice(this.customOrderId).subscribe(res => {
-      this.invoiceObj =  res ? res[0] : [];
-    });
-    this.invoiceModalReference = this.modalService.open(targetModal);
-  }
-
-  submitinvoiceForm(obj) {
-    if (this.invoiceObj) {
-      obj.value.custom_order = this.customOrderId;
-      this.apiService.updateInvoices(this.invoiceObj['id'], obj.value).subscribe(res => {
-        this.toast.success('Invoice Updated successfully!', '');
-        this.invoiceModalReference.close();
-      });
-    } else {
-      this.apiService.addInvoices(obj.value).subscribe(res => {
-        this.toast.success('Invoice added successfully!', '');
-        this.invoiceModalReference.close();
       });
     }
   }
@@ -183,33 +180,46 @@ export class DatatableComponent implements OnChanges {
   sendEmail(obj) {
     obj.value.subject = `your Order ${this.customerInfo['reference_number']} with
                          ${this.customerInfo['job_name']} is ${this.customerInfo['status']}`;
-    this.apiService.sendEmailtoCustomer(obj.value).subscribe(res => {
+    this.orderService.sendEmailtoCustomer(obj.value).subscribe(res => {
       this.toast.success('Email sended successfully!', '');
       this.emailModalReference.close();
     });
   }
 
-  openModal(type, data) {
-    const modalOptions = {size: 'lg'};
-    const modalRef = this.modalService.open(CustomOrdersComponent, modalOptions);
-    modalRef.componentInstance.modalType = type;
-    modalRef.componentInstance.customOrderList = data;
-    modalRef.componentInstance.operation = 'Update';
-    modalRef.componentInstance.customOrderId = data.id;
-    modalRef.componentInstance.selectedCustomerObj = data.customer;
+  editOrders(data) {
+    const obj =  {
+      'customOrderList': JSON.stringify(data),
+      'operation': 'Update',
+    };
+    this.router.navigate(['/update-custom-orders'], {queryParams: obj, skipLocationChange: true });
+  }
+
+  cloneOrders(data) {
+    const obj =  {
+      'customOrderList': JSON.stringify(data),
+      'operation': 'Clone',
+    };
+    this.router.navigate(['/clone-custom-orders'], {queryParams: obj, skipLocationChange: true });
   }
 
   getProofStatus() {
-    this.apiService.getProofStatus().subscribe(res => {
+    this.typeService.getProofStatus().subscribe(res => {
       this.proofStatusList = res.types;
     });
   }
 
+  getOrderStatus() {
+    this.typeService.getStatus().subscribe(res => {
+      this.statusList = res.types;
+    });
+  }
+
   updateProofStatus() {
-    this.apiService.updateProofStatus(this.customOrderId , {'proof_status': this.proofStatus}).subscribe(res => {
+    this.orderService.updateProofStatus(this.customOrderId , {'proof_status': this.proofStatus}).subscribe(res => {
       this.toast.success('Proof status updated successfully!', '');
       this.proofHistoryModalReference.close();
       this.customOrderId = null;
+      this.reloadPage.emit(true);
     });
   }
 
@@ -219,10 +229,44 @@ export class DatatableComponent implements OnChanges {
     this.proofHistoryList = [];
     this.proofStatus = proofStatus;
     this.customOrderId = objId;
-    this.apiService.getProofHistory(objId).subscribe(res => {
+    this.orderService.getProofHistory(objId).subscribe(res => {
       this.proofHistoryList = res;
       this.loader = false;
     });
     this.proofHistoryModalReference = this.modalService.open(targetModal);
   }
+
+  openModalInvoice(targetModal, objId, invoiceNo) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'invoice';
+    modalRef.componentInstance.orderId = objId;
+    modalRef.componentInstance.invoice_number = invoiceNo;
+    modalRef.componentInstance.operationType = invoiceNo ? 'Update Invoice' : 'Add Invoice';
+    modalRef.componentInstance.funtionType = 'updateInvoice';
+  }
+
+  openModalOrderStatus(targetModal, objId, status) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'status';
+    modalRef.componentInstance.orderId = objId;
+    modalRef.componentInstance.status = status;
+    modalRef.componentInstance.statusList = this.statusList;
+    modalRef.componentInstance.operationType = status ? 'Update Status' : 'Add Status';
+    modalRef.componentInstance.funtionType = 'updateStatus';
+    console.log('--------------------------------------');
+    console.log('=====================================');
+  }
+
+  stringify(obj) {
+    return JSON.stringify(obj);
+  }
+
 }

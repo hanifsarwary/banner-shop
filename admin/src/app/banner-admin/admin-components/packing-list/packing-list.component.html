@@ -1,0 +1,234 @@
+<div class="container-fluid p-0">
+    <div class="customers" align="center">
+        <div class="customOrderForm" *ngIf="!loader">
+            <h4 class="heading mb-4 pt-2 text-center">Packing List</h4>
+            <div class="card">
+                <div class="body">
+                    <form [formGroup]="packingListFrom" (ngSubmit)="onSubmit(packingListFrom)">
+                    <div class="row form-box">
+                        <label class="col-sm-2 p-0 pt-2 col-form-label text-shadow font-weight-bold" for="due_date"><b class="text-danger">* </b>Ship Date :</label>
+                        <input type="date" placeholder="select date" value="null" formControlName="due_date" class="form-control form-control-sm col-sm-3"
+                        [ngModel]="packingList ? packingList.due_date : ''"
+                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('due_date').errors }">
+                        <b *ngIf="validateFlag" class="col-sm-4 text-right text-danger">Filled the missing fields</b>
+                    </div>
+                    <div class="row p-0 m-0">
+                        <div class="col-md-6 customer-box m-0 p-0">
+                            <fieldset class="border mr-3">
+                                <legend class="p-0 ml-3 m-0">From</legend>
+                                <div class="m-1">
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
+                                        <input [ngModel]="userList.first_name" name="firstName" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Last Name :</label>
+                                        <input [ngModel]="userList.last_name" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Company :</label>
+                                        <input [ngModel]="customerList.company_name" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Address :</label>
+                                        <input [ngModel]="customerList.address" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">City :</label>
+                                        <input [ngModel]="customerList.city" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Zip Code :</label>
+                                        <input [ngModel]="customerList.zip_code" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Tel :</label>
+                                        <input [ngModel]="customerList.phone_number" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    </div>
+                                </div>
+                             </fieldset>
+                        </div>
+                        <div class="col-md-6 m-0 p-0">
+                            <fieldset class="border ml-3">
+                                <legend class="p-0 ml-3 m-0">To</legend>
+                                <div class="m-1">
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name"><b class="text-danger">* </b>First Name :</label>
+                                        <input type="text" formControlName="first_name" class="form-control form-control-sm col-sm-9"
+                                        [ngModel]="packingList ? packingList.first_name : ''"
+                                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('first_name').errors }">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="last_name"><b class="text-danger">* </b>Last Name :</label>
+                                        <input type="text" formControlName="last_name" class="form-control form-control-sm col-sm-9"
+                                        [ngModel]="packingList ? packingList.last_name : ''"
+                                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('last_name').errors }">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="company"><b class="text-danger">* </b>Company :</label>
+                                        <input type="text" formControlName="company_name" class="form-control form-control-sm col-sm-9"
+                                        [ngModel]="packingList ? packingList.company_name : ''">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="address"><b class="text-danger">* </b>Address :</label>
+                                        <input type="text" formControlName="address" class="form-control form-control-sm col-sm-9"
+                                        [ngModel]="packingList ? packingList.address : ''"
+                                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('address').errors }">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="city"><b class="text-danger">* </b>City :</label>
+                                        <input type="text" formControlName="city" class="form-control form-control-sm col-sm-9"
+                                        [ngModel]="packingList ? packingList.city : ''"
+                                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('city').errors }">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="zip_code"><b class="text-danger">* </b>Zip Code :</label>
+                                        <input type="text" formControlName="zip_code" class="form-control form-control-sm col-sm-9"
+                                        [ngModel]="packingList ? packingList.zip_code : ''"
+                                        [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('zip_code').errors }">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="phone_number">Tel :</label>
+                                        <div class="col-sm-9 p-0 m-0">
+                                            <input type="text" formControlName="phone_number" class="form-control form-control-sm"
+                                            [ngModel]="packingList ? packingList.phone_number : ''">
+                                            <div *ngIf="packingListFrom.get('phone_number').hasError('pattern')">
+                                                <small style="color: red;">Min digit (8) Max digit (12) and only number are allowed.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="firstForm mt-1">
+                        <table class="table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">Job Number</th>
+                                <th scope="col">PO Number</th>
+                                <th scope="col">Shipping Method</th>
+                                <th scope="col">COD Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td scope="row">
+                                    <input [ngModel]="customOrderList.id" [ngModelOptions]="{standalone: true}" readonly class="form-control form-control-sm" type="text" >
+                                </td>
+                                <td>
+                                    <input [ngModel]="customOrderList.reference_number" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly type="text" >
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly type="text" >
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly type="text" >
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="boxesForm mt-1">
+                        <table class="table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">Boxes</th>
+                                <th scope="col">Qty/Box</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Job Name</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let box of dynamicBoxes; let i = index;">
+                                <td scope="row">
+                                    <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
+                                    placeholder="Enter number of boxes" [(ngModel)]="dynamicBoxes[i].number_of_boxes" type="number"
+                                    [ngClass]="{ 'is-invalid': dynamicBoxes[i].number_of_boxes === '' }">
+                                </td>
+                                <td formGroupName="boxes">
+                                    <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
+                                    placeholder="quantity per box" [(ngModel)]="dynamicBoxes[i].quantity_per_box" type="number"
+                                    (ngModelChange)="calculateQuantity(dynamicBoxes[i], i)"
+                                    [ngClass]="{ 'is-invalid': dynamicBoxes[i].quantity_per_box === '' }">
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="dynamicBoxes[i].quantity" readonly type="text" >
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="dynamicBoxes[i].job_name" type="text" >
+                                </td>
+                                <td (click)="deleteRow(i, dynamicBoxes[i].id)">
+                                    <span><i class="fa fa-trash fa-1x mt-1 hide-print"></i></span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="5">
+                                    <span (click)="addRow()"><i class="fa fa-plus fa-1x ml-2 hide-print"></i></span>
+                                    <span *ngIf="dynamicBoxes.length" class="pull-right" (click)="saveBoxes()"><i class="fa fa-save fa-1x mr-2 hide-print"></i></span>
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="totalBoxesForm mt-1">
+                        <table class="table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">Total Boxes</th>
+                                <th scope="col">Total Qty</th>
+                                <th scope="col">Recieved By</th>
+                                <th scope="col">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td scope="row">
+                                    <input class="form-control form-control-sm" [(ngModel)]="totalBoxes"
+                                    [ngModelOptions]="{standalone: true}" readonly type="number" >
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" [(ngModel)]="totalQuantity"
+                                    [ngModelOptions]="{standalone: true}" readonly type="number" >
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" formControlName="received_by" placeholder="Received by.."
+                                    type="text" [ngModel]="packingList ? packingList.received_by : ''">
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly type="text" >
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-0 m-0">
+                        <label class="p-0 col-form-label text-shadow" for="comment">Comment :</label>
+                        <textarea type="text" formControlName="comments"
+                        class="form-control form-control-sm"
+                        placeholder="Add comments.." [ngModel]="packingList ? packingList.comments : ''"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center mb-3 mt-5">
+                        <div matTooltip="Fill the Form" class="hide-print">
+                            <button class="btn btn-primary btn-sub mr-3" type="submit"> Submit 
+                            </button>
+                        </div>
+                        <a class="btn btn-primary btn-sub hide-print" [routerLink]="['/order-status']"> Close </a>
+                        <a href="javascript:;" type="button" class="btn btn-primary btn-sub hide-print ml-3" (click)="window.print()"> Print </a>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loader d-flex flex-row justify-content-center" *ngIf="loader">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+</div>
