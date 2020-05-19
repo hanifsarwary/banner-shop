@@ -10,7 +10,7 @@ class OrderOptionSerializer(ModelSerializer):
         fields = '__all__'
 
 class OrderRetrieveSerializer(ModelSerializer):
-    order_options = OrderOptionSerializer(many=True, source='order_options_set')
+    order_options = OrderOptionSerializer(many=True, source='order_options')
     customer = CustomerSerializer()
     product = ProductSerializer()
     class Meta:
