@@ -58,7 +58,7 @@ urlpatterns = [
     path('boxes/bulk-create/', BoxesBulkCreate.as_view()),
     path('customers/', CustomerListViewSet.as_view()),
     path('customers/company-names/', CompanyNamesListView.as_view()),
-    path('customers/status/update/', CustomerStatusUpdateViewSet.as_view()),
+    path('customers/<int:pk>/', CustomerStatusUpdateViewSet.as_view()),
     # path('invoices/', InvoiceListViewSet.as_view()),
     # path('invoices/<int:pk>/', InvoiceDetailViewSet.as_view()),
     path('send-custom-order-email/', SendOrderEmail.as_view()),

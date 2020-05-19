@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from rest_framework.generics import ListCreateAPIView, UpdateAPIView
+from rest_framework.generics import ListCreateAPIView, UpdateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
 from api.models import Customer
 from api.serializers.customers import CustomerSerializer, CustomerStatusUpdateSerializer
@@ -37,7 +37,7 @@ class CustomerStatusViewSet(APIView):
         return Response({'types': return_dict})
 
 
-class CustomerStatusUpdateViewSet(UpdateAPIView):
+class CustomerStatusUpdateViewSet(RetrieveUpdateDestroyAPIView):
 
-    serializer_class = CustomerStatusUpdateSerializer
+    serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
