@@ -8,7 +8,7 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./all-customers.component.css']
 })
 export class AllCustomersComponent implements OnInit {
-  tableColumns = ['no', 'username', 'first_name', 'last_name', 'email', 'address', 'company_name', 'city', 'phone_number', 'status'];
+  tableColumns = ['no', 'username', 'first_name', 'last_name', 'email', 'address', 'company_name', 'city', 'phone_number', 'status', 'edit-customer'];
   customerList = [];
   notRecordFound = false;
   loader = true;

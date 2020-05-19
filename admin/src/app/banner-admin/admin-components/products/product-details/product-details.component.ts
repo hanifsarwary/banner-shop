@@ -146,9 +146,6 @@ export class ProductDetailsComponent implements OnInit {
     } else {
       price_details = {};
     }
-    console.log('price details');
-    console.log(price_details);
-    console.log('price details');
     return price_details;
   }
 

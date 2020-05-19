@@ -55,6 +55,7 @@ export class DatatableComponent implements OnChanges {
   subCategoryDetail = [];
   proofHistoryList = [];
   proofStatusList = [];
+  customerStatusList = [];
   statusList = [];
   userInfo = [];
   customerEmail = '';
@@ -93,6 +94,7 @@ export class DatatableComponent implements OnChanges {
     this.sourceData.paginator = this.paginator;
     this.getProofStatus();
     this.getOrderStatus();
+    this.getCustomerStatus();
   }
 
   categoryEvent(type, entryId) {
@@ -261,8 +263,26 @@ export class DatatableComponent implements OnChanges {
     modalRef.componentInstance.statusList = this.statusList;
     modalRef.componentInstance.operationType = status ? 'Update Status' : 'Add Status';
     modalRef.componentInstance.funtionType = 'updateStatus';
-    console.log('--------------------------------------');
-    console.log('=====================================');
+  }
+
+  openModalCustomerStatus(targetModal, objId, status) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'customerStatus';
+    modalRef.componentInstance.customerId = objId;
+    modalRef.componentInstance.status = status;
+    modalRef.componentInstance.customerStatusTypes = this.customerStatusList;
+    modalRef.componentInstance.operationType = 'Update Status';
+    modalRef.componentInstance.funtionType = 'updateCustomerStatus';
+  }
+
+  getCustomerStatus() {
+    this.orderService.getStatus().subscribe(res => {
+      this.customerStatusList = res.types;
+    });
   }
 
   stringify(obj) {

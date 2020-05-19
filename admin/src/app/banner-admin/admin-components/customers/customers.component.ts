@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '../../services/order.service';
+import { ActivatedRoute } from '@angular/router';
+import { CustomerList } from '../model/customer-list';
+import { UserList } from '../model/user';
 
 @Component({
   selector: 'app-customers',
@@ -15,10 +18,17 @@ export class CustomersComponent implements OnInit {
   submitted = false;
   usernameError = false;
   statusList = [];
+  customerList: CustomerList;
+  customerId;
+  userList: UserList;
+  operation = 'Add';
+  opeFlag = false;
+  passwordFlag = false;
 
 
   constructor(private fb: FormBuilder,
     private orderServeice: OrderService,
+    private route: ActivatedRoute,
     private toast: ToastrService) {
 
     this.customerForm = this.fb.group({
@@ -51,6 +61,21 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStatus();
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.operation = params['operation'];
+        this.opeFlag = this.operation === 'Update' ? false : true;
+        this.customerId = params['id'];
+        this.getCustomerById(params['id']);
+      }
+    });
+  }
+
+  getCustomerById(id) {
+    this.orderServeice.getCustomers(id).subscribe(res => {
+      this.customerList = res;
+      this.userList = this.customerList.user;
+    });
   }
 
   getStatus() {
@@ -61,17 +86,23 @@ export class CustomersComponent implements OnInit {
 
   onSubmit(obj) {
     this.submitted = true;
-    if (this.customerForm.valid) {
-      this.validateFlag = false;
-      this.submitted = false;
-      this.orderServeice.addCustomers(obj.value).subscribe(res => {
-        this.toast.success('Customer added successfully!', '');
-        this.customerForm.reset();
-      }, err => {
-        this.usernameError = true;
-      });
+    if (this.operation === 'Add') {
+      if (this.customerForm.valid) {
+        this.validateFlag = false;
+        this.submitted = false;
+        this.orderServeice.addCustomers(obj.value).subscribe(res => {
+          this.toast.success('Customer added successfully!', '');
+          this.customerForm.reset();
+        }, err => {
+          this.usernameError = true;
+        });
+      } else {
+        this.validateFlag = true;
+      }
     } else {
-      this.validateFlag = true;
+      this.orderServeice.updateCustomer(this.customerId, obj.value).subscribe(res => {
+        this.toast.success('Customer updated successfully!', '');
+      });
     }
   }
 
