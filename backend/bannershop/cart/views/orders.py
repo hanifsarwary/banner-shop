@@ -47,7 +47,7 @@ class ListOrderOptionsViewSet(ListCreateAPIView):
 class OrderCheckOut(APIView):
 
     def post(self, request):
-        cart_orders = Order.objects.filter(customer__username=request.data.get('customer'), 
+        cart_orders = Order.objects.filter(customer=request.data.get('customer'), 
                                            is_cart=True)
         cart_orders.update(is_cart=False, shipping_type=request.data.get('shipping'))
         return Response({'status': HTTP_201_CREATED})

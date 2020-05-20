@@ -13,7 +13,7 @@ urlpatterns = [
     path('orders/order-options/create/', CreateOrderOptionsViewSet.as_view()),
     path('orders/order-options/<int:order_id>/', ListOrderOptionsViewSet.as_view()),
     path('orders/checkout/', OrderCheckOut.as_view()),
-    path('shippings/', ShippingListViewSet.as_view()),
+    path('customer/shippings/<int:pk>/', ShippingListViewSet.as_view()),
     path('shippings/<int:pk>/', ShippingDetailViewSet.as_view())
     
 ]
