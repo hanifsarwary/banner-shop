@@ -44,7 +44,8 @@ const routes: Routes = [
           { path: 'post-comments', component: PostCommentsComponent },
           { path: 'profile', component: ProfileComponent },
           { path: 'customers', component: AllCustomersComponent },
-          { path: 'add-customer', component: CustomersComponent }
+          { path: 'add-customer', component: CustomersComponent },
+          { path: 'update-customer/:id/:operation', component: CustomersComponent },
         ]
     }
 ];

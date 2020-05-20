@@ -11,11 +11,19 @@
             <input type="text" class="form-control col-sm-8" [(ngModel)]="invoice_number">
         </div>
         <div class="row form-box mr-3" *ngIf="modelActive === 'status'">
-            <label class="col-sm-4 col-form-label" for="order_status">Order Status :</label>
+            <label class="col-sm-4 col-form-label" for="order_status">Status :</label>
             <select class="form-control form-control-sm col-sm-8" id="order-status" [(ngModel)]="status" placeholder="Select Order Status">
                 <option *ngFor="let status of statusList | keyvalue: asIsOrder" [value]="status.key">{{status.value}}</option>
             </select>
         </div>
+
+        <div class="row form-box mr-3" *ngIf="modelActive === 'customerStatus'">
+            <label class="col-sm-4 col-form-label" for="order_status">Status :</label>
+            <select class="form-control form-control-sm col-sm-8" id="customer-status" [(ngModel)]="status" placeholder="Select customer Status">
+                <option *ngFor="let status of customerStatusTypes | keyvalue" [value]="status.key">{{status.value}}</option>
+            </select>
+        </div>
+
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancel</button>

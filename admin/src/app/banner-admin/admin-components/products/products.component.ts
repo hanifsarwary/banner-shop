@@ -65,7 +65,7 @@ export class ProductsComponent implements OnInit {
 
   openModal(type) {
     const modalOptions = { size: '', windowClass: ''};
-    modalOptions.size = type === 'register' ? 'lg' : '';
+    modalOptions.size = type === 'register' ? 'lg' : 'lg';
     modalOptions.windowClass = type + '-modal';
 
     const modalRef = this.modalService.open(ProductModelComponent, modalOptions);

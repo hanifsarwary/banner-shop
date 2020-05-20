@@ -34,6 +34,16 @@ export class ProductDetailsComponent implements OnInit {
   updateImg: any;
   dynamicSubOptions = [];
   optionObj = {};
+  priceType;
+  price;
+  width_option;
+  height_option;
+  option_1;
+  option_2;
+  option_3;
+  min_value;
+  max_value;
+  cal_price;
 
   constructor(
     private SpinnerService: NgxSpinnerService,
@@ -81,6 +91,7 @@ export class ProductDetailsComponent implements OnInit {
 
   editProduct() {
     this.editProductId = true;
+    this.priceType = String(this.productDetail.price_type);
   }
 
   saveProduct(obj) {
@@ -91,13 +102,21 @@ export class ProductDetailsComponent implements OnInit {
     formData.append('price_type', obj['price_type']);
     formData.append('setup_cost', obj['setup_cost']);
     formData.append('product_description', obj['product_description']);
+    formData.append('price_details', JSON.stringify(this.getPriceDetail()));
     if (this.imgFlag) {
       formData.append('default_product_image', this.updateImgValue);
     }
     this.productService.updateProduct(obj['id'], formData).subscribe(res => {
       this.editProductId = false;
+      this.emptyFields();
       this.toast.success('Product updated successfully!', '');
     });
+  }
+
+  cancelProduct() {
+    this.editProductId = false;
+    this.imgFlag = false;
+    this.emptyFields();
   }
 
   editOption(id) {
@@ -106,6 +125,28 @@ export class ProductDetailsComponent implements OnInit {
 
   editSubOption(id) {
     this.subOptionId = id;
+  }
+
+  getPriceDetail() {
+    let price_details = {};
+    if (this.priceType === '1') {
+      price_details['price'] = this.price;
+      price_details['labels'] = [this.width_option, this.height_option];
+
+    } else if (this.priceType === '4') {
+      price_details['sequence'] = [this.option_1, this.option_2];
+
+    } else if (this.priceType === '11') {
+      price_details['sequence'] = [this.option_1, this.option_3, this.option_3];
+
+    } else if (this.priceType === '5') {
+      const price_key = this.min_value + '-' + this.max_value;
+        price_details[price_key] = this.cal_price;
+
+    } else {
+      price_details = {};
+    }
+    return price_details;
   }
 
   saveSubOption(obj) {
@@ -120,6 +161,10 @@ export class ProductDetailsComponent implements OnInit {
       this.recordId = null;
       this.toast.success('Option updated successfully!', '');
     });
+  }
+
+  showByPriceType(event) {
+    this.priceType = event.target.value;
   }
 
   openProductOptionModal(type) {
@@ -150,6 +195,11 @@ export class ProductDetailsComponent implements OnInit {
       this.SpinnerService.hide();
       this.loading = false;
     });
+  }
+
+  emptyFields() {
+    this.priceType = this.price = this.width_option = this.height_option = null;
+    this.option_1 = this.option_2 = this.option_3 = this.min_value = this.max_value = this.cal_price = null;
   }
 
 }

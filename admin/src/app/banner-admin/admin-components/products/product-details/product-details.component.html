@@ -16,7 +16,7 @@
           </div>
           <div class="col-7">
             <div class="card-body">
-              <h5 class="card-title card-heading input"> 
+              <h5 class="card-title card-heading input mb-0 mt-3 mb-3"> 
                 <input [class.applyBorder]="!editProductId"  class="form-control form-control-sm" [disabled]="!editProductId" type="text" [(ngModel)]="productDetail.product_name">
               </h5>
               <div class="row card-text">
@@ -34,10 +34,83 @@
               <div class="row card-text">
                 <div class="col-4"> Price  Type: </div>
                 <div class="col-8 product-description">
-                  <select [class.applyBorder]="!editProductId" [disabled]="!editProductId"  (change)="showByPriceType($event.target.value)" [(ngModel)]="productDetail.price_type" class="form-control" id="producPriceType">
+                  <select [class.applyBorder]="!editProductId" [disabled]="!editProductId"  (change)="showByPriceType($event)" [(ngModel)]="productDetail.price_type" class="form-control form-control-sm" id="producPriceType">
                     <option  *ngFor="let item of pricesData | keyvalue" [value]="item.key">{{item.value}}</option>
                   </select>
                 </div>
+              </div>
+              <div *ngIf="priceType === '1'" class="ml-0 mr-0">
+                <div class="card-text row">
+                    <div class="col-4"> Price : </div>
+                    <div class="col-8 product-description">
+                      <input type="number" min="1" class="form-control form-control-sm" [(ngModel)]="price">
+                    </div>
+                </div>
+                <div class="card-text row">
+                    <label class="col-sm-4 col-form-label">Option 1:</label>
+                    <div class="col-8 product-description">
+                      <input type="text" min="1" class="form-control form-control-sm" [(ngModel)]="width_option">
+                    </div>
+                </div>
+                <div class="card-text row">
+                    <label class="col-sm-4 col-form-label">Option 2:</label>
+                    <div class="col-8 product-description">
+                      <input type="text" min="1" class="form-control form-control-sm" [(ngModel)]="height_option">
+                    </div>
+                </div>
+              </div>
+              <div *ngIf="priceType === '4'" class="ml-0 mr-0">
+                  <div class="card-text row">
+                      <label class="col-sm-4 col-form-label">Option 1:</label>
+                      <div class="col-8 product-description">
+                        <input type="text" min="1" class="form-control form-control-sm" [(ngModel)]="option_1">
+                      </div>
+                  </div>
+                  <div class="card-text row">
+                      <label class="col-sm-4 col-form-label">Option 2:</label>
+                      <div class="col-8 product-description">
+                        <input type="text" min="1" class="form-control form-control-sm" [(ngModel)]="option_2">
+                      </div>
+                  </div>
+              </div>
+              <div *ngIf="priceType === '11'" class="ml-0 mr-0">
+                  <div class="card-text row">
+                      <label class="col-sm-4 col-form-label">Option 1:</label>
+                      <div class="col-8 product-description">
+                        <input type="text" min="1" class="form-control form-control-sm" [(ngModel)]="option_1">
+                      </div>
+                  </div>
+                  <div class="card-text row">
+                      <label class="col-sm-4 col-form-label">Option 2:</label>
+                      <div class="col-8 product-description">
+                        <input type="text" min="1" class="form-control form-control-sm" [(ngModel)]="option_2">
+                      </div>
+                  </div>
+                  <div class="card-text row">
+                      <label class="col-sm-4 col-form-label">Option 3:</label>
+                      <div class="col-8 product-description">
+                        <input type="text" min="1" class="form-control form-control-sm" [(ngModel)]="option_3">
+                      </div>
+                  </div>
+              </div>
+              <div *ngIf="priceType === '5'" class="ml-0 mr-0">
+                  <div class="card-text row">
+                      <label class="col-sm-4 col-form-label">Select Range:</label>
+                      <div class="col-sm-8">
+                          <div class="d-flex justify-content-between price-type-2 p-0 m-0">
+                              <label for="col-form-label label-size">Min :</label>
+                              <input type="number" min="1" class="form-control form-control-sm input-size" [(ngModel)]="min_value">
+                              <label for="col-form-label label-size">Max :</label>
+                              <input type="number" min="1" class="form-control form-control-sm input-size" [(ngModel)]="max_value">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card-text row">
+                      <label class="col-sm-4 col-form-label">Total :</label>
+                      <div class="col-8 product-description">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="cal_price">
+                      </div>
+                  </div>
               </div>
               <div class="row card-text">
                 <div class="col-4"> Setup  Cost: </div>
@@ -51,9 +124,10 @@
                   <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.product_description">
                 </div>
               </div>
-              <div class="row pull-right product-edit mb-3">
+              <div class="row pull-right product-edit">
                 <a href="javascript:;" *ngIf="!editProductId" (click)="editProduct()">Edit</a>
                 <a href="javascript:;" *ngIf="editProductId" (click)="saveProduct(productDetail)">Save</a>
+                <a href="javascript:;" *ngIf="editProductId" (click)="cancelProduct()">Cancel</a>
               </div>
             </div>
           </div>

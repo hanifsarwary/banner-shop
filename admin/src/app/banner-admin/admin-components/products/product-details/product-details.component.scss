@@ -24,7 +24,6 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
     .card-body {
       padding: 0;
-      margin-top: 5rem;
       margin-right: 2rem;
     .card-title {
         font-size: 2rem;
@@ -43,8 +42,8 @@
     }
     .product-edit a {
       font-size: 1rem;
-      margin-top: 2rem;
-      margin-right: 2rem;
+      margin-top: 1rem;
+      margin-right: 1.5rem;  
     }
     .product-description {
         text-align: justify;
@@ -66,8 +65,8 @@
 }
 
 .card-img {
-  height: 25rem;
-    border-right: 1px solid rgba(0, 0, 0, 0.125);
+  height: 30rem;
+  border-right: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .table-fixed{
@@ -119,5 +118,12 @@ button {
   border: none !important;
   outline: none !important;
 }
-
+.input-size {
+  height: 2rem;
+  width: 7rem;
+}
+.label-size {
+  height: 2rem;
+  width: 4rem;
+}
 
