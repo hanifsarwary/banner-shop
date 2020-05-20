@@ -41,7 +41,12 @@ export class ProductModelComponent implements OnInit {
       setup_cost: [''],
       max_value: [1, ''],
       min_value: [1, ''],
-      cal_price: [75, ''],
+      cal_price: [''],
+      option_1: [''],
+      option_2: [''],
+      option_3: [''],
+      width_option: [''],
+      height_option: [''],
       file: ['', Validators.required],
     });
   }
@@ -66,32 +71,25 @@ export class ProductModelComponent implements OnInit {
   getPriceDetail() {
     let price_details = {};
     if (this.productForm.get('price_type').value === '1') {
-      price_details = {
-        'price': this.productForm.get('price').value,
-        'setup_cost': this.productForm.get('setup_cost').value
-       };
-    } else if (this.productForm.get('price_type').value === '2') {
+      price_details['price'] = this.productForm.get('price').value;
+      price_details['labels'] = [this.productForm.get('width_option').value, this.productForm.get('height_option').value];
+
+    } else if (this.productForm.get('price_type').value === '4') {
+      price_details['sequence'] = [this.productForm.get('option_1').value, this.productForm.get('option_2').value];
+
+    } else if (this.productForm.get('price_type').value === '11') {
+      price_details['sequence'] = [this.productForm.get('option_1').value, this.productForm.get('option_2').value, this.productForm.get('option_3').value];
+
+    } else if (this.productForm.get('price_type').value === '5') {
       const price_key = this.productForm.get('min_value').value + '-' + this.productForm.get('max_value').value;
-       price_details = {};
-       price_details[price_key] = this.productForm.get('cal_price').value;
-       price_details['setup_cost'] = this.productForm.get('setup_cost').value;
+        price_details[price_key] = this.productForm.get('cal_price').value;
+
     } else {
       price_details = {};
     }
     return price_details;
   }
 
-  calculatePrice(event) {
-    if (this.productForm.get('max_value').value === 1 ) {
-      this.calculatedPrice = 75;
-    } else if (this.productForm.get('max_value').value <= 3) {
-      this.calculatedPrice = 70;
-    } else if (this.productForm.get('max_value').value >= 4 && this.productForm.get('max_value').value <= 11 ) {
-      this.calculatedPrice = 65;
-    }  else if (this.productForm.get('max_value').value >= 12 ) {
-      this.calculatedPrice = 55;
-    }
-  }
   getFormDataObj() {
     const formData = new FormData();
     formData.append('product_name', this.productForm.get('product_name').value);

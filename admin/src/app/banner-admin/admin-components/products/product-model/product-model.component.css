@@ -1,12 +1,14 @@
 .model-styling {
-    margin: 1rem;  
+    margin: 1rem;
+    width: 75%;
+    text-align: left;
 }
 .model-styling > .form-group, .checkbox, textarea, label, input {
     font-size: 14px;
     font-weight: 400;
 }
-.checkbox input {
-    margin-left: 5rem;
+.checkbox > label, span {
+    margin-right: 19rem;
 }
 .close:focus {
     outline: none;
