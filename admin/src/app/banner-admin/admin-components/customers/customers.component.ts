@@ -86,8 +86,8 @@ export class CustomersComponent implements OnInit {
   }
 
   onSubmit(obj) {
-    this.submitted = true;
     if (this.operation === 'Add') {
+      this.submitted = true;
       if (this.customerForm.valid) {
         this.validateFlag = false;
         this.submitted = false;
@@ -109,5 +109,4 @@ export class CustomersComponent implements OnInit {
       });
     }
   }
-
 }
