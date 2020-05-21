@@ -10,7 +10,7 @@ class ShippingListViewSet(ListCreateAPIView):
     serializer_class = ShippingDetailSerializer
     queryset = CustomerShippingDetail.objects.all()
 
-    def list(self, request, pk, *args, **kwargs):
+    def list(self, request, customer_id, *args, **kwargs):
         queryset = self.get_queryset().filter(customer=pk)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
