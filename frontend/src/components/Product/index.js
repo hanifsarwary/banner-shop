@@ -430,11 +430,11 @@ class ProductDetail extends React.Component {
               next();
             })
           }
-          
+
           const sub = await bannerShop.post('/cart-apis/orders/order-options/create/', {
             order_options: options
           });
-          
+
           cart.cartItems.push(item);
           cart.total = parseFloat(cart.total) + parseFloat(this.state.total);
           localStorage.setItem('cart', JSON.stringify(cart));
@@ -443,7 +443,7 @@ class ProductDetail extends React.Component {
             cartloader: false
           });
         }
-        
+
 
         // this.getBase64(this.state.file)
         //   .then(base64 => {
@@ -499,6 +499,19 @@ class ProductDetail extends React.Component {
               <div className="wrap-slick3 flex-sb flex-w">
                 <img src={this.state.detail.default_product_image} alt="IMG-PRODUCT" style={{ width: '100%', height: 'auto' }} />
               </div>
+              <div className="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
+                <h5 className="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+                  Description
+                                {/* <i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                  <i className="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i> */}
+                </h5>
+
+                <div className="dropdown-content p-t-15 p-b-23">
+                  <p className="s-text8" ref="product_description" dangerouslySetInnerHTML={{ __html: this.state.detail.product_description }}>
+                    {/* {this.state.detail.product_description} */}
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="w-size14 p-t-30 respon5">
               <h4 className="product-detail-name m-text16 p-b-13">
@@ -516,7 +529,7 @@ class ProductDetail extends React.Component {
               </span>
 
               <div className="p-b-15" style={{ marginTop: '10px' }}>
-
+                  
               </div>
 
               <div className="">
@@ -648,19 +661,7 @@ class ProductDetail extends React.Component {
                   </div>
                 </div>
 
-                {/* <div className="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
-                            <h5 className="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
-                                Description
-                                <i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
-                                <i className="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
-                            </h5>
 
-                            <div className="dropdown-content dis-none p-t-15 p-b-23">
-                                <p className="s-text8">
-                                    Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
-                                </p>
-                            </div>
-                        </div> */}
               </div>
             </div>
           </div>
