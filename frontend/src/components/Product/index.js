@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import bannerShop from '../../api/bannerShop';
+import { objectToFormData } from 'object-to-formdata';
 
 class ProductDetail extends React.Component {
   state = {
@@ -18,7 +19,34 @@ class ProductDetail extends React.Component {
     quantity: {},
     optDet: [],
     options: [],
-    priceLoad: false
+    priceLoad: false,
+    cartloader: false
+  }
+
+  toFormData(obj, form, namespace) {
+    let fd = form || new FormData();
+    let formKey;
+
+    for (let property in obj) {
+      if (obj.hasOwnProperty(property) && obj[property]) {
+        if (namespace) {
+          formKey = namespace + '[' + property + ']';
+        } else {
+          formKey = property;
+        }
+
+        if (obj[property] instanceof Date) {
+          fd.append(formKey, obj[property].toISOString());
+        }
+        else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+          this.toFormData(obj[property], fd, formKey);
+        } else { // if it's a string or a File object
+          fd.append(formKey, obj[property]);
+        }
+      }
+    }
+
+    return fd;
   }
 
   loadDataOfPrice = async (id) => {
@@ -158,16 +186,17 @@ class ProductDetail extends React.Component {
       });
     } catch (error) {
       console.log(error);
-      if(!error.response) {
+      if (!error.response) {
         this.props.errorMount('Unable to connect to server');
-			} else if(error.response.status === 500) {
-				this.props.errorMount('Internal Server Error');
+      } else if (error.response.status === 500) {
+        this.props.errorMount('Internal Server Error');
       }
     }
   }
 
   async componentDidMount() {
     try {
+      console.log(this.props.user);
       const id = parseInt(this.props.match.params.id);
       await this.loadDataOfPrice(id);
     } catch (error) {
@@ -330,50 +359,112 @@ class ProductDetail extends React.Component {
     });
   }
 
-  cartAddhandler = () => {
-    if (this.state.addDesc === '') {
-      this.setState({
-        required: true,
-        valid: false
-      });
-    } else {
-      let cart;
-
-      const item = {
-        id: this.state.detail.id,
-        name: this.state.detail.product_name,
-        imgURL: this.state.detail.default_product_image,
-        price: this.state.total,
-        qty: this.state.qty,
-        special_note: this.state.addDesc
-      }
-
-      item.productOrderOptions = this.state.optDet;
-
-      if (localStorage.getItem('cart') === null) {
-        cart = {};
-        cart.cartItems = [];
-        cart.total = 0;
+  cartAddhandler = async () => {
+    try {
+      if (this.state.addDesc === '') {
+        this.setState({
+          required: true,
+          valid: false
+        });
       } else {
-        cart = JSON.parse(localStorage.getItem('cart'));
-      }
-
-      this.getBase64(this.state.file)
-        .then(base64 => {
-          item.file = base64;
-
-          cart.cartItems.push(item);
-          cart.total = cart.total + this.state.total;
-          localStorage.setItem('cart', JSON.stringify(cart));
-
-          this.setState({
-            cartAdd: true
-          });
-        })
-        .catch(err => {
-          console.log(err);
+        this.setState({
+          cartloader: true,
         });
 
+        let cart;
+
+        const item = {
+          id: this.state.detail.id,
+          name: this.state.detail.product_name,
+          imgURL: this.state.detail.default_product_image,
+          price: this.state.total,
+          qty: this.state.qty,
+          special_note: this.state.addDesc
+        }
+
+        item.productOrderOptions = this.state.optDet;
+
+        if (localStorage.getItem('cart') === null) {
+          cart = {};
+          cart.cartItems = [];
+          cart.total = 0;
+        } else {
+          cart = JSON.parse(localStorage.getItem('cart'));
+        }
+        // cart-apis/ orders/add/'
+        const body = this.toFormData({
+          special_note: this.state.addDesc,
+          due_date: null,
+          invoice_number: null,
+          internal_notes: null,
+          image: this.state.file,
+          proof_status: null,
+          reference_number: null,
+          status: 'Submitted',
+          quoted_price: this.state.total,
+          shipping_type: null,
+          is_cart: true,
+          customer: 1,
+          product: this.props.match.params.id
+        });
+        // const body = objectToFormdata();
+
+        const res = await bannerShop.post('/cart-apis/orders/add/', body, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        if (res.status === 201) {
+          const order = res.data.id;
+          const options = [];
+
+          for (let index = 0; index < this.state.optDet.length; index++) {
+            await new Promise(async (next) => {
+              const curOpt = this.state.optDet[index];
+              options.push({
+                quantity: curOpt.qty,
+                price: curOpt.price,
+                order: order,
+                option: curOpt.id,
+                sub_option: curOpt.sub
+              })
+              next();
+            })
+          }
+          
+          const sub = await bannerShop.post('/cart-apis/orders/order-options/create/', {
+            order_options: options
+          });
+          
+          cart.cartItems.push(item);
+          cart.total = parseFloat(cart.total) + parseFloat(this.state.total);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          this.setState({
+            cartAdd: true,
+            cartloader: false
+          });
+        }
+        
+
+        // this.getBase64(this.state.file)
+        //   .then(base64 => {
+        //     item.file = base64;
+
+        //     cart.cartItems.push(item);
+        //     cart.total = cart.total + this.state.total;
+        //     localStorage.setItem('cart', JSON.stringify(cart));
+
+        //     this.setState({
+        //       cartAdd: true
+        //     });
+        //   })
+        //   .catch(err => {
+        //     console.log(err);
+        //   });
+
+      }
+    } catch (err) {
+      console.log({ ...err });
+      console.log(err);
     }
   }
 
@@ -545,6 +636,13 @@ class ProductDetail extends React.Component {
                       className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
                       onClick={this.cartAddhandler}
                     >
+                      {this.state.cartloader ? (
+                        <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
+                          <Loader type="TailSpin" color="#fff" height={20} width={20} />
+                        </div>
+                      ) : (
+                          ""
+                        )}
                       Add to Cart
                     </button>
                   </div>

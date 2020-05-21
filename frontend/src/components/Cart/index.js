@@ -3,7 +3,7 @@ import Loader from 'react-loader-spinner';
 import { objectToFormData } from 'object-to-formdata';
 import { withRouter } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop';
-import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 class Cart extends React.Component {
     state = {
@@ -14,22 +14,63 @@ class Cart extends React.Component {
         orderLoad: false,
         completed: false,
         orderNum: '',
-        order: {}
+        order: {},
+        shipping: 'No Shipment',
+        shipForm: false,
+        user: null,
+        shipping_id: null,
+        shipping_contact_name: '',
+        shipping_street_address: '',
+        shipping_city: '',
+        shipping_state: '',
+        shipping_zip_code: ''
     };
 
-    componentDidMount() {
-        if (localStorage.getItem('cart') !== null) {
-            const cart = JSON.parse(localStorage.getItem('cart'));
-            this.setState({
-                cartItems: cart.cartItems,
-                total: parseFloat(cart.total),
-                subTotal: parseFloat(cart.total),
-                loaded: true
-            });
-        } else {
-            this.setState({
-                loaded: true
-            });
+    async componentDidMount() {
+        try {
+            if (this.props.isLoggedIn) {
+                const token = localStorage.getItem('token');
+                const user = jwtDecode(token);
+
+                if (user) {
+                    this.setState({
+                        user: user,
+                    });
+                }
+
+                const result = await bannerShop.get(`/cart-apis/customer/shippings/${user.user_id}/`);
+                if (result.data.length > 0) {
+                    const shippingDetails = result.data[0];
+
+                    this.setState({
+                        shipping_id: shippingDetails.id,
+                        shipping_contact_name: shippingDetails.shipping_contact_name,
+                        shipping_street_address: shippingDetails.shipping_street_address,
+                        shipping_city: shippingDetails.shipping_city,
+                        shipping_state: shippingDetails.shipping_state,
+                        shipping_zip_code: shippingDetails.shipping_zip_code
+                    })
+                }
+
+                if (localStorage.getItem('cart') !== null) {
+                    const cart = JSON.parse(localStorage.getItem('cart'));
+                    this.setState({
+                        cartItems: cart.cartItems,
+                        total: parseFloat(cart.total),
+                        subTotal: parseFloat(cart.total),
+                        loaded: true
+                    });
+                } else {
+                    this.setState({
+                        loaded: true
+                    });
+                }
+            } else {
+                this.props.previousPathHand(this.props.location.pathname);
+                this.props.history.push('/auth/login');
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -101,6 +142,20 @@ class Cart extends React.Component {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
+    onShippingSelect = (e) => {
+        if (e.target.value === 'Delivery' || e.target.value === 'Shipping') {
+            this.setState({
+                shipping: e.target.value,
+                shipForm: true
+            })
+        } else {
+            this.setState({
+                shipping: e.target.value,
+                shipForm: false
+            })
+        }
+    }
+
     jsonToFormData = (data) => {
         function buildFormData(formData, data, parentKey) {
             if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
@@ -144,30 +199,92 @@ class Cart extends React.Component {
     toFormData(obj, form, namespace) {
         let fd = form || new FormData();
         let formKey;
-        
-        for(let property in obj) {
-          if(obj.hasOwnProperty(property) && obj[property]) {
-            if (namespace) {
-              formKey = namespace + '[' + property + ']';
-            } else {
-              formKey = property;
-            }
-           
-            if (obj[property] instanceof Date) {
-              fd.append(formKey, obj[property].toISOString());
-            }
-            else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
-              this.toFormData(obj[property], fd, formKey);
-            } else { // if it's a string or a File object
-              fd.append(formKey, obj[property]);
-            }
-          }
-        }
-        
-        return fd;
-      }
 
-    contOrder = () => {
+        for (let property in obj) {
+            if (obj.hasOwnProperty(property) && obj[property]) {
+                if (namespace) {
+                    formKey = namespace + '[' + property + ']';
+                } else {
+                    formKey = property;
+                }
+
+                if (obj[property] instanceof Date) {
+                    fd.append(formKey, obj[property].toISOString());
+                }
+                else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+                    this.toFormData(obj[property], fd, formKey);
+                } else { // if it's a string or a File object
+                    fd.append(formKey, obj[property]);
+                }
+            }
+        }
+
+        return fd;
+    }
+
+    contOrder = async () => {
+        try {
+            this.setState({
+                orderLoad: true
+            });
+
+            if (this.state.shipping !== 'No Shipment') {
+                if (this.state.shipping_id) {
+                    const shipRes = await bannerShop.patch(`/cart-apis/shippings/${this.state.shipping_id}/`, {
+                        shipping_contact_name: this.state.shipping_contact_name,
+                        shipping_street_address: this.state.shipping_street_address,
+                        shipping_city: this.state.shipping_city,
+                        shipping_state: this.state.shipping_state,
+                        shipping_zip_code: this.state.shipping_zip_code,
+                        customer: this.state.user.user_id
+                    });
+
+                    const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
+                        customer: this.state.user.user_id,
+                        shipping: this.state.shipping
+                    });
+
+                    this.setState({
+                        orderLoad: false,
+                        completed: true,
+                        orderNum: ''
+                    });
+                } else {
+                    const shipCrt = await bannerShop.post(`/cart-apis/customer/shippings/${this.state.user.user_id}/`, {
+                        shipping_contact_name: this.state.shipping_contact_name,
+                        shipping_street_address: this.state.shipping_street_address,
+                        shipping_city: this.state.shipping_city,
+                        shipping_state: this.state.shipping_state,
+                        shipping_zip_code: this.state.shipping_zip_code,
+                        customer: this.state.user.user_id
+                    });
+
+                    const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
+                        customer: this.state.user.user_id,
+                        shipping: this.state.shipping
+                    });
+
+                    this.setState({
+                        orderLoad: false,
+                        completed: true,
+                        orderNum: ''
+                    });
+                }
+            } else {
+                const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
+                    customer: this.state.user.user_id,
+                    shipping: this.state.shipping
+                });
+
+                this.setState({
+                    orderLoad: false,
+                    completed: true,
+                    orderNum: ''
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
         /* 
         status:
             # Cancelled
@@ -178,92 +295,90 @@ class Cart extends React.Component {
             # In Progress
             # Yet To Start
         */
-        if (this.props.isLoggedIn) {
-            let orderBody = {
-                customer: 1,
-                customer_required_date: '2020-05-06',
-                details: 'None',
-                start_date: '2020-05-06',
-                status: 'Yet To Start',
-                order_productorders: []
-            };
+        // if (this.props.isLoggedIn) {
+        // let orderBody = {
+        //     customer: 1,
+        //     customer_required_date: '2020-05-06',
+        //     details: 'None',
+        //     start_date: '2020-05-06',
+        //     status: 'Yet To Start',
+        //     order_productorders: []
+        // };
 
-            console.log(this.state.cartItems);
+        // this.state.cartItems.forEach(item => {
+        //     const product = {
+        //         product: item.id,
+        //         custom_image: this.dataURLtoFile(item.file, 'custom_image'),
+        //         // custom_image: null,
+        //         special_note: item.special_note,
+        //         total_price: item.price,
+        //         total_weight: 5,
+        //         product_units: 3,
+        //         product_order_options: []
+        //     }
 
-            this.state.cartItems.forEach(item => {
-                const product = {
-                    product: item.id,
-                    custom_image: this.dataURLtoFile(item.file, 'custom_image'),
-                    // custom_image: null,
-                    special_note: item.special_note,
-                    total_price: item.price,
-                    total_weight: 5,
-                    product_units: 3,
-                    product_order_options: []
-                }
+        //     item.productOrderOptions.forEach(opt => {
+        //         product.product_order_options.push({
+        //             option: opt.id,
+        //             sub_option: opt.sub,
+        //             quantity: opt.qty,
+        //             price: opt.price
+        //         });
+        //     });
 
-                item.productOrderOptions.forEach(opt => {
-                    product.product_order_options.push({
-                        option: opt.id,
-                        sub_option: opt.sub,
-                        quantity: opt.qty,
-                        price: opt.price
-                    });
-                });
+        //     orderBody.order_productorders.push(product);
+        // });
 
-                orderBody.order_productorders.push(product);
-            });
+        // const oTFDOptions = {
+        //     indices: false,
+        //     nullsAsUndefineds: true,
+        // };
+        // const fd = this.toFormData(orderBody);
 
-            const oTFDOptions = {
-                indices: false,
-                nullsAsUndefineds: true,
-            };
-            const fd = this.toFormData(orderBody);
-
-            this.setState({
-                orderLoad: true
-            });
+        // this.setState({
+        //     orderLoad: true
+        // });
 
 
-            axios.post('http://34.68.49.20:8001/api/orders/', fd, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-              }).then(res => {
-                return res;
-            }).then(data => {
-                const orderNum = data.data.order_number;
-                localStorage.removeItem('cart');
-                this.setState({
-                    orderLoad: false,
-                    completed: true,
-                    orderNum: orderNum
-                });
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        // axios.post('http://34.68.49.20:8001/api/orders/', fd, {
+        //     headers: { 'Content-Type': 'multipart/form-data' },
+        // }).then(res => {
+        //     return res;
+        // }).then(data => {
+        //     const orderNum = data.data.order_number;
+        //     localStorage.removeItem('cart');
+        //     this.setState({
+        //         orderLoad: false,
+        //         completed: true,
+        //         orderNum: orderNum
+        //     });
+        // })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
 
-              
-            // bannerShop.post('/api/orders/', fd, {
-            //     headers: { 'Content-Type': 'multipart/form-data' },
-            //   })
-            //     .then(res => {
-            //         return res;
-            //     }).then(data => {
-            //         const orderNum = data.data.order_number;
-            //         localStorage.removeItem('cart');
-            //         this.setState({
-            //             orderLoad: false,
-            //             completed: true,
-            //             orderNum: orderNum
-            //         });
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     })
-        } else {
-            this.props.previousPathHand(this.props.location.pathname);
-            this.props.history.push('/auth/login');
-        }
+
+        // bannerShop.post('/api/orders/', fd, {
+        //     headers: { 'Content-Type': 'multipart/form-data' },
+        //   })
+        //     .then(res => {
+        //         return res;
+        //     }).then(data => {
+        //         const orderNum = data.data.order_number;
+        //         localStorage.removeItem('cart');
+        //         this.setState({
+        //             orderLoad: false,
+        //             completed: true,
+        //             orderNum: orderNum
+        //         });
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
+        // } else {
+        //     this.props.previousPathHand(this.props.location.pathname);
+        //     this.props.history.push('/auth/login');
+        // }
     }
 
     render() {
@@ -318,7 +433,7 @@ class Cart extends React.Component {
                                             </table>
                                         </div>
                                     </div>
-                                    <div className="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
+                                    {/* <div className="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
                                         <div className="flex-w flex-m w-full-sm">
                                             <div className="size11 bo4 m-r-10">
                                                 <input className="sizefull s-text7 p-l-22 p-r-22" type="text" name="coupon-code" placeholder="Coupon Code" />
@@ -327,69 +442,101 @@ class Cart extends React.Component {
                                                 <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Apply coupon</button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
-                                        <h5 className="m-text20 p-b-24">Cart Totals</h5>
-
-                                        <div className="flex-w flex-sb-m p-b-12">
-                                            <span className="s-text18 w-size19 w-full-sm">Subtotal:</span>
-
-                                            <span className="m-text21 w-size20 w-full-sm">${this.state.subTotal}</span>
-                                        </div>
-                                        {/* 
-                                    <div className="flex-w flex-sb bo10 p-t-15 p-b-20">
-                                        <span className="s-text18 w-size19 w-full-sm">Shipping:</span>
-    
-                                        <div className="w-size20 w-full-sm">
-                                            <p className="s-text8 p-b-23">
-                                                There are no shipping methods available. Please double check your address, or contact us if you need any help.
-                                            </p>
-    
-                                            <span className="s-text19">Calculate Shipping</span>
-    
-                                            <div className="rs2-select2 rs3-select2 rs4-select2 bo4 of-hidden w-size21 m-t-8 m-b-12">
-                                                <select className="selection-2" name="country" style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}>
-                                                    <option>Select a country...</option>
-                                                    <option>US</option>
-                                                    <option>UK</option>
-                                                    <option>Japan</option>
-                                                </select>
-                                            </div>
-    
-                                            <div className="size13 bo4 m-b-12">
-                                                <input className="sizefull s-text7 p-l-15 p-r-15" type="text" name="state" placeholder="State /  country" />
-                                            </div>
-    
-                                            <div className="size13 bo4 m-b-22">
-                                                <input className="sizefull s-text7 p-l-15 p-r-15" type="text" name="postcode" placeholder="Postcode / Zip" />
-                                            </div>
-    
-                                            <div className="size14 trans-0-4 m-b-10">
-                                                <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
-                                                    Update Totals
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div> */}
+                                    <div className="d-flex" style={{ width: '100%' }}>
+                                        <div className="bo9 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 p-lr-15-sm mr-1" style={{ flexGrow: '2' }}>
+                                            <h5 className="m-text20 p-b-24">Shipping</h5>
 
-                                        <div className="flex-w flex-sb-m p-t-26 p-b-30">
-                                            <span className="m-text22 w-size19 w-full-sm">Total:</span>
-                                            <span className="m-text21 w-size20 w-full-sm">${this.state.total}</span>
+                                            <div className="flex-w flex-sb bo10 p-t-15 p-b-20">
+                                                <span className="s-text18 w-size19 w-full-sm">Shipping:</span>
+
+                                                <div className="w-size20 w-full-sm">
+                                                    <span className="s-text19">Select Shipping</span>
+
+                                                    <div className="rs2-select2 rs3-select2 rs4-select2 bo4 of-hidden m-t-8 m-b-12">
+                                                        <select className="selection-2" name="shipping"
+                                                            style={{ width: '100%', height: '100%', border: 'none', padding: '10px' }}
+                                                            value={this.state.shipping} onChange={this.onShippingSelect}
+                                                        >
+                                                            <option value='' disabled={true}>Select a Shipping...</option>
+                                                            <option value='No Shipment'>No Shipment</option>
+                                                            <option value='Delivery'>Delivery</option>
+                                                            <option value='Shipping'>Shipping</option>
+                                                        </select>
+                                                    </div>
+
+                                                    {this.state.shipForm ? (
+                                                        <React.Fragment>
+                                                            <div className="bo4 m-b-12" style={{ height: '40px' }}>
+                                                                <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
+                                                                    value={this.state.shipping_contact_name}
+                                                                    onChange={(e) => this.setState({ shipping_contact_name: e.target.value })}
+                                                                    name="shipping_contact_name" placeholder="Contact Name" style={{ width: '100%' }} />
+                                                            </div>
+
+                                                            <div className="bo4 m-b-12" style={{ height: '40px' }}>
+                                                                <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
+                                                                    value={this.state.shipping_street_address}
+                                                                    onChange={(e) => this.setState({ shipping_street_address: e.target.value })}
+                                                                    name="shipping_street_address" placeholder="Street Address" style={{ width: '100%' }} />
+                                                            </div>
+
+                                                            <div className="bo4 m-b-12" style={{ height: '40px' }}>
+                                                                <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
+                                                                    value={this.state.shipping_city}
+                                                                    onChange={(e) => this.setState({ shipping_city: e.target.value })}
+                                                                    name="shipping_city" placeholder="City" style={{ width: '100%' }} />
+                                                            </div>
+
+                                                            <div className="bo4 m-b-12" style={{ height: '40px' }}>
+                                                                <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
+                                                                    value={this.state.shipping_state}
+                                                                    onChange={(e) => this.setState({ shipping_state: e.target.value })}
+                                                                    name="shipping_state" placeholder="State" style={{ width: '100%' }} />
+                                                            </div>
+
+                                                            <div className="bo4 m-b-12" style={{ height: '40px' }}>
+                                                                <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
+                                                                    value={this.state.shipping_zip_code}
+                                                                    onChange={(e) => this.setState({ shipping_zip_code: e.target.value })}
+                                                                    name="shipping_zip_code" placeholder="Zip Code" style={{ width: '100%' }} />
+                                                            </div>
+
+                                                        </React.Fragment>
+                                                    ) : ("")}
+                                                </div>
+                                            </div>
+
                                         </div>
 
-                                        <div className="size15 trans-0-4">
-                                            <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
-                                                onClick={this.contOrder}
-                                            >
-                                                {this.state.orderLoad ? (
-                                                    <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
-                                                        <Loader type="TailSpin" color="#fff" height={20} width={20} />
-                                                    </div>
-                                                ) : (
-                                                        ""
-                                                    )}
+                                        <div className="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 p-lr-15-sm" style={{ flexGrow: '1' }}>
+                                            <h5 className="m-text20 p-b-24">Cart Totals</h5>
+
+                                            <div className="flex-w flex-sb-m p-b-12">
+                                                <span className="s-text18 w-size19 w-full-sm">Subtotal:</span>
+
+                                                <span className="m-text21 w-size20 w-full-sm">${this.state.subTotal}</span>
+                                            </div>
+
+                                            <div className="flex-w flex-sb-m p-t-26 p-b-30">
+                                                <span className="m-text22 w-size19 w-full-sm">Total:</span>
+                                                <span className="m-text21 w-size20 w-full-sm">${this.state.total}</span>
+                                            </div>
+
+                                            <div className="size15 trans-0-4">
+                                                <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
+                                                    onClick={this.contOrder}
+                                                >
+                                                    {this.state.orderLoad ? (
+                                                        <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
+                                                            <Loader type="TailSpin" color="#fff" height={20} width={20} />
+                                                        </div>
+                                                    ) : (
+                                                            ""
+                                                        )}
                                                 Proceed to Checkout
                                         </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
