@@ -18,6 +18,7 @@ export class CustomersComponent implements OnInit {
   submitted = false;
   usernameError = false;
   statusList = [];
+  updateList = [];
   customerList: CustomerList;
   customerId;
   userList: UserList;
@@ -100,6 +101,9 @@ export class CustomersComponent implements OnInit {
         this.validateFlag = true;
       }
     } else {
+      this.updateList = obj.value;
+      delete this.updateList['user']['username'];
+      delete this.updateList['user']['password'];
       this.orderServeice.updateCustomer(this.customerId, obj.value).subscribe(res => {
         this.toast.success('Customer updated successfully!', '');
       });
