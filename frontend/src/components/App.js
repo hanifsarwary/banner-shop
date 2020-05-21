@@ -86,13 +86,13 @@ class App extends React.Component {
             <Category />
           </Route>
           <Route path="/product/:id" exact>
-            <Product errorMount={this.errorMount} />
+            <Product errorMount={this.errorMount} user={this.state.user}/>
           </Route>
           <Route path="/about" exact>
             <About />
           </Route>
           <Route path="/contact" exact>
-            <Contact isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand} />
+            <Contact isLoggedIn={this.state.isLoggedIn} user={this.state.user} previousPathHand={this.previousPathHand} />
           </Route>
           <Route path="/auth/login" exact>
             <Login
