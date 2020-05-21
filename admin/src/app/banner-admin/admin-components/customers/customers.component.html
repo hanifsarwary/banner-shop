@@ -7,7 +7,7 @@
                     <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
                         <div class="row p-0 m-0">
                             <div class="col-md-5 customer-box" formGroupName="user">
-                                <div class="row form-box pt-3">
+                                <div class="row form-box pt-3" [hidden]="operation === 'Update'">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="username"><b class="text-danger">* </b>Username :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-6" formControlName="username" placeholder="Username"
                                     [ngModel]="userList ? userList.username: ''" 
@@ -118,9 +118,8 @@
                                     <input type="text" class="form-control form-control-sm col-sm-3"
                                     [ngModel]="customerList ? customerList.bussiness_type: ''"  formControlName="bussiness_type" placeholder="Bussiness type">
                                 </div>
-                                <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
-
-                                <div class="d-flex justify-content-end mb-3 mt-5 mr-2">
+                                <div *ngIf="submitted" class="text-center text-danger mt-4">Fill the Form</div>
+                                <div class="d-flex justify-content-end mb-3 mt-3 mr-2">
                                     <button class="btn btn-primary btn-submit mr-3 ml-3" type="submit"> Submit </button>
                                     <a class="btn btn-primary btn-sub mr-3" [routerLink]="['/customers']"> Cancel </a>
                                 </div>
