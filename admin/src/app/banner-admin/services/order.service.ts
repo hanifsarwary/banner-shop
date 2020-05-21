@@ -21,7 +21,7 @@ export class OrderService {
   }
 
   updateCustomer(id, obj): Observable<any> {
-    return this.httpClient.put<any>(`${this.global.customers}${id}/`, obj, { headers: this.global.httpHeaders() });
+    return this.httpClient.patch<any>(`${this.global.customers}${id}/`, obj, { headers: this.global.httpHeaders() });
   }
 
   updateCustomerStatus(id, obj): Observable<any> {
