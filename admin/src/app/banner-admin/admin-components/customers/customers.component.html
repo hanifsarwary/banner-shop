@@ -78,13 +78,14 @@
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('country').errors }">
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="fax_number"><b class="text-danger">* </b>Fax Number:</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="fax_number">Fax Number:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="fax_number" placeholder="Enter Fax number"
                                     [ngModel]="customerList ? customerList.fax_number: ''" 
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('fax_number').errors }">
                                     <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="phone_number"><b class="text-danger">* </b>Phone Number:</label>
                                     <div class="col-sm-3 p-0 m-0">
                                         <input type="text" class="form-control form-control-sm" formControlName="phone_number" placeholder="Enter Phone number"
+                                        [ngModel]="customerList ? customerList.phone_number: ''" 
                                         [ngClass]="{ 'is-invalid': submitted && customerForm.get('phone_number').errors }">
                                         <div *ngIf="customerForm.get('phone_number').hasError('pattern')">
                                             <small style="color: red;">only number are allowed.</small>
@@ -119,7 +120,7 @@
                                     [ngModel]="customerList ? customerList.bussiness_type: ''"  formControlName="bussiness_type" placeholder="Bussiness type">
                                 </div>
                                 <div *ngIf="submitted" class="text-center text-danger mt-4">Fill the Form</div>
-                                <div class="d-flex justify-content-end mb-3 mt-3 mr-2">
+                                <div class="d-flex justify-content-end mb-3 mt-4 mr-2">
                                     <button class="btn btn-primary btn-submit mr-3 ml-3" type="submit"> Submit </button>
                                     <a class="btn btn-primary btn-sub mr-3" [routerLink]="['/customers']"> Cancel </a>
                                 </div>
