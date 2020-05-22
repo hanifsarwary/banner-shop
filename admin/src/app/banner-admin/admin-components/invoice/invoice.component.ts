@@ -10,10 +10,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class InvoiceComponent implements OnInit {
 
   orderId;
+  customerId;
   invoice_number;
   modelActive;
   status;
   statusList;
+  customerStatusTypes;
   operationType;
   funtionType;
 
@@ -32,6 +34,12 @@ export class InvoiceComponent implements OnInit {
 
   updateStatus() {
     this.orderService.updateOrderField(this.orderId, {'status': this.status}).subscribe(res => {
+      window.location.reload();
+    });
+  }
+
+  updateCustomerStatus() {
+    this.orderService.updateCustomerStatus(this.customerId, {'status': this.status}).subscribe(res => {
       window.location.reload();
     });
   }

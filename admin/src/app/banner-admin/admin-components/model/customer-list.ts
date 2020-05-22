@@ -14,4 +14,10 @@ export class CustomerList {
     due_date?: '';
     comment?: '';
     user?: UserList;
+    resale_no?: '';
+    status?: '';
+    fax_number?: '';
+    second_email?: '';
+    third_email?: '';
+    bussiness_type?: '';
 }

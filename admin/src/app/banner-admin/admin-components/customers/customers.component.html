@@ -1,34 +1,43 @@
-<div class="container-fluid p-0">
+<div class="container-fluid p-0" *ngIf="!loader">
     <div class="customers">
         <div class="mt-4 mb-4">
-            <h4 class="heading mb-5 pt-5 mr-5 text-center">Add Customer</h4>
+            <h4 class="heading mb-5 pt-5 mr-5 text-center">{{operation}} Customer</h4>
             <div class="card">
                 <div class="body">
                     <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
                         <div class="row p-0 m-0">
-                            <div class="col-md-5 customer-box" formGroupName="user">
-                                <div class="row form-box pt-3">
+                            <div class="col-md-5 customer-box">
+                                <div formGroupName="user" class="row form-box pt-3" [hidden]="operation === 'Update'">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="username"><b class="text-danger">* </b>Username :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-6" formControlName="username" placeholder="Username"
+                                    [ngModel]="userList ? userList.username: ''" 
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.username').errors }">
                                     <div class="usernamrErr" *ngIf="usernameError">
                                         <small style="color: red;">This Username is already exist.</small>
                                     </div>
                                 </div>
-                                <div class="row form-box">
+                                <div formGroupName="user" class="row form-box" [hidden]="operation === 'Update'">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="password"><b class="text-danger">* </b>Password :</label>
+                                    <input type="password" class="form-control form-control-sm col-sm-6" formControlName="password" placeholder="password"
+                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.password').errors }">
+                                </div>
+                                <div formGroupName="user" class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name"><b class="text-danger">* </b>First Name :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-6" formControlName="first_name" placeholder="First name"
+                                    [ngModel]="userList ? userList.first_name: ''" 
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.first_name').errors }">
                                 </div>
-                                <div class="row form-box">
+                                <div formGroupName="user" class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="last_name"><b class="text-danger">* </b>Last Name :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-6" formControlName="last_name" placeholder="Last name"
+                                    [ngModel]="userList ? userList.last_name: ''" 
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.last_name').errors }">
                                 </div>
-                                <div class="row form-box">
+                                <div formGroupName="user" class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="email"><b class="text-danger">* </b>Email :</label>
                                     <div class="col-sm-6 p-0 m-0">
                                         <input type="email" class="form-control form-control-sm" formControlName="email" placeholder="email"
+                                        [ngModel]="userList ? userList.email: ''" 
                                         [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.email').errors }">
                                         <div *ngIf="customerForm.get('user.email').hasError('pattern')">
                                             <small style="color: red;">The Email is not valid.</small>
@@ -36,84 +45,77 @@
                                     </div>
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="password"><b class="text-danger">* </b>Password :</label>
-                                    <input type="password" class="form-control form-control-sm col-sm-6" formControlName="password" placeholder="password"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.password').errors }">
-                                </div>
-                            </div>
-                            <div class="col-md-7 p-0 m-0 p-2">
-                                <!-- <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="approach_details">Approach details:</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="approach_details" placeholder="Approach details"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('approach_details').errors }">
-                                </div> -->
-                                <div class="row form-box pt-1">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="address"><b class="text-danger">* </b>Address :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="address" placeholder="Enter Address"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('address').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="city"><b class="text-danger">* </b>City :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="city" placeholder="Enter City name"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('city').errors }">
-                                </div>
-                                <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="resale_no"><b class="text-danger">* </b>Resale No :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="resale_no" placeholder="Enter resale no"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('resale_no').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="status"><b class="text-danger">* </b>Status :</label>
-                                    <select class="form-control form-control-sm col-sm-3" id="order-status"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('status').errors }" formControlName="status">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="status">Status :</label>
+                                    <select class="form-control form-control-sm col-sm-6" id="order-status"
+                                    [ngModel]="customerList ? customerList.status: '1'" formControlName="status">
                                         <option *ngFor="let status of statusList | keyvalue" [value]="status.key">{{status.value}}</option>
                                     </select>
                                 </div>
-                                <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="company_name"><b class="text-danger">* </b>Company Name:</label>
+                                
+                            </div>
+                            <div class="col-md-7 p-0 m-0 p-2">
+                                <div class="row form-box pt-1">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="company_name">Company Name:</label>
                                     <input type="text" class="form-control form-control-sm col-sm-3" formControlName="company_name" placeholder="Enter Company name"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('company_name').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="country"><b class="text-danger">* </b>Country :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="country" placeholder="Enter Country name"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('country').errors }">
+                                    [ngModel]="customerList ? customerList.company_name: ''">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="resale_no">Resale No :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="resale_no" placeholder="Enter resale no"
+                                    [ngModel]="customerList ? customerList.resale_no: ''">
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="fax_number"><b class="text-danger">* </b>Fax Number:</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="fax_number" placeholder="Enter Fax number"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('fax_number').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="phone_number"><b class="text-danger">* </b>Phone Number:</label>
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="address">Address :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="address" placeholder="Enter Address"
+                                    [ngModel]="customerList ? customerList.address: ''">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="city">City :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="city" placeholder="Enter City name"
+                                    [ngModel]="customerList ? customerList.city: ''">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="zip_code">Zip code:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" 
+                                    [ngModel]="customerList ? customerList.zip_code: ''"  formControlName="zip_code" placeholder="Enter Zip code">
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="country">Country :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="country" placeholder="Enter Country name">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="phone_number">Phone Number:</label>
                                     <div class="col-sm-3 p-0 m-0">
                                         <input type="text" class="form-control form-control-sm" formControlName="phone_number" placeholder="Enter Phone number"
-                                        [ngClass]="{ 'is-invalid': submitted && customerForm.get('phone_number').errors }">
+                                        [ngModel]="customerList ? customerList.phone_number: ''">
                                         <div *ngIf="customerForm.get('phone_number').hasError('pattern')">
                                             <small style="color: red;">only number are allowed.</small>
                                         </div>
                                     </div>
+                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="fax_number">Fax Number:</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="fax_number" placeholder="Enter Fax number"
+                                    [ngModel]="customerList ? customerList.fax_number: ''">
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="second_email">Second Email:</label>
                                     <div class="col-sm-3 p-0 m-0">
-                                        <input type="text" class="form-control form-control-sm" formControlName="second_email" placeholder="Enter Second email">
+                                        <input type="text" class="form-control form-control-sm" formControlName="second_email"
+                                        [ngModel]="customerList ? customerList.second_email: ''"  placeholder="Enter Second email">
                                         <div *ngIf="customerForm.get('second_email').hasError('pattern')">
                                             <small style="color: red;">The Email is not valid.</small>
                                         </div>
                                     </div>
                                     <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="third_email">Third Email :</label>
                                     <div class="col-sm-3 p-0 m-0">
-                                        <input type="text" class="form-control form-control-sm" formControlName="third_email" placeholder="Enter Third email">
+                                        <input type="text" class="form-control form-control-sm" formControlName="third_email" 
+                                        [ngModel]="customerList ? customerList.third_email: ''"  placeholder="Enter Third email">
                                         <div *ngIf="customerForm.get('third_email').hasError('pattern')">
                                             <small style="color: red;">The Email is not valid.</small>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="zip_code"><b class="text-danger">* </b>Zip code:</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="zip_code" placeholder="Enter Zip code"
-                                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('zip_code').errors }">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow"for="bussiness_type">Bussiness Type :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-3" formControlName="bussiness_type" placeholder="Bussiness type">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow"for="bussiness_type">Bussiness Type :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-3"
+                                    [ngModel]="customerList ? customerList.bussiness_type: ''"  formControlName="bussiness_type" placeholder="Bussiness type">
                                 </div>
-                                <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
-
                                 <div class="d-flex justify-content-end mb-3 mt-5 mr-2">
                                     <button class="btn btn-primary btn-submit mr-3 ml-3" type="submit"> Submit </button>
-                                    <a class="btn btn-primary btn-sub mr-3" [routerLink]="['/order-status']"> Cancel </a>
+                                    <a class="btn btn-primary btn-sub mr-3" [routerLink]="['/customers']"> Cancel </a>
                                 </div>
                             </div>
                         </div>
