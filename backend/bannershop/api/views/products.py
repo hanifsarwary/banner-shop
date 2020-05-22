@@ -18,7 +18,7 @@ class ProductsListViewSet(ListCreateAPIView):
 
 class ProductOptionsListViewSet(ListCreateAPIView):
     serializer_class = OptionSerializer
-    queryset = Option.objects
+    queryset = Option.objects.all()
 
     def list(self, request, product_id, *args, **kwargs):
         queryset = self.get_queryset().filter(product_id=product_id, is_deleted=False).order_by('is_suboptions', 'option_name')
@@ -28,7 +28,7 @@ class ProductOptionsListViewSet(ListCreateAPIView):
 
 class SubProductOptionsListViewSet(ListCreateAPIView):
     serializer_class = SubOptionSerializer
-    queryset = SubOption.objects
+    queryset = SubOption.objects.all()
 
     def list(self, request, product_id, option_id, *args, **kwargs):
         queryset = self.get_queryset().filter(option__product_id=product_id, option_id=option_id, is_deleted=False).order_by('price')
@@ -38,7 +38,7 @@ class SubProductOptionsListViewSet(ListCreateAPIView):
 
 class OptionSubOptionsListViewSet(ListCreateAPIView):
     serializer_class = SubOptionSerializer
-    queryset = SubOption.objects
+    queryset = SubOption.objects.all()
 
     def list(self, request, option_id, *args, **kwargs):
         queryset = self.get_queryset().filter(option_id=option_id, is_deleted=False).order_by('price')
@@ -67,11 +67,11 @@ class ProductDetailViewSet(RetrieveUpdateAPIView):
 
 class OptionDetailViewSet(RetrieveUpdateAPIView):
     serializer_class = OptionSerializer
-    queryset = Option.objects
+    queryset = Option.objects.all()
 
 class SubOptionDetailViewSet(RetrieveUpdateAPIView):
     serializer_class = SubOptionSerializer
-    queryset = SubOption.objects
+    queryset = SubOption.objects.all()
 
 
 class AllOptionListView(ListAPIView):

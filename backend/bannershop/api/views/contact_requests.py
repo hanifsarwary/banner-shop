@@ -13,5 +13,5 @@ class ContactRequestViewSet(ListCreateAPIView):
 class ContactRequestDetailViewSet(RetrieveUpdateAPIView):
 
     serializer_class = ContactRequestSerializer
-    queryset = ContactRequest.objects
+    queryset = ContactRequest.objects.all()
     

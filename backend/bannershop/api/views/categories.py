@@ -40,7 +40,7 @@ class CategoryDetailViewSet(RetrieveUpdateAPIView):
     A view to get details of a category
     """
     serializer_class = CategorySerializer
-    queryset = Category.objects
+    queryset = Category.objects.all()
 
 
 class CategorySubCategoryProductViewSet(ListAPIView):
