@@ -23,7 +23,9 @@ class App extends React.Component {
     isLoggedIn: false,
     user: {},
     products: [],
-    previousPath: '/'
+    previousPath: '/',
+    cartItems: [],
+    total: 0
   };
 
   componentDidMount() {
@@ -57,6 +59,22 @@ class App extends React.Component {
     });
   }
 
+  cartHandle = () => {
+    if (localStorage.getItem('cart') !== null) {
+      const cart = JSON.parse(localStorage.getItem('cart'));
+
+      this.setState({
+        cartItems: cart.cartItems,
+        total: cart.total
+      });
+    } else {
+      this.setState({
+        cartItems: [],
+        total: 0
+      });
+    }
+  }
+
   errorMount = (message) => {
     this.setState({
       error: true,
@@ -70,6 +88,8 @@ class App extends React.Component {
         <Header
           isLoggedIn={this.state.isLoggedIn}
           onLogout={this.onLogout}
+          cartItems={this.state.cartItems}
+          total={this.state.total}
         />
         {this.state.error ? (
           <GlobalError message={this.state.message} />
@@ -80,13 +100,21 @@ class App extends React.Component {
             <Feature />
           </Route>
           <Route path="/shop/cart" exact>
-            <Cart isLoggedIn={this.state.isLoggedIn} previousPathHand={this.previousPathHand} />
+            <Cart
+              isLoggedIn={this.state.isLoggedIn}
+              previousPathHand={this.previousPathHand}
+              cartHandle={this.cartHandle}
+            />
           </Route>
           <Route path="/category/:id" exact>
             <Category />
           </Route>
           <Route path="/product/:id" exact>
-            <Product errorMount={this.errorMount} user={this.state.user}/>
+            <Product 
+              errorMount={this.errorMount} 
+              user={this.state.user} 
+              cartHandle={this.cartHandle}
+            />
           </Route>
           <Route path="/about" exact>
             <About />

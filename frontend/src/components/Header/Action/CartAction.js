@@ -11,19 +11,27 @@ class CartAction extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem('cart') !== null) {
-            const cart = JSON.parse(localStorage.getItem('cart'));
+        // if (localStorage.getItem('cart') !== null) {
+        //     const cart = JSON.parse(localStorage.getItem('cart'));
 
-            this.setState({
-                cartItems: cart.cartItems,
-                total: cart.total
-            });
-        }
+        //     this.setState({
+        //         cartItems: cart.cartItems,
+        //         total: cart.total
+        //     });
+        // }
+
+        this.setState({
+            cartItems: [],
+            total: 0
+        });
+
+        // cartItems={props.cartItems}
+        //             total={props.total}
     }
 
     componentDidUpdate() {
         document.body.addEventListener('click', (e) => {
-            if (e.target.className !== 'header-icon1 js-show-header-dropdown' && 
+            if (e.target.className !== 'header-icon1 js-show-header-dropdown' &&
                 e.target.className !== 'header-cart' &&
                 e.target.className !== 'header-cart-item-img' &&
                 e.target.className !== 'header-cart-item' &&
@@ -31,8 +39,10 @@ class CartAction extends React.Component {
             ) {
                 if (this.state.dropdown === 'scale(1)') {
                     this.setState({
+                        // cartItems: this.props.cartItems,
+                        // total: this.props.total,
                         dropdown: 'scale(0)',
-                        loaded: true
+                        loaded: true,
                     });
                 }
             }
@@ -85,7 +95,7 @@ class CartAction extends React.Component {
             cartItems: cartItems,
             total: newTotal
         });
-        if(cartItems.length === 0) {
+        if (cartItems.length === 0) {
             cart.total = 0;
             this.setState({
                 total: 0
