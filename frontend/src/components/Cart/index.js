@@ -387,8 +387,8 @@ class Cart extends React.Component {
             return (
                 <section className="cart bgwhite p-t-70 p-b-100">
                     <div className="container">
-                        <h1>Order is successfully Completed</h1>
-                        <h4 style={{ marginTop: '10px' }}>Order Number is: {this.state.orderNum}</h4>
+                        <h1>Order is successfully Submited</h1>
+                        <h4 style={{ marginTop: '10px', color: '#e65540'  }}>An admin will contact you soon</h4>
                     </div>
                 </section>
             )
