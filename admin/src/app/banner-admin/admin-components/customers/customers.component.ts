@@ -25,6 +25,7 @@ export class CustomersComponent implements OnInit {
   operation = 'Add';
   opeFlag = false;
   passwordFlag = false;
+  loader = false;
 
 
   constructor(private fb: FormBuilder,
@@ -33,22 +34,6 @@ export class CustomersComponent implements OnInit {
     private toast: ToastrService) {
 
     this.customerForm = this.fb.group({
-      approach_details: [''],
-      bussiness_type: [''],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      company_name: ['', Validators.required],
-      status: ['', Validators.required],
-      resale_no: ['', Validators.required],
-      country: ['USA', Validators.required],
-      fax_number: [''],
-      phone_number: ['', [Validators.required, Validators.minLength(8),
-                          Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]],
-      zip_code: ['', Validators.required],
-      second_email: ['', Validators.compose([
-                         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
-      third_email: ['', Validators.compose([
-                        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
       user: this.fb.group({
         username: ['', Validators.required],
         first_name: ['', Validators.required],
@@ -56,7 +41,22 @@ export class CustomersComponent implements OnInit {
         email: ['', Validators.compose([Validators.required,
                     Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
         password: ['', Validators.required]
-      })
+      }),
+      status: [],
+      company_name: [''],
+      resale_no: [''],
+      address: [''],
+      city: [''],
+      zip_code: [''],
+      country: ['USA'],
+      phone_number: ['', [Validators.minLength(8),
+        Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]],
+      fax_number: [''],
+      second_email: ['', Validators.compose([
+                         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      third_email: ['', Validators.compose([
+                        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      bussiness_type: [''],
     });
    }
 
@@ -68,14 +68,18 @@ export class CustomersComponent implements OnInit {
         this.opeFlag = this.operation === 'Update' ? false : true;
         this.customerId = params['id'];
         this.getCustomerById(params['id']);
+      } else {
+        this.loader = false;
       }
     });
   }
 
   getCustomerById(id) {
+    this.loader = true;
     this.orderServeice.getCustomers(id).subscribe(res => {
       this.customerList = res;
       this.userList = this.customerList.user;
+      this.loader = false;
     });
   }
 
@@ -93,7 +97,6 @@ export class CustomersComponent implements OnInit {
         this.submitted = false;
         this.orderServeice.addCustomers(obj.value).subscribe(res => {
           this.toast.success('Customer added successfully!', '');
-          this.customerForm.reset();
         }, err => {
           this.usernameError = true;
         });
