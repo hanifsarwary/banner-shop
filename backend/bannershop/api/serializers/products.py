@@ -10,6 +10,14 @@ class ProductSerializer(ModelSerializer):
 
 
 
+class SmallProductSerializer(ModelSerializer):
+    
+    class Meta:
+        model = Product
+        fields = ('id', 'product_name')
+        
+
+
 class OptionSerializer(ModelSerializer):
     class Meta:
         model = Option

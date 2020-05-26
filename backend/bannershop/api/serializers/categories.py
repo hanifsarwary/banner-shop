@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ListField, SerializerMethodField
-from api.serializers.products import ProductSerializer
+from api.serializers.products import SmallProductSerializer
 from api.models import Category, Product
 
 class CategorySerializer(ModelSerializer):
@@ -31,6 +31,6 @@ class CategorySubCategoryProductSerializer(ModelSerializer):
     def get_products(self, obj):
         
         queryset = Product.objects.filter(category=obj.id)
-        serialized_data = ProductSerializer(queryset, many=True).data
+        serialized_data = SmallProductSerializer(queryset, many=True).data
 
         return serialized_data
