@@ -21,13 +21,13 @@ class Menu extends React.Component {
                     if (category.have_sub_categories) {
                         const subRes = await bannerShop.get(`/api/categories/${category.id}/sub-categories/`);
 
-                        const catProdRes = await bannerShop.get(`/api/products/category/${category.id}/`);
+                        // const catProdRes = await bannerShop.get(`/api/products/category/${category.id}/`);
                         const sub = subRes.data;
                         const subCategories = [];
 
                         for (let index = 0; index < sub.length; index++) {
                             const subCategory = sub[index];
-                            await new Promise(async (next) => {
+                            await new Promise(async (Innernext) => {
                                 const subProdRes = await bannerShop.get(`/api/products/category/${subCategory.id}/`);
                                 let products = [];
 
@@ -39,7 +39,7 @@ class Menu extends React.Component {
                                     ...subCategory,
                                     products
                                 });
-                                next();
+                                Innernext();
                             });
                         }
 
