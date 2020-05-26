@@ -31,6 +31,6 @@ class CategorySubCategoryProductSerializer(ModelSerializer):
     def get_products(self, obj):
         
         queryset = Product.objects.filter(category=obj.id)
-        serialized_data = ProductSerializer(queryset, many=True)
+        serialized_data = ProductSerializer(queryset, many=True).data
 
         return serialized_data
