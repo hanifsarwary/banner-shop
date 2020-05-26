@@ -46,4 +46,4 @@ class CategoryDetailViewSet(RetrieveUpdateAPIView):
 class CategorySubCategoryProductViewSet(ListAPIView):
 
     serializer_class = CategorySubCategoryProductSerializer
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(parent_category__isnull=True)
