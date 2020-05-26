@@ -23,7 +23,7 @@ class CategorySubCategoryProductSerializer(ModelSerializer):
     def get_children_categories(self, obj):
         queryset = Category.objects.filter(parent_category=obj.id)
         if not queryset:
-            return serialized_data
+            return None
 
         else:
             serialized_data = CategorySubCategoryProductSerializer(queryset, many=True).data
