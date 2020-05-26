@@ -26,8 +26,7 @@ class CategorySubCategoryProductSerializer(ModelSerializer):
             return None
 
         else:
-            serialized_data = CategorySubCategoryProductSerializer(queryset, many=True).data
-        return serialized_data
+            return CategorySubCategoryProductSerializer(queryset, many=True).data
     
     def get_products(self, obj):
         
