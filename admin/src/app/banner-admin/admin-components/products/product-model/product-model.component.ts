@@ -7,6 +7,7 @@ import { ProductService } from 'src/app/banner-admin/services/product.service';
 import { ToolbarService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import { DOCUMENT } from '@angular/common';
 import { UtilsFunction } from 'src/app/banner-admin/utils-function';
+import { ProductList } from '../../model/product';
 @Component({
   selector: 'app-product-model',
   templateUrl: './product-model.component.html',
@@ -19,7 +20,7 @@ export class ProductModelComponent implements OnInit {
   @Input() priceTypes;
   productId;
   showImageField = false;
-  productList = [];
+  productList: ProductList;
   public productForm: FormGroup;
   calculatedPrice = 75;
   isChild = false;
