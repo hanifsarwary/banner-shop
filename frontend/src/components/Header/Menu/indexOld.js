@@ -10,17 +10,81 @@ class Menu extends React.Component {
     };
 
     async componentDidMount() {
-        bannerShop.get('/api/category-subcategory-products')
-            .then(res => {
-                console.log(res.data.results);
-                this.setState({ categories: res.data.results, loaded: true });
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        try {
+            let newCat = [];
+            const res = await bannerShop.get('/api/categories');
+            const categories = res.data.results;
+
+            for (let index = 0; index < categories.length; index++) {
+                await new Promise(async (next) => {
+                    const category = categories[index];
+                    if (category.have_sub_categories) {
+                        const subRes = await bannerShop.get(`/api/categories/${category.id}/sub-categories/`);
+
+                        // const catProdRes = await bannerShop.get(`/api/products/category/${category.id}/`);
+                        const sub = subRes.data;
+                        const subCategories = [];
+
+                        for (let index = 0; index < sub.length; index++) {
+                            const subCategory = sub[index];
+                            await new Promise(async (Innernext) => {
+                                const subProdRes = await bannerShop.get(`/api/products/category/${subCategory.id}/`);
+                                let products = [];
+
+                                if (subProdRes) {
+                                    products = subProdRes.data;
+                                }
+
+                                subCategories.push({
+                                    ...subCategory,
+                                    products
+                                });
+                                Innernext();
+                            });
+                        }
+
+                        newCat.push({
+                            ...category,
+                            products: [],
+                            sub: subCategories
+                        })
+                        if (index === categories.length - 1) {
+                            this.setState({
+                                categories: newCat,
+                                loaded: true
+                            });
+                        }
+                    } else {
+                        const catProdRes = await bannerShop.get(`/api/products/category/${category.id}/`);
+                        let products = [];
+
+                        if (catProdRes) {
+                            products = catProdRes.data;
+                        }
+
+                        newCat.push({
+                            ...category,
+                            products: products,
+                            sub: []
+                        })
+
+                        if (index === categories.length - 1) {
+                            this.setState({
+                                categories: newCat,
+                                loaded: true
+                            });
+                        }
+                    }
+                    next();
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     render() {
+        // console.log(this.state);
         return (
             <div className="wrap_menu">
                 <nav className="menu">
@@ -35,19 +99,21 @@ class Menu extends React.Component {
                                 Categories
                             </a>
                             <ul className="sub_menu">
+                                {console.log(this.state.categories)}
                                 {this.state.loaded ?
                                     this.state.categories.map(category => {
                                         return (
                                             <li key={category.id}>
-                                                {(category.children_categories) ? (
+                                                {(category.have_sub_categories && category.sub.length > 0) ? (
                                                     <React.Fragment>
                                                         <Link to={`/category/${category.id}`}>
                                                             {category.name}
                                                         </Link>
                                                         <ul className="sub_menu">
-                                                            {category.children_categories.map(subCat => {
+                                                            {category.sub.map(subCat => {
                                                                 return (
                                                                     <li key={subCat.id}>
+                                                                        {/* <Link to="/">{subCat.name}</Link> */}
                                                                         <Link to={`/category/${subCat.id}`}>
                                                                             {subCat.name}
                                                                         </Link>
@@ -62,14 +128,16 @@ class Menu extends React.Component {
                                                                         ) : ("")}
                                                                     </li>
                                                                 )
-                                                            })};
+                                                            })}
                                                         </ul>
                                                     </React.Fragment>
                                                 ) : (
                                                         <React.Fragment>
-                                                            <Link to={`/category/${category.id}`}>
+                                                            <a href="/" onClick={(e) => {
+                                                                e.preventDefault();
+                                                            }}>
                                                                 {category.name}
-                                                            </Link>
+                                                            </a>
                                                             {category.products.length > 0 ? (
                                                                 <ul className="sub_menu">
                                                                     {category.products.map(product => {
@@ -80,11 +148,12 @@ class Menu extends React.Component {
                                                                 </ul>
                                                             ) : ("")}
                                                         </React.Fragment>
-                                                    )
-                                                }
+                                                        // <Link to={`/category/${category.id}`}>{category.name}</Link>
+                                                    )}
                                             </li>
                                         )
-                                    }) : (
+                                    })
+                                    : (
                                         <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
                                             <Loader type="ThreeDots" color="#e65540" height={40} width={40} />
                                         </div>
