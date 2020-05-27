@@ -7,8 +7,8 @@
     font-size: 14px;
     font-weight: 400;
 }
-.checkbox > label, span {
-    margin-right: 19rem;
+.magin-right {
+    margin-right: 5rem;
 }
 .close:focus {
     outline: none;
@@ -19,4 +19,8 @@
     flex-direction: row;
     align-items: baseline;
     justify-content: space-between;
+}
+.card-img {
+    width: auto !important;
+    text-align: center;
 }

@@ -1,12 +1,86 @@
 
 <div class="container-fluid" align="center">
     <div class="customers">
-        <div class="card" *ngIf="!loader">
-            <div class="heading pb-4 pt-5 text-left">
+        <div class="card  mt-4" *ngIf="!loader">
+            <div class="heading pb-4 text-left">
                 <img class="logo-img" src="../../../../assets/images/4cc logo.png" alt="">
             </div>
-            <div class="body">
-                <div class="row form-box">
+            <div class="body work-order">
+                <div class="d-flex sub-work-div">
+                    <div class="work-label font-size-set">WorkOrder/Job ID :</div>
+                    <div class="work-value font-size-set font-weight-bold">{{orderList.id}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label font-size-set text-danger">Order Date&Time :</div>
+                    <div class="work-value font-size-set text-danger font-weight-bold">{{orderDateTime}}</div>
+                    <div class="work-label font-size-set text-danger ml-4">Shipping Deadline Date :</div>
+                    <div class="work-value font-size-set text-danger font-weight-bold">{{orderList.due_date | date:'LLLL dd,yyyy, EEEE' }}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Product:</div>
+                    <div class="work-value mw-work">{{orderList.custom_product_name}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Total Quantity :</div>
+                    <div class="work-value">{{orderList.custom_quantity}}</div>
+                    <div class="work-label ml-4">Version :</div>
+                    <div class="work-value">{{orderList.custom_version}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Flat size :</div>
+                    <div class="work-value">{{orderList.flat_size}}</div>
+                    <div class="work-label ml-4">Final size :</div>
+                    <div class="work-value">{{orderList.final_size}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Ink color :</div>
+                    <div class="work-value">{{orderList.ink_color}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Material :</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-value mh-work mw-work-textarea">{{orderList.custom_paper}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Special instruction :</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-value mh-work mw-work-textarea">{{orderList.special_instructoon}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Company/Customer :</div>
+                    <div class="work-value">{{orderList.company_name}}</div>
+                    <div class="work-label ml-4">PO/Reference No :</div>
+                    <div class="work-value">{{orderList.reference_number}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Job name :</div>
+                    <div class="work-value mw-work">{{orderList.custom_job_name}}</div>
+                </div>
+                <div class="d-flex sub-work-div">
+                    <div class="work-label">Shipment :</div>
+                    <div class="work-value">{{orderList.shipping_type}}</div>
+                </div>
+                <div class="p-0 m-0" *ngIf="orderList.shipping_type === 'Delivery' || orderList.shipping_type === 'Shipping'">
+                    <div class="d-flex sub-work-div">
+                        <div class="work-label">Contact Name :</div>
+                        <div class="work-value">{{orderList.shipping_contact_name}}</div>
+                    </div>
+                    <div class="d-flex sub-work-div">
+                        <div class="work-label">Address :</div>
+                        <div class="work-value">{{orderList.shipping_street_address}}</div>
+                        <div class="work-label ml-4">State :</div>
+                        <div class="work-value">{{orderList.shipping_state}}</div>
+                    </div>
+                    <div class="d-flex sub-work-div">
+                        <div class="work-label">City :</div>
+                        <div class="work-value">{{orderList.shipping_city}}</div>
+                        <div class="work-label ml-4">Zip Code :</div>
+                        <div class="work-value">{{orderList.shipping_zip_code}}</div>
+                    </div>
+                </div>
+                <!-- <div class="row form-box">
                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="job_number">WorkOrder/Job ID :</label>
                     <input type="number" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="orderList.id">
                 </div>
@@ -75,14 +149,14 @@
                         <label class="col-sm-2 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_zip_code">Zip Code :</label>
                         <input type="text" class="form-control form-control-sm col-sm-4" readonly  [(ngModel)]="orderList.shipping_zip_code"/>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="d-flex justify-content-end mt-5">
+            <div class="d-flex sub-work-div justify-content-center mt-5 mr-4">
                 <a href="javascript:;" type="button" class="hide-print print-btn btn btn-sm pl-3 pr-3 mr-2 btn-outline-primary" (click)="window.print()">Print</a>
-                <a href="javascript:;" type="button" class="hide-print print-btn btn btn-sm pl-3 pr-3 mr-1 btn-outline-primary" [routerLink]="['/order-status']"> Close </a>
+                <a href="javascript:;" type="button" class="hide-print print-btn btn btn-sm pl-3 pr-3 btn-outline-primary" [routerLink]="['/order-status']"> Close </a>
             </div>
         </div>
-        <div class="loader d-flex flex-row justify-content-center" *ngIf="loader">
+        <div class="loader d-flex sub-work-div flex-row justify-content-center" *ngIf="loader">
             <div class="spinner">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>

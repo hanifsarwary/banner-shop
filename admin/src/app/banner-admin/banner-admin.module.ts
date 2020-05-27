@@ -42,6 +42,7 @@ import { ErrorInsterceptorService } from './services/error-insterceptor.service'
 import { PackingListComponent } from './admin-components/packing-list/packing-list.component';
 import { WorkOrderComponent } from './admin-components/work-order/work-order.component';
 import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
+import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -84,6 +85,7 @@ import { AllCustomersComponent } from './admin-components/all-customers/all-cust
     FiltersBarModule,
     MatTooltipModule,
     MatButtonModule,
+    RichTextEditorModule,
     NgxsModule.forRoot([
       DateRangeState ])
   ],

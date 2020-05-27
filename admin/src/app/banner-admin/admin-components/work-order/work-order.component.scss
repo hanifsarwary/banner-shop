@@ -25,4 +25,39 @@ input, textarea {
     .hide-print {
       display: none;
     }
+    .customers{
+		width: 90%;
+        height: auto;
+        zoom: 72%;
+	}
+}
+.work-order {
+    .sub-work-div {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 14px;
+    }
+    .work-label {
+        font-weight: bold;
+    }
+    .work-value {
+        width: 28%;
+        text-align: left;
+        padding-left: 0.5rem;
+        margin-left: 0.5rem;
+        border: 1px solid black;
+    }
+}
+.mh-work {
+    height: 5rem;
+}
+.mw-work {
+    width: 50% !important;
+}
+.mw-work-textarea {
+    width: 100% !important;
+    margin-left: 0 !important;
+}
+.font-size-set {
+    font-size: 16px !important;
 }
