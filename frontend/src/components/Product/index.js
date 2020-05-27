@@ -438,6 +438,7 @@ class ProductDetail extends React.Component {
           cart.cartItems.push(item);
           cart.total = parseFloat(cart.total) + parseFloat(this.state.total);
           localStorage.setItem('cart', JSON.stringify(cart));
+          this.props.cartHandle();
           this.setState({
             cartAdd: true,
             cartloader: false
@@ -565,9 +566,6 @@ class ProductDetail extends React.Component {
                     )}
                 </div>
                 {this.state.options.map((option) => {
-                  console.log('option', option);
-                  console.log('option.option_name', option.option_name);
-                  console.log('obj', this.state.optionState[option.option_name]);
                   let value = this.state.optionState[option.option_name].id;
                   return (
                     <div className="flex-m flex-w" key={option.id}>

@@ -12,6 +12,8 @@ const Header = (props) => {
                 <HeaderWrap
                     isLoggedIn={props.isLoggedIn}
                     onLogout={props.onLogout}
+                    cartItems={props.cartItems}
+                    total={props.total}
                 />
             </div>
             <Mobile />

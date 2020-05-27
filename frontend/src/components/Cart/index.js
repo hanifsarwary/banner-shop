@@ -276,6 +276,8 @@ class Cart extends React.Component {
                     shipping: this.state.shipping
                 });
 
+                localStorage.removeItem('cart');
+                this.props.cartHandle();
                 this.setState({
                     orderLoad: false,
                     completed: true,
@@ -388,7 +390,7 @@ class Cart extends React.Component {
                 <section className="cart bgwhite p-t-70 p-b-100">
                     <div className="container">
                         <h1>Order is successfully Submited</h1>
-                        <h4 style={{ marginTop: '10px', color: '#e65540'  }}>An admin will contact you soon</h4>
+                        <h4 style={{ marginTop: '10px', color: '#e65540' }}>An admin will contact you soon</h4>
                     </div>
                 </section>
             )
@@ -467,6 +469,9 @@ class Cart extends React.Component {
 
                                                     {this.state.shipForm ? (
                                                         <React.Fragment>
+                                                            <div className="s-text15 mb-2">
+                                                                Contact Name:
+                                                            </div>
                                                             <div className="bo4 m-b-12" style={{ height: '40px' }}>
                                                                 <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
                                                                     value={this.state.shipping_contact_name}
@@ -474,6 +479,9 @@ class Cart extends React.Component {
                                                                     name="shipping_contact_name" placeholder="Contact Name" style={{ width: '100%' }} />
                                                             </div>
 
+                                                            <div className="s-text15 mb-2">
+                                                                Address:
+                                                            </div>
                                                             <div className="bo4 m-b-12" style={{ height: '40px' }}>
                                                                 <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
                                                                     value={this.state.shipping_street_address}
@@ -481,6 +489,9 @@ class Cart extends React.Component {
                                                                     name="shipping_street_address" placeholder="Street Address" style={{ width: '100%' }} />
                                                             </div>
 
+                                                            <div className="s-text15 mb-2">
+                                                                City:
+                                                            </div>
                                                             <div className="bo4 m-b-12" style={{ height: '40px' }}>
                                                                 <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
                                                                     value={this.state.shipping_city}
@@ -488,6 +499,9 @@ class Cart extends React.Component {
                                                                     name="shipping_city" placeholder="City" style={{ width: '100%' }} />
                                                             </div>
 
+                                                            <div className="s-text15 mb-2">
+                                                                State:
+                                                            </div>
                                                             <div className="bo4 m-b-12" style={{ height: '40px' }}>
                                                                 <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
                                                                     value={this.state.shipping_state}
@@ -495,6 +509,9 @@ class Cart extends React.Component {
                                                                     name="shipping_state" placeholder="State" style={{ width: '100%' }} />
                                                             </div>
 
+                                                            <div className="s-text15 mb-2">
+                                                                Zip Code:
+                                                            </div>
                                                             <div className="bo4 m-b-12" style={{ height: '40px' }}>
                                                                 <input className="sizefull s-text7 p-l-15 p-r-15" type="text"
                                                                     value={this.state.shipping_zip_code}

@@ -26,7 +26,10 @@ const Action = (props) => {
                 <Link to="/auth/login" className="btn-cus flex-c-m size2 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Login</Link>
                 )}
             <span className="linedivide1"></span>
-            <CartAction />
+            <CartAction 
+                cartItems={props.cartItems}
+                total={props.total} 
+            />
 
         </div>
     )

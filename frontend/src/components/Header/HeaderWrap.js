@@ -11,6 +11,8 @@ const HeaderWrap = (props) => {
             <Action
                 isLoggedIn={props.isLoggedIn}
                 onLogout={props.onLogout}
+                cartItems={props.cartItems}
+                total={props.total}
             />
         </div>
     )
