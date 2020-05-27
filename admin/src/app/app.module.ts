@@ -18,6 +18,9 @@ import { OptionModelComponent } from './banner-admin/admin-components/option-gro
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatTableModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
+import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
+import { RenderHtmlPipe } from './custom-pipe/render-html.pipe';
+import { UtilsFunction } from './banner-admin/utils-function';
 @NgModule({
     imports: [
         CommonModule,
@@ -25,6 +28,7 @@ import { CdkTableModule } from '@angular/cdk/table';
         BrowserAnimationsModule,
         HttpClientModule,
         LanguageTranslationModule,
+        RichTextEditorAllModule,
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,
@@ -37,8 +41,8 @@ import { CdkTableModule } from '@angular/cdk/table';
             preventDuplicates: false,
         }),
     ],
-    declarations: [AppComponent, ProductModelComponent, ProductDetailsComponent, OptionModelComponent],
-    providers: [AuthGuard, Globals, LoginService, SignupService],
+    declarations: [AppComponent, ProductModelComponent, ProductDetailsComponent, OptionModelComponent, RenderHtmlPipe],
+    providers: [AuthGuard, Globals, LoginService, SignupService, UtilsFunction],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

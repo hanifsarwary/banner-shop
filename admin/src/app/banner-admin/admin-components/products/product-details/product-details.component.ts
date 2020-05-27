@@ -9,6 +9,9 @@ import { UtilsFunction } from 'src/app/banner-admin/utils-function';
 import { ProductService } from 'src/app/banner-admin/services/product.service';
 import { OptionService } from 'src/app/banner-admin/services/option.service';
 import { OptionModelComponent } from '../../option-groups/option-model/option-model.component';
+  import { from } from 'rxjs';
+import { ProductModelComponent } from '../product-model/product-model.component';
+import { CategoryService } from 'src/app/banner-admin/services/category.service';
 
 @Component({
   selector: 'app-product-details',
@@ -24,6 +27,7 @@ export class ProductDetailsComponent implements OnInit {
   editProductId = false;
   productDetail: any;
   productSubOption: any;
+  categoriesData = [];
   pricesData = [];
   optionsData = [];
   productData = [];
@@ -50,6 +54,7 @@ export class ProductDetailsComponent implements OnInit {
     private productService: ProductService,
     private sharedData: SharedDataService,
     private optionService: OptionService,
+    private categoryService: CategoryService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private utils: UtilsFunction,
@@ -70,6 +75,7 @@ export class ProductDetailsComponent implements OnInit {
       this.optionsData = message;
     });
     this.getProducts();
+    this.getCategories();
   }
 
   onSelectFile(event) {
@@ -179,10 +185,32 @@ export class ProductDetailsComponent implements OnInit {
     modalRef.componentInstance.products = this.productData;
 
   }
+  openProductModal(type) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = type === 'register' ? 'lg' : 'lg';
+    modalOptions.windowClass = type + '-modal';
+
+    const modalRef = this.modalService.open(ProductModelComponent, modalOptions);
+    modalRef.componentInstance.modalType = type;
+    modalRef.componentInstance.productId = this.productId;
+    modalRef.componentInstance.productList = this.productDetail;
+    modalRef.componentInstance.categories = this.categoriesData;
+    modalRef.componentInstance.priceTypes = this.pricesData;
+    modalRef.componentInstance.operation = 'Update';
+    modalRef.componentInstance.priceType = String(this.productDetail.price_type);
+    modalRef.componentInstance.showImageField = true;
+
+  }
 
   getProducts() {
     this.productService.getProducts().subscribe(res => {
       this.productData = res.results;
+    });
+  }
+
+  getCategories() {
+    this.categoryService.getCategories().subscribe(res => {
+      this.categoriesData = res.results;
     });
   }
 

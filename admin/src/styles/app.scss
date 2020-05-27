@@ -111,3 +111,15 @@ button {
     0%   { transform: scale(0.5) }
     100% { transform: scale(1) }
 }
+.e-richtexteditor {
+  span {
+    margin-right: 0 !important;
+  }
+}
+.e-toolbar .e-toolbar-items.e-toolbar-multirow {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+.e-richtexteditor .e-rte-toolbar .e-toolbar-items:not(.e-tbar-pos) .e-toolbar-item:first-child {
+  margin-left: 0 !important;
+}
