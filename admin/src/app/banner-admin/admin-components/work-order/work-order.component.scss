@@ -18,7 +18,7 @@ input, textarea {
     text-align: left;
 }
 .customers {
-    width: 60rem;
+    width: 66rem;
 }
 
 @media print {
@@ -29,7 +29,7 @@ input, textarea {
         margin-top: 4rem;
 		width: 90%;
         height: auto;
-        zoom: 68%;
+        zoom: 65%;
 	}
 }
 .work-order {
@@ -40,11 +40,15 @@ input, textarea {
     }
     .work-label {
         font-weight: bold;
+        padding-bottom: 0.25rem;
+        padding-top: 0.25rem;
     }
     .work-value {
         width: 28%;
         text-align: left;
         padding-left: 0.5rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
         margin-left: 0.5rem;
         border: 1px solid black;
     }
