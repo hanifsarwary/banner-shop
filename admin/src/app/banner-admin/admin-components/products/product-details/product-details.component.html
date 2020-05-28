@@ -120,12 +120,13 @@
               </div>
               <div class="row card-text">
                 <div class="col-4"> Product Description : </div>
-                <div class="col-8 product-description">
-                  <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.product_description">
+                <div class="col-8 product-description" [innerHTML]="productDetail.product_description | renderHtml">
+                  <!-- <input [class.applyBorder]="!editProductId" [disabled]="!editProductId" class="form-control form-control-sm" type="text" [(ngModel)]="productDetail.product_description"> -->
+                  <!-- <code><pre>{{productDetail.product_description}}</pre></code> -->
                 </div>
               </div>
               <div class="row pull-right product-edit">
-                <a href="javascript:;" *ngIf="!editProductId" (click)="editProduct()">Edit</a>
+                <a href="javascript:;" *ngIf="!editProductId" (click)="openProductModal(productModal)">Edit</a>
                 <a href="javascript:;" *ngIf="editProductId" (click)="saveProduct(productDetail)">Save</a>
                 <a href="javascript:;" *ngIf="editProductId" (click)="cancelProduct()">Cancel</a>
               </div>
