@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer, Serializer
 from cart.models import Order, OrderOption
 from api.serializers.customers import CustomerSerializer
 from api.serializers.products import ProductSerializer
+from api.serializers.products import OptionSerializer, SubOptionSerializer
 
 class OrderOptionSerializer(ModelSerializer):
 
@@ -9,8 +10,19 @@ class OrderOptionSerializer(ModelSerializer):
         model = OrderOption
         fields = '__all__'
 
+
+class OrderOptionRetrieveSerializer(ModelSerializer):
+
+    option = OptionSerializer()
+    sub_option = SubOptionSerializer()
+
+    class Meta:
+        model = OrderOption
+        fields = '__all__'
+
+
 class OrderRetrieveSerializer(ModelSerializer):
-    order_options = OrderOptionSerializer(many=True)
+    order_options = OrderOptionRetrieveSerializer(many=True)
     customer = CustomerSerializer()
     product = ProductSerializer()
     class Meta:
