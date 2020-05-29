@@ -19,33 +19,36 @@ import { InvoiceComponent } from './admin-components/invoice/invoice.component';
 import { PackingListComponent } from './admin-components/packing-list/packing-list.component';
 import { WorkOrderComponent } from './admin-components/work-order/work-order.component';
 import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
+import { OrdersComponent } from './admin-components/orders/orders.component';
+import { AuthGuard } from '../shared';
 
 const routes: Routes = [
     {
         path: '',
-        component: BannerAdminComponent,
+        component: BannerAdminComponent, canActivate: [AuthGuard],
         children: [
           { path: '', redirectTo: 'order-status', pathMatch: 'prefix' },
-          { path: 'categories', component: CategoriesComponent },
-          { path: 'option-groups', component: OptionGroupsComponent },
-          { path: 'products', component: ProductsComponent },
-          { path: 'product/:id', component: ProductDetailsComponent },
-          { path: 'category/:id', component: CategoryDetailComponent },
-          { path: 'option/:id', component: OptionDetailComponent },
-          { path: 'invoice/:id', component: InvoiceComponent},
-          { path: 'packing-list/:id', component: PackingListComponent},
-          { path: 'user-accounts', component: UserAccountsComponent },
-          { path: 'cms', component: CmsComponent },
-          { path: 'custom-orders', component: CustomOrdersComponent },
-          { path: 'update-custom-orders/:id/:operation', component: CustomOrdersComponent },
-          { path: 'clone-custom-orders/:id/:operation', component: CustomOrdersComponent},
-          { path: 'work-orders/:id', component: WorkOrderComponent},
-          { path: 'order-status', component: OrderStatusComponent },
-          { path: 'post-comments', component: PostCommentsComponent },
-          { path: 'profile', component: ProfileComponent },
-          { path: 'customers', component: AllCustomersComponent },
-          { path: 'add-customer', component: CustomersComponent },
-          { path: 'update-customer/:id/:operation', component: CustomersComponent },
+          { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard] },
+          { path: 'option-groups', component: OptionGroupsComponent, canActivate: [AuthGuard] },
+          { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
+          { path: 'product/:id', component: ProductDetailsComponent, canActivate: [AuthGuard] },
+          { path: 'category/:id', component: CategoryDetailComponent, canActivate: [AuthGuard] },
+          { path: 'option/:id', component: OptionDetailComponent, canActivate: [AuthGuard] },
+          { path: 'invoice/:id', component: InvoiceComponent, canActivate: [AuthGuard] },
+          { path: 'packing-list/:id', component: PackingListComponent, canActivate: [AuthGuard] },
+          { path: 'user-accounts', component: UserAccountsComponent, canActivate: [AuthGuard] },
+          { path: 'cms', component: CmsComponent, canActivate: [AuthGuard] },
+          { path: 'custom-orders', component: CustomOrdersComponent, canActivate: [AuthGuard] },
+          { path: 'update-custom-orders/:id/:operation', component: CustomOrdersComponent, canActivate: [AuthGuard] },
+          { path: 'clone-custom-orders/:id/:operation', component: CustomOrdersComponent, canActivate: [AuthGuard]},
+          { path: 'work-orders/:id', component: WorkOrderComponent, canActivate: [AuthGuard]},
+          { path: 'order-status', component: OrderStatusComponent, canActivate: [AuthGuard] },
+          { path: 'post-comments', component: PostCommentsComponent, canActivate: [AuthGuard] },
+          { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+          { path: 'customers', component: AllCustomersComponent, canActivate: [AuthGuard] },
+          { path: 'add-customer', component: CustomersComponent, canActivate: [AuthGuard] },
+          { path: 'update-customer/:id/:operation', component: CustomersComponent, canActivate: [AuthGuard] },
+          { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
         ]
     }
 ];

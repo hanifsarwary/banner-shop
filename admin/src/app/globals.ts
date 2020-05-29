@@ -35,6 +35,11 @@ export class Globals {
   customerStatus = `${this.domanin_name}/customer-status-types/`;
   proofApprovedDate = `${this.domanin_name}/custom-orders/proof-status/proof-approved_date/`;
 
+  // Order
+
+  cart_API_domain = '/cart-apis';
+  allOrders = `${this.cart_API_domain}/orders/`;
+
   httpHeaders() {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
