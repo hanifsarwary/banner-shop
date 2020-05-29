@@ -26,10 +26,17 @@ input, textarea {
       display: none;
     }
     .customers{
-        margin-top: 4rem;
+        margin-top: 6rem;
 		width: 90%;
         height: auto;
         zoom: 65%;
+        .heading {
+            margin-bottom: 1rem;
+        }
+        .work-value, .work-label {
+            padding-bottom: 0.35rem;
+            padding-top: 0.35rem;
+        }
 	}
 }
 .work-order {
@@ -54,7 +61,7 @@ input, textarea {
     }
 }
 .mh-work {
-    height: 5rem;
+    height: 10rem;
 }
 .mw-work {
     width: 50% !important;

@@ -43,6 +43,7 @@ import { PackingListComponent } from './admin-components/packing-list/packing-li
 import { WorkOrderComponent } from './admin-components/work-order/work-order.component';
 import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
 import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
+import { OrdersComponent } from './admin-components/orders/orders.component';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -68,7 +69,8 @@ import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
     InvoiceComponent,
     PackingListComponent,
     WorkOrderComponent,
-    AllCustomersComponent
+    AllCustomersComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,

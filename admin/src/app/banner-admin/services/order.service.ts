@@ -128,4 +128,10 @@ export class OrderService {
     return this.httpClient.get<any>(`${this.global.customerStatus}/`, { headers: this.global.httpHeaders() });
   }
 
+  // Orders
+
+  getAllOrder(): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.allOrders}`, { headers: this.global.httpHeaders() });
+  }
+
 }

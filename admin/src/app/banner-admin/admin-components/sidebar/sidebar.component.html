@@ -44,6 +44,10 @@
             <i class="fa fa-fw fa-user"></i>&nbsp;
             <span>{{ 'Customers' | translate }}</span>
         </a>
+        <a [routerLink]="['/orders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-th-list"></i>&nbsp;
+            <span>{{ 'Orders' | translate }}</span>
+        </a>
         <!-- <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">
                 <i class="fa fa-plus"></i>&nbsp;
