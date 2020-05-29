@@ -27,7 +27,7 @@ class OrderRetrieveSerializer(ModelSerializer):
     product = ProductSerializer()
     class Meta:
         model = Order
-        fields = ('customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
+        fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
                   'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
                   'created_at', 'updated_at', 'order_options')
 
