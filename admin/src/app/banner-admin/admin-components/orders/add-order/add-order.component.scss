@@ -1,0 +1,17 @@
+.customer-field {
+    border: 1px solid red !important;
+    .btn-sub  {
+        margin: 0 !important;
+    }
+}
+.loader {
+    margin-top: 50%;
+}
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    background: url("../../../../../assets/images/calendar-16.webp") center/80% no-repeat;
+    color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    opacity: 1;
+}

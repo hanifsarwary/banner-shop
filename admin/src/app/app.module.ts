@@ -15,10 +15,10 @@ import { AuthGuard } from './shared';
 import { ProductModelComponent } from './banner-admin/admin-components/products/product-model/product-model.component';
 import { ProductDetailsComponent } from './banner-admin/admin-components/products/product-details/product-details.component';
 import { OptionModelComponent } from './banner-admin/admin-components/option-groups/option-model/option-model.component';
+import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatTableModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
-import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { RenderHtmlPipe } from './custom-pipe/render-html.pipe';
 import { UtilsFunction } from './banner-admin/utils-function';
 @NgModule({

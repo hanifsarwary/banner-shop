@@ -9,6 +9,11 @@
 
             <!-- Orders Columns start -->
 
+            <ng-container matColumnDef="order_code">
+                <th mat-header-cell *matHeaderCellDef> Work Order </th>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="user_name">
                 <th mat-header-cell *matHeaderCellDef> Username </th>
                 <td mat-cell *matCellDef="let element">{{element?.customer?.user?.username}}</td>
@@ -39,10 +44,31 @@
                 <td mat-cell *matCellDef="let element">{{element?.product?.product_name}}</td>
             </ng-container>
 
+            <ng-container matColumnDef="order_job_status">
+                <th mat-header-cell *matHeaderCellDef> Job Status </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.status}} <br>
+                    <a href="javascript:;" (click)="orderStatusModel(Status, element.id, element?.status)">
+                        <small>Status detail</small>
+                    </a>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="order_proof_status">
+                <th mat-header-cell *matHeaderCellDef> Proof Status </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.proof_status}} <br>
+                    <a href="javascript:;" (click)="openProofDetailModal(ProofDetail,element.proof_status, element.id)">
+                        <small>Proof Detail</small>
+                    </a>
+                </td>
+            </ng-container>
+
             <ng-container matColumnDef="order_operetion">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;"><small>Order detail</small></a>
+                    <a href="javascript:;" [routerLink]="['/orders-detail/', element.id]" ><small class="font-size-10">Order Detail</small></a><br>
+                    <a href="javascript:;" [routerLink]="['/update-orders/', element.id, 'Update']"><small class="font-size-10">Edit Order</small></a><br>
                 </td>
             </ng-container>
 
@@ -184,7 +210,7 @@
                 <th mat-header-cell *matHeaderCellDef> Job Status </th>
                 <td mat-cell *matCellDef="let element">
                     {{element.status}} <br>
-                    <a href="javascript:;" (click)="openModalOrderStatus(Status, element.id, element?.status)">
+                    <a href="javascript:;" (click)="customOrderStatusModel(Status, element.id, element?.status)">
                         <small>Status detail</small>
                     </a>
                 </td>

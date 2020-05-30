@@ -1,11 +1,11 @@
 <div class="container">
-    <!-- <div class="container-header mt-4 m-3">
+    <div class="container-header mt-4 m-3">
         <div class="product-btn">
-            <button class="btn btn-primary" (click)="gotoCustomer()">
-                <i class="fa fa-plus"></i> Add Customers
+            <button class="btn btn-primary" (click)="addOrder()">
+                <i class="fa fa-plus"></i> Add Order
             </button>
         </div>
-        <div class="filter mr-3 mt-2">
+        <!-- <div class="filter mr-3 mt-2">
             <div class="form-group filters form-inline row p-0 m-0">
                 <label class="col-form-label form-control-sm" for="status">Status :</label>
                 <select class="form-control form-control-sm"  (change)="showByStatus($event.target.value)" id="status">
@@ -14,8 +14,8 @@
                     <option value=0>In active</option>
                 </select>
             </div>
-        </div>
-    </div> -->
+        </div> -->
+    </div>
     <div class="container-body m-3 mt-4">
         <div class="product-heading">All Orders</div>
         <div *ngIf="orderList.length">

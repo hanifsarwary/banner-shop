@@ -21,6 +21,8 @@ import { WorkOrderComponent } from './admin-components/work-order/work-order.com
 import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
 import { OrdersComponent } from './admin-components/orders/orders.component';
 import { AuthGuard } from '../shared';
+import { OrderDetailComponent } from './admin-components/orders/order-detail/order-detail.component';
+import { AddOrderComponent } from './admin-components/orders/add-order/add-order.component';
 
 const routes: Routes = [
     {
@@ -49,6 +51,9 @@ const routes: Routes = [
           { path: 'add-customer', component: CustomersComponent, canActivate: [AuthGuard] },
           { path: 'update-customer/:id/:operation', component: CustomersComponent, canActivate: [AuthGuard] },
           { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
+          { path: 'add-order', component: AddOrderComponent, canActivate: [AuthGuard] },
+          { path: 'update-orders/:id/:operation', component: AddOrderComponent, canActivate: [AuthGuard] },
+          { path: 'orders-detail/:id', component: OrderDetailComponent, canActivate: [AuthGuard] },
         ]
     }
 ];

@@ -251,18 +251,32 @@ export class DatatableComponent implements OnChanges {
     modalRef.componentInstance.funtionType = 'updateInvoice';
   }
 
-  openModalOrderStatus(targetModal, objId, status) {
+  customOrderStatusModel(targetModal, objId, status) {
     const modalOptions = { size: '', windowClass: ''};
     modalOptions.size = targetModal === 'register' ? 'lg' : '';
     modalOptions.windowClass = targetModal + '-modal';
     const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
     modalRef.componentInstance.modalType = targetModal;
-    modalRef.componentInstance.modelActive = 'status';
+    modalRef.componentInstance.modelActive = 'customOrderStatus';
     modalRef.componentInstance.orderId = objId;
     modalRef.componentInstance.status = status;
     modalRef.componentInstance.statusList = this.statusList;
     modalRef.componentInstance.operationType = status ? 'Update Status' : 'Add Status';
-    modalRef.componentInstance.funtionType = 'updateStatus';
+    modalRef.componentInstance.funtionType = 'updateCustomOrderStatus';
+  }
+
+  orderStatusModel(targetModal, objId, status) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'orderStatus';
+    modalRef.componentInstance.orderId = objId;
+    modalRef.componentInstance.status = status;
+    modalRef.componentInstance.statusList = this.statusList;
+    modalRef.componentInstance.operationType = status ? 'Update Status' : 'Add Status';
+    modalRef.componentInstance.funtionType = 'updateOrderStatus';
   }
 
   openModalCustomerStatus(targetModal, objId, status) {

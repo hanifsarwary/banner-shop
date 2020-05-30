@@ -1,0 +1,127 @@
+<div class="container-fluid p-0">
+    <div class="customers" *ngIf="!loader || operation === 'Add'">
+        <div class="customOrderForm mt-4">
+            <h4 class="heading mb-4 pt-3 mr-5 text-center">{{operation}} Order</h4>
+            <div class="card">
+                <div class="body">
+                    <div class="row p-0 m-0">
+                        <div class="col-md-5 customer-box">
+                            <div class="row card-text pl-4 p-2 pt-3">
+                                <label for="custome" class="col-4 mt-1 text-shadow"><b *ngIf="!orderList" class="text-danger">* </b>Select Customer</label>
+                                <select class="form-control form-control-sm col-sm-7" id="customer" [class.customer-field]="submitted && !customerId"
+                                    [(ngModel)]="customerId" (change)="selectedCustomer($event)">
+                                    <option></option>
+                                    <option  *ngFor="let item of allCustomers" [value]="item.id">{{item?.user?.username}}</option>
+                                </select>
+                            </div>
+                            <div class="row card-text pl-4 p-2 pt-2">
+                                <label for="custome" class="col-4 mt-1 text-shadow"><b *ngIf="!orderList" class="text-danger">* </b>Select Company</label>
+                                <select class="form-control form-control-sm col-sm-7" id="company"
+                                    [(ngModel)]="companyName" [class.customer-field]="submitted && !companyName"
+                                    (change)="selectedCompanies($event)">
+                                    <option *ngFor="let company of companiesList | keyvalue" [value]="company.key">{{company.value}}</option>
+                                </select>
+                            </div>
+                            <div class="row card-text pl-4 p-2">
+                                <div class="col-4 text-shadow">First name  : </div>
+                                <div class="col-8">{{customerList?.user?.first_name}}</div>
+                            </div>
+                            <div class="row card-text pl-4 p-2">
+                                <div class="col-4 text-shadow">Last name  :</div>
+                                <div class="col-8">{{customerList?.user?.last_name}} </div>
+                            </div>
+                            <div class="row card-text pl-4 p-2">
+                                <div class="col-4 text-shadow">Phone  :</div>
+                                <div class="col-8">{{customerList?.phone_number}} </div>
+                            </div>
+                            <div class="row card-text pl-4 p-2">
+                                <div class="col-4 text-shadow">Email  :</div>
+                                <div class="col-8">{{customerList?.user?.email}} </div>
+                            </div>
+                            <div class="row card-text pl-4 p-2">
+                                <div class="col-4 text-shadow">Address  :</div>
+                                <div class="col-8">{{customerList?.address}}</div>
+                            </div>
+                            <div class="row card-text pl-4 p-2">
+                                <div class="col-4 text-shadow">City  :</div>
+                                <div class="col-8">{{customerList?.city}}</div>
+                            </div>
+                            <div class="row card-text pl-4 p-2">
+                                <div class="col-4 text-shadow">Zip  :</div>
+                                <div class="col-8">{{customerList?.zip_code}}</div>
+                            </div>
+                            <div class="row card-text pl-4 p-2 pb-4">
+                                <div class="col-4 text-shadow">Country  :</div>
+                                <div class="col-8">{{customerList?.country}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 p-0 m-0">
+                            <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
+                            <form class="ml-3 mr-3" [formGroup]="orderForm" (ngSubmit)="onSubmit(orderForm)">
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="product">Product :</label>
+                                    <select class="form-control form-control-sm col-sm-9" id="product" [ngModel]="orderList ? orderList.product : ''" formControlName="product">
+                                        <option  *ngFor="let product of products" [value]="product.id">{{product.product_name}}</option>
+                                    </select>
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="reference_number">PO/Reference No :</label>
+                                    <input type="text" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.reference_number : ''" formControlName="reference_number" placeholder="Enter Reference number">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="due_date">Due date :</label>
+                                    <input type="date" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.due_date : ''" formControlName="due_date" placeholder="Enter Due Date">
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="internal_notes">Internal notes :</label>
+                                    <textarea type="text" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.internal_notes : ''" formControlName="internal_notes" placeholder="Enter Internal notes"></textarea>
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="special_note">Special Notes :</label>
+                                    <textarea type="text" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.special_note : ''" formControlName="special_note" placeholder="Enter Special notes"></textarea>
+                                </div>
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_type">Shipment :</label>
+                                    <select class="form-control form-control-sm col-sm-9" id="shipping_type" (change)="shipping = $event.target.value" [ngModel]="orderList ? orderList.shipping_type : ''" formControlName="shipping_type">
+                                        <option value="No Shipment">No Shipment</option>
+                                        <option value="Delivery">Delivery</option>
+                                        <option value="Shipping">Shipping</option>
+                                    </select>
+                                </div>
+                                <div class="p-0 m-0" *ngIf="shipping === 'Delivery' || shipping === 'Shipping'">
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_contact_name">Contact Name :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.shipping_contact_name : ''" formControlName="shipping_contact_name" placeholder="Enter contact name">
+                                        <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_street_address">Address :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.shipping_street_address : ''" formControlName="shipping_street_address" placeholder="Enter address">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_city">City :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.shipping_city : ''" formControlName="shipping_city" placeholder="Enter city">
+                                        <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="shipping_state">State :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.shipping_state : ''" formControlName="shipping_state" placeholder="Enter state">
+                                    </div>
+                                    <div class="row form-box">
+                                        <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="shipping_zip_code">Zip Code :</label>
+                                        <input type="text" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.shipping_zip_code : ''" formControlName="shipping_zip_code" placeholder="Enter zip code">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center mb-3 mt-5">
+                                    <button class="btn btn-primary btn-sub mr-3 ml-3" type="submit"> Finish </button>
+                                    <a class="btn btn-primary btn-sub" [routerLink]="['/orders']"> Cancel </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loader d-flex flex-row justify-content-center" *ngIf="loader && operation != 'Add'">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+</div>

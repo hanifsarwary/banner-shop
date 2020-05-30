@@ -134,4 +134,15 @@ export class OrderService {
     return this.httpClient.get<any>(`${this.global.allOrders}`, { headers: this.global.httpHeaders() });
   }
 
+  addOrder(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.allOrders}add/`, obj, { headers: this.global.httpHeaders() });
+  }
+
+  updateOrder(id, obj): Observable<any> {
+    return this.httpClient.patch<any>(`${this.global.allOrders}${id}/`, obj, { headers: this.global.httpHeaders() });
+  }
+
+  getOrderDetail(id) {
+    return this.httpClient.get<any>(`${this.global.allOrders}${id}/`, { headers: this.global.httpHeaders() });
+  }
 }
