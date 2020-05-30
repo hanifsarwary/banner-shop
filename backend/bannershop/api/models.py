@@ -163,7 +163,10 @@ class Customer(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        if self.user:
+            return self.user.username
+        else:
+            "Null"
 
 
 class CustomOrder(models.Model):
