@@ -18,7 +18,7 @@ class CustomerSerializer(ModelSerializer):
         return Customer.objects.create(user=user, **validated_data)
     
     def update(self, instance, validated_data):
-        user_data = validated_data['user']
+        user_data = validated_data.get('user')
         instance.bussiness_type = validated_data.get('bussiness_type', instance.bussiness_type)
         instance.address = validated_data.get('address', instance.address)
         instance.city = validated_data.get('city', instance.city)
