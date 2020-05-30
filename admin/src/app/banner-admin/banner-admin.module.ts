@@ -44,6 +44,8 @@ import { WorkOrderComponent } from './admin-components/work-order/work-order.com
 import { AllCustomersComponent } from './admin-components/all-customers/all-customers.component';
 import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { OrdersComponent } from './admin-components/orders/orders.component';
+import { OrderDetailComponent } from './admin-components/orders/order-detail/order-detail.component';
+import { AddOrderComponent } from './admin-components/orders/add-order/add-order.component';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -70,7 +72,9 @@ import { OrdersComponent } from './admin-components/orders/orders.component';
     PackingListComponent,
     WorkOrderComponent,
     AllCustomersComponent,
-    OrdersComponent
+    OrdersComponent,
+    AddOrderComponent,
+    OrderDetailComponent
   ],
   imports: [
     CommonModule,

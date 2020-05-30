@@ -32,8 +32,14 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  updateStatus() {
+  updateCustomOrderStatus() {
     this.orderService.updateOrderField(this.orderId, {'status': this.status}).subscribe(res => {
+      window.location.reload();
+    });
+  }
+
+  updateOrderStatus() {
+    this.orderService.updateOrder(this.orderId, {'status': this.status}).subscribe(res => {
       window.location.reload();
     });
   }
@@ -43,6 +49,8 @@ export class InvoiceComponent implements OnInit {
       window.location.reload();
     });
   }
+
+
 
   asIsOrder(a, b) {
     return 1;

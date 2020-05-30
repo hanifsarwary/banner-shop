@@ -8,7 +8,8 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  tableColumns = ['no', 'user_name', 'user_email', 'order_product_name', 'customer_company', 'job_status', 'order_operetion'];
+  tableColumns = ['no', 'order_code', 'user_name', 'user_email', 'order_product_name',
+  'customer_company', 'order_job_status', 'order_operetion'];
   orderList = [];
   notRecordFound = false;
   loader = true;
@@ -34,6 +35,10 @@ export class OrdersComponent implements OnInit {
         this.notRecordFound = true;
       }
     });
+  }
+
+  addOrder() {
+    this.router.navigate(['add-order']);
   }
 
 }
