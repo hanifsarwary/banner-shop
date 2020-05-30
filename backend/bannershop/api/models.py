@@ -166,7 +166,7 @@ class Customer(models.Model):
         if self.user:
             return self.user.username
         else:
-            "Null"
+            return "Null"
 
 
 class CustomOrder(models.Model):
