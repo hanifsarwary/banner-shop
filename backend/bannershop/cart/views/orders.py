@@ -13,7 +13,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 class OrderViewSet(ListAPIView):
 
     serializer_class = OrderRetrieveSerializer
-    queryset = Order.objects.all().order_by('-id')
+    queryset = Order.objects.all().order_by('id')
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['is_cart', 'status']    
 
