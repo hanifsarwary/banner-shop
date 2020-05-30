@@ -321,4 +321,4 @@ class ContactRequest(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.customer.email
+        return self.customer.__str__()
