@@ -28,6 +28,9 @@ class OrderDetailViewSet(RetrieveUpdateDestroyAPIView):
     serializer_class = OrderCreateSerializer
     queryset = Order.objects.all().order_by('-id')
 
+    def retrieve(self, request, *args, **kwargs):
+        obj = self.get_object()
+        return Response(OrderRetrieveSerializer(obj).data)
 
 class CreateOrderOptionsViewSet(CreateAPIView):
 
