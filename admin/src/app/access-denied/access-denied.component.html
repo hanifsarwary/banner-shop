@@ -1,3 +1,8 @@
-<p>
-  access-denied works!
-</p>
+<div class="login-page" [@routerTransition]>
+  <div class="row justify-content-md-center margin-top-set p-0">
+    <div class="col-md-4 p-0 m-0">
+      <h1>You don't have permission to access Admin Panel</h1>
+      <a class="btn rounded-btn" [routerLink]="['/login']">{{ 'login' | translate }}</a>
+    </div>
+  </div>
+</div>

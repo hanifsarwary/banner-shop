@@ -125,7 +125,7 @@ export class CustomOrdersComponent implements OnInit {
   }
 
   getCustomers() {
-    this.orderServeice.getCustomers().subscribe(res => {
+    this.orderServeice.getCustomers(`?status=${1}`).subscribe(res => {
       this.allCustomers = res.results;
     });
   }

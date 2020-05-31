@@ -130,8 +130,8 @@ export class OrderService {
 
   // Orders
 
-  getAllOrder(): Observable<any> {
-    return this.httpClient.get<any>(`${this.global.allOrders}`, { headers: this.global.httpHeaders() });
+  getAllOrder(params): Observable<any> {
+    return this.httpClient.get<any>(`${this.global.allOrders}${params}`, { headers: this.global.httpHeaders() });
   }
 
   addOrder(obj): Observable<any> {
