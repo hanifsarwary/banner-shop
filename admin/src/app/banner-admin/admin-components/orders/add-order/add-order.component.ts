@@ -47,6 +47,7 @@ export class AddOrderComponent implements OnInit {
     this.orderForm = this.fb.group({
       product: [''],
       due_date: [''],
+      quoted_price: [''],
       internal_notes: [''],
       reference_number: [''],
       special_note: [''],
@@ -97,7 +98,7 @@ export class AddOrderComponent implements OnInit {
   }
 
   getCustomers() {
-    this.orderServeice.getCustomers().subscribe(res => {
+    this.orderServeice.getCustomers(`?status=${1}`).subscribe(res => {
       this.allCustomers = res.results;
     });
   }

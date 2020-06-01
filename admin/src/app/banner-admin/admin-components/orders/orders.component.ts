@@ -8,8 +8,8 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  tableColumns = ['no', 'order_code', 'user_name', 'user_email', 'order_product_name',
-  'customer_company', 'order_job_status', 'order_operetion'];
+  tableColumns = ['no',  'user_first_name', 'order_invoice_no', 'po_ref_no', 'quoted_price',
+  'due_date', 'order_product_name', 'customer_company', 'order_job_status', 'order_operetion'];
   orderList = [];
   notRecordFound = false;
   loader = true;
@@ -26,7 +26,7 @@ export class OrdersComponent implements OnInit {
   getAllOrders() {
     this.loader = true;
     this.orderList = [];
-    this.orderService.getAllOrder().subscribe(res => {
+    this.orderService.getAllOrder(`?is_card=${false}`).subscribe(res => {
       if (res.results.length) {
         this.orderList = res.results;
         this.loader = false;

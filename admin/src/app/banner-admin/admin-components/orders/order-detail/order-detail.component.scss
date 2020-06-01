@@ -1,0 +1,23 @@
+.container {
+    .option-card {
+        .card {
+            margin-top: 6%;
+            left: 30%;
+            .text-div {
+                font-size: 15px;
+            }
+            .card-heading {
+              color: black !important;
+              font-size: 1.3rem !important;
+              font-weight: bold !important;
+            }
+        }
+    }
+}
+.no-record {
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+.loader {
+    margin-top: 50%;
+}

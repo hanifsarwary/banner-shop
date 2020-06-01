@@ -14,11 +14,6 @@
                 <td mat-cell *matCellDef="let element">{{element.id}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="user_name">
-                <th mat-header-cell *matHeaderCellDef> Username </th>
-                <td mat-cell *matCellDef="let element">{{element?.customer?.user?.username}}</td>
-            </ng-container>
-
             <ng-container matColumnDef="user_first_name">
                 <th mat-header-cell *matHeaderCellDef> First name </th>
                 <td mat-cell *matCellDef="let element">{{element?.customer?.user?.first_name}}</td>
@@ -60,6 +55,16 @@
                     {{element.proof_status}} <br>
                     <a href="javascript:;" (click)="openProofDetailModal(ProofDetail,element.proof_status, element.id)">
                         <small>Proof Detail</small>
+                    </a>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="order_invoice_no">
+                <th mat-header-cell *matHeaderCellDef> Invoice # </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.invoice_number}} <br>
+                    <a href="javascript:;" (click)="updateOrderInvoice(Invoice, element.id, element?.invoice_number)">
+                        <small>Invoice detail</small>
                     </a>
                 </td>
             </ng-container>
@@ -163,7 +168,7 @@
                 <th mat-header-cell *matHeaderCellDef> Invoice # </th>
                 <td mat-cell *matCellDef="let element">
                     {{element.invoice_number}} <br>
-                    <a href="javascript:;" (click)="openModalInvoice(Invoice, element.id, element?.invoice_number)">
+                    <a href="javascript:;" (click)="openModalInvoice(orderInvoice, element.id, element?.invoice_number)">
                         <small>Invoice detail</small>
                     </a>
                 </td>
