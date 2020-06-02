@@ -49,4 +49,5 @@ class CustomerRetriveUserIDViewSet(RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
 
     def get_object(self):
-       return Customer.objects.get(user=self.request.kwargs.get('user_id', 1))
+        
+       return Customer.objects.get(user=self.kwargs.get('user_id', 1))
