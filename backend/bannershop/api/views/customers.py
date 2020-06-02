@@ -48,5 +48,5 @@ class CustomerRetriveUserIDViewSet(RetrieveUpdateDestroyAPIView):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
-    def get_object(self, request, *args, **kwargs):
-       return Customer.objects.get(user=kwargs.get('user_id', 1))
+    def get_object(self):
+       return Customer.objects.get(user=self.request.kwargs.get('user_id', 1))
