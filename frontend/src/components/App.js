@@ -114,6 +114,8 @@ class App extends React.Component {
               errorMount={this.errorMount} 
               user={this.state.user} 
               cartHandle={this.cartHandle}
+              isLoggedIn={this.state.isLoggedIn}
+              previousPathHand={this.previousPathHand}
             />
           </Route>
           <Route path="/about" exact>
