@@ -6,7 +6,7 @@ from api.views.categories import (
 from api.views.custom_quotes import CustomQuoteViewSet
  
 from api.views.customers import (
-    CustomerListViewSet, CompanyNamesListView, CustomerStatusViewSet, CustomerRetriveUserIDViewSet
+    CustomerListViewSet, CompanyNamesListView, CustomerStatusViewSet, CustomerRetriveUserIDViewSet,
     CustomerStatusUpdateViewSet)
 from api.views.products import (
     ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet,
