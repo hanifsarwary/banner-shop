@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import Loader from 'react-loader-spinner';
 import bannerShop from '../../api/bannerShop';
 import { objectToFormData } from 'object-to-formdata';
@@ -361,107 +362,119 @@ class ProductDetail extends React.Component {
 
   cartAddhandler = async () => {
     try {
-      if (this.state.addDesc === '') {
-        this.setState({
-          required: true,
-          valid: false
-        });
-      } else {
-        this.setState({
-          cartloader: true,
-        });
-
-        let cart;
-
-        const item = {
-          id: this.state.detail.id,
-          name: this.state.detail.product_name,
-          imgURL: this.state.detail.default_product_image,
-          price: this.state.total,
-          qty: this.state.qty,
-          special_note: this.state.addDesc
-        }
-
-        item.productOrderOptions = this.state.optDet;
-
-        if (localStorage.getItem('cart') === null) {
-          cart = {};
-          cart.cartItems = [];
-          cart.total = 0;
+      if (this.props.isLoggedIn) {
+        if (this.state.addDesc === '') {
+          this.setState({
+            required: true,
+            valid: false
+          });
         } else {
-          cart = JSON.parse(localStorage.getItem('cart'));
-        }
-        // cart-apis/ orders/add/'
-        const body = this.toFormData({
-          special_note: this.state.addDesc,
-          due_date: null,
-          invoice_number: null,
-          internal_notes: null,
-          image: this.state.file,
-          proof_status: null,
-          reference_number: null,
-          status: 'Submitted',
-          quoted_price: this.state.total,
-          shipping_type: null,
-          is_cart: true,
-          customer: 1,
-          product: this.props.match.params.id
-        });
-        // const body = objectToFormdata();
+          this.setState({
+            cartloader: true,
+          });
 
-        const res = await bannerShop.post('/cart-apis/orders/add/', body, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+          let cart;
 
-        if (res.status === 201) {
-          const order = res.data.id;
-          const options = [];
-
-          for (let index = 0; index < this.state.optDet.length; index++) {
-            await new Promise(async (next) => {
-              const curOpt = this.state.optDet[index];
-              options.push({
-                quantity: curOpt.qty,
-                price: curOpt.price,
-                order: order,
-                option: curOpt.id,
-                sub_option: curOpt.sub
-              })
-              next();
-            })
+          const item = {
+            id: this.state.detail.id,
+            name: this.state.detail.product_name,
+            imgURL: this.state.detail.default_product_image,
+            price: this.state.total,
+            qty: this.state.qty,
+            special_note: this.state.addDesc
           }
 
-          const sub = await bannerShop.post('/cart-apis/orders/order-options/create/', {
-            order_options: options
+          item.productOrderOptions = this.state.optDet;
+
+          if (localStorage.getItem('cart') === null) {
+            cart = {};
+            cart.cartItems = [];
+            cart.total = 0;
+          } else {
+            cart = JSON.parse(localStorage.getItem('cart'));
+          }
+          
+          const token = localStorage.getItem('token');
+          const user = jwtDecode(token);
+
+          const customerRes = await bannerShop.get('/api/users/customers/' + user.user_id);
+          const customer_id = customerRes.data.id;
+
+          // cart-apis/ orders/add/'
+          const body = this.toFormData({
+            special_note: this.state.addDesc,
+            due_date: null,
+            invoice_number: null,
+            internal_notes: null,
+            image: this.state.file,
+            proof_status: null,
+            reference_number: null,
+            status: 'Submitted',
+            quoted_price: this.state.total,
+            shipping_type: null,
+            is_cart: true,
+            customer: customer_id,
+            product: this.props.match.params.id
+          });
+          // const body = objectToFormdata();
+          
+          const res = await bannerShop.post('/cart-apis/orders/add/', body, {
+            headers: { 'Content-Type': 'multipart/form-data' }
           });
 
-          cart.cartItems.push(item);
-          cart.total = parseFloat(cart.total) + parseFloat(this.state.total);
-          localStorage.setItem('cart', JSON.stringify(cart));
-          this.props.cartHandle();
-          this.setState({
-            cartAdd: true,
-            cartloader: false
-          });
+          if (res.status === 201) {
+            const order = res.data.id;
+            const options = [];
+
+            for (let index = 0; index < this.state.optDet.length; index++) {
+              await new Promise(async (next) => {
+                const curOpt = this.state.optDet[index];
+                options.push({
+                  quantity: curOpt.qty,
+                  price: curOpt.price,
+                  order: order,
+                  option: curOpt.id,
+                  sub_option: curOpt.sub
+                })
+                next();
+              })
+            }
+
+            const sub = await bannerShop.post('/cart-apis/orders/order-options/create/', {
+              order_options: options
+            });
+
+            cart.cartItems.push(item);
+            cart.total = parseFloat(cart.total) + parseFloat(this.state.total);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            this.props.cartHandle();
+            this.setState({
+              cartAdd: true,
+              cartloader: false
+            });
+          }
+
+
+          // this.getBase64(this.state.file)
+          //   .then(base64 => {
+          //     item.file = base64;
+
+          //     cart.cartItems.push(item);
+          //     cart.total = cart.total + this.state.total;
+          //     localStorage.setItem('cart', JSON.stringify(cart));
+
+          //     this.setState({
+          //       cartAdd: true
+          //     });
+          //   })
+          //   .catch(err => {
+          //     console.log(err);
+          //   });
+
         }
-
-
-        // this.getBase64(this.state.file)
-        //   .then(base64 => {
-        //     item.file = base64;
-
-        //     cart.cartItems.push(item);
-        //     cart.total = cart.total + this.state.total;
-        //     localStorage.setItem('cart', JSON.stringify(cart));
-
-        //     this.setState({
-        //       cartAdd: true
-        //     });
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
-
+      } else {
+        this.props.previousPathHand(this.props.location.pathname);
+        this.props.history.push('/auth/login');
       }
     } catch (err) {
       console.log({ ...err });
@@ -530,7 +543,7 @@ class ProductDetail extends React.Component {
               </span>
 
               <div className="p-b-15" style={{ marginTop: '10px' }}>
-                  
+
               </div>
 
               <div className="">
