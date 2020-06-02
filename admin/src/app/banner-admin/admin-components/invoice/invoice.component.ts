@@ -50,7 +50,11 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-
+  updateOrderInvoice() {
+    this.orderService.updateOrder(this.orderId, {'invoice_number': this.invoice_number}).subscribe(res => {
+      window.location.reload();
+    });
+  }
 
   asIsOrder(a, b) {
     return 1;

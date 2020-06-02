@@ -251,6 +251,19 @@ export class DatatableComponent implements OnChanges {
     modalRef.componentInstance.funtionType = 'updateInvoice';
   }
 
+  updateOrderInvoice(targetModal, objId, invoiceNo) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'orderInvoice';
+    modalRef.componentInstance.orderId = objId;
+    modalRef.componentInstance.invoice_number = invoiceNo;
+    modalRef.componentInstance.operationType = invoiceNo ? 'Update Invoice' : 'Add Invoice';
+    modalRef.componentInstance.funtionType = 'updateOrderInvoice';
+  }
+
   customOrderStatusModel(targetModal, objId, status) {
     const modalOptions = { size: '', windowClass: ''};
     modalOptions.size = targetModal === 'register' ? 'lg' : '';

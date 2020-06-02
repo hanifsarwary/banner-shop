@@ -1,1 +1,72 @@
-<p>order-detail works!</p>
+<div class="container p-0, m-0">
+    <div class="option-card">
+        <div class="card mat-elevation-z8" *ngIf="!loader">
+            <div class="card-header p-1 m-0 bg-white d-flex flex-row justify-content-between">
+                <h4 class="card-heading mt-2 ml-1">Order Detail</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-3 mt-2">Name</div>
+                    <div class="col-3 text-left">{{orderDetail?.customer?.user?.first_name}}</div>
+                    <div class="font-weight-bold col-3">Email</div>
+                    <div class="col-3 text-left">{{orderDetail?.customer?.user?.email}}</div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-3 mt-2">Company</div>
+                    <div class="col-3 text-left">{{orderDetail?.customer?.company_name}}</div>
+                    <div class="font-weight-bold col-3">Product name</div>
+                    <div class="col-3 text-left">{{orderDetail?.product?.product_name}}</div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-3 mt-2">Invoice number</div>
+                    <div class="col-3 text-left">{{orderDetail.invoice_number}}</div>
+                    <div class="font-weight-bold col-3">Reference number</div>
+                    <div class="col-3 text-left">{{orderDetail.reference_number}}</div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-3 mt-2">Status</div>
+                    <div class="col-3 text-left">{{orderDetail.status}}</div>
+                    <div class="font-weight-bold col-3">Proof status</div>
+                    <div class="col-3 text-left">{{orderDetail.proof_status}}</div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-3 mt-2">Quoted price</div>
+                    <div class="col-3 text-left">{{orderDetail.quoted_price}}</div>
+                    <div class="font-weight-bold col-3">Due date</div>
+                    <div class="col-3 text-left">{{orderDetail.due_date}}</div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-3 mt-2">Special Note</div>
+                    <div class="col-9 text-left">{{orderDetail.special_note}}</div>
+                </div>
+                <div class="text-div ml-3 mb-4 row">
+                    <div class="font-weight-bold col-3 mt-2">Internal notes</div>
+                    <div class="col-9 text-left">{{orderDetail.internal_notes}}</div>
+                </div>
+            </div>
+            <div class="card-header bg-white d-flex flex-row justify-content-between">
+                <h4 class="card-heading mt-2 ml-1"> Order Options </h4>
+            </div>
+            <div class="card-body p-0 m-0">
+                <div class="p-0 m-0" *ngIf="orderOption.length">
+                    <div class="text-div ml-3 mb-3 mt-3 row" *ngFor="let item of orderOption; let i = index;">
+                        <div class="font-weight-bold col-3 mt-2">{{item.option.option_name}}</div>
+                        <div class="col-3 text-left">{{item.sub_option ? item.sub_option.name : item.quantity }}</div>
+                    </div>
+                </div>
+                <div *ngIf="!loader">
+                    <span class="no-record d-flex justify-content-center font-weight-bold" *ngIf="!orderOption.length">
+                        No Record
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="loader d-flex flex-row justify-content-center" *ngIf="loader">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div>
+</div>

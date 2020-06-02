@@ -23,12 +23,16 @@ export class LoginComponent implements OnInit {
 
     onSubmit(loginCredentials) {
         this.loginService.userLogin(loginCredentials).subscribe( res => {
-            this.auth.storeToken(res.token);
-            this.auth.storeUsername(loginCredentials.username);
             this.loginService.getUserInfo(loginCredentials.username).subscribe( response => {
-                this.auth.storeUserInfo(response);
+                if (response.is_superuser) {
+                    this.auth.storeToken(res.token);
+                    this.auth.storeUsername(loginCredentials.username);
+                    this.auth.storeUserInfo(response);
+                    this.router.navigate(['']);
+                } else {
+                    this.router.navigate(['access-denied']);
+                }
             });
-            this.router.navigate(['']);
         }, err => {
             this.wrongInfo = true;
         });
