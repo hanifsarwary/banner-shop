@@ -228,6 +228,9 @@ class Cart extends React.Component {
                 orderLoad: true
             });
 
+            const customerRes = await bannerShop.get('/api/users/customers/' + this.state.user.user_id);
+            const customer_id = customerRes.data.id;
+
             if (this.state.shipping !== 'No Shipment') {
                 if (this.state.shipping_id) {
                     const shipRes = await bannerShop.patch(`/cart-apis/shippings/${this.state.shipping_id}/`, {
@@ -236,11 +239,11 @@ class Cart extends React.Component {
                         shipping_city: this.state.shipping_city,
                         shipping_state: this.state.shipping_state,
                         shipping_zip_code: this.state.shipping_zip_code,
-                        customer: this.state.user.user_id
+                        customer: customer_id
                     });
 
                     const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
-                        customer: this.state.user.user_id,
+                        customer: customer_id,
                         shipping: this.state.shipping
                     });
 
@@ -256,11 +259,11 @@ class Cart extends React.Component {
                         shipping_city: this.state.shipping_city,
                         shipping_state: this.state.shipping_state,
                         shipping_zip_code: this.state.shipping_zip_code,
-                        customer: this.state.user.user_id
+                        customer: customer_id
                     });
 
                     const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
-                        customer: this.state.user.user_id,
+                        customer: customer_id,
                         shipping: this.state.shipping
                     });
 
@@ -272,7 +275,7 @@ class Cart extends React.Component {
                 }
             } else {
                 const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
-                    customer: this.state.user.user_id,
+                    customer: customer_id,
                     shipping: this.state.shipping
                 });
 
