@@ -96,7 +96,8 @@ class CustomerFiltersViewSet(APIView):
         queryset = self.filter_last_name(queryset, self.request.data.get('last_name'))
         queryset = self.filter_username(queryset, self.request.data.get('username'))
         queryset = self.filter_email(queryset, self.request.data.get('email'))
-        queryset = self.filter_company_name(queryset, self.request.data.get('city'))
+        queryset = self.filter_company_name(queryset, self.request.data.get('company_name'))
+        queryset = self.filter_city(queryset, self.request.data.get('city'))
         return Response({
             'results': CustomerSerializer(queryset, many=True).data
         })
