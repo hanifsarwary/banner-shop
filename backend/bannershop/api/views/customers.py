@@ -13,6 +13,8 @@ class CustomerListViewSet(ListCreateAPIView):
     
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
+    filter_backends = [DjangoFilterBackend, ]
+    filterset_fields = ['status']
   
     def filter_company_name(self, queryset, company_name):
         if company_name:
