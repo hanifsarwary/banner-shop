@@ -31,6 +31,7 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 export class DatatableComponent implements OnChanges {
 
   @Output() categoryItemEvent = new EventEmitter();
+  @Output() sortColumn = new EventEmitter();
   @Output() reloadPage = new EventEmitter();
   @Input() datatableColumns: [];
   @Input() dataSource: [];
@@ -67,6 +68,8 @@ export class DatatableComponent implements OnChanges {
   submitted = false;
   emailContent;
   window: any;
+  sortColumID;
+  sortingOrder = false;
 
   constructor(
     private categoryService: CategoryService,
@@ -310,6 +313,10 @@ export class DatatableComponent implements OnChanges {
     this.orderService.getStatus().subscribe(res => {
       this.customerStatusList = res.types;
     });
+  }
+
+  sortingOnColumn(orderBy, id) {
+    this.sortColumn.emit(orderBy);
   }
 
   stringify(obj) {
