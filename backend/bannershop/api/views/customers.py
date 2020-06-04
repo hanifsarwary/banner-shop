@@ -91,12 +91,12 @@ class CustomerFiltersViewSet(APIView):
 
     def post(self, request):
         queryset = CustomOrderListViewSet().filter_status(Customer.objects.all(), request.data.get('status'))
-        queryset = self.filter_company_name(queryset, self.request.data.get('company_name_search'))
-        queryset = self.filter_first_name(queryset, self.request.data.get('first_name_search'))
-        queryset = self.filter_last_name(queryset, self.request.data.get('last_name_search'))
-        queryset = self.filter_username(queryset, self.request.data.get('username_search'))
-        queryset = self.filter_email(queryset, self.request.data.get('email_search'))
-        queryset = self.filter_company_name(queryset, self.request.data.get('city_search'))
+        queryset = self.filter_company_name(queryset, self.request.data.get('company_name'))
+        queryset = self.filter_first_name(queryset, self.request.data.get('first_name'))
+        queryset = self.filter_last_name(queryset, self.request.data.get('last_name'))
+        queryset = self.filter_username(queryset, self.request.data.get('username'))
+        queryset = self.filter_email(queryset, self.request.data.get('email'))
+        queryset = self.filter_company_name(queryset, self.request.data.get('city'))
         return Response({
             'results': CustomerSerializer(queryset, many=True).data
         })
