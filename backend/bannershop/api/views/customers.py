@@ -98,6 +98,8 @@ class CustomerFiltersViewSet(APIView):
         queryset = self.filter_email(queryset, self.request.data.get('email'))
         queryset = self.filter_company_name(queryset, self.request.data.get('company_name'))
         queryset = self.filter_city(queryset, self.request.data.get('city'))
+        if self.request.data.get('order_by'):
+            queryset = queryset.order_by(self.request.data.get('order_by'))
         return Response({
             'results': CustomerSerializer(queryset, many=True).data
         })
