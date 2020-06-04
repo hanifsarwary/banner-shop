@@ -5,13 +5,26 @@ import { OrderService } from '../../services/order.service';
 @Component({
   selector: 'app-all-customers',
   templateUrl: './all-customers.component.html',
-  styleUrls: ['./all-customers.component.css']
+  styleUrls: ['./all-customers.component.scss']
 })
 export class AllCustomersComponent implements OnInit {
   tableColumns = ['no', 'username', 'first_name', 'last_name', 'email', 'address', 'company_name', 'city', 'phone_number', 'status', 'edit-customer'];
   customerList = [];
   notRecordFound = false;
   loader = true;
+  search_info;
+  filterObj = {
+    order_by: ''
+  };
+  filters = {
+    username: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    comapany_name: '',
+    city: '',
+    status: 1
+  };
 
   constructor(
     private router: Router,
@@ -19,26 +32,39 @@ export class AllCustomersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAllCustomers();
+    this.getAllCustomers(this.filters);
   }
 
   gotoCustomer() {
     this.router.navigate(['add-customer']);
   }
 
-  showByStatus(value) {
-    const param = `?status=${value}`;
-    if (value === 'all') {
-      this.getAllCustomers();
+  sortColumn(orderBy, filterObj) {
+    const orderByStr = String(filterObj['order_by']);
+    if (filterObj['order_by'] === orderBy) {
+        if (orderByStr.startsWith('-')) {
+            return orderBy;
+        } else {
+            return '-' + orderBy;
+        }
     } else {
-      this.getAllCustomers(param);
+        return orderBy;
     }
   }
 
-  getAllCustomers(param?) {
+  sortingOnColumn(event) {
+    this.filterObj.order_by = this.sortColumn(event, this.filterObj);
+    this.getAllCustomers(this.filterObj);
+  }
+
+  applyFilters() {
+    this.getAllCustomers(this.filters);
+  }
+
+  getAllCustomers(obj) {
     this.loader = true;
     this.customerList = [];
-    this.orderService.getCustomers(param).subscribe(res => {
+    this.orderService.getAllCustomers(obj).subscribe(res => {
       if (res.results.length) {
         this.customerList = res.results;
         this.loader = false;

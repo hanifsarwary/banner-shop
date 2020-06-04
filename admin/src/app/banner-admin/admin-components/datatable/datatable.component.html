@@ -82,22 +82,30 @@
             <!-- Customer Columns -->
 
             <ng-container matColumnDef="username">
-                <th mat-header-cell *matHeaderCellDef> Username </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('user__username')"> Username
+                    <i *ngIf="!sortingOrder" class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element?.user?.username}}</td>
             </ng-container>
 
             <ng-container matColumnDef="first_name">
-                <th mat-header-cell *matHeaderCellDef> First name </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('user__first_name')"> First name 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element?.user?.first_name}}</td>
             </ng-container>
 
             <ng-container matColumnDef="last_name">
-                <th mat-header-cell *matHeaderCellDef> Last name </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('user__last_name')"> Last name 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element?.user?.last_name}}</td>
             </ng-container>
 
             <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('user__email')"> Email 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element?.user?.email}}</td>
             </ng-container>
 
@@ -107,27 +115,37 @@
             </ng-container>
 
             <ng-container matColumnDef="address">
-                <th mat-header-cell *matHeaderCellDef> Address </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('address')"> Address 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element.address}}</td>
             </ng-container>
             
             <ng-container matColumnDef="city">
-                <th mat-header-cell *matHeaderCellDef> City </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('city')"> City 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element.city}}</td>
             </ng-container>
 
             <ng-container matColumnDef="company_name">
-                <th mat-header-cell *matHeaderCellDef> Company </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('company_name')"> Company 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element.company_name}}</td>
             </ng-container>
 
             <ng-container matColumnDef="country">
-                <th mat-header-cell *matHeaderCellDef> Country </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('country')"> Country 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element.country}}</td>
             </ng-container>
 
             <ng-container matColumnDef="phone_number">
-                <th mat-header-cell *matHeaderCellDef> Phone # </th>
+                <th mat-header-cell *matHeaderCellDef (click)="sortingOnColumn('phone_number')"> Phone # 
+                    <i class="fa fa-angle-down pl-2 font-size-12 font-weight-bold"></i>
+                </th>
                 <td mat-cell *matCellDef="let element">{{element.phone_number}}</td>
             </ng-container>
 
