@@ -24,14 +24,6 @@
             <i class="fa fa-fw fa-wrench"></i>&nbsp;
             <span>{{ 'CMS' | translate }}</span>
         </a>
-        <a [routerLink]="['/custom-orders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-th-list"></i>&nbsp;
-            <span>{{ 'Custom Orders' | translate }}</span>
-        </a>
-        <a [routerLink]="['/order-status']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-desktop"></i>&nbsp;
-            <span>{{ 'Order Status' | translate }}</span>
-        </a>
         <a [routerLink]="['/post-comments']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-edit"></i>&nbsp;
             <span>{{ 'Post Comments' | translate }}</span>
@@ -40,13 +32,21 @@
             <i class="fa fa-fw fa-user"></i>&nbsp;
             <span>{{ 'Profile' | translate }}</span>
         </a>
+        <a [routerLink]="['/shopping-cart-orders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-first-order"></i>&nbsp;
+            <span>{{ 'Shopping Cart Orders' | translate }}</span>
+        </a>
+        <a [routerLink]="['/custom-orders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-th-list"></i>&nbsp;
+            <span>{{ 'Custom Orders' | translate }}</span>
+        </a>
+        <a [routerLink]="['/order-status']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-desktop"></i>&nbsp;
+            <span>{{ 'Order Status' | translate }}</span>
+        </a>
         <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-user"></i>&nbsp;
             <span>{{ 'Customers' | translate }}</span>
-        </a>
-        <a [routerLink]="['/orders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-th-list"></i>&nbsp;
-            <span>{{ 'Orders' | translate }}</span>
         </a>
         <!-- <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">

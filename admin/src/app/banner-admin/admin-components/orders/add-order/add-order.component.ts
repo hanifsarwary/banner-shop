@@ -147,7 +147,7 @@ export class AddOrderComponent implements OnInit {
         obj.value.customer = this.customerId ? this.customerId : this.customerList.id;
         obj.value.status = 'Submitted';
         this.orderServeice.addOrder(obj.value).subscribe(res => {
-            this.router.navigate(['/orders']);
+            this.router.navigate(['/shopping-cart-orders']);
         });
       } else {
         this.validateFlag = true;
@@ -155,7 +155,7 @@ export class AddOrderComponent implements OnInit {
     } else {
       obj.value.customer = this.customerList.id;
       this.orderServeice.updateOrder(this.orderList.id, obj.value).subscribe(res => {
-        this.router.navigate(['/orders']);
+        this.router.navigate(['/shopping-cart-orders']);
       });
     }
   }

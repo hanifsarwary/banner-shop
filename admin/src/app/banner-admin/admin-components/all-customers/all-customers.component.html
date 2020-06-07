@@ -1,25 +1,58 @@
-<div class="container">
-    <div class="container-header mt-4 m-3">
-        <div class="product-btn">
-            <button class="btn btn-primary" (click)="gotoCustomer()">
-                <i class="fa fa-plus"></i> Add Customers
-            </button>
-        </div>
-        <div class="filter mr-3 mt-2">
-            <div class="form-group filters form-inline row p-0 m-0">
-                <label class="col-form-label form-control-sm" for="status">Status :</label>
-                <select class="form-control form-control-sm"  (change)="showByStatus($event.target.value)" id="status">
-                    <option value="">All</option>
-                    <option value=1>Active</option>
-                    <option value=0>In active</option>
-                </select>
+<div class="p-0 m-0 mt-4 mb-4 row">
+    <div class="product-btn col-5">
+        <button class="btn btn-primary" (click)="gotoCustomer()">
+            <i class="fa fa-plus"></i> Add Customers
+        </button>
+    </div>
+    <div class="product-heading">All Customers</div>
+</div>
+<div class="container-filter mat-elevation-z8 mw-100 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="m-0">
+                <table class="status-table text-center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.username" placeholder="search with username">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.first_name" placeholder="search with first name">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.last_name" placeholder="search with last name">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.email" placeholder="search with email">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.comapany_name" placeholder="search with comapany name">
+                            </td>
+                            <td>
+                                <input type="text" matInput [(ngModel)]="filters.city" placeholder="search with city">
+                            </td>
+                            <td>
+                                <select class="form-control select-input" [(ngModel)]="filters.status" id="order">
+                                    <option value=1>Active</option>
+                                    <option value=0>In active</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary w-100 h-100" (click)="applyFilters()">Apply</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="container-body m-3">
-        <div class="product-heading">All Customers</div>
+</div>
+
+
+<div class="container">
+    <div class="container-body">
         <div *ngIf="customerList.length">
-            <app-datatable [dataSource]="customerList" [borderedRows]="false" [tableBorder]="true" [datatableColumns]="tableColumns"></app-datatable>
+            <app-datatable (sortColumn)="sortingOnColumn($event)" [dataSource]="customerList" [borderedRows]="false" [tableBorder]="true" [datatableColumns]="tableColumns"></app-datatable>
         </div>
         <div *ngIf="!loader">
             <span class="no-record d-flex justify-content-center font-weight-bold" *ngIf="!customerList.length">
