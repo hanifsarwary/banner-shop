@@ -17,7 +17,7 @@
         </div> -->
     </div>
     <div class="container-body m-3 mt-4">
-        <div class="product-heading">All Orders</div>
+        <div class="product-heading">All Shopping Cart Orders</div>
         <div *ngIf="orderList.length">
             <app-datatable [dataSource]="orderList" [borderedRows]="false" [tableBorder]="true" [datatableColumns]="tableColumns"></app-datatable>
         </div>
