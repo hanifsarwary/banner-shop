@@ -6,7 +6,7 @@ const token = localStorage.getItem('token');
 // });
 
 export default axios.create({
-  baseURL: 'http://34.68.49.20:8001',
+  baseURL: 'http://34.68.49.20:9001',
   headers: {
     Authorization: `Token ${token}`
   }
