@@ -42,7 +42,7 @@ class OrderCreateSerializer(ModelSerializer):
         model = Order
         fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
                   'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
-                  'job_name', 'user')
+                  'job_name')
     
     def create(self, validated_data):
         print(validated_data)
