@@ -37,25 +37,21 @@ class OrderRetrieveSerializer(ModelSerializer):
 
 class OrderCreateSerializer(Serializer):
     user = serializers.IntegerField()
-    customer = serializers.IntegerField(null=True, blank=True)
+    customer = serializers.IntegerField(allow_null=True)
     product = serializers.IntegerField()
-    special_note = serializers.CharField(null=True, blank=True)
-    due_date = serializers.DateField(null=True, blank=True, db_index=True)
-    invoice_number = serializers.CharField(max_length=256, null=True, blank=True)
-    internal_notes = serializers.CharField(null=True, blank=True)
-    image = serializers.FileField(null=True, blank=True, upload_to='images/cart-images/')
-    job_name = serializers.CharField(default=' ', max_length=256)
-    proof_status = serializers.ChoiceField(max_length=32, choices=Order.PROOF_STATUS_CHOICES)
-    reference_number = serializers.CharField(max_length=256, null=True, blank=True, db_index=True)
-    status = serializers.ChoiceField(choices=Order.STATUS_CHOICES, max_length=64, db_index=True)
-    quoted_price = serializers.FloatField(null=True)
-    shipping_type = serializers.ChoiceField(max_length=64, 
-                                     choices=Order.SHIPPING_TYPE_CHOICES, null=True, blank=True)
+    special_note = serializers.CharField(allow_null=True)
+    due_date = serializers.DateField(allow_null=True)
+    invoice_number = serializers.CharField(max_length=256, allow_null=True)
+    internal_notes = serializers.CharField(allow_null=True)
+    image = serializers.FileField(allow_null=True)
+    job_name = serializers.CharField(allow_null=True, max_length=256)
+    proof_status = serializers.ChoiceField(choices=Order.PROOF_STATUS_CHOICES)
+    reference_number = serializers.CharField(max_length=256, allow_null=True)
+    status = serializers.ChoiceField(choices=Order.STATUS_CHOICES)
+    quoted_price = serializers.FloatField(allow_null=True)
+    shipping_type = serializers.ChoiceField(choices=Order.SHIPPING_TYPE_CHOICES)
 
-    is_cart = serializers.BooleanField(default=True)
-    created_at = serializers.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = serializers.DateTimeField(auto_now=True, null=True, blank=True)
-
+    is_cart = serializers.BooleanField()
     
     def create(self, validated_data):
         print(validated_data)
