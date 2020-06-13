@@ -4,7 +4,7 @@ from cart.models import Order, OrderOption
 from api.serializers.customers import CustomerSerializer
 from api.serializers.products import ProductSerializer
 from api.serializers.products import OptionSerializer, SubOptionSerializer
-from api.models import Customer
+from api.models import Customer, Product
 
 class OrderOptionSerializer(ModelSerializer):
 
@@ -56,7 +56,9 @@ class OrderCreateSerializer(Serializer):
     def create(self, validated_data):
         print(validated_data)
         customer = Customer.objects.filter(user=validated_data.pop('user')).first()
+        
         validated_data['customer'] = customer
+        validated_data['product'] = Product.objects.get(id=validated_data['product']) 
         print(validated_data)
         return Order.objects.create(**validated_data)
     
