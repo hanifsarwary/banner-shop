@@ -40,6 +40,11 @@ class OrderCreateSerializer(ModelSerializer):
         model = Order
         fields = '__all__'
 
+    def create(self, validated_data):
+
+        customer = Customer.objects.filter(user=validated_data.pop('customer')).first()
+        validated_data['customer'] = customer.id
+        return Order.objects.create(**validated_data)
 
 class OrderOptionBulkCreateSerializer(Serializer):
 
