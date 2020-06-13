@@ -20,9 +20,9 @@ class OrderViewSet(ListAPIView):
 class OrderCreateViewSet(APIView):
 
     def post(self, request):
-        OrderCreateSerializer().create(request.data)
-        print('knjknkjn')
-        return Response({})
+        
+        
+        return Response({'result': OrderCreateSerializer().create(request.data)})
         
 
 class OrderDetailViewSet(RetrieveUpdateDestroyAPIView):
