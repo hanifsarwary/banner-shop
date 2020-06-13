@@ -20,8 +20,10 @@ class OrderViewSet(ListAPIView):
 class OrderCreateViewSet(APIView):
 
     def post(self, request):
-        print(request.data)
-        return Response({})
+        serializer = OrderCreateSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            order_obj = serializer.save()
+        return Response({'order': order_obj})
 
 class OrderDetailViewSet(RetrieveUpdateDestroyAPIView):
 
