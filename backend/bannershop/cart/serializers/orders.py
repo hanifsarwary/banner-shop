@@ -3,7 +3,7 @@ from cart.models import Order, OrderOption
 from api.serializers.customers import CustomerSerializer
 from api.serializers.products import ProductSerializer
 from api.serializers.products import OptionSerializer, SubOptionSerializer
-
+from api.models import Customer
 
 class OrderOptionSerializer(ModelSerializer):
 
