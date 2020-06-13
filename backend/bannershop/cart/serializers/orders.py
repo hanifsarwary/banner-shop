@@ -55,7 +55,8 @@ class OrderCreateSerializer(Serializer):
     
     def create(self, validated_data):
         print(validated_data)
-        customer = Customer.objects.filter(user=validated_data.pop('user')).first()
+        user = validated_data.pop('user')
+        customer = Customer.objects.filter(user=user).first()
         
         validated_data['customer'] = customer
         validated_data['product'] = Product.objects.get(id=validated_data['product']) 
