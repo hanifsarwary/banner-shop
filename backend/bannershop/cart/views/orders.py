@@ -20,10 +20,12 @@ class OrderViewSet(ListAPIView):
 class OrderCreateViewSet(APIView):
 
     def post(self, request):
-        
-        
-        return Response({'result': OrderCreateSerializer().create(request.data)})
-        
+        order_obj = OrderCreateSerializer().create(request.data)
+
+        if order_obj:
+            return Response({'result': order_obj.id}, status= HTTP_201_CREATED)
+        else:
+            return Response({'result': 0}, status=HTTP_201_CREATED)
 
 class OrderDetailViewSet(RetrieveUpdateDestroyAPIView):
 
