@@ -35,19 +35,32 @@ class OrderRetrieveSerializer(ModelSerializer):
 
 
 
-class OrderCreateSerializer(ModelSerializer):
+class OrderCreateSerializer(Serializer):
     user = serializers.IntegerField()
+    customer = serializers.IntegerField(null=True, blank=True)
+    product = serializers.IntegerField()
+    special_note = serializers.CharField(null=True, blank=True)
+    due_date = serializers.DateField(null=True, blank=True, db_index=True)
+    invoice_number = serializers.CharField(max_length=256, null=True, blank=True)
+    internal_notes = serializers.CharField(null=True, blank=True)
+    image = serializers.FileField(null=True, blank=True, upload_to='images/cart-images/')
+    job_name = serializers.CharField(default=' ', max_length=256)
+    proof_status = serializers.ChoiceField(max_length=32, choices=Order.PROOF_STATUS_CHOICES)
+    reference_number = serializers.CharField(max_length=256, null=True, blank=True, db_index=True)
+    status = serializers.ChoiceField(choices=Order.STATUS_CHOICES, max_length=64, db_index=True)
+    quoted_price = serializers.FloatField(null=True)
+    shipping_type = serializers.ChoiceField(max_length=64, 
+                                     choices=Order.SHIPPING_TYPE_CHOICES, null=True, blank=True)
 
-    class Meta:
-        model = Order
-        fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
-                  'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
-                  'job_name')
+    is_cart = serializers.BooleanField(default=True)
+    created_at = serializers.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = serializers.DateTimeField(auto_now=True, null=True, blank=True)
+
     
     def create(self, validated_data):
         print(validated_data)
         customer = Customer.objects.filter(user=validated_data.pop('user')).first()
-        validated_data['customer'] = customer
+        validated_data['customer'] = customer.id
         print(validated_data)
         return Order.objects.create(**validated_data)
     
