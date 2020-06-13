@@ -18,10 +18,8 @@ class OrderViewSet(ListAPIView):
     filterset_fields = ['is_cart', 'status']    
 
 class OrderCreateViewSet(CreateAPIView):
-    
 
     serializer_class = OrderCreateSerializer
-    queryset = Order.objects.all().order_by('-id')
         
 
 class OrderDetailViewSet(RetrieveUpdateDestroyAPIView):
