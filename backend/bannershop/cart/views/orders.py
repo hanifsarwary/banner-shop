@@ -17,7 +17,7 @@ class OrderViewSet(ListAPIView):
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['is_cart', 'status']    
 
-class OrderCreateViewSet(CreateAPIView):
+class OrderCreateViewSet(APIView):
 
     def post(self, request):
         OrderCreateSerializer().create(request.data)
