@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer, Serializer
+from rest_framework import serializers
 from cart.models import Order, OrderOption
 from api.serializers.customers import CustomerSerializer
 from api.serializers.products import ProductSerializer
@@ -30,11 +31,12 @@ class OrderRetrieveSerializer(ModelSerializer):
         model = Order
         fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
                   'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
-                  'created_at', 'updated_at', 'order_options')
+                  'created_at', 'updated_at', 'order_options', 'job_name')
 
 
 
 class OrderCreateSerializer(ModelSerializer):
+    user = serializers.IntegerField()
 
     def create(self, validated_data):
         print(**validated_data)
@@ -45,7 +47,9 @@ class OrderCreateSerializer(ModelSerializer):
     
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
+                  'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
+                  'job_name', 'user')
 
 
 class OrderOptionBulkCreateSerializer(Serializer):
