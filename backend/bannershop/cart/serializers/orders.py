@@ -38,6 +38,12 @@ class OrderRetrieveSerializer(ModelSerializer):
 class OrderCreateSerializer(ModelSerializer):
     user = serializers.IntegerField()
 
+    class Meta:
+        model = Order
+        fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
+                  'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
+                  'job_name', 'user')
+    
     def create(self, validated_data):
         print(validated_data)
         customer = Customer.objects.filter(user=validated_data.pop('user')).first()
@@ -45,11 +51,6 @@ class OrderCreateSerializer(ModelSerializer):
         print(validated_data)
         return Order.objects.create(**validated_data)
     
-    class Meta:
-        model = Order
-        fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
-                  'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
-                  'job_name', 'user')
 
 
 class OrderOptionBulkCreateSerializer(Serializer):
