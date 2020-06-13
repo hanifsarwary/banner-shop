@@ -36,9 +36,6 @@ class OrderRetrieveSerializer(ModelSerializer):
 
 class OrderCreateSerializer(ModelSerializer):
 
-    class Meta:
-        model = Order
-        fields = '__all__'
 
     def create(self, validated_data):
         print(**validated_data)
@@ -46,6 +43,10 @@ class OrderCreateSerializer(ModelSerializer):
         validated_data['customer'] = customer.id
         print(**validated_data)
         return Order.objects.create(**validated_data)
+    
+    class Meta:
+        model = Order
+        fields = '__all__'
 
 class OrderOptionBulkCreateSerializer(Serializer):
 
