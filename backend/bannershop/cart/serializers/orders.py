@@ -36,7 +36,6 @@ class OrderRetrieveSerializer(ModelSerializer):
 
 class OrderCreateSerializer(ModelSerializer):
 
-
     def create(self, validated_data):
         print(**validated_data)
         customer = Customer.objects.filter(user=validated_data.pop('customer')).first()
@@ -47,6 +46,7 @@ class OrderCreateSerializer(ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+
 
 class OrderOptionBulkCreateSerializer(Serializer):
 

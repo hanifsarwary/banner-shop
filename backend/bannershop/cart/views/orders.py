@@ -17,11 +17,11 @@ class OrderViewSet(ListAPIView):
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['is_cart', 'status']    
 
-class OrderCreateViewSet(CreateAPIView):
+class OrderCreateViewSet(APIView):
 
-    serializer_class = OrderCreateSerializer
-    queryset = Order.objects.all().order_by('-id')
-
+    def post(self, request):
+        print(request.data)
+        return Response({})
 
 class OrderDetailViewSet(RetrieveUpdateDestroyAPIView):
 
