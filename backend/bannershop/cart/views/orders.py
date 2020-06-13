@@ -21,6 +21,7 @@ class OrderCreateViewSet(CreateAPIView):
 
     def post(self, request):
         OrderCreateSerializer().create(request.data)
+        print('knjknkjn')
         return Response({})
         
 
