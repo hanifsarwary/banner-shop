@@ -30,7 +30,7 @@ class Order(models.Model):
                              ('Delivery', 'Delivery'),
                              ('Shipping', 'Shipping'))
 
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     special_note = models.TextField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True, db_index=True)
