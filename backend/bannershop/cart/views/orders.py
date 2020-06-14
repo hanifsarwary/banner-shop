@@ -130,8 +130,8 @@ class OrderCreateViewSet(APIView):
 
     def post(self, request):
         print(request.data)
-        return Response({'result': 0}, status=HTTP_400_BAD_REQUEST)
-        order_obj = OrderCreateSerializer().create(request.data)
+        order_obj = None
+        # OrderCreateSerializer().create(request.data)
 
         if order_obj:
             return Response({'result': order_obj.id}, status=HTTP_201_CREATED)
