@@ -1,16 +1,16 @@
 {
     "/api/*": {
-      "target": "http://34.68.49.20:8001",
+      "target": "http://34.68.49.20:9001",
       "secure": false,
       "changeOrigin": true
     },
     "/cart-apis/*": {
-      "target": "http://34.68.49.20:8001",
+      "target": "http://34.68.49.20:9001",
       "secure": false,
       "changeOrigin": true
     },
     "/media/*": {
-      "target": "http://34.68.49.20:8001",
+      "target": "http://34.68.49.20:9001",
       "secure": false,
       "changeOrigin": true
     }

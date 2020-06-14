@@ -18,6 +18,7 @@ export class InvoiceComponent implements OnInit {
   customerStatusTypes;
   operationType;
   funtionType;
+  proofStatusList;
 
   constructor(
     private orderService: OrderService,
@@ -52,6 +53,12 @@ export class InvoiceComponent implements OnInit {
 
   updateOrderInvoice() {
     this.orderService.updateOrder(this.orderId, {'invoice_number': this.invoice_number}).subscribe(res => {
+      window.location.reload();
+    });
+  }
+
+  updateoOrderProofStatus() {
+    this.orderService.updateOrder(this.orderId, {'proof_status': this.status}).subscribe(res => {
       window.location.reload();
     });
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { CustomOrderList } from '../model/custom-order';
 import { CustomerList } from '../model/customer-list';
@@ -20,9 +20,12 @@ export class WorkOrderComponent implements OnInit {
   proofApprovedDate;
   orderDateTime;
   loader = true;
+  cartOrder = false;
+  workOrder;
   window;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private orderService: OrderService,
     private datePipe: DatePipe
@@ -33,8 +36,13 @@ export class WorkOrderComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params['id']) {
-        this.getCustomOrderById(params['id']);
-        this.getProofApprovedDate(params['id']);
+        if (this.router.url.includes('cart-work-order')) {
+          this.cartOrder = true;
+          this.getCartOrderById(params['id']);
+        } else {
+          this.getCustomOrderById(params['id']);
+          this.getProofApprovedDate(params['id']);
+        }
       }
     });
   }
@@ -45,10 +53,22 @@ export class WorkOrderComponent implements OnInit {
     });
   }
 
+  getCartOrderById(id) {
+    this.orderService.getCartOrderById(id).subscribe(res => {
+      this.orderList = res;
+      this.workOrder = 'C' + this.orderList.id;
+      this.orderDateTime = this.datePipe.transform(this.orderList.due_date, 'M/d/yy, h:mm:ss a');
+      this.customerList = this.orderList.customer;
+      this.userList = this.customerList.user;
+      this.loader = false;
+    });
+  }
+
   getCustomOrderById(id) {
     this.loader = true;
     this.orderService.getCustomOrderById(id).subscribe(res => {
       this.orderList = res;
+      this.workOrder = this.orderList.id;
       this.orderDateTime = this.datePipe.transform(this.orderList.created_at, 'M/d/yy, h:mm:ss a');
       this.customerList = this.orderList.customer;
       this.userList = this.customerList.user;
