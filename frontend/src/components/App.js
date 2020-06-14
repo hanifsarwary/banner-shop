@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import bannerShop from '../api/bannerShop';
 import Header from './Header';
 import Footer from './Footer';
 import FeatureProduct from './FeatureProduct';
@@ -28,9 +29,17 @@ class App extends React.Component {
     total: 0
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     try {
-      const token = localStorage.getItem('token');
+      const oldToken = localStorage.getItem('token');
+      let token = null;
+      if(oldToken) {
+        const res = await bannerShop.post('/api/auth/token/refresh/', {
+          token: oldToken
+        });
+        token = res.data.token;
+      }
+
       const user = jwtDecode(token);
       if (user) {
         this.setState({
@@ -38,7 +47,10 @@ class App extends React.Component {
           isLoggedIn: true
         });
       }
-    } catch (err) { }
+    } catch (err) {
+      console.log(err);
+      this.onLogout();
+    }
   }
 
   onLogin = () => {
@@ -48,6 +60,8 @@ class App extends React.Component {
   }
 
   onLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('customer');
     this.setState({
       isLoggedIn: false
     });
@@ -76,7 +90,6 @@ class App extends React.Component {
   }
 
   clearCart = () => {
-    console.log('clear');
     localStorage.removeItem('cart');
     this.setState({
       cartItems: [],
@@ -120,9 +133,9 @@ class App extends React.Component {
             <Category />
           </Route>
           <Route path="/product/:id" exact>
-            <Product 
-              errorMount={this.errorMount} 
-              user={this.state.user} 
+            <Product
+              errorMount={this.errorMount}
+              user={this.state.user}
               cartHandle={this.cartHandle}
               isLoggedIn={this.state.isLoggedIn}
               previousPathHand={this.previousPathHand}
@@ -132,16 +145,16 @@ class App extends React.Component {
             <About />
           </Route>
           <Route path="/contact" exact>
-            <Contact 
-              isLoggedIn={this.state.isLoggedIn} 
-              user={this.state.user} 
-              previousPathHand={this.previousPathHand} 
+            <Contact
+              isLoggedIn={this.state.isLoggedIn}
+              user={this.state.user}
+              previousPathHand={this.previousPathHand}
             />
           </Route>
           <Route path="/auth/login" exact>
             <Login
-              isLoggedIn={this.state.isLoggedIn} 
-              onLogin={this.onLogin} 
+              isLoggedIn={this.state.isLoggedIn}
+              onLogin={this.onLogin}
               previousPath={this.state.previousPath}
             />
           </Route>

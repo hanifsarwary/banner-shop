@@ -57,7 +57,6 @@ class Login extends React.Component {
 				}
 			}
 		} catch (error) {
-			console.log(error);
 			if(error.response.status === 400) {
 				this.setState({
 					logged: false,
