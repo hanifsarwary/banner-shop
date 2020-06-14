@@ -75,6 +75,15 @@ class App extends React.Component {
     }
   }
 
+  clearCart = () => {
+    console.log('clear');
+    localStorage.removeItem('cart');
+    this.setState({
+      cartItems: [],
+      total: 0
+    });
+  }
+
   errorMount = (message) => {
     this.setState({
       error: true,
@@ -104,6 +113,7 @@ class App extends React.Component {
               isLoggedIn={this.state.isLoggedIn}
               previousPathHand={this.previousPathHand}
               cartHandle={this.cartHandle}
+              clearCart={this.clearCart}
             />
           </Route>
           <Route path="/category/:id" exact>
@@ -122,11 +132,17 @@ class App extends React.Component {
             <About />
           </Route>
           <Route path="/contact" exact>
-            <Contact isLoggedIn={this.state.isLoggedIn} user={this.state.user} previousPathHand={this.previousPathHand} />
+            <Contact 
+              isLoggedIn={this.state.isLoggedIn} 
+              user={this.state.user} 
+              previousPathHand={this.previousPathHand} 
+            />
           </Route>
           <Route path="/auth/login" exact>
             <Login
-              isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin} previousPath={this.state.previousPath}
+              isLoggedIn={this.state.isLoggedIn} 
+              onLogin={this.onLogin} 
+              previousPath={this.state.previousPath}
             />
           </Route>
           <Route path="/auth/signup" exact>

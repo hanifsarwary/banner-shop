@@ -36,6 +36,7 @@ class UserAction extends React.Component {
 
     logoutHandler = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('customer');
         this.props.onLogout();
     }
 

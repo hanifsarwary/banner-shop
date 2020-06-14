@@ -21,12 +21,9 @@ class CartAction extends React.Component {
         // }
 
         this.setState({
-            cartItems: [],
-            total: 0
+            cartItems: this.props.cartItems,
+            total: this.props.total
         });
-
-        // cartItems={props.cartItems}
-        //             total={props.total}
     }
 
     componentDidUpdate() {
@@ -49,36 +46,27 @@ class CartAction extends React.Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            cartItems: nextProps.cartItems,
+            total: nextProps.total
+        });
+    }
 
     loadCart = () => {
-        if (localStorage.getItem('cart') !== null) {
-            const cart = JSON.parse(localStorage.getItem('cart'));
 
-            if (this.state.dropdown === 'scale(1)') {
-                this.setState({
-                    dropdown: 'scale(0)'
-                });
-            } else {
-                this.setState({
-                    dropdown: 'scale(1)',
-                    cartItems: cart.cartItems,
-                    total: cart.total,
-                    loaded: true
-                });
-            }
+        if (this.state.dropdown === 'scale(1)') {
+            this.setState({
+                dropdown: 'scale(0)',
+                loaded: true
+            });
         } else {
-            if (this.state.dropdown === 'scale(1)') {
-                this.setState({
-                    dropdown: 'scale(0)',
-                    loaded: true
-                });
-            } else {
-                this.setState({
-                    dropdown: 'scale(1)',
-                    loaded: true
-                });
-            }
+            this.setState({
+                dropdown: 'scale(1)',
+                loaded: true
+            });
         }
+
     }
 
     deleteCarthand = (e) => {

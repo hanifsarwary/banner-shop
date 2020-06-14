@@ -28,7 +28,7 @@ class Menu extends React.Component {
                         <li>
                             <Link to="/">Home</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <a href="/" onClick={(e) => {
                                 e.preventDefault();
                             }}>
@@ -91,7 +91,62 @@ class Menu extends React.Component {
                                     )
                                 }
                             </ul>
-                        </li>
+                        </li> */}
+
+                        {this.state.loaded ?
+                            this.state.categories.map(category => {
+                                return (
+                                    <li key={category.id}>
+                                        <Link to={`/category/${category.id}`}>
+                                            {category.name}
+                                        </Link>
+                                        {(category.children_categories) ? (
+                                            <ul className="sub_menu">
+                                                {category.children_categories.map(subCat => {
+                                                    return (
+                                                        <li key={subCat.id}>
+                                                            <Link to={`/category/${subCat.id}`}>
+                                                                {subCat.name}
+                                                            </Link>
+                                                            {subCat.products.length > 0 ? (
+                                                                <ul className="sub_menu">
+                                                                    {subCat.products.map(product => {
+                                                                        return (<li key={product.id}>
+                                                                            <Link to={`/product/${product.id}`}>{product.product_name}</Link>
+                                                                        </li>)
+                                                                    })}
+                                                                </ul>
+                                                            ) : ("")}
+                                                        </li>
+                                                    )
+                                                }
+                                                )}
+                                            </ul>
+                                        ) : (
+                                                <React.Fragment>
+                                                    {category.products.length > 0 ? (
+                                                        <ul className="sub_menu">
+                                                            {category.products.map(product => {
+                                                                return (
+                                                                    <li key={product.id}>
+                                                                        <Link to={`/product/${product.id}`}>{product.product_name}</Link>
+                                                                    </li>
+                                                                )
+                                                            })}
+                                                        </ul>
+                                                    ) : ("")}
+                                                </React.Fragment>
+                                            )}
+                                    </li>
+                                )
+                            }) : (
+                                <li>
+                                    <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+                                        <Loader type="ThreeDots" color="#e65540" height={40} width={40} />
+                                    </div>
+                                </li>
+                            )
+                        }
                         <li>
                             <Link to="/about">About Us</Link>
                         </li>

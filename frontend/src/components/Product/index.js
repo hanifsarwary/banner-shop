@@ -8,6 +8,8 @@ import { objectToFormData } from 'object-to-formdata';
 class ProductDetail extends React.Component {
   state = {
     loaded: false,
+    job_name: '',
+    reference_number: '',
     detail: {},
     total: 0,
     cartAdd: false,
@@ -340,6 +342,15 @@ class ProductDetail extends React.Component {
       })
   }
 
+  baseInputChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    this.setState({
+      [name]: value
+    })
+  }
+
   onEnterChange = (e) => {
     if (e.keyCode === 13) {
       this.optionChangeCalc(e);
@@ -363,7 +374,7 @@ class ProductDetail extends React.Component {
   cartAddhandler = async () => {
     try {
       if (this.props.isLoggedIn) {
-        if (this.state.addDesc === '') {
+        if (this.state.addDesc === '' || this.state.job_name === '' || this.state.reference_number === '') {
           this.setState({
             required: true,
             valid: false
@@ -393,31 +404,29 @@ class ProductDetail extends React.Component {
           } else {
             cart = JSON.parse(localStorage.getItem('cart'));
           }
-          
-          const token = localStorage.getItem('token');
-          const user = jwtDecode(token);
 
-          const customerRes = await bannerShop.get('/api/users/customers/' + user.user_id);
-          const customer_id = customerRes.data.id;
-
+          const customerRes = localStorage.getItem('customer');
+          const customer = JSON.parse(customerRes);
           // cart-apis/ orders/add/'
+
           const body = this.toFormData({
             special_note: this.state.addDesc,
             due_date: null,
             invoice_number: null,
             internal_notes: null,
+            job_name: this.state.job_name,
             image: this.state.file,
             proof_status: null,
-            reference_number: null,
+            reference_number: this.state.reference_number,
             status: 'Submitted',
             quoted_price: this.state.total,
             shipping_type: null,
             is_cart: true,
-            customer: customer_id,
+            // user: parseInt(user.user_id),
+            customer: customer.customer_id,
             product: this.props.match.params.id
           });
-          // const body = objectToFormdata();
-          
+      
           const res = await bannerShop.post('/cart-apis/orders/add/', body, {
             headers: { 'Content-Type': 'multipart/form-data' }
           });
@@ -613,6 +622,33 @@ class ProductDetail extends React.Component {
                     </div>
                   )
                 })}
+
+                <div className="s-text15 mb-2">
+                  Job Name:
+                {(this.state.required && this.state.job_name === '') ? (
+                    <span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+                  ) : ('')}
+                </div>
+                <div className="bo4 of-hidden size15 m-b-20">
+                  <input className="sizefull s-text7 p-l-22 p-r-22" type="text"
+                    value={this.state.job_name} name="job_name"
+                    onChange={this.baseInputChange}
+                  />
+                </div>
+
+                <div className="s-text15 mb-2">
+                  Reference Number:
+                {(this.state.required && this.state.reference_number === '') ? (
+                    <span style={{ color: '#e65540', marginLeft: '5px', fontSize: '16px', fontWeight: '600' }}>*</span>
+                  ) : ('')}
+                </div>
+                <div className="bo4 of-hidden size15 m-b-20">
+                  <input className="sizefull s-text7 p-l-22 p-r-22" type="text"
+                    value={this.state.reference_number} name="reference_number"
+                    onChange={this.baseInputChange}
+                  />
+                </div>
+
                 <div className="flex-m flex-w p-b-10 mt-3">
                   <div className="s-text15 mb-2">
                     Additional Instructions:
