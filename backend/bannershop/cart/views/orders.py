@@ -126,20 +126,10 @@ class OrderViewSet(ListAPIView):
             queryset.order_by('-id')), many=True).data})
     
 
-class OrderCreateViewSet(APIView):
+class OrderCreateViewSet(CreateAPIView):
 
-    parser_classes = (MultiPartParser, JSONParser)
-
-    def post(self, request):
-
-        print(request.data)
-        order_obj = None
-        # OrderCreateSerializer().create(request.data)
-
-        if order_obj:
-            return Response({'result': order_obj.id}, status=HTTP_201_CREATED)
-        else:
-            return Response({'result': 0}, status=HTTP_400_BAD_REQUEST)
+    serializer_class = OrderCreateSerializer
+    queryset = Order.objects.all()
 
 class OrderDetailViewSet(RetrieveUpdateDestroyAPIView):
 

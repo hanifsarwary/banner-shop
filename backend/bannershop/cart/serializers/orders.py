@@ -5,7 +5,7 @@ from api.serializers.customers import CustomerSerializer
 from api.serializers.products import ProductSerializer
 from api.serializers.products import OptionSerializer, SubOptionSerializer
 from api.models import Customer, Product
-from rest_framework.parsers import MultiPartParser
+
 class OrderOptionSerializer(ModelSerializer):
 
     class Meta:
@@ -35,32 +35,12 @@ class OrderRetrieveSerializer(ModelSerializer):
 
 
 
-class OrderCreateSerializer(Serializer):
-    user = serializers.IntegerField()
-    customer = serializers.IntegerField(allow_null=True)
-    product = serializers.IntegerField()
-    special_note = serializers.CharField(allow_null=True)
-    due_date = serializers.DateField(allow_null=True)
-    invoice_number = serializers.CharField(max_length=256, allow_null=True)
-    internal_notes = serializers.CharField(allow_null=True)
-    image = serializers.FileField(allow_null=True)
-    job_name = serializers.CharField(allow_null=True, max_length=256)
-    proof_status = serializers.ChoiceField(choices=Order.PROOF_STATUS_CHOICES)
-    reference_number = serializers.CharField(max_length=256, allow_null=True)
-    status = serializers.ChoiceField(choices=Order.STATUS_CHOICES)
-    quoted_price = serializers.FloatField(allow_null=True)
-    shipping_type = serializers.ChoiceField(choices=Order.SHIPPING_TYPE_CHOICES)
+class OrderCreateSerializer(serializers.ModelSerializer):
 
-    is_cart = serializers.BooleanField()
+    class Meta:
+        model = Order
+        fields = '__all__'
     
-    
-    def create(self, validated_data):
-        
-        user = validated_data.pop('user')
-        customer = Customer.objects.filter(user=user).first()
-        validated_data['customer'] = customer
-        validated_data['product'] = Product.objects.get(id=validated_data['product']) 
-        return Order.objects.create(**validated_data)
     
 
 
