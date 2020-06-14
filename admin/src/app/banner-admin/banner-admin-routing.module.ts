@@ -52,6 +52,7 @@ const routes: Routes = [
           { path: 'update-customer/:id/:operation', component: CustomersComponent, canActivate: [AuthGuard] },
           { path: 'shopping-cart-orders', component: OrdersComponent, canActivate: [AuthGuard] },
           { path: 'add-order', component: AddOrderComponent, canActivate: [AuthGuard] },
+          { path: 'cart-work-order/:id', component: WorkOrderComponent, canActivate: [AuthGuard]},
           { path: 'update-orders/:id/:operation', component: AddOrderComponent, canActivate: [AuthGuard] },
           { path: 'orders-detail/:id', component: OrderDetailComponent, canActivate: [AuthGuard] },
         ]
