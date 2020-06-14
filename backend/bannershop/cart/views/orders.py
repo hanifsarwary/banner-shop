@@ -129,6 +129,8 @@ class OrderViewSet(ListAPIView):
 class OrderCreateViewSet(APIView):
 
     def post(self, request):
+        print(request.data)
+        return Response({'result': 0}, status=HTTP_400_BAD_REQUEST)
         order_obj = OrderCreateSerializer().create(request.data)
 
         if order_obj:
@@ -167,5 +169,6 @@ class OrderCheckOut(APIView):
     def post(self, request):
         cart_orders = Order.objects.filter(customer=request.data.get('customer'), 
                                            is_cart=True)
+        
         cart_orders.update(is_cart=False, shipping_type=request.data.get('shipping'))
         return Response({'status': HTTP_201_CREATED})

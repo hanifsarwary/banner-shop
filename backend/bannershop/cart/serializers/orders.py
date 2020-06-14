@@ -54,13 +54,11 @@ class OrderCreateSerializer(Serializer):
     is_cart = serializers.BooleanField()
     
     def create(self, validated_data):
-        print(validated_data)
+        
         user = validated_data.pop('user')
         customer = Customer.objects.filter(user=user).first()
-        
         validated_data['customer'] = customer
         validated_data['product'] = Product.objects.get(id=validated_data['product']) 
-        print(validated_data)
         return Order.objects.create(**validated_data)
     
 
