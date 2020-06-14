@@ -128,8 +128,11 @@ class OrderViewSet(ListAPIView):
 
 class OrderCreateViewSet(APIView):
 
+
+
     def post(self, request):
-        print(request.data)
+        parsed_data = MultiPartParser(request.data)
+        print(parsed_data)
         order_obj = None
         # OrderCreateSerializer().create(request.data)
 

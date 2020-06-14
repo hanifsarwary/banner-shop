@@ -5,7 +5,7 @@ from api.serializers.customers import CustomerSerializer
 from api.serializers.products import ProductSerializer
 from api.serializers.products import OptionSerializer, SubOptionSerializer
 from api.models import Customer, Product
-
+from rest_framework.parsers import MultiPartParser
 class OrderOptionSerializer(ModelSerializer):
 
     class Meta:
@@ -52,6 +52,7 @@ class OrderCreateSerializer(Serializer):
     shipping_type = serializers.ChoiceField(choices=Order.SHIPPING_TYPE_CHOICES)
 
     is_cart = serializers.BooleanField()
+    
     
     def create(self, validated_data):
         
