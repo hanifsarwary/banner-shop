@@ -23,6 +23,11 @@ class OrderViewSet(ListAPIView):
             queryset = queryset.filter(status=status)
         return queryset
 
+    def filter_cart(self, queryset, is_cart):
+        if is_cart:
+            queryset = queryset.filter(is_cart=is_cart)
+        return queryset
+
     def filter_product_name(self, queryset, product_name):
         if product_name:
             queryset = queryset.filter(product__product_name__icontains=product_name)
@@ -106,6 +111,7 @@ class OrderViewSet(ListAPIView):
     def post(self, request):
 
         queryset = self.filter_status(self.get_queryset(), self.request.data.get('status'))
+        queryset = self.filter_cart(self.get_queryset(), self.request.data.get('is_cart'))
         queryset = self.filter_product_name(queryset, self.request.data.get('product_name'))
         queryset = self.filter_due_date(queryset, self.request.data.get('due_date_start'), 
                                         self.request.data.get('due_date_end'))
