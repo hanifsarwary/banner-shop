@@ -50,7 +50,7 @@ const routes: Routes = [
           { path: 'customers', component: AllCustomersComponent, canActivate: [AuthGuard] },
           { path: 'add-customer', component: CustomersComponent, canActivate: [AuthGuard] },
           { path: 'update-customer/:id/:operation', component: CustomersComponent, canActivate: [AuthGuard] },
-          { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
+          { path: 'shopping-cart-orders', component: OrdersComponent, canActivate: [AuthGuard] },
           { path: 'add-order', component: AddOrderComponent, canActivate: [AuthGuard] },
           { path: 'update-orders/:id/:operation', component: AddOrderComponent, canActivate: [AuthGuard] },
           { path: 'orders-detail/:id', component: OrderDetailComponent, canActivate: [AuthGuard] },

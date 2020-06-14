@@ -30,13 +30,14 @@ class Order(models.Model):
                              ('Delivery', 'Delivery'),
                              ('Shipping', 'Shipping'))
 
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     special_note = models.TextField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True, db_index=True)
     invoice_number = models.CharField(max_length=256, null=True, blank=True)
     internal_notes = models.TextField(null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to='images/cart-images/')
+    job_name = models.CharField(default=' ', max_length=256)
     proof_status = models.CharField(max_length=32, choices=PROOF_STATUS_CHOICES,
                                     default=PROOF_STATUS_CHOICES[0][0])
     reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
@@ -44,6 +45,7 @@ class Order(models.Model):
     quoted_price = models.FloatField(null=True)
     shipping_type = models.CharField(max_length=64, 
                                      choices=SHIPPING_TYPE_CHOICES, null=True, blank=True)
+
     is_cart = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)

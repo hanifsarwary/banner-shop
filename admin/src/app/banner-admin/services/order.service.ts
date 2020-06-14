@@ -20,6 +20,10 @@ export class OrderService {
     return this.httpClient.get<any>(`${this.global.customers}${params}`, { headers: this.global.httpHeaders() });
   }
 
+  getAllCustomers(obj): Observable<any> {
+    return this.httpClient.post<any>(`${this.global.allCustomers}`, obj, { headers: this.global.httpHeaders() });
+  }
+
   updateCustomer(id, obj): Observable<any> {
     return this.httpClient.patch<any>(`${this.global.customers}${id}/`, obj, { headers: this.global.httpHeaders() });
   }

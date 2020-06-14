@@ -21,6 +21,7 @@ export class Globals {
   productsByCategory = `${this.domanin_name}/products/category/`;
   users = `${this.domanin_name}/users/`;
   customers = `${this.domanin_name}/customers/`;
+  allCustomers = `${this.domanin_name}/customers/filters/`;
   customOrders = `${this.domanin_name}/custom-orders/`;
   sendEmail = `${this.domanin_name}/send-custom-order-email/`;
   addCustomOrders = `${this.domanin_name}/custom-orders/create/`;

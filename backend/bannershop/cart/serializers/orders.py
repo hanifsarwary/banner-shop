@@ -1,9 +1,10 @@
 from rest_framework.serializers import ModelSerializer, Serializer
+from rest_framework import serializers
 from cart.models import Order, OrderOption
 from api.serializers.customers import CustomerSerializer
 from api.serializers.products import ProductSerializer
 from api.serializers.products import OptionSerializer, SubOptionSerializer
-
+from api.models import Customer, Product
 
 class OrderOptionSerializer(ModelSerializer):
 
@@ -30,15 +31,17 @@ class OrderRetrieveSerializer(ModelSerializer):
         model = Order
         fields = ('id', 'customer', 'product', 'special_note', 'due_date', 'invoice_number', 'internal_notes',
                   'image', 'proof_status', 'reference_number', 'status', 'quoted_price', 'shipping_type', 'is_cart',
-                  'created_at', 'updated_at', 'order_options')
+                  'created_at', 'updated_at', 'order_options', 'job_name')
 
 
 
-class OrderCreateSerializer(ModelSerializer):
+class OrderCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
         fields = '__all__'
+    
+    
 
 
 class OrderOptionBulkCreateSerializer(Serializer):
