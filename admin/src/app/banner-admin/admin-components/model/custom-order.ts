@@ -33,4 +33,6 @@ export class CustomOrderList {
     shipping_state?: '';
     shipping_zip_code?: '';
     created_at?: '';
+    product?: any;
+    order_options?: any;
 }
