@@ -10,6 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
+from datetime import date, timedelta
 
 class OrderViewSet(ListAPIView):
 
@@ -169,5 +170,16 @@ class OrderCheckOut(APIView):
         cart_orders = Order.objects.filter(customer=request.data.get('customer'), 
                                            is_cart=True)
         
-        cart_orders.update(is_cart=False, shipping_type=request.data.get('shipping'))
+        for cart_ord_obj in cart_orders:
+            order_option = OrderOption.objects.filter(order=cart_ord_obj, option__name__icontains='turn').first()
+            due_date = date.today()
+            if order_option:
+                if '4' in order_option.sub_option.name:
+                    due_date = due_date + timedelta(days=4)
+                elif '7' in order_option.sub_option.name: 
+                    due_date = due_date + timedelta(days=7)
+                elif 'ext' in order_option.sub_option.name:
+                    due_date = due_date + timedelta(days=1)
+            cart_ord_obj.update(is_cart=False, shipping_type=request.data.get('shipping'), due_date=due_date)    
+        
         return Response({'status': HTTP_201_CREATED})
