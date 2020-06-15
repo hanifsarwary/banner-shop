@@ -171,7 +171,7 @@ class OrderCheckOut(APIView):
                                            is_cart=True)
         
         for cart_ord_obj in cart_orders:
-            order_option = OrderOption.objects.filter(order=cart_ord_obj, option__name__icontains='turn').first()
+            order_option = OrderOption.objects.filter(order=cart_ord_obj, option__option_name__icontains='turn').first()
             due_date = date.today()
             if order_option:
                 if '4' in order_option.sub_option.name:
