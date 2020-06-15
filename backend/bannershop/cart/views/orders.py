@@ -164,6 +164,17 @@ class ListOrderOptionsViewSet(ListCreateAPIView):
         return Response(serializer.data)
 
 
+class CustomerCartOrdersViewSet(ListCreateAPIView):
+
+    serializer_class = OrderRetrieveSerializer
+    queryset = Order.objects
+
+    def list(self, request, customer_id, *args, **kwargs):
+        queryset = self.get_queryset().filter(customer=customer_id, is_cart=True)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
 class OrderCheckOut(APIView):
 
     def post(self, request):
@@ -180,6 +191,9 @@ class OrderCheckOut(APIView):
                     due_date = due_date + timedelta(days=7)
                 elif 'ext' in order_option.sub_option.name:
                     due_date = due_date + timedelta(days=1)
-            cart_ord_obj.update(is_cart=False, shipping_type=request.data.get('shipping'), due_date=due_date)    
-        
+            cart_ord_obj.is_cart=False
+            cart_ord_obj.shipping_type=request.data.get('shipping')
+            cart_ord_obj.due_date=due_date    
+            cart_ord_obj.save()
+
         return Response({'status': HTTP_201_CREATED})
