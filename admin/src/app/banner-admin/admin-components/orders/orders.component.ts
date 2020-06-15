@@ -68,7 +68,7 @@ export class OrdersComponent implements OnInit {
         }
       });
     } else {
-      this.filters['is_card'] = false;
+      this.filters['is_cart'] = false;
       this.orderService.getAllOrder(this.filters).subscribe(res => {
         this.orderList = res.results;
         this.loader = false;

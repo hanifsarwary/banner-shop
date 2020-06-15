@@ -201,7 +201,7 @@
 
             <ng-container matColumnDef="job_name">
                 <th mat-header-cell *matHeaderCellDef> Job Name </th>
-                <td mat-cell *matCellDef="let element">{{element.custom_job_name}}</td>
+                <td mat-cell *matCellDef="let element">{{element.custom_job_name ? element.custom_job_name : element.job_name ? element.job_name : ''}}</td>
             </ng-container>
 
             <ng-container matColumnDef="product_info">
