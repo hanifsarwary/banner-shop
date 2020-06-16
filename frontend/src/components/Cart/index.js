@@ -245,6 +245,7 @@ class Cart extends React.Component {
 
             const customerRes = localStorage.getItem('customer');
             const customer = JSON.parse(customerRes);
+            const customer_id = customer.id;
 
             if (this.state.shipping !== 'No Shipment') {
                 if (this.state.shipping_id) {
@@ -254,11 +255,11 @@ class Cart extends React.Component {
                         shipping_city: this.state.shipping_city,
                         shipping_state: this.state.shipping_state,
                         shipping_zip_code: this.state.shipping_zip_code,
-                        customer: customer.customer_id
+                        customer: customer_id
                     });
 
                     const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
-                        customer: customer.customer_id,
+                        customer: customer_id,
                         shipping: this.state.shipping
                     });
 
@@ -274,11 +275,11 @@ class Cart extends React.Component {
                         shipping_city: this.state.shipping_city,
                         shipping_state: this.state.shipping_state,
                         shipping_zip_code: this.state.shipping_zip_code,
-                        customer: customer.customer_id
+                        customer: customer_id
                     });
 
                     const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
-                        customer: customer.customer_id,
+                        customer: customer_id,
                         shipping: this.state.shipping
                     });
 
@@ -290,7 +291,7 @@ class Cart extends React.Component {
                 }
             } else {
                 const checkRes = await bannerShop.post(`/cart-apis/orders/checkout/`, {
-                    customer: customer.customer_id,
+                    customer: customer_id,
                     shipping: this.state.shipping
                 });
 
