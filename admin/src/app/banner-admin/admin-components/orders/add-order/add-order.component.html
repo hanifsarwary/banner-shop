@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="body">
                     <div class="row p-0 m-0">
-                        <div class="col-md-5 customer-box">
+                        <!-- <div class="col-md-5 customer-box">
                             <div class="row card-text pl-4 p-2 pt-3">
                                 <label for="custome" class="col-4 mt-1 text-shadow"><b *ngIf="!orderList" class="text-danger">* </b>Select Customer</label>
                                 <select class="form-control form-control-sm col-sm-7" id="customer" [class.customer-field]="submitted && !customerId"
@@ -54,16 +54,16 @@
                                 <div class="col-4 text-shadow">Country  :</div>
                                 <div class="col-8">{{customerList?.country}}</div>
                             </div>
-                        </div>
-                        <div class="col-md-7 p-0 m-0">
+                        </div> -->
+                        <div class="col-sm-12 p-0 m-0 mt-3">
                             <div *ngIf="submitted" class="text-center text-danger mt-3 mb-4">Fill the Form</div>
                             <form class="ml-3 mr-3" [formGroup]="orderForm" (ngSubmit)="onSubmit(orderForm)">
-                                <div class="row form-box">
+                                <!-- <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="product">Product :</label>
-                                    <select class="form-control form-control-sm col-sm-9" id="product" [ngModel]="orderList ? orderList.product : ''" formControlName="product">
+                                    <select class="form-control form-control-sm col-sm-9" id="product" [ngModel]="orderList ? orderList.product.id : ''" formControlName="product">
                                         <option  *ngFor="let product of products" [value]="product.id">{{product.product_name}}</option>
                                     </select>
-                                </div>
+                                </div> -->
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="quoted_price">Quoted price :</label>
                                     <input type="number" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.quoted_price : ''" formControlName="quoted_price" placeholder="Enter Quoted price">

@@ -161,30 +161,34 @@ export class FiltersBarComponent implements OnInit {
   }
 
   applyFilters(value) {
+    const extractUrl = this.router.url;
+    const pathname = extractUrl.split('?') ? (extractUrl.split('?'))[0] : extractUrl;
+    console.log('========================');
+    console.log('pathname', pathname);
     switch (value) {
       case 'is_missing_deadline':
-        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'is_missing_deadline': true}) } });
+        this.router.navigate([`${pathname}`], { queryParams: { filter: JSON.stringify({'is_missing_deadline': true}) } });
         break;
       case 'due_date_today':
         const today_date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-        this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date_start': today_date}) } });
+        this.router.navigate([`${pathname}`], { queryParams: { filter: JSON.stringify({'due_date_start': today_date}) } });
         break;
       case 'due_date_tomorrow':
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
         const tomorrow_date = this.datePipe.transform(tomorrow, 'yyyy-MM-dd');
-          this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'due_date_end': tomorrow_date}) } });
+          this.router.navigate([`${pathname}`], { queryParams: { filter: JSON.stringify({'due_date_end': tomorrow_date}) } });
           break;
       case 'my_jobs':
-        this.router.navigate(['/order-status'], { queryParams:
+        this.router.navigate([`${pathname}`], { queryParams:
                             { filter: JSON.stringify( {'place_by': localStorage.getItem('username')}) } });
         break;
       case 'all_jobs':
-        this.router.navigate(['/order-status'], { queryParams: { filterObj: ''}});
+        this.router.navigate([`${pathname}`], { queryParams: { filterObj: ''}});
         break;
       default:
-        this.router.navigate(['/order-status'], { queryParams: { filterObj: JSON.stringify(this.filters) } });
+        this.router.navigate([`${pathname}`], { queryParams: { filterObj: JSON.stringify(this.filters) } });
     }
   }
 
@@ -204,7 +208,9 @@ export class FiltersBarComponent implements OnInit {
       place_by: '',
     };
     this.clearSearch.emit(true);
-    this.router.navigate(['/order-status'], { queryParams: { filterObj: ''}});
+    const extractUrl = this.router.url;
+    const pathname = extractUrl.split('?');
+    this.router.navigate([pathname[0]], { queryParams: { filterObj: ''}});
   }
 
   asIsOrder(a, b) {
@@ -218,7 +224,7 @@ export class FiltersBarComponent implements OnInit {
   }
 
   openOrderOnly(event) {
-    this.router.navigate(['/order-status'], { queryParams: { filter: JSON.stringify({'is_open': event.target.checked}) } });
+    this.router.navigate([`${this.router.url}`], { queryParams: { filter: JSON.stringify({'is_open': event.target.checked}) } });
   }
 
   getCompanies() {
