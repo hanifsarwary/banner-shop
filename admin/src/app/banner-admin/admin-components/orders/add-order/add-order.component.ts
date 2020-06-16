@@ -6,6 +6,7 @@ import { CustomOrderList } from '../../model/custom-order';
 import { OrderService } from 'src/app/banner-admin/services/order.service';
 import { TypesService } from 'src/app/banner-admin/services/types.service';
 import { ProductService } from 'src/app/banner-admin/services/product.service';
+import { CustomerList } from '../../model/customer-list';
 
 @Component({
   selector: 'app-add-order',
@@ -15,7 +16,7 @@ import { ProductService } from 'src/app/banner-admin/services/product.service';
 })
 export class AddOrderComponent implements OnInit {
 
-  @Input() customerList;
+  @Input() customerList: CustomerList;
   @Input() operation = 'Add';
   @Input() orderList: CustomOrderList;
 
@@ -28,7 +29,7 @@ export class AddOrderComponent implements OnInit {
   proofStatusList = [];
   companyName;
   companiesList = [];
-  customerId: number;
+  customerId;
   job_no_exist = false;
   job_id;
   opeFlag = true;
@@ -45,13 +46,13 @@ export class AddOrderComponent implements OnInit {
     private router: Router) {
 
     this.orderForm = this.fb.group({
-      product: [''],
+      // product: [''],
       due_date: [''],
       quoted_price: [''],
       internal_notes: [''],
       reference_number: [''],
       special_note: [''],
-      customer: [''],
+      // customer: [''],
       shipping_type: [''],
       shipping_contact_name: [''],
       shipping_street_address: [''],
@@ -83,8 +84,8 @@ export class AddOrderComponent implements OnInit {
       this.orderList = res;
       this.shipping = this.orderList.shipping_type;
       this.customerList = this.orderList.customer;
-      this.customerId = this.customerList.id;
-      this.companyName = this.customerList.company_name;
+      this.customerId = this.customerList ? this.customerList.id : '';
+      this.companyName = this.customerList ? this.customerList.company_name : '';
       this.loader = false;
     });
   }
@@ -124,8 +125,8 @@ export class AddOrderComponent implements OnInit {
   selectedCustomer(event) {
     this.customerId = null;
     this.customerId = event.target.value;
-    this.customerList = this.getObjFromJsonArray(this.customerId);
-    this.customerList = this.customerList[0];
+    const tempArray = this.getObjFromJsonArray(this.customerId);
+    this.customerList = tempArray[0];
     this.customerId = this.customerList.id;
     this.companyName = this.customerList.company_name;
   }
@@ -133,8 +134,8 @@ export class AddOrderComponent implements OnInit {
   selectedCompanies(event) {
     this.companyName = null;
     this.companyName = event.target.value;
-    this.customerList = this.getCompanyFromCustomerObj(this.companyName);
-    this.customerList = this.customerList[0];
+    const tempArray  = this.getCompanyFromCustomerObj(this.companyName);
+    this.customerList = tempArray[0];
     this.customerId = this.customerList.id;
   }
 
@@ -153,7 +154,7 @@ export class AddOrderComponent implements OnInit {
         this.validateFlag = true;
       }
     } else {
-      obj.value.customer = this.customerList.id;
+      // obj.value.customer = this.customerList.id;
       this.orderServeice.updateOrder(this.orderList.id, obj.value).subscribe(res => {
         this.router.navigate(['/shopping-cart-orders']);
       });

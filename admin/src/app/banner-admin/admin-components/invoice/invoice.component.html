@@ -29,7 +29,14 @@
         <div class="row form-box mr-3" *ngIf="modelActive === 'customerStatus'">
             <label class="col-sm-4 col-form-label" for="order_status">Status :</label>
             <select class="form-control form-control-sm col-sm-8" id="customer-status" [(ngModel)]="status" placeholder="Select customer Status">
-                <option *ngFor="let status of customerStatusTypes | keyvalue" [value]="status.key">{{status.value}}</option>
+                <option *ngFor="let status of customerStatusTypes | keyvalue: asIsOrder" [value]="status.key">{{status.value}}</option>
+            </select>
+        </div>
+
+        <div class="row form-box mr-3" *ngIf="modelActive === 'orderProofStatus'">
+            <label class="col-sm-4 col-form-label" for="order_status">Status :</label>
+            <select class="form-control form-control-sm col-sm-8" id="customer-status" [(ngModel)]="status">
+                <option *ngFor="let status of proofStatusList | keyvalue: asIsOrder" [value]="status.key">{{status.value}}</option>
             </select>
         </div>
 

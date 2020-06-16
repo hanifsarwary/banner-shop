@@ -23,6 +23,7 @@ import { OrdersComponent } from './admin-components/orders/orders.component';
 import { AuthGuard } from '../shared';
 import { OrderDetailComponent } from './admin-components/orders/order-detail/order-detail.component';
 import { AddOrderComponent } from './admin-components/orders/add-order/add-order.component';
+import { CartWorkOrderComponent } from './admin-components/orders/cart-work-order/cart-work-order.component';
 
 const routes: Routes = [
     {
@@ -52,6 +53,7 @@ const routes: Routes = [
           { path: 'update-customer/:id/:operation', component: CustomersComponent, canActivate: [AuthGuard] },
           { path: 'shopping-cart-orders', component: OrdersComponent, canActivate: [AuthGuard] },
           { path: 'add-order', component: AddOrderComponent, canActivate: [AuthGuard] },
+          { path: 'cart-work-order/:id', component: CartWorkOrderComponent, canActivate: [AuthGuard]},
           { path: 'update-orders/:id/:operation', component: AddOrderComponent, canActivate: [AuthGuard] },
           { path: 'orders-detail/:id', component: OrderDetailComponent, canActivate: [AuthGuard] },
         ]

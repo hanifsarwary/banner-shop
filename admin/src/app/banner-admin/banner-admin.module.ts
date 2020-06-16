@@ -46,6 +46,7 @@ import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { OrdersComponent } from './admin-components/orders/orders.component';
 import { OrderDetailComponent } from './admin-components/orders/order-detail/order-detail.component';
 import { AddOrderComponent } from './admin-components/orders/add-order/add-order.component';
+import { CartWorkOrderComponent } from './admin-components/orders/cart-work-order/cart-work-order.component';
 @NgModule({
   declarations: [
     BannerAdminComponent,
@@ -74,7 +75,8 @@ import { AddOrderComponent } from './admin-components/orders/add-order/add-order
     AllCustomersComponent,
     OrdersComponent,
     AddOrderComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    CartWorkOrderComponent
   ],
   imports: [
     CommonModule,

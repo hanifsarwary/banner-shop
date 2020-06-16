@@ -241,6 +241,20 @@ export class DatatableComponent implements OnChanges {
     this.proofHistoryModalReference = this.modalService.open(targetModal);
   }
 
+  openOrderProofStatus(targetModal, objId, status) {
+    const modalOptions = { size: '', windowClass: ''};
+    modalOptions.size = targetModal === 'register' ? 'lg' : '';
+    modalOptions.windowClass = targetModal + '-modal';
+    const modalRef = this.modalService.open(InvoiceComponent, modalOptions);
+    modalRef.componentInstance.modalType = targetModal;
+    modalRef.componentInstance.modelActive = 'orderProofStatus';
+    modalRef.componentInstance.orderId = objId;
+    modalRef.componentInstance.status = status;
+    modalRef.componentInstance.proofStatusList = this.proofStatusList;
+    modalRef.componentInstance.operationType = 'Update Status';
+    modalRef.componentInstance.funtionType = 'updateoOrderProofStatus';
+  }
+
   openModalInvoice(targetModal, objId, invoiceNo) {
     const modalOptions = { size: '', windowClass: ''};
     modalOptions.size = targetModal === 'register' ? 'lg' : '';
