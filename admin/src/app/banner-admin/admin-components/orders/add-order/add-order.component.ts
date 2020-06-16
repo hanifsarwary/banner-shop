@@ -46,13 +46,13 @@ export class AddOrderComponent implements OnInit {
     private router: Router) {
 
     this.orderForm = this.fb.group({
-      product: [''],
+      // product: [''],
       due_date: [''],
       quoted_price: [''],
       internal_notes: [''],
       reference_number: [''],
       special_note: [''],
-      customer: [''],
+      // customer: [''],
       shipping_type: [''],
       shipping_contact_name: [''],
       shipping_street_address: [''],
@@ -154,7 +154,7 @@ export class AddOrderComponent implements OnInit {
         this.validateFlag = true;
       }
     } else {
-      obj.value.customer = this.customerList.id;
+      // obj.value.customer = this.customerList.id;
       this.orderServeice.updateOrder(this.orderList.id, obj.value).subscribe(res => {
         this.router.navigate(['/shopping-cart-orders']);
       });
