@@ -432,6 +432,7 @@ class ProductDetail extends React.Component {
           });
 
           if (res.status === 201) {
+            item["order_id"] = res.data.id;
             const order = res.data.id;
             const options = [];
 
