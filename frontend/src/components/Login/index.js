@@ -14,9 +14,9 @@ class Login extends React.Component {
 		error: false
 	}
 
-	onLogin = () => {
-		this.props.onLogin();
-	}
+	// onLogin = () => {
+	// 	this.props.onLogin();
+	// }
 
 	loginHandler = async () => {
 		try {
@@ -44,7 +44,7 @@ class Login extends React.Component {
 					localStorage.setItem('token', token);
 					localStorage.setItem('customer', JSON.stringify(customer));
 
-					this.onLogin();
+					this.props.onLogin(customer, user);
 					this.setState({
 						logged: false
 					});

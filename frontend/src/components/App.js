@@ -22,6 +22,7 @@ class App extends React.Component {
     error: false,
     message: 'Internal server error',
     isLoggedIn: false,
+    customer: {},
     user: {},
     products: [],
     previousPath: '/',
@@ -41,6 +42,7 @@ class App extends React.Component {
       }
 
       const user = jwtDecode(token);
+      this.cartHandle();
       if (user) {
         this.setState({
           user: user,
@@ -53,8 +55,10 @@ class App extends React.Component {
     }
   }
 
-  onLogin = () => {
+  onLogin = (customer, user) => {
     this.setState({
+      customer: customer,
+      user: user,
       isLoggedIn: true
     });
   }
