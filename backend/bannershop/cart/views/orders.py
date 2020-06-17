@@ -11,6 +11,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
 from datetime import date, timedelta
+from django.contrib.auth.models import User
 
 class OrderViewSet(ListAPIView):
 
