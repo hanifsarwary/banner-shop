@@ -163,8 +163,6 @@ export class FiltersBarComponent implements OnInit {
   applyFilters(value) {
     const extractUrl = this.router.url;
     const pathname = extractUrl.split('?') ? (extractUrl.split('?'))[0] : extractUrl;
-    console.log('========================');
-    console.log('pathname', pathname);
     switch (value) {
       case 'is_missing_deadline':
         this.router.navigate([`${pathname}`], { queryParams: { filter: JSON.stringify({'is_missing_deadline': true}) } });
