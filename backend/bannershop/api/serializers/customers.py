@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class CustomerSerializer(ModelSerializer):
 
     user = CreateUserSerializer()
+    
     class Meta:
         model = Customer
         fields = '__all__'
