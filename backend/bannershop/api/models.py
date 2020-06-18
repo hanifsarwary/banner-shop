@@ -142,6 +142,9 @@ class Customer(models.Model):
         (INACTIVE, 'In active')
 
     )
+    CUSTOMER_TYPES = (('Admin', 'Admin'),
+                      ('Broker', 'Broker'),
+                      ('Normal', 'Normal'))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
@@ -157,7 +160,9 @@ class Customer(models.Model):
     resale_no = models.CharField(max_length=256, null=True, blank=True)
     second_email = models.EmailField(null=True, blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=ACTIVE)
+    
     third_email = models.EmailField(null=True, blank=True)
+    customer_type = models.CharField(max_length=8, default='Normal', choices=CUSTOMER_TYPES)
     zip_code = models.CharField(max_length=16, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)

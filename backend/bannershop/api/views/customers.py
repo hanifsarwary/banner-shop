@@ -78,6 +78,16 @@ class CustomerStatusViewSet(APIView):
         return Response({'types': return_dict})
 
 
+class CustomerTypesViewSet(APIView):
+
+    def get(self, request):
+
+        return_dict = dict()
+        for a, b in Customer.CUSTOMER_TYPES:
+            return_dict.setdefault(a, b) 
+        return Response({'types': return_dict})
+
+
 class CustomerStatusUpdateViewSet(RetrieveUpdateDestroyAPIView):
 
     serializer_class = CustomerSerializer
