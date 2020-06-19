@@ -7,7 +7,7 @@ from api.views.custom_quotes import CustomQuoteViewSet
  
 from api.views.customers import (
     CustomerListViewSet, CompanyNamesListView, CustomerStatusViewSet, CustomerRetriveUserIDViewSet,
-    CustomerStatusUpdateViewSet, CustomerTypesViewSet)
+    CustomerStatusUpdateViewSet, CustomerTypesViewSet, CustomerFiltersViewSet)
 from api.views.products import (
     ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet,
      ProductDetailViewSet, AllOptionListView, GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, 
@@ -66,6 +66,7 @@ urlpatterns = [
     path('customers/company-names/', CompanyNamesListView.as_view()),
     path('customers/<int:pk>/', CustomerStatusUpdateViewSet.as_view()),
     path('users/customers/<int:user_id>/', CustomerRetriveUserIDViewSet.as_view()),
+    path('customers/filters/', CustomerFiltersViewSet.as_view()),
     
     path('send-custom-order-email/', SendOrderEmail.as_view()),
     
