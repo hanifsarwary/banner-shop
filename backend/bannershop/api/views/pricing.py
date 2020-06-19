@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.models import Product, SubOption, Option, TwoDependentSubOption, ThreeDependentSubOption
+from api.models import Product, SubOption, Option, TwoDependentSubOption, ThreeDependentSubOption, Customer
 from api.constants import *
 import traceback
 
@@ -71,7 +71,6 @@ class CalculatePriceViewSet(APIView):
                     request.data['options'].pop('Quantity')
             
             total_price = basic_price
-            print(total_price)
             percentage_temp_arr = []
             basic_percentage_temp_arr = []
             multi_basic_arr = []
@@ -105,12 +104,7 @@ class CalculatePriceViewSet(APIView):
                             total_price = total_price + quantity * request.data.get('options').get(oq.option_name)[1]
                     else:
                         total_price = total_price + quantity * request.data.get('options').get(oq.option_name, 0)
-                print(oq.option_name)
-                print(oq.option_type)
-                print(total_price)
-
-            print(multi_basic_arr)
-            
+               
             if basic_percentage_temp_arr and basic_percentage_temp_arr[0]:
                 for i in basic_percentage_temp_arr:
                     total_price = total_price + basic_price * (i / 100)    
@@ -120,8 +114,15 @@ class CalculatePriceViewSet(APIView):
             total_price = total_price + product.setup_cost + one_time_charge
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)  
-            print(total_price)
-               
-            return Response({"price": format(round(total_price, 2), '.2f')})
+            discount = None
+            if request.data.get('customer'):
+                customer = Customer.objects.filter(id=request.data.get('customer')).first()
+                if customer.discount_percentage > 0:
+                    discount = total_price - (total_price * (customer.discount_percentage / 100))
+                    discount = format(round(discount, 2), '.2f')
+            
+            return Response({"price": format(round(total_price, 2), '.2f'), 
+                             "discounted-price": discount
+            })
         except Exception as e:
             return Response({"price": 0, "error message": str(e), "trackback": traceback.format_exc()})

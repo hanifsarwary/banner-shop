@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class CustomerSerializer(ModelSerializer):
 
     user = CreateUserSerializer()
+    
     class Meta:
         model = Customer
         fields = '__all__'
@@ -31,6 +32,7 @@ class CustomerSerializer(ModelSerializer):
         instance.status = validated_data.get('status', instance.status)
         instance.third_email = validated_data.get('third_email', instance.third_email)
         instance.zip_code = validated_data.get('zip_code', instance.zip_code)
+        instance.discount_percentage = validated_data.get('discount_percentage', instance.zip_code)
         if user_data:
             instance.user.first_name = user_data.get('first_name', instance.user.first_name)
             instance.user.last_name = user_data.get('last_name', instance.user.last_name)

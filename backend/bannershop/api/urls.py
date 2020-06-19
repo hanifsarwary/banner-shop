@@ -7,7 +7,7 @@ from api.views.custom_quotes import CustomQuoteViewSet
  
 from api.views.customers import (
     CustomerListViewSet, CompanyNamesListView, CustomerStatusViewSet, CustomerRetriveUserIDViewSet,
-    CustomerStatusUpdateViewSet)
+    CustomerStatusUpdateViewSet, CustomerTypesViewSet)
 from api.views.products import (
     ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet,
      ProductDetailViewSet, AllOptionListView, GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, 
@@ -35,34 +35,38 @@ urlpatterns = [
     path('categories/<int:pk>/', CategoryDetailViewSet.as_view()),
     path('categories/<int:category_id>/sub-categories/', SubCategoryListViewSet.as_view()),
     path('category-subcategory-products/', CategorySubCategoryProductViewSet.as_view()),
+    
     path('contact-requests/', ContactRequestViewSet.as_view()),
     path('contact-requests/<int:pk>/', ContactRequestDetailViewSet.as_view()),
+    
     path('custom-quotes/', CustomQuoteViewSet.as_view()),
     path('custom-orders/', csrf_exempt(CustomOrderListViewSet.as_view())),
     path('custom-orders/create/', CustomOrderCreateViewSet.as_view()),
     path('custom-orders/<int:pk>/', CustomOrderDetailViewSet.as_view()),
-    # path('custom-orders/<int:custom_order_id>/invoice/', CustomOrderInvoice.as_view()),
     path('custom-orders/update/<int:pk>/', CustomOrderUpdateViewSet.as_view()),
     path('custom-orders/proof-status/update/<int:pk>/', UpdateProofStatusViewSet.as_view()),
     path('custom-orders/proof-status/proof-approved_date/<int:custom_order>/', 
          ProofApprovedDateViewSet.as_view()),
     path('custom-orders-types/', GetOrderTypes.as_view()),
     path('customer-status-types/', CustomerStatusViewSet.as_view()),
+    path('customer-types/', CustomerTypesViewSet.as_view()),
     path('get-latest-job-number/', GetLatestJobNumber.as_view()),
     path('proof-status-types/', GetProofStatusTypes.as_view()),
     path('custom-orders/proof-history/<int:custom_order_id>/', ProofHistoryListView.as_view()),
     path('custom-orders/packing-list/<int:custom_order_id>/', PackingListViewSet.as_view()),
+    
+    
     path('packing-lists/boxes/<int:packing_list_id>/', BoxesListViewSet.as_view()),
     path('packing-lists/<int:pk>/update/', PackingListDetailViewSet.as_view()),
     path('boxes/<int:pk>/', BoxesDetailViewSet.as_view()),
     path('boxes/bulk-create/', BoxesBulkCreate.as_view()),
+    
+    
     path('customers/', CustomerListViewSet.as_view()),
     path('customers/company-names/', CompanyNamesListView.as_view()),
     path('customers/<int:pk>/', CustomerStatusUpdateViewSet.as_view()),
     path('users/customers/<int:user_id>/', CustomerRetriveUserIDViewSet.as_view()),
     
-    # path('invoices/', InvoiceListViewSet.as_view()),
-    # path('invoices/<int:pk>/', InvoiceDetailViewSet.as_view()),
     path('send-custom-order-email/', SendOrderEmail.as_view()),
     
     path('options/', AllOptionListView.as_view()),
