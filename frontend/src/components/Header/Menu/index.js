@@ -12,7 +12,6 @@ class Menu extends React.Component {
     async componentDidMount() {
         bannerShop.get('/api/category-subcategory-products')
             .then(res => {
-                console.log(res.data.results);
                 this.setState({ categories: res.data.results, loaded: true });
             })
             .catch(error => {

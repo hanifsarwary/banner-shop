@@ -71,6 +71,34 @@ section {
     height: auto;
 }
 
+.cutted-price { 
+    position: relative; 
+}
+
+.cutted-price::after {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+}
+
+.cutted-price-dark { 
+    position: relative; 
+}
+
+.cutted-price-dark::after {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: #555555;
+}
+
 .main_menu li {
     padding: 0;
 }

@@ -55,14 +55,14 @@ class Category extends React.Component {
                     <h2 className="l-text2 t-center">
                         BANNERS PRINTING
                     </h2>
-                    <p className="m-text13 t-center" style={{ fontSize: '15px', marginTop: '20px' }}>
+                    {/* <p className="m-text13 t-center" style={{ fontSize: '15px', marginTop: '20px' }}>
                         BannerShopusa.com has provided full color banner signs using our vinyl banner printing technology for all types of different customers all across the country. Whether you need a trade show banner, a banner for inside your business, or a banner sturdy enough to be displayed outside of your store, BannerShopusa.com offers high-resolution, high-quality banners in full color and for a much lower price than your local sign or print shop. Make a strong impact and make sure that your message is getting across to your target audience.
-                    </p>
+                    </p> */}
                 </section>
                 <section className="bgwhite p-t-55 p-b-65">
                     <div className="container">
                         <div className="row">
-                            <CategorySideBar />
+                            {/* <CategorySideBar /> */}
                             <CategoryProducts items={this.state.categoryItems} loaded={this.state.loaded} />
                         </div>
                     </div>

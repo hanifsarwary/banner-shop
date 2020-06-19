@@ -123,7 +123,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/" exact>
             <FeatureProduct errorMount={this.errorMount} />
-            <Feature />
+            {/* <Feature /> */}
           </Route>
           <Route path="/shop/cart" exact>
             <Cart

@@ -12,6 +12,7 @@ class ProductDetail extends React.Component {
     reference_number: '',
     detail: {},
     total: 0,
+    discounted: null,
     cartAdd: false,
     valid: true,
     required: false,
@@ -79,8 +80,16 @@ class ProductDetail extends React.Component {
         product_name: productsData.product_name,
         options: {}
       };
+
+      const customerRes = localStorage.getItem('customer');
+      if (customerRes) {
+        const customer = JSON.parse(customerRes);
+        priceCalcObj.customer = customer.id;
+      }
+
       const new_options = [];
       let newTotal = 0;
+      let discounted = null;
       const optionState = {};
       let quantity = {};
       const optDet = [];
@@ -126,9 +135,11 @@ class ProductDetail extends React.Component {
               const priceData = await price;
 
               newTotal = priceData.data.price;
+              discounted = priceData.data['discounted-price'];
 
               this.setState({
                 total: newTotal,
+                discounted: discounted,
                 priceCalc: priceCalcObj,
                 optionState: optionState,
                 quantity: quantity,
@@ -169,9 +180,11 @@ class ProductDetail extends React.Component {
               const priceData = await price;
 
               newTotal = priceData.data.price;
+              discounted = priceData.data['discounted-price'];
 
               this.setState({
                 total: newTotal,
+                discounted: discounted,
                 priceCalc: priceCalcObj,
                 optionState: optionState,
                 quantity: quantity,
@@ -423,10 +436,10 @@ class ProductDetail extends React.Component {
             shipping_type: null,
             is_cart: true,
             // user: parseInt(user.user_id),
-            customer: customer.customer_id,
+            customer: customer.id,
             product: this.props.match.params.id
           });
-      
+
           const res = await bannerShop.post('/cart-apis/orders/add/', body, {
             headers: { 'Content-Type': 'multipart/form-data' }
           });
@@ -507,7 +520,7 @@ class ProductDetail extends React.Component {
     if (this.state.loaded) {
       return (
         <div className="container bgwhite p-t-35 p-b-80">
-          <span className="floating-price m-text17" style={{ display: 'flex' }}>
+          <span className="floating-price m-text17">
             {this.state.priceLoad ? (
               <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
                 <Loader type="TailSpin" color="#fff" height={20} width={20} />
@@ -515,8 +528,22 @@ class ProductDetail extends React.Component {
             ) : (
                 ""
               )}
-            Price:
-            ${this.state.total}
+
+            {!this.state.priceLoad ? (
+              <span className={this.state.discounted ? 'cutted-price' : ''}>
+                Price: ${this.state.total}
+              </span>
+            ) : (
+                ""
+              )}
+
+            {(this.state.discounted && !this.state.priceLoad) ? (
+              <React.Fragment>
+                <span style={{ display: 'block' }}>
+                  Discounted: ${this.state.discounted}
+                </span>
+              </React.Fragment>
+            ) : ("")}
           </span>
           <div className="flex-w flex-sb">
             <div className="w-size13 p-t-30 respon5">
@@ -543,15 +570,30 @@ class ProductDetail extends React.Component {
               </h4>
               <span className="m-text17" style={{ display: 'flex' }}>
                 {this.state.priceLoad ? (
-                  <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
+                  <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px', marginLeft: '10px' }}>
                     <Loader type="TailSpin" color="#000" height={20} width={20} />
                   </div>
                 ) : (
                     ""
                   )}
+
+                {(!this.state.priceLoad) ? (
+                  <span className={this.state.discounted ? 'cutted-price-dark' : ''}>
+                    Original Price:
                 ${this.state.total}
+                  </span>
+                ) : (
+                    ""
+                  )}
+
               </span>
 
+              {(this.state.discounted && !this.state.priceLoad) ? (
+                <span className="m-text17">
+                  Discounted Price:
+                ${this.state.discounted}
+                </span>
+              ) : ("")}
               <div className="p-b-15" style={{ marginTop: '10px' }}>
 
               </div>

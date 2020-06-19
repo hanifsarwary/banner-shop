@@ -87,9 +87,9 @@ class Contact extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-md-6 p-b-30">
-                <div className="p-r-20 p-r-0-lg">
-                  <div className="contact-map size21" id="google_map" data-map-x="40.614439" data-map-y="-73.926781" data-pin="images/icons/icon-position-map.png" data-scrollwhell="0" data-draggable="1"></div>
-                </div>
+                
+                <img src="/images/undraw_contact_us.png" alt="IMG-ABOUT" style={{ width: '100%', height: 'auto' }}/>
+                
               </div>
 
               <div className="col-md-6 p-b-30">

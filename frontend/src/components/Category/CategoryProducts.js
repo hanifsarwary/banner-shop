@@ -32,7 +32,9 @@ const CategoryProducts = (props) => {
                                                     {item.product_description}
                                                 </div> */}
                                                 <Truncate lines={3} ellipsis={<span>... <Link to={`/product/${item.id}`}>Read more</Link></span>}>
-                                                    {item.product_description}
+                                                    
+                                                    <span dangerouslySetInnerHTML={{ __html: item.product_description }}></span>
+
                                                 </Truncate>
                                                 {/* <span className="block2-price m-text6 p-r-5 mt-1" style={{ fontWeight: 'bold', color: '#e65540' }}>
                                                     {`$${item.one_unit_weight}`}
