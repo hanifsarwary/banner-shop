@@ -520,7 +520,7 @@ class ProductDetail extends React.Component {
     if (this.state.loaded) {
       return (
         <div className="container bgwhite p-t-35 p-b-80">
-          <span className="floating-price m-text17">
+          <span className="floating-price m-text17" style={{ fontSize: '20px' }}>
             {this.state.priceLoad ? (
               <div className="loader-container" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', marginRight: '10px' }}>
                 <Loader type="TailSpin" color="#fff" height={20} width={20} />
@@ -530,8 +530,8 @@ class ProductDetail extends React.Component {
               )}
 
             {!this.state.priceLoad ? (
-              <span className={this.state.discounted ? 'cutted-price' : ''}>
-                Price: ${this.state.total}
+              <span>
+                Original Price: ${this.state.total}
               </span>
             ) : (
                 ""
@@ -540,7 +540,7 @@ class ProductDetail extends React.Component {
             {(this.state.discounted && !this.state.priceLoad) ? (
               <React.Fragment>
                 <span style={{ display: 'block' }}>
-                  Discounted: ${this.state.discounted}
+                  Discounted Price: ${this.state.discounted}
                 </span>
               </React.Fragment>
             ) : ("")}
@@ -578,9 +578,9 @@ class ProductDetail extends React.Component {
                   )}
 
                 {(!this.state.priceLoad) ? (
-                  <span className={this.state.discounted ? 'cutted-price-dark' : ''}>
-                    Original Price:
-                ${this.state.total}
+                  <span>
+                    Price:
+                    <span style={{ marginLeft: '5px' }} className={this.state.discounted ? 'cutted-price-dark' : ''}>${this.state.total}</span>
                   </span>
                 ) : (
                     ""
@@ -590,7 +590,7 @@ class ProductDetail extends React.Component {
 
               {(this.state.discounted && !this.state.priceLoad) ? (
                 <span className="m-text17">
-                  Discounted Price:
+                  
                 ${this.state.discounted}
                 </span>
               ) : ("")}
