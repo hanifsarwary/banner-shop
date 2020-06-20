@@ -13,22 +13,20 @@ const About = () => {
           <div className="row">
             <div className="col-md-4 p-b-30">
               <div className="hov-img-zoom">
-                <img src="/images/banner-14.jpg" alt="IMG-ABOUT" />
+                <img src="/images/logo.png" alt="IMG-ABOUT" />
               </div>
             </div>
 
             <div className="col-md-8 p-b-30">
-              <h3 className="m-text26 p-t-15 p-b-16">About Bannershop</h3>
+              <h3 className="m-text26 p-t-15 p-b-16">About 4ColorClub</h3>
 
               <p className="p-b-28">
-                Banner Shop is your one-stop solution for all your signage and print needs in the Bay Area, including San Francisco, San Jose and Oakland.  From vinyl banner printing, outdoor sign displays to expandable and retractable banner stand, we produce quality media at affordable prices. 
-              </p>
+              At 4ColorClub.com we are here to meet every and any of your printing needs. With our state of the art facilities and our convenient location in the heart of the Bay Area, we will bring you the highest level of customer service and help you achieve the goals you set forth. With over 20 years in the industry, we have the knowledge and the tools to provide you with piece of mind when it comes to your printing needs.               </p>
               
               <p className="p-b-28">
-              Since 1993, Banner Shop of San Francisco has been producing high-quality signage and other print media for Bay Area businesses.  With an in-house design team, digital printing, and installation included with orders, we provide a fast turnaround time for any vinyl banner printing and stands.
-              </p>
+              4ColorClub has also adopted a green mantra! We exercise environmentally conscious printing methods so that we can give back to our communities and keep our planet strong and healthy. We use no VOC (Volatile Organic Compound) solvents and ultra-low VOC soy-based inks so that we can reduce pollution and the contamination of our water and soil from dangerous chemicals.               </p>
 
-              <h6 className="p-t-15 p-b-16">Vinyl Banner Printing</h6>
+              {/* <h6 className="p-t-15 p-b-16">Vinyl Banner Printing</h6>
               <p className="p-b-28">
                 A full color banner is an effective way to attract attention for your business.  It is an advertising tool that is guaranteed to increase foot traffic and increase top of mind awareness.  At the same time, a poorly printed banner quickly diminishes the outward perception of your business.  At Banner Shop, we provide full color, digital vinyl banner printing that uses high quality materials and fade resistant inks.  Each banner is weather proof, suitable as an indoor or outdoor sign.  We can complete any vinyl banner printing within 1-3 business days.
               </p>
@@ -45,7 +43,7 @@ const About = () => {
 
               <p className="p-b-28">
               Contact Banner Shop today for your Bay Area outdoor sign, large photo printing and other vinyl banner printing needs!
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

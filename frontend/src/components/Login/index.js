@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import bannerShop from '../../api/bannerShop';
 import Loader from 'react-loader-spinner';
+import jwtDecode from 'jwt-decode';
 
 class Login extends React.Component {
 	state = {
@@ -13,9 +14,9 @@ class Login extends React.Component {
 		error: false
 	}
 
-	onLogin = () => {
-		this.props.onLogin();
-	}
+	// onLogin = () => {
+	// 	this.props.onLogin();
+	// }
 
 	loginHandler = async () => {
 		try {
@@ -32,12 +33,18 @@ class Login extends React.Component {
 				const res = await bannerShop.post('/api/auth/token/obtain/', {
 					username: this.state.email,
 					password: this.state.password
-				})
+				});
 
 				if (res.status === 200) {
 					const token = res.data.token;
+					const user = jwtDecode(token);
+					const customerRes = await bannerShop.get('/api/users/customers/' + user.user_id);
+					const customer = customerRes.data;
+					
 					localStorage.setItem('token', token);
-					this.onLogin();
+					localStorage.setItem('customer', JSON.stringify(customer));
+
+					this.props.onLogin(customer, user);
 					this.setState({
 						logged: false
 					});
@@ -50,7 +57,6 @@ class Login extends React.Component {
 				}
 			}
 		} catch (error) {
-			console.log(error);
 			if(error.response.status === 400) {
 				this.setState({
 					logged: false,

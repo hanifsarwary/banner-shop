@@ -17,6 +17,7 @@ class Cart extends React.Component {
         order: {},
         shipping: 'No Shipment',
         shipForm: false,
+        deleting: false,
         user: null,
         shipping_id: null,
         shipping_contact_name: '',
@@ -109,37 +110,51 @@ class Cart extends React.Component {
         return new File([u8arr], filename, { type: mime });
     }
 
-    deleteCarthand = (e) => {
-        let cart = {};
-        let newTotal = 0;
-        let newGrand = 0;
+    deleteCarthand = async (e) => {
+        try {
+            this.setState({
+                deleting: true
+            });
 
-        cart.cartItems = [];
-        cart.total = 0;
+            let cart = {};
+            let newTotal = 0;
+            let newGrand = 0;
 
-        const id = parseInt(e.target.getAttribute('data-id'));
-        const cartItems = this.state.cartItems.filter((item) => item.id !== id);
-        const finded = this.state.cartItems.filter((item) => item.id === id);
-
-        newTotal = this.state.subTotal - finded[0].price;
-        cart.total = newTotal;
-        if (newTotal === 0) {
-            newGrand = 0;
-        } else {
-            newGrand = this.state.total - finded[0].price;
-        }
-
-        this.setState({
-            cartItems: cartItems,
-            total: newGrand,
-            subTotal: newTotal
-        });
-
-        if (cartItems.length === 0) {
+            cart.cartItems = [];
             cart.total = 0;
+
+            const id = parseInt(e.target.getAttribute('data-id'));
+            const order_id = parseInt(e.target.getAttribute('data-order-id'));
+            const res = await bannerShop.delete('/cart-apis/orders/' + order_id);
+
+            if (res && res.status === 204) {
+                const cartItems = this.state.cartItems.filter((item) => item.id !== id);
+                const finded = this.state.cartItems.filter((item) => item.id === id);
+
+                newTotal = this.state.subTotal - finded[0].price;
+                cart.total = newTotal;
+                if (newTotal === 0) {
+                    newGrand = 0;
+                } else {
+                    newGrand = this.state.total - finded[0].price;
+                }
+
+                this.setState({
+                    cartItems: cartItems,
+                    total: newGrand,
+                    subTotal: newTotal
+                });
+
+                if (cartItems.length === 0) {
+                    cart.total = 0;
+                }
+                cart.cartItems = cartItems;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                this.props.cartHandle();
+            }
+        } catch (error) {
+            console.log(error);
         }
-        cart.cartItems = cartItems;
-        localStorage.setItem('cart', JSON.stringify(cart));
     }
 
     onShippingSelect = (e) => {
@@ -228,8 +243,9 @@ class Cart extends React.Component {
                 orderLoad: true
             });
 
-            const customerRes = await bannerShop.get('/api/users/customers/' + this.state.user.user_id);
-            const customer_id = customerRes.data.id;
+            const customerRes = localStorage.getItem('customer');
+            const customer = JSON.parse(customerRes);
+            const customer_id = customer.id;
 
             if (this.state.shipping !== 'No Shipment') {
                 if (this.state.shipping_id) {
@@ -279,8 +295,7 @@ class Cart extends React.Component {
                     shipping: this.state.shipping
                 });
 
-                localStorage.removeItem('cart');
-                this.props.cartHandle();
+                this.props.clearCart();
                 this.setState({
                     orderLoad: false,
                     completed: true,
@@ -423,9 +438,14 @@ class Cart extends React.Component {
                                                         return (
                                                             <tr className="table-row" key={item.id}>
                                                                 <td className="column-1">
-                                                                    <div className="cart-img-product b-rad-4 o-f-hidden" data-id={item.id} onClick={this.deleteCarthand}>
-                                                                        <img src={item.imgURL} alt="IMG-PRODUCT" />
-                                                                    </div>
+                                                                    {this.state.deleting ? (
+                                                                        <Loader type="TailSpin" color="#e65540" height={80} width={80} />
+                                                                    ) : (
+                                                                            <div className="cart-img-product b-rad-4 o-f-hidden" data-order-id={item.order_id} data-id={item.id} onClick={this.deleteCarthand}>
+                                                                                <img src={item.imgURL} alt="IMG-PRODUCT" />
+                                                                            </div>
+
+                                                                        )}
                                                                 </td>
                                                                 <td className="column-2">{item.name}</td>
                                                                 <td className="column-3">{item.qty}</td>

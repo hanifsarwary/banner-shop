@@ -1,9 +1,11 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
+import Truncate from 'react-truncate';
 import { BASE_URL } from '../../config';
 
 const CategoryProducts = (props) => {
+    console.log(props);
     if (props.loaded) {
         return (
             <div className="col-sm-6 col-md-8 col-lg-9 p-b-50">
@@ -26,35 +28,26 @@ const CategoryProducts = (props) => {
                                                 <Link to={`/product/${item.id}`} className="block2-name dis-block s-text3 p-b-5" style={{ textTransform: 'capitalize' }}>
                                                     {item.product_name}
                                                 </Link>
-                                                <ul className="product-feature">
-                                                    {/* 'Size: 33.5" X 80"', 'Included Carrying Bags', '6-Month Hardware Warranty', 'Lightweight & Portable' */}
-                                                    <li >
-                                                        <i className="fa fa-check"></i>
-                                                        <span>Included Carrying Bags</span>
-                                                    </li>
-                                                    <li >
-                                                        <i className="fa fa-check"></i>
-                                                        <span>6-Month Hardware Warranty</span>
-                                                    </li>
-                                                    <li >
-                                                        <i className="fa fa-check"></i>
-                                                        <span>Lightweight &amp; Portable</span>
-                                                    </li>
-        
-                                                </ul>
-        
-                                                <span className="block2-price m-text6 p-r-5 mt-1" style={{ fontWeight: 'bold', color: '#e65540' }}>
+                                                {/* <div>
+                                                    {item.product_description}
+                                                </div> */}
+                                                <Truncate lines={3} ellipsis={<span>... <Link to={`/product/${item.id}`}>Read more</Link></span>}>
+                                                    
+                                                    <span dangerouslySetInnerHTML={{ __html: item.product_description }}></span>
+
+                                                </Truncate>
+                                                {/* <span className="block2-price m-text6 p-r-5 mt-1" style={{ fontWeight: 'bold', color: '#e65540' }}>
                                                     {`$${item.one_unit_weight}`}
-                                                </span>
+                                                </span> */}
                                             </div>
                                         </div>
                                     </div>
                                 );
                             })}
                         </React.Fragment>
-                    ): (
-                     <h1>No Products</h1>
-                    )}
+                    ) : (
+                            <h1>No Products</h1>
+                        )}
                 </div>
             </div>
         );

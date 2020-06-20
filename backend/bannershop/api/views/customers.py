@@ -8,6 +8,7 @@ from api.serializers.customers import CustomerSerializer, CustomerStatusUpdateSe
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from api.views.custom_orders import CustomOrderListViewSet
+from rest_framework.permissions import IsAdminUser
 
 class CustomerListViewSet(ListCreateAPIView):
     
@@ -36,6 +37,16 @@ class CustomerStatusViewSet(APIView):
 
         return_dict = dict()
         for a, b in Customer.STATUS_CHOICES:
+            return_dict.setdefault(a, b) 
+        return Response({'types': return_dict})
+
+
+class CustomerTypesViewSet(APIView):
+
+    def get(self, request):
+
+        return_dict = dict()
+        for a, b in Customer.CUSTOMER_TYPES:
             return_dict.setdefault(a, b) 
         return Response({'types': return_dict})
 
