@@ -322,8 +322,7 @@
             <ng-container matColumnDef="create_packing_list">
                 <th mat-header-cell *matHeaderCellDef> Create Packing List </th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" [routerLink]="['/packing-list/', element.id]"
-                    [queryParams]="{obj: stringify(element)}">Go</a>
+                    <a href="javascript:;" [routerLink]="['/packing-list/', element.id]">Go</a>
                 </td>
             </ng-container>
 
