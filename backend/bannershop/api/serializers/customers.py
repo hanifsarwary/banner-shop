@@ -32,17 +32,18 @@ class CustomerSerializer(ModelSerializer):
         instance.status = validated_data.get('status', instance.status)
         instance.third_email = validated_data.get('third_email', instance.third_email)
         instance.zip_code = validated_data.get('zip_code', instance.zip_code)
-        instance.discount_percentage = validated_data.get('discount_percentage', instance.zip_code)
+        instance.discount_percentage = validated_data.get('discount_percentage', instance.discount_percentage)
+        instance.customer_type = validated_data.get('customer_type', instance.customer_type)
+        
         if user_data:
             instance.user.first_name = user_data.get('first_name', instance.user.first_name)
             instance.user.last_name = user_data.get('last_name', instance.user.last_name)
             instance.user.email = user_data.get('email', instance.user.email)
+            instance.user.is_superuser = user_data.get('is_superuser', instance.user.is_superuser)
             instance.user.save()
         instance.save()
         return instance
 
-
-        return instance
 
         
 class CustomerStatusUpdateSerializer(ModelSerializer):

@@ -115,14 +115,16 @@ class CalculatePriceViewSet(APIView):
             for i in percentage_temp_arr:
                 total_price = total_price + total_price * (i / 100)  
             discount = None
+            discount_percentage = 0
             if request.data.get('customer'):
                 customer = Customer.objects.filter(id=request.data.get('customer')).first()
                 if customer.discount_percentage > 0:
                     discount = total_price - (total_price * (customer.discount_percentage / 100))
                     discount = format(round(discount, 2), '.2f')
+                    discount_percentage = customer.discount_percentage
             
             return Response({"price": format(round(total_price, 2), '.2f'), 
-                             "discounted-price": discount
+                             "discounted-price": discount, 'percentage': discount_percentage
             })
         except Exception as e:
             return Response({"price": 0, "error message": str(e), "trackback": traceback.format_exc()})
