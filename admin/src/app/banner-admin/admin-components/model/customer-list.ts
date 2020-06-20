@@ -20,4 +20,6 @@ export class CustomerList {
     second_email?: '';
     third_email?: '';
     bussiness_type?: '';
+    customer_type?: '';
+    discount_percentage?: '';
 }
