@@ -13,6 +13,7 @@ class ProductDetail extends React.Component {
     detail: {},
     total: 0,
     discounted: null,
+    percentage: null,
     cartAdd: false,
     valid: true,
     required: false,
@@ -90,6 +91,7 @@ class ProductDetail extends React.Component {
       const new_options = [];
       let newTotal = 0;
       let discounted = null;
+      let percentage = null;
       const optionState = {};
       let quantity = {};
       const optDet = [];
@@ -136,10 +138,12 @@ class ProductDetail extends React.Component {
 
               newTotal = priceData.data.price;
               discounted = priceData.data['discounted-price'];
+              percentage = priceData.data.percentage;
 
               this.setState({
                 total: newTotal,
                 discounted: discounted,
+                percentage: percentage,
                 priceCalc: priceCalcObj,
                 optionState: optionState,
                 quantity: quantity,
@@ -181,10 +185,12 @@ class ProductDetail extends React.Component {
 
               newTotal = priceData.data.price;
               discounted = priceData.data['discounted-price'];
+              percentage = priceData.data.percentage;
 
               this.setState({
                 total: newTotal,
                 discounted: discounted,
+                percentage: percentage,
                 priceCalc: priceCalcObj,
                 optionState: optionState,
                 quantity: quantity,
@@ -580,7 +586,8 @@ class ProductDetail extends React.Component {
                 {(!this.state.priceLoad) ? (
                   <span>
                     Price:
-                    <span style={{ marginLeft: '5px' }} className={this.state.discounted ? 'cutted-price-dark' : ''}>${this.state.total}</span>
+                    <span style={{ marginLeft: '8px', marginRight: '8px', color: '#8c8c8c' }} className={this.state.discounted ? 'cutted-price-dark' : ''}>${this.state.total}</span>
+                    <span>{this.state.percentage}%</span>
                   </span>
                 ) : (
                     ""
