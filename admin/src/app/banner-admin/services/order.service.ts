@@ -36,6 +36,10 @@ export class OrderService {
     return this.httpClient.post<any>(`${this.global.customers}`, obj, { headers: this.global.httpHeaders() });
   }
 
+  getCustomersTypes() {
+    return this.httpClient.get<any>(`${this.global.customerTypes}/`, { headers: this.global.httpHeaders() });
+  }
+
   // Custom Orders API's
 
   getCustomOrder(obj): Observable<any> {

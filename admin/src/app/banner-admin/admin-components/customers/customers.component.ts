@@ -19,13 +19,16 @@ export class CustomersComponent implements OnInit {
   usernameError = false;
   statusList = [];
   updateList = [];
+  customerTypes;
   customerList: CustomerList;
   customerId;
   userList: UserList;
   operation = 'Add';
+  customerType;
   opeFlag = false;
   passwordFlag = false;
   loader = false;
+  maxNumber = false;
 
 
   constructor(private fb: FormBuilder,
@@ -40,7 +43,8 @@ export class CustomersComponent implements OnInit {
         last_name: ['', Validators.required],
         email: ['', Validators.compose([Validators.required,
                     Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
-        password: ['', Validators.required]
+        password: ['', Validators.required],
+        is_superuser: [false],
       }),
       status: [],
       company_name: [''],
@@ -57,11 +61,14 @@ export class CustomersComponent implements OnInit {
       third_email: ['', Validators.compose([
                         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
       bussiness_type: [''],
+      customer_type: [''],
+      discount_percentage: [0, [Validators.max(100)]]
     });
    }
 
   ngOnInit(): void {
     this.getStatus();
+    this.getCustomerTypes();
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.operation = params['operation'];
@@ -74,6 +81,16 @@ export class CustomersComponent implements OnInit {
     });
   }
 
+  maxValue() {
+    console.log('-------------------');
+    console.log(this.customerForm.get('discount_percentage').value);
+    if (this.customerForm.get('discount_percentage').value > 100) {
+      this.maxNumber = true;
+    } else {
+      this.maxNumber = false;
+    }
+  }
+
   getCustomerById(id) {
     this.loader = true;
     this.orderServeice.getCustomers(id).subscribe(res => {
@@ -81,6 +98,28 @@ export class CustomersComponent implements OnInit {
       this.userList = this.customerList.user;
       this.loader = false;
     });
+  }
+
+  getCustomerTypes() {
+    this.orderServeice.getCustomersTypes().subscribe(res => {
+      this.customerTypes = res.types;
+    });
+  }
+
+  cutomerTypesChange(event) {
+    this.customerType = event.target.value;
+    if (this.customerType === 'Admin') {
+      this.customerForm.patchValue({
+        customer_type: this.customerType,
+        discount_percentage: 0,
+        user: { is_superuser: true }
+      });
+    } else {
+      this.customerForm.patchValue({
+        customer_type: this.customerType,
+        user: { is_superuser: false }
+      });
+    }
   }
 
   getStatus() {

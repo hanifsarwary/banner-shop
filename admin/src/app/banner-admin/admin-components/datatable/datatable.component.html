@@ -12,7 +12,7 @@
             <ng-container matColumnDef="order_code">
                 <th mat-header-cell *matHeaderCellDef> Work Order </th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" [routerLink]="['/cart-work-order/', element.id]"><small class="font-size-10">{{element.id}}</small></a>
+                    <a href="javascript:;" [routerLink]="['/cart-work-order/', element.id]"><span>{{element.id}}</span></a>
                 </td>
             </ng-container>
 
@@ -181,7 +181,7 @@
             <ng-container matColumnDef="work_order">
                 <th mat-header-cell *matHeaderCellDef> Work Order </th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" [routerLink]="['/work-orders/', element.id]"><small class="font-size-10">{{element.id}}</small></a></td>
+                    <a href="javascript:;" [routerLink]="['/work-orders/', element.id]"><span>{{element.id}}</span></a></td>
             </ng-container>
 
             <ng-container matColumnDef="invoice_no">
@@ -228,7 +228,7 @@
 
             <ng-container matColumnDef="due_date">
                 <th mat-header-cell *matHeaderCellDef> Due Date </th>
-                <td mat-cell *matCellDef="let element">{{element.due_date}}</td>
+                <td mat-cell *matCellDef="let element">{{element.due_date | date:'dd-MM-yyyy'}}</td>
             </ng-container>
 
             <ng-container matColumnDef="job_status">
@@ -248,7 +248,7 @@
 
             <ng-container matColumnDef="actual_ship_date">
                 <th mat-header-cell *matHeaderCellDef> Actual Shipping Date </th>
-                <td mat-cell *matCellDef="let element">{{element.due_date}}</td>
+                <td mat-cell *matCellDef="let element">{{element.due_date | date:'dd-MM-yyyy' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="company">
@@ -322,8 +322,7 @@
             <ng-container matColumnDef="create_packing_list">
                 <th mat-header-cell *matHeaderCellDef> Create Packing List </th>
                 <td mat-cell *matCellDef="let element">
-                    <a href="javascript:;" [routerLink]="['/packing-list/', element.id]"
-                    [queryParams]="{obj: stringify(element)}">Go</a>
+                    <a href="javascript:;" [routerLink]="['/packing-list/', element.id]">Go</a>
                 </td>
             </ng-container>
 
@@ -515,7 +514,7 @@
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="datatableColumns"></tr>
-              <tr mat-row *matRowDef="let element; columns: datatableColumns;">
+              <tr mat-row *matRowDef="let element; columns: datatableColumns;" [style.background-color]="applyBorder(element.due_date, element.status)">
               </tr>
               <tr style="border: none !important;" mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 

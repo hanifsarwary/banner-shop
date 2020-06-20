@@ -9,7 +9,7 @@
                             <div class="col-md-5 customer-box">
                                 <div formGroupName="user" class="row form-box pt-3" [hidden]="operation === 'Update'">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="username"><b class="text-danger">* </b>Username :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-6" formControlName="username" placeholder="Username"
+                                    <input type="text" class="form-control form-control-sm col-sm-6 ml-2" formControlName="username" placeholder="Username"
                                     [ngModel]="userList ? userList.username: ''" 
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.username').errors }">
                                     <div class="usernamrErr" *ngIf="usernameError">
@@ -18,24 +18,24 @@
                                 </div>
                                 <div formGroupName="user" class="row form-box" [hidden]="operation === 'Update'">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="password"><b class="text-danger">* </b>Password :</label>
-                                    <input type="password" class="form-control form-control-sm col-sm-6" formControlName="password" placeholder="password"
+                                    <input type="password" class="form-control form-control-sm col-sm-6  ml-2" formControlName="password" placeholder="password"
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.password').errors }">
                                 </div>
                                 <div formGroupName="user" class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name"><b class="text-danger">* </b>First Name :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-6" formControlName="first_name" placeholder="First name"
+                                    <input type="text" class="form-control form-control-sm col-sm-6 ml-2" formControlName="first_name" placeholder="First name"
                                     [ngModel]="userList ? userList.first_name: ''" 
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.first_name').errors }">
                                 </div>
                                 <div formGroupName="user" class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="last_name"><b class="text-danger">* </b>Last Name :</label>
-                                    <input type="text" class="form-control form-control-sm col-sm-6" formControlName="last_name" placeholder="Last name"
+                                    <input type="text" class="form-control form-control-sm col-sm-6 ml-2" formControlName="last_name" placeholder="Last name"
                                     [ngModel]="userList ? userList.last_name: ''" 
                                     [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.last_name').errors }">
                                 </div>
                                 <div formGroupName="user" class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="email"><b class="text-danger">* </b>Email :</label>
-                                    <div class="col-sm-6 p-0 m-0">
+                                    <div class="col-sm-6 p-0 m-0  ml-2">
                                         <input type="email" class="form-control form-control-sm" formControlName="email" placeholder="email"
                                         [ngModel]="userList ? userList.email: ''" 
                                         [ngClass]="{ 'is-invalid': submitted && customerForm.get('user.email').errors }">
@@ -46,12 +46,26 @@
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="status">Status :</label>
-                                    <select class="form-control form-control-sm col-sm-6" id="order-status"
+                                    <select class="form-control form-control-sm col-sm-6 ml-2" id="order-status"
                                     [ngModel]="customerList ? customerList.status: '1'" formControlName="status">
                                         <option *ngFor="let status of statusList | keyvalue" [value]="status.key">{{status.value}}</option>
                                     </select>
                                 </div>
-                                
+                                <div class="row form-box">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="customer_type">Customer Type :</label>
+                                    <select class="form-control form-control-sm col-sm-6 ml-2" id="customer_type" (change)="cutomerTypesChange($event)"
+                                    [ngModel]="customerList ? customerList.customer_type: ''" formControlName="customer_type">
+                                        <option *ngFor="let status of customerTypes | keyvalue" [value]="status.key">{{status.value}}</option>
+                                    </select>
+                                </div>
+                                <div class="row form-box"  *ngIf="customerType === 'Broker'">
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="discount_percentage">Discount Percentage :</label>
+                                    <input type="number" min="0" max="100" class="form-control form-control-sm col-sm-6 ml-2" formControlName="discount_percentage"
+                                    [ngModel]="customerList ? customerList.discount_percentage : ''" (change)="maxValue()"><br>
+                                    <div *ngIf="maxNumber">
+                                        <small style="color: red; margin-left: 9rem;">min 0 amd max number 100.</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-7 p-0 m-0 p-2">
                                 <div class="row form-box pt-1">
@@ -114,7 +128,7 @@
                                     [ngModel]="customerList ? customerList.bussiness_type: ''"  formControlName="bussiness_type" placeholder="Bussiness type">
                                 </div>
                                 <div class="d-flex justify-content-end mb-3 mt-5 mr-2">
-                                    <button class="btn btn-primary btn-submit mr-3 ml-3" type="submit"> Submit </button>
+                                    <button class="btn btn-primary btn-submit mr-3 ml-3" [disabled]="maxNumber" type="submit"> Submit </button>
                                     <a class="btn btn-primary btn-sub mr-3" [routerLink]="['/customers']"> Cancel </a>
                                 </div>
                             </div>
