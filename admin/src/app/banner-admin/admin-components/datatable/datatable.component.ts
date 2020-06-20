@@ -14,6 +14,7 @@ import { OrderService } from '../../services/order.service';
 import { SharedDataService } from '../../services/shared-data.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { InvoiceComponent } from '../invoice/invoice.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-datatable',
@@ -26,7 +27,7 @@ import { InvoiceComponent } from '../invoice/invoice.component';
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
-  providers: [NgbActiveModal]
+  providers: [NgbActiveModal, DatePipe]
 })
 export class DatatableComponent implements OnChanges {
 
@@ -83,6 +84,7 @@ export class DatatableComponent implements OnChanges {
     private toast: ToastrService,
     private data: SharedDataService,
     private router: Router,
+    private datePipe: DatePipe,
     private fb: FormBuilder) {
       this.emailForm = this.fb.group({
         to: '',
@@ -239,6 +241,24 @@ export class DatatableComponent implements OnChanges {
       this.loader = false;
     });
     this.proofHistoryModalReference = this.modalService.open(targetModal);
+  }
+
+  applyBorder(value, status) {
+    const compareDate = this.datePipe.transform(value, 'yyyy-MM-dd');
+    const today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrow_date = this.datePipe.transform(tomorrow , 'yyyy-MM-dd');
+
+    if ( today === compareDate ) {
+      return '#ffa500';
+    } else if ( tomorrow_date === compareDate) {
+      return '#ffff00';
+    } else if ( compareDate < today && status === 'Shipped') {
+      return '#ff69b4';
+    } else {
+      return;
+    }
   }
 
   openOrderProofStatus(targetModal, objId, status) {
