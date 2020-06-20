@@ -50,13 +50,11 @@ class CustomOrderListViewSet(ListAPIView):
 
     def filter_proof(self, queryset, proof):
         if proof:
-            print('proof:', proof)
             queryset = queryset.filter(proof_status=proof)
         return queryset
     
     def filter_job_id(self, queryset, job_id):
         if job_id:
-            print('job_id:', job_id)
             queryset = queryset.filter(id=job_id)
         return queryset
     
@@ -93,7 +91,6 @@ class CustomOrderListViewSet(ListAPIView):
 
     def filter_search(self, queryset, search_info):
         if search_info:
-            print('search_info:', search_info)
             queryset = queryset.filter(
                 Q(custom_product_name__icontains=search_info)| 
                 Q(ink_color__icontains=search_info)

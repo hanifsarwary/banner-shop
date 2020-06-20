@@ -66,17 +66,19 @@ export class PackingListComponent implements OnInit {
       if (params['id']) {
         this.customOrderId = params['id'];
         this.getPackingList(this.customOrderId);
-      }
-    });
-    this.route.queryParams.subscribe(params => {
-      if (params['obj']) {
-        this.customOrderList = JSON.parse(params['obj']);
-        this.customerList = this.customOrderList.customer;
-        this.userList = this.customerList.user;
+        this.getOrderList(this.customOrderId);
       }
     });
     this.newBox = {number_of_boxes: '', quantity_per_box: '', job_name: ''};
     this.dynamicBoxes.push(this.newBox);
+  }
+
+  getOrderList(id) {
+    this.orderService.getCustomOrderById(id).subscribe(res => {
+      this.customOrderList = res;
+      this.customerList = this.customOrderList.customer;
+      this.userList = this.customerList.user;
+    });
   }
 
   getPackingList(id) {
