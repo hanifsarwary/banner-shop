@@ -587,7 +587,7 @@ class ProductDetail extends React.Component {
                   <span>
                     Price:
                     <span style={{ marginLeft: '8px', marginRight: '8px', color: '#8c8c8c' }} className={this.state.discounted ? 'cutted-price-dark' : ''}>${this.state.total}</span>
-                    <span>{this.state.percentage}%</span>
+                    <span style={{ marginLeft: '8px', marginRight: '8px', color: '#8c8c8c' }}>{this.state.percentage}% Off</span>
                   </span>
                 ) : (
                     ""
