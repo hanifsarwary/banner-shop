@@ -254,8 +254,8 @@ export class DatatableComponent implements OnChanges {
       return '#ffa500';
     } else if ( tomorrow_date === compareDate) {
       return '#ffff00';
-    } else if ( compareDate < today && status === 'Shipped') {
-      return '#ff69b4';
+    } else if ( compareDate < today && status !== 'Shipped') {
+      return 'rgba(255, 105, 180, 0.78)';
     } else {
       return;
     }
