@@ -82,8 +82,6 @@ export class CustomersComponent implements OnInit {
   }
 
   maxValue() {
-    console.log('-------------------');
-    console.log(this.customerForm.get('discount_percentage').value);
     if (this.customerForm.get('discount_percentage').value > 100) {
       this.maxNumber = true;
     } else {
