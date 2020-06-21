@@ -156,6 +156,8 @@ class App extends React.Component {
             />
           </Route>
           {this.state.isLoggedIn ? (
+            <Redirect to="/" />
+          ) : (
             <Route path="/auth/login" exact>
               <Login
                 isLoggedIn={this.state.isLoggedIn}
@@ -163,12 +165,14 @@ class App extends React.Component {
                 previousPath={this.state.previousPath}
               />
             </Route>
-          ) : <Redirect to="/" />}
+          )}
           {this.state.isLoggedIn ? (
+            <Redirect to="/" />
+          ) : (
             <Route path="/auth/signup" exact>
               <SignUp />
             </Route>
-          ) : <Redirect to="/" />}
+          )}
           <Route>
             <CustomQuote path="/customquote" exact />
           </Route>
