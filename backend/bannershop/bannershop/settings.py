@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9$owx+s56+$jfd6v39ndvj90r7cis(0q8eve$uaxz)=%m^!2%k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # TODO: Allow only production URL here, after deployment
 ALLOWED_HOSTS = ['34.68.49.20']
@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'bannershop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dev_bannershop',
+        'NAME': 'bannershop',
         'USER': 'developer',
         'PASSWORD': 'dummypass',
         'HOST': 'localhost',
