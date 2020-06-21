@@ -34,7 +34,7 @@ class App extends React.Component {
     try {
       const oldToken = localStorage.getItem('token');
       let token = null;
-      if(oldToken) {
+      if (oldToken) {
         const res = await bannerShop.post('/api/auth/token/refresh/', {
           token: oldToken
         });
@@ -155,16 +155,20 @@ class App extends React.Component {
               previousPathHand={this.previousPathHand}
             />
           </Route>
-          <Route path="/auth/login" exact>
-            <Login
-              isLoggedIn={this.state.isLoggedIn}
-              onLogin={this.onLogin}
-              previousPath={this.state.previousPath}
-            />
-          </Route>
-          <Route path="/auth/signup" exact>
-            <SignUp />
-          </Route>
+          {this.state.isLoggedIn ? (
+            <Route path="/auth/login" exact>
+              <Login
+                isLoggedIn={this.state.isLoggedIn}
+                onLogin={this.onLogin}
+                previousPath={this.state.previousPath}
+              />
+            </Route>
+          ) : <Redirect to="/" />}
+          {this.state.isLoggedIn ? (
+            <Route path="/auth/signup" exact>
+              <SignUp />
+            </Route>
+          ) : <Redirect to="/" />}
           <Route>
             <CustomQuote path="/customquote" exact />
           </Route>
