@@ -54,7 +54,7 @@
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="customer_type">Customer Type :</label>
                                     <select class="form-control form-control-sm col-sm-6 ml-2" id="customer_type" (change)="cutomerTypesChange($event)"
-                                    [ngModel]="customerList ? customerList.customer_type: ''" formControlName="customer_type">
+                                    [ngModel]="customerList ? customerList.customer_type: 'Normal'" formControlName="customer_type">
                                         <option *ngFor="let status of customerTypes | keyvalue" [value]="status.key">{{status.value}}</option>
                                     </select>
                                 </div>
