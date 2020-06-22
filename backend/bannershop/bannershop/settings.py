@@ -14,7 +14,7 @@ SECRET_KEY = '9$owx+s56+$jfd6v39ndvj90r7cis(0q8eve$uaxz)=%m^!2%k'
 DEBUG = True
 
 # TODO: Allow only production URL here, after deployment
-ALLOWED_HOSTS = ['34.68.49.20']
+ALLOWED_HOSTS = ['104.198.38.241']
 
 # Application definition
 INSTALLED_APPS = [
