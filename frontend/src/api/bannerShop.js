@@ -5,5 +5,5 @@ import axios from 'axios';
 // });
 
 export default axios.create({
-  baseURL: 'http://34.68.49.20:8001',
+  baseURL: 'http://104.198.38.241:8001',
 });
