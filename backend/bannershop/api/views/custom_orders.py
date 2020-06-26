@@ -106,9 +106,7 @@ class CustomOrderListViewSet(ListAPIView):
     def filter_open_orders(self, queryset, is_open):
         if is_open:
             filter_arr = [i[0] for i in CustomOrder.STATUS_CHOICES[4:]]
-            
             queryset = queryset.filter(status__in=filter_arr)
-            print(filter_arr)
         return queryset
 
 
