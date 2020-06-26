@@ -129,8 +129,7 @@ class CustomOrderListViewSet(ListAPIView):
         queryset = self.filter_missing_deadline(queryset, self.request.data.get('is_missing_deadline'))
         queryset = self.filter_open_orders(queryset, self.request.data.get('is_open'))
         
-        return Response({"results": self.serializer_class(self.paginate_queryset(
-            queryset.order_by('-id')), many=True).data})
+        return Response({"results": self.serializer_class(queryset.order_by('-id'), many=True).data})
 
 
 class CustomOrderCreateViewSet(CreateAPIView):
