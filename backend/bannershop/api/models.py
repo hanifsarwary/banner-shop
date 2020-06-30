@@ -241,6 +241,7 @@ class CustomOrder(models.Model):
 
 
 
+
 class PackingList(models.Model):
 
     custom_order = models.OneToOneField(CustomOrder, on_delete=models.CASCADE, null=True)
@@ -253,9 +254,9 @@ class PackingList(models.Model):
     fax_number = models.CharField(max_length=32, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     zip_code = models.CharField(max_length=16, null=True, blank=True)
-    received_by = models.CharField(max_length=32, null=True)
+    received_by = models.CharField(max_length=32, null=True, blank=True)
     due_date = models.DateField(null=True)
-    comments = models.TextField(null=True)
+    comments = models.TextField(null=True, blank=True)
     total_quantity = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
