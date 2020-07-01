@@ -123,16 +123,3 @@ button {
 .e-richtexteditor .e-rte-toolbar .e-toolbar-items:not(.e-tbar-pos) .e-toolbar-item:first-child {
   margin-left: 0 !important;
 }
-
-// @page {
-//   size: landscape;                                                            
-// }
-
-@media print {
-  @page {
-      size: landscape;
-  }
-  .hide-print {
-      display: none;
-    }
-}

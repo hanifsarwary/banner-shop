@@ -222,7 +222,9 @@ export class FiltersBarComponent implements OnInit {
   }
 
   openOrderOnly(event) {
-    this.router.navigate([`${this.router.url}`], { queryParams: { filter: JSON.stringify({'is_open': event.target.checked}) } });
+    const extractUrl = this.router.url;
+    const pathname = extractUrl.split('?') ? (extractUrl.split('?'))[0] : extractUrl;
+    this.router.navigate([pathname[0]], { queryParams: { filter: JSON.stringify({'is_open': event.target.checked}) } });
   }
 
   getCompanies() {
