@@ -1,3 +1,6 @@
+.customers {
+    width: 66rem;
+}
 .card {
     text-align: left;
     border: none !important;
@@ -68,6 +71,24 @@ span i {
 .table .thead-dark th {
     font-size: 13px;
 }
-.customOrderForm {
-    width: 75%;;
+.from-box, .to-box {
+    width: 50%;
+}
+
+@media print {
+    .hide-print {
+      display: none;
+    }
+    .customers{
+        margin-top: 6rem;
+		width: 90%;
+        height: auto;
+        zoom: 75%;
+    }
+    .form-box {
+        margin-bottom: 1rem !important;
+    }
+    .firstForm, .boxesForm, .totalBoxesForm {
+        margin-top: 2rem !important;
+    }
 }

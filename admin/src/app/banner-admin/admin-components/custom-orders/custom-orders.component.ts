@@ -187,6 +187,7 @@ export class CustomOrdersComponent implements OnInit {
         obj.value.status = 'Submitted';
         obj.value.start_date = start_date;
         obj.value.added_by = this.userInfo.id;
+        obj.value.due_date = obj.value.due_date ? obj.value.due_date : null;
         this.orderServeice.addCustomOrder(obj.value).subscribe(res => {
             this.toast.success('Custom Orders added successfully!', '');
             this.router.navigate(['/order-status']);
