@@ -21,6 +21,7 @@ class CustomOrderSerializer(ModelSerializer):
 
 class CustomOrderCreateSerializer(ModelSerializer):
 
+    quoted_price = 
     class Meta:
         model = CustomOrder
         fields = (
