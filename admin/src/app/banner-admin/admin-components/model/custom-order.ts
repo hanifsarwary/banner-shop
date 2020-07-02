@@ -23,7 +23,7 @@ export class CustomOrderList {
     customer?: CustomerList;
     added_by?: AddedByList;
     ticket_count?: '';
-    quoted_price?: '';
+    quoted_price?: 0;
     final_size?: 0;
     invoice_number?: '';
     shipping_type?: '';
