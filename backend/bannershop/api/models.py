@@ -224,7 +224,7 @@ class CustomOrder(models.Model):
                                     default=PROOF_STATUS_CHOICES[0][0])
     reference_number = models.CharField(max_length=256, null=True, blank=True, db_index=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=64, db_index=True)
-    quoted_price = models.FloatField(null=True)
+    quoted_price = models.FloatField(null=True, blank=True)
     ticket_count = models.PositiveIntegerField(default=0, null=True)
     special_instructoon = models.TextField(null=True, blank=True)
 
