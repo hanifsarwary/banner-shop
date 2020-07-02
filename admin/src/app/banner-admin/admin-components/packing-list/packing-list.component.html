@@ -4,9 +4,9 @@
         <div class="card" *ngIf="!loader">
             <div class="body">
                 <form [formGroup]="packingListFrom" (ngSubmit)="onSubmit(packingListFrom)">
-                <div class="row form-box">
-                    <label class="col-sm-2 p-0 pt-2 col-form-label text-shadow font-weight-bold" for="due_date"><b class="text-danger">* </b>Ship Date :</label>
-                    <input type="date" placeholder="select date" value="null" formControlName="due_date" class="form-control form-control-sm col-sm-3"
+                <div class="d-flex form-box mb-3">
+                    <label class="p-0 pt-2 col-form-label text-shadow font-weight-bold" for="due_date"><b class="text-danger">* </b>Ship Date :</label>
+                    <input type="date" placeholder="select date" value="null" formControlName="due_date" class="form-control form-control-sm ship-date ml-4"
                     [ngModel]="packingList ? packingList.due_date : ''"
                     [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('due_date').errors }">
                     <b *ngIf="validateFlag" class="col-sm-4 text-right text-danger">Filled the missing fields</b>
