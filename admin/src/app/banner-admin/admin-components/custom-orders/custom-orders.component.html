@@ -70,12 +70,6 @@
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="job_number">Job Id :</label>
                                     <input type="number" name="id" class="form-control form-control-sm col-sm-9" readonly [(ngModel)]="job_id" [ngModelOptions]="{standalone: true}">
                                 </div>
-                                <!-- <div class="row form-box">
-                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="ticket_count">Ticket count :</label>
-                                    <input type="number" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.ticket_count : ''" formControlName="ticket_count" placeholder="Enter Ticket count">
-                                    <label class="col-sm-3 p-0 pl-4 pt-2 col-form-label text-shadow" for="quoted_price">Quoted price :</label>
-                                    <input type="number" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.quoted_price : ''" formControlName="quoted_price" placeholder="Enter Quoted price">
-                                </div> -->
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="reference_number">PO/Reference No :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.reference_number : ''" formControlName="reference_number" placeholder="Enter Reference number">
@@ -88,6 +82,12 @@
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_job_name"><b *ngIf="!orderList" class="text-danger">* </b>Job name :</label>
                                     <input type="text" class="form-control form-control-sm col-sm-9" [ngClass]="{ 'is-invalid': submitted && formValidator.custom_job_name.errors }"
                                     [ngModel]="orderList ? orderList.custom_job_name : ''" formControlName="custom_job_name" placeholder="Enter Custom job name">
+                                </div>
+                                <div class="row form-box">
+                                    <!-- <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="ticket_count">Ticket count :</label>
+                                    <input type="number" class="form-control form-control-sm col-sm-3" [ngModel]="orderList ? orderList.ticket_count : ''" formControlName="ticket_count" placeholder="Enter Ticket count"> -->
+                                    <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="quoted_price">Quoted price :</label>
+                                    <input type="number" class="form-control form-control-sm col-sm-9" [ngModel]="orderList ? orderList.quoted_price : ''" formControlName="quoted_price" placeholder="Enter Quoted price">
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="custom_quantity"><b *ngIf="!orderList" class="text-danger">* </b>Total Quantity :</label>

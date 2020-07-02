@@ -63,7 +63,7 @@ export class CustomOrdersComponent implements OnInit {
       internal_notes: [''],
       reference_number: [''],
       special_instructoon: [''],
-      // quoted_price: [''],
+      quoted_price: [''],
       final_size: ['', Validators.required],
       proof_status: [''],
       customer: [''],
