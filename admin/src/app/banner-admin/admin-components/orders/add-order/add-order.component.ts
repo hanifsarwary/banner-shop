@@ -48,7 +48,7 @@ export class AddOrderComponent implements OnInit {
     this.orderForm = this.fb.group({
       // product: [''],
       due_date: [''],
-      quoted_price: [''],
+      quoted_price: [0],
       internal_notes: [''],
       reference_number: [''],
       special_note: [''],
