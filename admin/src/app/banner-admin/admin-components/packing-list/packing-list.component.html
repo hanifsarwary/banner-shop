@@ -18,31 +18,31 @@
                             <div class="m-1">
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
-                                    <input [ngModel]="userList.first_name" name="firstName" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    <input [ngModel]="userList ? userList.first_name : ''" name="firstName" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Last Name :</label>
-                                    <input [ngModel]="userList.last_name" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    <input [ngModel]="userList ? userList.last_name : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Company :</label>
-                                    <input [ngModel]="customerList.company_name" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    <input [ngModel]="customerList ? customerList.company_name : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Address :</label>
-                                    <input [ngModel]="customerList.address" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    <input [ngModel]="customerList ? customerList.address : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">City :</label>
-                                    <input [ngModel]="customerList.city" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    <input [ngModel]="customerList ? customerList.city : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Zip Code :</label>
-                                    <input [ngModel]="customerList.zip_code" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    <input [ngModel]="customerList ? customerList.zip_code : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
                                 </div>
                                 <div class="row form-box">
                                     <label class="col-sm-3 p-0 pt-2 col-form-label text-shadow">Tel :</label>
-                                    <input [ngModel]="customerList.phone_number" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
+                                    <input [ngModel]="customerList ? customerList.phone_number : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm col-sm-9" readonly>
                                 </div>
                             </div>
                             </fieldset>
@@ -113,10 +113,10 @@
                         <tbody>
                             <tr>
                             <td scope="row">
-                                <input [ngModel]="customOrderList.id" [ngModelOptions]="{standalone: true}" readonly class="form-control form-control-sm" type="text" >
+                                <input [ngModel]="customOrderList ? customOrderList.id : ''" [ngModelOptions]="{standalone: true}" readonly class="form-control form-control-sm" type="text" >
                             </td>
                             <td>
-                                <input [ngModel]="customOrderList.reference_number" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly type="text" >
+                                <input [ngModel]="customOrderList ? customOrderList.reference_number : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly type="text" >
                             </td>
                             <td>
                                 <input class="form-control form-control-sm" readonly type="text" >
