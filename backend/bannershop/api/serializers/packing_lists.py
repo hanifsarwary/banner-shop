@@ -10,7 +10,7 @@ class BoxDetailsSerializer(ModelSerializer):
 
 class PackingListSerializer(ModelSerializer):
 
-    boxes = BoxDetailsSerializer(many=True, source='boxes_set')
+    boxes = BoxDetailsSerializer(many=True, source='boxes_set', allow_null=True)
     class Meta:
         model = PackingList
         fields = (
