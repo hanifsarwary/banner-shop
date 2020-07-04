@@ -19,12 +19,13 @@ class PackingListSerializer(ModelSerializer):
             'zip_code', 'received_by', 'due_date', 'comments', 'boxes')
     
     def create(self, validated_data):
-        print(validated_data)
+        
         boxes_data = validated_data.pop('boxes_set')
         
         packing_list = PackingList.objects.create(**validated_data)
-        for _data in boxes_data:
-            BoxesDetails.objects.create(packing_list=packing_list, **_data)
+        if boxes_data:
+            for _data in boxes_data:
+                BoxesDetails.objects.create(packing_list=packing_list, **_data)
         return packing_list
 
 
@@ -54,7 +55,6 @@ class BoxesBulkCreateSerializer(Serializer):
                     quantity=_data.get('quantity'),
                     job_name = _data.get('job_name'),
                     packing_list=_data.get("packing_list")))
-        print("boxes are created")
         return {
 
             'boxes': boxes_arr
