@@ -14,6 +14,12 @@
 }
 .form-box {
     margin: 0.5rem !important;
+    label {
+        width: 8rem;
+    }
+    input {
+        width: 22rem;
+    }
 }
 input {
     background: none !important;
