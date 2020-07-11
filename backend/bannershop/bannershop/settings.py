@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'bannershop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bannershop',
+        'NAME': 'dev_bannershop',
         'USER': 'developer',
         'PASSWORD': 'dummypass',
         'HOST': 'localhost',
