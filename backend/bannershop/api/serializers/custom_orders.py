@@ -2,12 +2,7 @@ from api.models import CustomOrder, ProofHistory
 from rest_framework.serializers import ModelSerializer
 from api.serializers.users import RetrieveUserSerializer
 from api.serializers.customers import CustomerSerializer
-# class InvoiceSerializer(ModelSerializer):
-
-#     class Meta:
-#         model = Invoice
-#         fields = '__all__'
-
+from datetime import date, timedelta
 
 class CustomOrderSerializer(ModelSerializer):
 
@@ -18,6 +13,19 @@ class CustomOrderSerializer(ModelSerializer):
         model = CustomOrder
         fields = '__all__'
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        today_date = date.today()
+        if instance.status not in ['Picked Up', 'Cancelled', 'Delivered', 'Shipped']:
+            if instance.due_date and instance.due_date < today_date:
+                representation['color'] = 'pink'
+            elif instance.due_date and instance.due_date == today_date:
+                representation['color'] = 'orange'
+            elif instance.due_date and instance.due_date == today_date + timedelta(days=1)
+                representation['color'] = 'yellow'
+            else:
+                representation['color'] = None
+        return representation
 
 class CustomOrderCreateSerializer(ModelSerializer):
     
