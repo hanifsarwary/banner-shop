@@ -21,7 +21,7 @@ class CustomOrderSerializer(ModelSerializer):
                 representation['color'] = 'pink'
             elif instance.due_date and instance.due_date == today_date:
                 representation['color'] = 'orange'
-            elif instance.due_date and instance.due_date == today_date + timedelta(days=1)
+            elif instance.due_date and instance.due_date == (today_date + timedelta(days=1)):
                 representation['color'] = 'yellow'
             else:
                 representation['color'] = None
