@@ -25,6 +25,8 @@ class CustomOrderSerializer(ModelSerializer):
                 representation['color'] = 'yellow'
             else:
                 representation['color'] = None
+        else:
+            representation['color'] = None
         return representation
 
 class CustomOrderCreateSerializer(ModelSerializer):
