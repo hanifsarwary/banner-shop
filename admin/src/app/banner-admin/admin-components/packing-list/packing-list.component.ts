@@ -45,14 +45,14 @@ export class PackingListComponent implements OnInit {
     ) {
     this.window = window;
     this.packingListFrom = this.fb.group({
-      first_name: ['', Validators.required],
-      last_name: ['', Validators.required],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
+      first_name: [''],
+      last_name: [''],
+      address: [''],
+      city: [''],
       company_name: [''],
-      phone_number: [''], // [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[+0-9][-(-)0-9.]*$')]
-      zip_code: ['', Validators.required],
-      due_date: ['', Validators.required],
+      phone_number: [''],
+      zip_code: [''],
+      due_date: [''],
       comments: [''],
       received_by: [''],
       boxes: '',

@@ -5,11 +5,9 @@
             <div class="body">
                 <form [formGroup]="packingListFrom" (ngSubmit)="onSubmit(packingListFrom)">
                 <div class="d-flex form-box mb-3">
-                    <label class="p-0 pt-2 col-form-label text-shadow font-weight-bold" for="due_date"><b class="text-danger">* </b>Ship Date :</label>
+                    <label class="p-0 pt-2 col-form-label text-shadow font-weight-bold" for="due_date">Ship Date :</label>
                     <input type="date" placeholder="select date" value="null" formControlName="due_date" class="form-control form-control-sm ship-date ml-4"
-                    [ngModel]="packingList ? packingList.due_date : ''"
-                    [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('due_date').errors }">
-                    <b *ngIf="validateFlag" class="col-sm-4 text-right text-danger">Filled the missing fields</b>
+                    [ngModel]="packingList ? packingList.due_date : ''">
                 </div>
                 <div class="d-flex p-0 m-0">
                     <div class="customer-box m-0 p-0 from-box">
@@ -18,31 +16,31 @@
                             <div class="m-1">
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
-                                    <input [ngModel]="userList ? userList.first_name : ''" name="firstName" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly>
+                                    <input [ngModel]="userList ? userList.first_name : ''" name="firstName" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                                 </div>
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow">Last Name :</label>
-                                    <input [ngModel]="userList ? userList.last_name : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly>
+                                    <input [ngModel]="userList ? userList.last_name : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                                 </div>
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow">Company :</label>
-                                    <input [ngModel]="customerList ? customerList.company_name : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly>
+                                    <input [ngModel]="customerList ? customerList.company_name : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                                 </div>
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow">Address :</label>
-                                    <input [ngModel]="customerList ? customerList.address : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly>
+                                    <input [ngModel]="customerList ? customerList.address : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                                 </div>
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow">City :</label>
-                                    <input [ngModel]="customerList ? customerList.city : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly>
+                                    <input [ngModel]="customerList ? customerList.city : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                                 </div>
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow">Zip Code :</label>
-                                    <input [ngModel]="customerList ? customerList.zip_code : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly>
+                                    <input [ngModel]="customerList ? customerList.zip_code : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                                 </div>
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow">Tel :</label>
-                                    <input [ngModel]="customerList ? customerList.phone_number : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" readonly>
+                                    <input [ngModel]="customerList ? customerList.phone_number : ''" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
                                 </div>
                             </div>
                             </fieldset>
@@ -52,39 +50,34 @@
                             <legend class="p-0 ml-3 m-0">To</legend>
                             <div class="m-1">
                                 <div class="d-flex form-box">
-                                    <label class="p-0 pt-2 col-form-label text-shadow" for="first_name"><b class="text-danger">* </b>First Name :</label>
+                                    <label class="p-0 pt-2 col-form-label text-shadow" for="first_name">First Name :</label>
                                     <input type="text" formControlName="first_name" class="form-control form-control-sm"
-                                    [ngModel]="packingList ? packingList.first_name : ''"
-                                    [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('first_name').errors }">
+                                    [ngModel]="packingList ? packingList.first_name : ''">
                                 </div>
                                 <div class="d-flex form-box">
-                                    <label class="p-0 pt-2 col-form-label text-shadow" for="last_name"><b class="text-danger">* </b>Last Name :</label>
+                                    <label class="p-0 pt-2 col-form-label text-shadow" for="last_name">Last Name :</label>
                                     <input type="text" formControlName="last_name" class="form-control form-control-sm"
-                                    [ngModel]="packingList ? packingList.last_name : ''"
-                                    [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('last_name').errors }">
+                                    [ngModel]="packingList ? packingList.last_name : ''">
                                 </div>
                                 <div class="d-flex form-box">
-                                    <label class="p-0 pt-2 col-form-label text-shadow" for="company"><b class="text-danger">* </b>Company :</label>
+                                    <label class="p-0 pt-2 col-form-label text-shadow" for="company">Company :</label>
                                     <input type="text" formControlName="company_name" class="form-control form-control-sm"
                                     [ngModel]="packingList ? packingList.company_name : ''">
                                 </div>
                                 <div class="d-flex form-box">
-                                    <label class="p-0 pt-2 col-form-label text-shadow" for="address"><b class="text-danger">* </b>Address :</label>
+                                    <label class="p-0 pt-2 col-form-label text-shadow" for="address">Address :</label>
                                     <input type="text" formControlName="address" class="form-control form-control-sm"
-                                    [ngModel]="packingList ? packingList.address : ''"
-                                    [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('address').errors }">
+                                    [ngModel]="packingList ? packingList.address : ''">
                                 </div>
                                 <div class="d-flex form-box">
-                                    <label class="p-0 pt-2 col-form-label text-shadow" for="city"><b class="text-danger">* </b>City :</label>
+                                    <label class="p-0 pt-2 col-form-label text-shadow" for="city">City :</label>
                                     <input type="text" formControlName="city" class="form-control form-control-sm"
-                                    [ngModel]="packingList ? packingList.city : ''"
-                                    [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('city').errors }">
+                                    [ngModel]="packingList ? packingList.city : ''">
                                 </div>
                                 <div class="d-flex form-box">
-                                    <label class="p-0 pt-2 col-form-label text-shadow" for="zip_code"><b class="text-danger">* </b>Zip Code :</label>
+                                    <label class="p-0 pt-2 col-form-label text-shadow" for="zip_code">Zip Code :</label>
                                     <input type="text" formControlName="zip_code" class="form-control form-control-sm"
-                                    [ngModel]="packingList ? packingList.zip_code : ''"
-                                    [ngClass]="{ 'is-invalid': submitted && packingListFrom.get('zip_code').errors }">
+                                    [ngModel]="packingList ? packingList.zip_code : ''">
                                 </div>
                                 <div class="d-flex form-box">
                                     <label class="p-0 pt-2 col-form-label text-shadow" for="phone_number">Tel :</label>

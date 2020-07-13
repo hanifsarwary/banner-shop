@@ -243,19 +243,13 @@ export class DatatableComponent implements OnChanges {
     this.proofHistoryModalReference = this.modalService.open(targetModal);
   }
 
-  applyBorder(value, status) {
-    const compareDate = this.datePipe.transform(value, 'yyyy-MM-dd');
-    const today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrow_date = this.datePipe.transform(tomorrow , 'yyyy-MM-dd');
+  applyBorder(color) {
 
-    if ( today === compareDate ) {
+    if ( color === 'orange' ) {
       return '#ffa500';
-    } else if ( tomorrow_date === compareDate) {
+    } else if ( color === 'yellow') {
       return '#ffff00';
-    } else if ( compareDate < today && status !== 'Shipped' && status !== 'Picked Up' && status !== 'Delivered'
-                && status !== 'Cancelled') {
+    } else if ( color === 'pink') {
       return 'rgba(255, 105, 180, 0.78)';
     } else {
       return;

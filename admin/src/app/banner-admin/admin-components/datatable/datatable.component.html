@@ -514,7 +514,7 @@
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="datatableColumns"></tr>
-              <tr mat-row *matRowDef="let element; columns: datatableColumns;" [style.background-color]="applyBorder(element.due_date, element.status)">
+              <tr mat-row *matRowDef="let element; columns: datatableColumns;" [style.background-color]="applyBorder(element.color)">
               </tr>
               <tr style="border: none !important;" mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
