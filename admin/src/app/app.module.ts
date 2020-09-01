@@ -19,8 +19,8 @@ import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor'
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatTableModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
-import { RenderHtmlPipe } from './custom-pipe/render-html.pipe';
 import { UtilsFunction } from './banner-admin/utils-function';
+import { RenderHtmlModule } from './custom-pipe/render-html.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -32,6 +32,7 @@ import { UtilsFunction } from './banner-admin/utils-function';
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,
+        RenderHtmlModule,
         NgxSpinnerModule,
         MatTableModule,
         CdkTableModule,
@@ -41,7 +42,7 @@ import { UtilsFunction } from './banner-admin/utils-function';
             preventDuplicates: false,
         }),
     ],
-    declarations: [AppComponent, ProductModelComponent, ProductDetailsComponent, OptionModelComponent, RenderHtmlPipe],
+    declarations: [AppComponent, ProductModelComponent, ProductDetailsComponent, OptionModelComponent],
     providers: [AuthGuard, Globals, LoginService, SignupService, UtilsFunction],
     bootstrap: [AppComponent]
 })
