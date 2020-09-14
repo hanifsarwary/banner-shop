@@ -40,7 +40,7 @@ export class ProductModelComponent implements OnInit {
           'Formats', 'Alignments',
           'OrderedList', 'UnorderedList', '|',
           'Outdent', 'Indent', '|',
-          'CreateLink', '|', 'Undo', 'Redo', '|']
+          'Image', 'CreateLink', '|', 'Undo', 'Redo', '|']
         };
   constructor(
     @Inject(DOCUMENT) private document: Document,
