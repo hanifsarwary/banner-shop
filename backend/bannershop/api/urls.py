@@ -11,7 +11,7 @@ from api.views.customers import (
 from api.views.products import (
     ProductsListViewSet, ProductOptionsListViewSet, SubProductOptionsListViewSet, CategoryProductsViewSet,
      ProductDetailViewSet, AllOptionListView, GetProductPriceTypes, GetOptionTypes, OptionDetailViewSet, 
-     SubOptionDetailViewSet, OptionSubOptionsListViewSet)
+     SubOptionDetailViewSet, OptionSubOptionsListViewSet, DescriptionImageCreateViewSet, DescriptionImageRetrieveViewSet)
 from api.views.users import UsersListCreateViewSet, UsersDetailUpdateViewSet, UserDetailsWithUserName
 from api.views.contact_requests import ContactRequestViewSet, ContactRequestDetailViewSet
 from api.views.emails import SendOrderEmail
@@ -84,7 +84,9 @@ urlpatterns = [
     path('products/<int:product_id>/options/', ProductOptionsListViewSet.as_view()),
     path('products/<int:product_id>/options/<int:option_id>/sub-options/', 
          SubProductOptionsListViewSet.as_view()),
-    
+    path('products/description-image/create/', DescriptionImageCreateViewSet.as_view()),
+    path('products/description-image/<int:pk>/', DescriptionImageRetrieveViewSet.as_view()),
+
     path('users/', UsersListCreateViewSet.as_view()),
     path('users/<int:pk>/', UsersDetailUpdateViewSet.as_view()),
     path('users/<str:username>/', UserDetailsWithUserName.as_view()),

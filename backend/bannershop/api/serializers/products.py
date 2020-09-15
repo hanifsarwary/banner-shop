@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from api.models import Product, Option, SubOption
+from api.models import Product, Option, SubOption, DescriptionImage
 
 
 class ProductSerializer(ModelSerializer):
@@ -44,3 +44,8 @@ class ProductDetailSerializer(ModelSerializer):
         fields = '__all__'
         
 
+class DescriptionImageSerializer(ModelSerializer):
+
+    class Meta:
+        model = DescriptionImage
+        fields = '__all__'

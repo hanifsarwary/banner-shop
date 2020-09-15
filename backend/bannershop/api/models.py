@@ -329,3 +329,7 @@ class ContactRequest(models.Model):
 
     def __str__(self):
         return self.customer.__str__()
+
+
+class DescriptionImage(models.Model):
+    image = models.FileField(null=True, blank=True, upload_to='images/products/')

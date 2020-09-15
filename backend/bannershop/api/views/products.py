@@ -2,11 +2,12 @@
 from __future__ import unicode_literals
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateAPIView, CreateAPIView, RetrieveDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from api.models import Product, Option, SubOption
-from api.serializers.products import ProductSerializer, OptionSerializer, SubOptionSerializer, ProductDetailSerializer
+from api.models import Product, Option, SubOption, DescriptionImage
+from api.serializers.products import (
+    ProductSerializer, OptionSerializer, SubOptionSerializer, ProductDetailSerializer, DescriptionImageSerializer)
 from django.db.models import Q
 
 class ProductsListViewSet(ListCreateAPIView):
@@ -93,11 +94,18 @@ class GetProductPriceTypes(APIView):
 
 
 class GetOptionTypes(APIView):
-
     def get(self, request):
         return_dict = dict()
         for a, b in Option.OPTION_TYPES: 
             return_dict.setdefault(a, b) 
-        
-
         return Response({'types': return_dict})
+
+
+class DescriptionImageCreateViewSet(CreateAPIView):
+    serializer_class = DescriptionImageSerializer
+    queryset = DescriptionImage.objects.all()
+
+
+class DescriptionImageRetrieveViewSet(RetrieveDestroyAPIView):
+    serializer_class = DescriptionImageSerializer
+    queryset = DescriptionImage.objects.all()
