@@ -13,6 +13,9 @@
 .close:focus {
     outline: none;
 }
+.loader {
+    margin-top: 50%;
+}
 
 .price-type-2 {
     display: flex;
