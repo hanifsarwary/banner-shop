@@ -4,7 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/banner-admin/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from 'src/app/banner-admin/services/product.service';
-import { ToolbarService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+import { ToolbarService, HtmlEditorService, LinkService, ImageService, QuickToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { DOCUMENT } from '@angular/common';
 import { UtilsFunction } from 'src/app/banner-admin/utils-function';
 import { ProductList } from '../../model/product';
@@ -12,7 +12,7 @@ import { ProductList } from '../../model/product';
   selector: 'app-product-model',
   templateUrl: './product-model.component.html',
   styleUrls: ['./product-model.component.css'],
-  providers: [ToolbarService, HtmlEditorService]
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService, QuickToolbarService]
 })
 export class ProductModelComponent implements OnInit {
 
@@ -42,6 +42,10 @@ export class ProductModelComponent implements OnInit {
           'Outdent', 'Indent', '|',
           'Image', 'CreateLink', '|', 'Undo', 'Redo', '|']
         };
+  public insertImageSettings: object = {
+    saveUrl: 'http://104.198.38.241:8001/api/products/description-image/create/',
+    saveFormat: 'Base64'
+  };
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private productService: ProductService,
@@ -78,6 +82,16 @@ export class ProductModelComponent implements OnInit {
 
   get contactControls() {
     return this.productForm.get('product')['controls'];
+  }
+
+  public onImageUploadSuccess = (args: any) => {
+    console.log(args.e);
+    if (args.e.currentTarget.getResponseHeader('image') != null) {
+        args.file.name = args.e.currentTarget.getResponseHeader('image');
+        const filename: any = this.document.querySelectorAll('.e-file-name')[0];
+        filename.innerHTML = args.file.name.replace(this.document.querySelectorAll('.e-file-type')[0].innerHTML, '');
+        filename.title = args.file.name;
+    }
   }
 
   fileProgress(event) {
