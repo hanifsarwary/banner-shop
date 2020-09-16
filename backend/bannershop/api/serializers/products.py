@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-
+from rest_framework import serializers
 from api.models import Product, Option, SubOption, DescriptionImage
 
 
@@ -46,6 +46,8 @@ class ProductDetailSerializer(ModelSerializer):
 
 class DescriptionImageSerializer(ModelSerializer):
 
+    UploadFiles = serializers.FileField(source='image')
+
     class Meta:
         model = DescriptionImage
-        fields = '__all__'
+        fields = ('id', 'UploadFiles',)
