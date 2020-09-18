@@ -20,6 +20,7 @@ export class ProductModelComponent implements OnInit {
   @Input() priceTypes;
   productId;
   showImageField = false;
+  loader = true;
   productList: ProductList;
   public productForm: FormGroup;
   calculatedPrice = 75;
@@ -78,6 +79,9 @@ export class ProductModelComponent implements OnInit {
       height_option: [''],
       file: ['', Validators.required],
     });
+    setTimeout(() => {
+      this.loader = false;
+    }, 5);
   }
 
   get contactControls() {

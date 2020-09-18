@@ -5,7 +5,7 @@
             <span class="m-0" aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" align="center">
+    <div class="modal-body" align="center" *ngIf="!loader">
         <form [formGroup]="productForm">
             <div class="model-styling">
                 <div class="row p-0 m-0">
@@ -124,6 +124,13 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="loader d-flex flex-row justify-content-center" *ngIf="loader">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancel</button>
