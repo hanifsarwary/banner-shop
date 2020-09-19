@@ -39,10 +39,10 @@ export class OrderStatusComponent implements OnInit {
         this.getCustomOrder();
       } else {
         this.filters = {};
-        this.filters['due_date_start'] = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
-        this.filters['due_date_end'] = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
-        this.filters['order_date_start'] = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
-        this.filters['order_date_end'] = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
+        // this.filters['due_date_start'] = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
+        // this.filters['due_date_end'] = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
+        // this.filters['order_date_start'] = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
+        // this.filters['order_date_end'] = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
         this.getCustomOrder();
       }
     });
