@@ -22,10 +22,10 @@ declare var $: any;
 export class FiltersBarComponent implements OnInit {
 
   @Output() clearSearch = new EventEmitter();
-  shipMaxDate = new Date();
-  shipMinDate = new Date();
-  orderMaxDate = new Date();
-  orderMinDate = new Date();
+  shipMaxDate;
+  shipMinDate;
+  orderMaxDate;
+  orderMinDate;
   showCalender = false;
   shipCalender;
   orderCalender;
@@ -112,27 +112,29 @@ export class FiltersBarComponent implements OnInit {
       this.datePipe.transform(this.filters.order_date_end, 'MM-dd-yyyy');
       this.orderMinDate = new Date(this.filters.order_date_start);
       this.orderMaxDate = new Date(this.filters.order_date_end);
-    } else {
-      this.filters.order_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
-      this.filters.order_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
-      this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'MM-dd-yyyy') + ' to ' +
-      this.datePipe.transform(this.filters.order_date_end, 'MM-dd-yyyy');
-      this.orderMinDate = new Date(this.filters.order_date_start);
-      this.orderMaxDate = new Date(this.filters.order_date_end);
     }
     if (this.filters.due_date_start) {
       this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'MM-dd-yyyy') + ' to ' +
       this.datePipe.transform(this.filters.due_date_end, 'MM-dd-yyyy');
       this.shipMinDate = new Date(this.filters.due_date_start);
       this.shipMaxDate = new Date(this.filters.due_date_end);
-    } else {
-      this.filters.due_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
-      this.filters.due_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
-      this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'MM-dd-yyyy') + ' to ' +
-      this.datePipe.transform(this.filters.due_date_end, 'MM-dd-yyyy');
-      this.orderMinDate = new Date(this.filters.order_date_start);
-      this.orderMaxDate = new Date(this.filters.order_date_end);
     }
+    // else {
+    //   this.filters.order_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
+    //   this.filters.order_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
+    //   this.orderInputDate = this.datePipe.transform(this.filters.order_date_start, 'MM-dd-yyyy') + ' to ' +
+    //   this.datePipe.transform(this.filters.order_date_end, 'MM-dd-yyyy');
+    //   this.orderMinDate = new Date(this.filters.order_date_start);
+    //   this.orderMaxDate = new Date(this.filters.order_date_end);
+    // }
+    // else {
+    //   this.filters.due_date_start = this.datePipe.transform(this.util.preMonth, 'yyyy-MM-dd');
+    //   this.filters.due_date_end = this.datePipe.transform(this.util.nextMonth, 'yyyy-MM-dd');
+    //   this.shipInputDate = this.datePipe.transform(this.filters.due_date_start, 'MM-dd-yyyy') + ' to ' +
+    //   this.datePipe.transform(this.filters.due_date_end, 'MM-dd-yyyy');
+    //   this.orderMinDate = new Date(this.filters.order_date_start);
+    //   this.orderMaxDate = new Date(this.filters.order_date_end);
+    // }
   }
 
   dateSelected(type) {
@@ -194,10 +196,10 @@ export class FiltersBarComponent implements OnInit {
     this.filters = {
       status: '',
       company: '',
-      due_date_start: '',
-      due_date_end: '',
-      order_date_start: '',
-      order_date_end: '',
+      due_date_start: null,
+      due_date_end: null,
+      order_date_start: null,
+      order_date_end: null,
       proof: '',
       job_id: '',
       reference_number: '',
@@ -205,6 +207,11 @@ export class FiltersBarComponent implements OnInit {
       job_name: '',
       place_by: '',
     };
+    this.datePickerSelected();
+    this.shipMinDate = null;
+    this.shipMaxDate = null;
+    this.orderMinDate = null;
+    this.orderMaxDate = null;
     this.clearSearch.emit(true);
     const extractUrl = this.router.url;
     const pathname = extractUrl.split('?');
