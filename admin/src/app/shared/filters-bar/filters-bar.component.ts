@@ -215,7 +215,7 @@ export class FiltersBarComponent implements OnInit {
     this.clearSearch.emit(true);
     const extractUrl = this.router.url;
     const pathname = extractUrl.split('?');
-    this.router.navigate([pathname[0]], { queryParams: { filterObj: ''}});
+    this.router.navigate([pathname[0]], { queryParams: { filter: JSON.stringify({'is_open': true}) } });
   }
 
   asIsOrder(a, b) {
@@ -226,7 +226,7 @@ export class FiltersBarComponent implements OnInit {
     this.typeService.getStatus().subscribe(res => {
       this.statusList = res.types;
     });
-    //set is open true by default
+    //set is_open true by default
     const extractUrl = this.router.url;
     const pathname = extractUrl.split('?') ? (extractUrl.split('?'))[0] : extractUrl;
     this.router.navigate([pathname[0]], { queryParams: { filter: JSON.stringify({'is_open': true}) } });
