@@ -47,8 +47,7 @@ export class FiltersBarComponent implements OnInit {
     reference_number: '',
     invoice_no: '',
     job_name: '',
-    place_by: '',
-    is_open: true
+    place_by: ''
   };
 
   @ViewChild(MatCalendar, { static: false }) _datePicker: MatCalendar<Date>;
@@ -69,13 +68,14 @@ export class FiltersBarComponent implements OnInit {
         }
       });
       this.datePickerSelected();
+      this.getopenOrders()
     }
 
   ngOnInit(): void {
     this.getStatus();
     this.getProofStatus();
     this.getCompanies();
-    this.applyFilters('init')
+    
   }
 
   dueDateChange(event) {
@@ -232,6 +232,12 @@ export class FiltersBarComponent implements OnInit {
     // const extractUrl = this.router.url;
     // const pathname = extractUrl.split('?') ? (extractUrl.split('?'))[0] : extractUrl;
     // this.router.navigate([pathname[0]], { queryParams: { filter: JSON.stringify({'is_open': true}) } });
+  }
+
+  getopenOrders() {
+    const extractUrl = this.router.url;
+    const pathname = extractUrl.split('?') ? (extractUrl.split('?'))[0] : extractUrl;
+    this.router.navigate([pathname[0]], { queryParams: { filter: JSON.stringify({'is_open': true}) } });
   }
 
   openOrderOnly(event) {
