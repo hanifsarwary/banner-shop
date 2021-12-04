@@ -226,6 +226,10 @@ export class FiltersBarComponent implements OnInit {
     this.typeService.getStatus().subscribe(res => {
       this.statusList = res.types;
     });
+    //set is open true by default
+    const extractUrl = this.router.url;
+    const pathname = extractUrl.split('?') ? (extractUrl.split('?'))[0] : extractUrl;
+    this.router.navigate([pathname[0]], { queryParams: { filter: JSON.stringify({'is_open': true}) } });
   }
 
   openOrderOnly(event) {
